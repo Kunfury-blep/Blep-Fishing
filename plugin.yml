@@ -1,0 +1,25 @@
+name: BlepFishing
+main: com.kunfury.blepFishing.Setup
+version: ${project.version}
+api-version: 1.13
+softdepend: [Vault]
+commands:
+   BlepFish:
+      description: The base command for the plugin
+      usage: /BlepFish
+   bf:
+      description: The base command for the plugin
+      usage: /bf
+permissions:
+   bf.*:
+      description: Gives access to all Blep commands
+      children:
+         bf.reload: true
+         bf.admin: true
+         bf.listFish: true
+   bf.reload:
+      description: Allows you to reload blep fishing
+   bf.admin:
+      description: Gives access to the admin panel
+   bf.listFish:
+      description: Gives the player access to the fish command
