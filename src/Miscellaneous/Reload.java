@@ -4,23 +4,24 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 import com.kunfury.blepFishing.Setup;
 
 import Objects.AreaObject;
+import Objects.BaseFishObject;
 import Objects.FishObject;
 import Objects.RarityObject;
 
 public class Reload {
 
+	@SuppressWarnings("unchecked")
 	public static boolean ReloadPlugin(CommandSender sender) {
 		Setup.setup.reloadConfig();
     	Setup.config = Setup.setup.getConfig();
@@ -29,7 +30,7 @@ public class Reload {
 		
     	if(existCheck.contains("fish") && existCheck.contains("rarities") ) {
     		//Reset all variables to reduce crashing
-    		Variables.FishList.clear();
+    		Variables.BaseFishList.clear();
         	Variables.RarityList.clear();
         	Variables.AreaList.clear();
         	Variables.CaughtFish.clear();
@@ -45,14 +46,13 @@ public class Reload {
     			Double maxSize = Setup.config.getDouble("fish." + key + ".Max Size");
     			int modelData = Setup.config.getInt("fish." + key + ".ModelData");
     			String area = Setup.config.getString("fish." + key + ".Area");
-    			List<String> biomes = Setup.config.getStringList("areas." + area +".Biomes");
     			Boolean raining = Setup.config.getBoolean("fish." + key + ".Raining");
     			int weight = Setup.config.getInt("fish." + key + ".Weight");
     			double baseCost = Setup.config.getDouble("fish." + key + ".Base Price");
     			
-    			FishObject fish = new FishObject(name, lore, minSize, maxSize, modelData, biomes, raining, baseCost, area)
+    			BaseFishObject base = new BaseFishObject(name, lore, minSize, maxSize, modelData, raining, baseCost, area)
     					.weight(weight);
-    			Variables.FishList.add(fish);
+    			Variables.BaseFishList.add(base);
     			
     		}
     		
@@ -77,41 +77,36 @@ public class Reload {
     			
     			AreaObject area = new AreaObject(name, biomes);
     			Variables.AreaList.add(area);
-    		}  
-    		
-    		List<FishObject> fishList = new ArrayList<>();
+    		}
     		
     	
     		//Getting all caught fish
-    		for (File file : new File(Setup.dataFolder.getAbsolutePath() + File.separator + "fish data").listFiles()) {    		
-        		try { //Finds the file        				
-        		    ObjectInputStream input = new ObjectInputStream(new FileInputStream (file.getPath()));
-        		    //Adds all fish to the caught fish list
-        		    Variables.CaughtFish.addAll((List<FishObject>)input.readObject());
-        		    //Adds all fish to the FishDict
-        		    Variables.FishDict.clear();
-        		    Variables.CaughtFish.forEach(f -> {
-        		    	Variables.AddToFishDict(f);
-        		    });
-        		    input.close();
-        		} catch (IOException | ClassNotFoundException ex) {
-        			sender.sendMessage("Loading failed. Report this to your admin.");
-        			ex.printStackTrace();
-        		}  
-        		
-        	}
-    		
+    		try {
+    			String dictPath = Setup.dataFolder + "/fish.data";   
+            	ObjectInputStream input = null;
+    		    File tempFile = new File(dictPath);
+    		    if(tempFile.exists()) {
+        		    input = new ObjectInputStream(new FileInputStream (dictPath));
+        		    Variables.FishDict = (HashMap<String, List<FishObject>>) input.readObject();
+    		    	//savedFishList.addAll((List<FishObject>)input.readObject());	
+    		    }
+    		    if(input != null)
+    		    	input.close();
+    		} catch (IOException | ClassNotFoundException ex) {
+    			sender.sendMessage("Loading Failed");
+    			ex.printStackTrace();
+    		}   
     		
     		//Sets the total weight of rarities and fish
     		for(final RarityObject rarity : Variables.RarityList)
         		Variables.RarityTotalWeight += rarity.Weight;
 
-        	for(final FishObject fish : Variables.FishList) 
+        	for(final BaseFishObject fish : Variables.BaseFishList) 
         		Variables.FishTotalWeight += fish.Weight;
         	
         	
         	sender.sendMessage("reload complete");
-        	FixOld();
+        	//FixOld();
         	
     	}else {
     		sender.sendMessage("Your config is incorrect");
@@ -119,18 +114,6 @@ public class Reload {
 		
 		return true;
 	}
-	
-	private static void FixOld() {
-		for(FishObject fish : Variables.CaughtFish) {
-				for(AreaObject area: Variables.AreaList ) {
-					if(area.Name.equals(fish.Area) && area.Biomes.equals(fish.Area)) {
-						Bukkit.broadcastMessage("Area Found: " + area.Name);
-						break;
-				}
-			}
-		}
-	}
-	
 	
 	
 }

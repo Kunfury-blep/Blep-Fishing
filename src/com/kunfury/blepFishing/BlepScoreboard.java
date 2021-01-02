@@ -3,6 +3,7 @@ package com.kunfury.blepFishing;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -12,6 +13,7 @@ import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
+import Miscellaneous.Formatting;
 import Miscellaneous.Variables;
 import Objects.FishObject;
 
@@ -22,24 +24,27 @@ public class BlepScoreboard {
 		Bukkit.getServer().getScheduler().runTaskLater(Setup.getPlugin(), new Runnable() {
         	@Override
         	  public void run() {
+        		String formattedName = StringUtils.capitalize(fish.Name.toLowerCase());
+        		String fishName = fish.Name.toUpperCase();
+        		
         		ScoreboardManager manager = Bukkit.getScoreboardManager();
                 final Scoreboard board = manager.getNewScoreboard();
                 final Objective objective = board.registerNewObjective("test", "dummy", "blep");     
                 objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-                objective.setDisplayName(ChatColor.RED + "--" + fish.Name + "--");
+                objective.setDisplayName(ChatColor.RED + "--" + formattedName + "--");
                 
                 Score score2 = objective.getScore(ChatColor.translateAlternateColorCodes('&', fish.Rarity));
                 score2.setScore(4);  
                 
-                Score score = objective.getScore(ChatColor.AQUA + "" + fish.RealSize + "\"" );
+                Score score = objective.getScore(ChatColor.AQUA + "" + Formatting.DoubleFormat(fish.RealSize) + "\"" );
                 score.setScore(3);            
                 
                 if(Setup.hasEcon) { //Checks that an economy is installed
-                	Score score1 = objective.getScore(ChatColor.GREEN + "$" + fish.RealCost);
+                	Score score1 = objective.getScore(ChatColor.GREEN + "$" + Formatting.DoubleFormat(fish.RealCost));
                 	score1.setScore(2);  
                 }      
                 
-                List<FishObject> caughtFishList = Variables.FishDict.get(fish.Name);
+                List<FishObject> caughtFishList = Variables.FishDict.get(fishName);
         		Collections.sort(caughtFishList, Collections.reverseOrder());
         		
         		Score score3 = objective.getScore(ChatColor.AQUA + "Rank #" + (caughtFishList.indexOf(fish) + 1));

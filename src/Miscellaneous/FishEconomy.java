@@ -33,7 +33,7 @@ public class FishEconomy {
 					PlayerWaitList.remove(player.toString());
 				}else {
 					PlayerWaitList.add(player.toString());
-					player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&b[BF] &fReally sell all fish in your inventory?"));
+					player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&b[BF] &fSell all fish? Sneak right-click again to confirm."));
 					return;
 				}
 				
@@ -66,7 +66,7 @@ public class FishEconomy {
 			if(itemList.size() > 1)
 				player.sendMessage(ChatColor.translateAlternateColorCodes('&', 
 		    			"&b[BF] &fSold " + itemList.size() + " fish"
-			    		+ "&f for &a$" + Setup.df.format(total) + "." ));
+			    		+ "&f for &a$" + Formatting.DoubleFormat(total) + "." ));
 		}	
 }
 

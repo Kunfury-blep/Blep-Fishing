@@ -1,11 +1,4 @@
 package com.kunfury.blepFishing;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,9 +18,10 @@ import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.kunfury.blepFishing.Signs.FishSign;
-
+import Miscellaneous.Formatting;
 import Miscellaneous.Variables;
+import Objects.AreaObject;
+import Objects.BaseFishObject;
 import Objects.FishObject;
 import Objects.RarityObject;
 import io.netty.util.internal.ThreadLocalRandom;
@@ -46,30 +40,36 @@ public class FishSwitch implements Listener {
 	    if(e.getCaught() instanceof Item){   	
 	        Item item = (Item) e.getCaught();
 	    	Material t = item.getItemStack().getType();
-	    	List<FishObject> wFish = new ArrayList<>();
 	    	
 	    	
+	    	List<BaseFishObject> wFish = new ArrayList<>(); //Available fish to choose from
 	        if(itemList.contains(t) && !item.getItemStack().getItemMeta().hasCustomModelData()){
 	        	//Checks For Weather
 	        	if(!Bukkit.getWorlds().get(0).hasStorm()) {
-	        		for(final FishObject fish : Variables.FishList) {
+	        		for(final BaseFishObject fish : Variables.BaseFishList) {
 	        			if(!fish.IsRaining)
 	        				wFish.add(fish);
 	        		}
 	        	}else
-	        		wFish = Variables.FishList;
+	        		wFish = Variables.BaseFishList;
 	        	
-	        	List<FishObject> availFish = new ArrayList<>();
+	        	List<BaseFishObject> availFish = new ArrayList<>();
 	        	
-	        	//Checks For Biome
-        		for(final FishObject fish : wFish) {
-        			for(final String biome : fish.OldBiomes) 
-        			{
-        				if(biome.equalsIgnoreCase((item.getLocation().getBlock().getBiome().name())) || biome.toUpperCase().equals("ALL")){
-        					availFish.add(fish);
-        				}
-        			}
-        		}
+	        	//Checks for active area
+	        	List<AreaObject> areas = new ArrayList<>();
+	        	Variables.AreaList.forEach(a -> {
+	        		if(a.Biomes.contains((item.getLocation().getBlock().getBiome().name()))){
+	        			areas.add(a);
+	        		}
+	        	});
+	        	
+	        	//Get fish who can be caught in the area
+	        	wFish.forEach(f -> {
+	        		areas.forEach(a -> {
+	        			if(a.Name.equals(f.Area))
+	        				availFish.add(f);
+	        		});
+	        	});
 	        	
         		//Checking if there are available fish, otherwise give vanilla
         		if(availFish.size() > 0) {	
@@ -85,11 +85,11 @@ public class FishSwitch implements Listener {
     		    	}
     		    	
     	        	//New Fish Selection - Based On Weight
-    		    	FishObject fish = availFish.get(0);
+    		    	BaseFishObject base = availFish.get(0);
     		    	
-    		    	Collections.sort(Variables.FishList, new Comparator<FishObject>() {
+    		    	Collections.sort(Variables.BaseFishList, new Comparator<BaseFishObject>() {
     		    	    @Override
-    		    	    public int compare(FishObject o1, FishObject o2) {
+    		    	    public int compare(BaseFishObject o1, BaseFishObject o2) {
     		    	    	Integer newWeight1 = o1.Weight;
     		    	    	Integer newWeight2 = o2.Weight;
     		    	        return (newWeight1).compareTo(newWeight2);
@@ -99,12 +99,12 @@ public class FishSwitch implements Listener {
     		    	
     		    	
     	        	int randF = ThreadLocalRandom.current().nextInt(0, Variables.FishTotalWeight);
-    	        	for(final FishObject sort : Variables.FishList) {
+    	        	for(final BaseFishObject sort : Variables.BaseFishList) {
     		    		if(randF <= sort.Weight) {
-    		    			fish = sort;
+    		    			base = sort;
     		    			break;
     		    		}else
-    		    			randF -= fish.Weight;
+    		    			randF -= base.Weight;
     		    	}
     	        	
     		    	
@@ -113,24 +113,16 @@ public class FishSwitch implements Listener {
     	            
     	           
     	            ItemMeta m = is.getItemMeta();
-    	            m.setDisplayName(ChatColor.translateAlternateColorCodes('&', '&' + chosenRarity.Prefix + fish.Name));
-    	            m.setCustomModelData(fish.ModelData);
+    	            m.setDisplayName(ChatColor.translateAlternateColorCodes('&', '&' + chosenRarity.Prefix + base.Name));
+    	            m.setCustomModelData(base.ModelData);
     	            
     		    	
     	            
-    	            double adjWeight = chosenRarity.Weight;
-    	            if(Variables.RarityList.get(0).Weight != 1)
-    	            	adjWeight = adjWeight / Variables.RarityList.get(0).Weight;
-    	            double size = ThreadLocalRandom.current().nextDouble(fish.MinSize, fish.MaxSize);
+    	            double size = ThreadLocalRandom.current().nextDouble(base.MinSize, base.MaxSize);
     	            
-    	            fish.RealSize = Double.parseDouble(Setup.df.format(size).replace(',', '.')); //Bandaid fix. Figure out why commas sometimes appear
-    	            fish.Score = fish.CalcScore(adjWeight);
-    	            fish.PlayerName = e.getPlayer().getName();
-    	            fish.DateCaught = LocalDateTime.now();
-    	            fish.Rarity = chosenRarity.Name;
-    	            fish.RealCost = Double.parseDouble(Setup.df.format(CalcPrice(fish, chosenRarity)).replace(',', '.'));
+    	            FishObject fish = new FishObject(base, chosenRarity, e.getPlayer().getName(), size);
     	            
-    	            m.setLore(CreateLore(fish));
+    	            m.setLore(CreateLore(fish, base));
     	            is.setItemMeta(m);
     	            is = NBTEditor.set( is, fish.RealCost, "blep", "item", "fishValue" );
 
@@ -146,7 +138,7 @@ public class FishSwitch implements Listener {
 				    }
 				    
 				    BlepScoreboard.FishInfo(player, fish);
-    	            SaveFish(fish);
+				    Variables.AddToFishDict(fish);
         		}
         		
 	            
@@ -155,67 +147,15 @@ public class FishSwitch implements Listener {
 	    }
 	}
 
-	private double CalcPrice(FishObject fish, RarityObject rarity) {
-		double sizeMod = fish.RealSize/fish.AvgSize;
-		
-		double realCost = (fish.BaseCost * sizeMod) * rarity.PriceMod;
-		
-		return realCost;
-	}
-
-	@SuppressWarnings("unchecked")
-	private void SaveFish(FishObject gFish) {
-		
-		//Temporary (Maybe)
-		Variables.AddToFishDict(gFish);
-		
-		String filePath = Setup.dataFolder + "/fish data/" + gFish.Name  + ".data";    	                	            
-        List<FishObject> savedFishList = new ArrayList<>();
-		
-		//Load Fish
-        try {
-        	ObjectInputStream input = null;
-		    File tempFile = new File(filePath);
-		    if(tempFile.exists()) {
-    		    input = new ObjectInputStream(new FileInputStream (filePath));
-		    	savedFishList.addAll((List<FishObject>)input.readObject());	
-		    }
-		    if(input != null)
-		    	input.close();
-		} catch (IOException | ClassNotFoundException ex) {
-			player.sendMessage("Loading Failed");
-			ex.printStackTrace();
-		}    	            
-        
-        savedFishList.add(gFish);
-        
-        //Save Fish
-		try {
-			
-			File tmpDir = new File(Setup.dataFolder + "/fish data/");
-	    	if(!Files.exists(tmpDir.toPath()))
-	    		tmpDir.mkdir();
-			
-		    ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(filePath));
-		    
-		    output.writeObject(savedFishList);
-		    output.close();
-		} catch (IOException ex) {
-			player.sendMessage("Saving Failed");
-		    ex.printStackTrace();
-		}  
-		FishSign fishSign = new FishSign();
-		fishSign.UpdateSigns();
-	}
-
-	private List<String> CreateLore(FishObject fish){
+	
+	private List<String> CreateLore(FishObject fish, BaseFishObject base){
 		List<String> Lore = new ArrayList<>();   		
 		//Lore.add(fish.Rarity);
 		if(Setup.hasEcon) //Checks that an economy is installed
-			Lore.add("&2Value: $" + Setup.df.format(fish.RealCost));
-		Lore.add(fish.Lore);
+			Lore.add("&2Value: $" + Formatting.DoubleFormat(fish.RealCost));
+		Lore.add(base.Lore);
 		 
-		Lore.add("&8Length: " + Setup.df.format(fish.RealSize) + "in.");
+		Lore.add("&8Length: " + Formatting.DoubleFormat(fish.RealSize) + "in.");
 			 
 		LocalDateTime now = LocalDateTime.now();
 		String details = ("&8Caught By: " + fish.PlayerName + " on " + now.toLocalDate());

@@ -5,9 +5,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,8 +15,10 @@ import org.bukkit.command.CommandSender;
 
 import com.kunfury.blepFishing.Admin.AdminMenu;
 
+import Miscellaneous.Formatting;
 import Miscellaneous.Reload;
 import Miscellaneous.Variables;
+import Objects.BaseFishObject;
 import Objects.FishObject;
 import Objects.RarityObject;
 
@@ -91,85 +93,70 @@ public class Commands implements CommandExecutor {
 	
     }
     
-    @SuppressWarnings("unchecked")
 	private boolean showLeaderboard(String[] args, CommandSender sender){
     	if(args.length == 1)
     		sender.sendMessage("/blep lb <Fish Name>");
 		else {			           	
-        	String fishName = args[1];
+        	String fishName = args[1].toUpperCase();
+        	String formattedName = StringUtils.capitalize(fishName.toLowerCase());        	
         	
-        	//New Fish Fetch
-        	for (FishObject f : Variables.FishList) {
-        		if(fishName.toUpperCase().equals(f.Name.toUpperCase())) {
-        			//Triggers when a fish is found. Looks to see if there are any available fish in file.
-        			String filePath = Setup.dataFolder + "/fish data/" + fishName  + ".data"; 
-        			File fishFile = new File(filePath);
-        			if(!fishFile.exists()){
-                		sender.sendMessage("None of that fish has been caught.");
-                		return true;
-            	        }
-        			
-        			List<FishObject> caughtFishList = new ArrayList<>();
-        			
-        			try { //Finds the file        				
-            		    ObjectInputStream input = new ObjectInputStream(new FileInputStream (filePath));
-            		    caughtFishList.addAll((List<FishObject>)input.readObject());
-            		    input.close();
-            		} catch (IOException | ClassNotFoundException ex) {
-            			sender.sendMessage("Loading failed. Report this to your admin.");
-            			ex.printStackTrace();
-            		}  
-        			
-        			Collections.sort(caughtFishList, Collections.reverseOrder());
-        			
-        			int pLength = 15;
-                	int sLength = 10;
-                	int dLength = 10;
-                	int rLength = 20;
-                	
-                	String fPrefix = "&b";
-                	String fPlayer = fixFontSize("Player Name", pLength);
-            		String fSize = fixFontSize("  Fish Size", sLength);
-            		String fDate = fixFontSize("Date Caught", dLength);
-            		String fRarity = fixFontSize("Rarity", rLength);
-                	
-            		String fullString = ChatColor.translateAlternateColorCodes('&', fPrefix + fPlayer + fSize + fRarity + fDate);
+        	if(!Variables.FishDict.containsKey(fishName)){
+        		sender.sendMessage("None of that fish has been caught.");
+        		return true;
+	        }
+        	
+        	
+        	///
+        	//If the fish exissts, and at least one has been caught, runs the below section
+        	///
+        	List<FishObject> caughtFishList = Variables.GetFishList(fishName); //Gets the caught fish
+        	
+        	//Initializes the size of the chatbox
+        	int pLength = 15;
+        	int sLength = 10;
+        	int dLength = 10;
+        	int rLength = 20;
+        	
+        	String fPrefix = "&b";
+        	String fPlayer = fixFontSize("Player Name", pLength);
+    		String fSize = fixFontSize("  Fish Size", sLength);
+    		String fDate = fixFontSize("Date Caught", dLength);
+    		String fRarity = fixFontSize("Rarity", rLength);
+    		String fullString = ChatColor.translateAlternateColorCodes('&', fPrefix + fPlayer + fSize + fRarity + fDate);
+    		
+    		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', fPrefix + "--" + formattedName + " Leaderboard--"));
+    		sender.sendMessage(fullString);	
+        	
+    		if(caughtFishList.size() > 5) {
+    			for(int i = 0; i < 5; i++) {
+    				FishObject fish = caughtFishList.get(i);
+    				fPlayer = fixFontSize(fish.PlayerName, pLength);
+            		fSize = fixFontSize(Formatting.DoubleFormat(fish.RealSize) + "in", sLength);
+            		fDate = fixFontSize(fish.DateCaught.getMonth().toString() 
+            				+ fish.DateCaught.getDayOfMonth() + ", " + fish.DateCaught.getYear(), dLength);
+            		fRarity = fixFontSize(fish.Rarity, rLength); 
             		
-            		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', fPrefix + "--" + fishName + " Leaderboard--"));
-            		sender.sendMessage(fullString);	
-            		if(caughtFishList.size() > 5) {
-            			for(int i = 0; i < 5; i++) {
-            				FishObject fish = caughtFishList.get(i);
-            				fPlayer = fixFontSize(fish.PlayerName, pLength);
-                    		fSize = fixFontSize(Setup.df.format(fish.RealSize) + "in", sLength);
-                    		fDate = fixFontSize(fish.DateCaught.getMonth().toString() 
-                    				+ fish.DateCaught.getDayOfMonth() + ", " + fish.DateCaught.getYear(), dLength);
-                    		fRarity = fixFontSize(fish.Rarity, rLength); 
-                    		
-                    		String lbString = ChatColor.translateAlternateColorCodes('&' ,(i+1) + ". " 
-                    						+ fPlayer + fSize + fRarity + "&f" + fDate);
-                    		sender.sendMessage(lbString);
-            			}
-            		}else
-            		{
-            			for (FishObject fish : caughtFishList) {
-            				int i = 0;
-            				fPlayer = fixFontSize(fish.PlayerName, pLength);
-                    		fSize = fixFontSize(Setup.df.format(fish.RealSize) + "in", sLength);
-                    		fDate = fixFontSize(fish.DateCaught.getMonth().toString() 
-                    				+ fish.DateCaught.getDayOfMonth() + ", " + fish.DateCaught.getYear(), dLength);
-                    		fRarity = fixFontSize(fish.Rarity, rLength); 
-                    		
-                    		String lbString = ChatColor.translateAlternateColorCodes('&' ,(i+1) + ". " 
-                            				+ fPlayer + fSize + fRarity + "&f" + fDate);
-                    		sender.sendMessage(lbString);
-                    		i++;
-                    	}
-            		}
-        			return true;
-        		}
-        	}
-        	sender.sendMessage("That fish does not exist.");      
+            		String lbString = ChatColor.translateAlternateColorCodes('&' ,(i+1) + ". " 
+            						+ fPlayer + fSize + fRarity + "&f" + fDate);
+            		sender.sendMessage(lbString);
+    			}
+    		}else
+    		{
+    			int i = 0;
+    			for (FishObject fish : caughtFishList) {
+    				fPlayer = fixFontSize(fish.PlayerName, pLength);
+            		fSize = fixFontSize(Formatting.DoubleFormat(fish.RealSize) + "in", sLength);
+            		fDate = fixFontSize(fish.DateCaught.getMonth().toString() 
+            				+ fish.DateCaught.getDayOfMonth() + ", " + fish.DateCaught.getYear(), dLength);
+            		fRarity = fixFontSize(fish.Rarity, rLength); 
+            		
+            		String lbString = ChatColor.translateAlternateColorCodes('&' ,(i+1) + ". " 
+                    				+ fPlayer + fSize + fRarity + "&f" + fDate);
+            		sender.sendMessage(lbString);
+            		i++;
+            	}
+    		}
+			return true; 
 		}
     	return true;
     }
@@ -177,7 +164,7 @@ public class Commands implements CommandExecutor {
     public boolean ListFish(CommandSender sender) {
     	int i = 1;
     	sender.sendMessage("--Listing Fish--");
-    	for (FishObject fish : Variables.FishList) {
+    	for (BaseFishObject fish : Variables.BaseFishList) {
     		
     		sender.sendMessage(i + ". " + fish.Name);
     		i++;
@@ -204,7 +191,7 @@ public class Commands implements CommandExecutor {
     		    fishList.addAll((List<FishObject>)input.readObject());
     		    input.close();
     		} catch (IOException | ClassNotFoundException ex) {
-    			//sender.sendMessage("Loading failed. Report this to your admin.");
+    			sender.sendMessage("Loading failed. Report this to your admin.");
     			ex.printStackTrace();
     		}  
     		
@@ -220,7 +207,8 @@ public class Commands implements CommandExecutor {
         			double adjWeight = rarity.Weight;
                     if(lowWeight != 1 && lowWeight != 0)
                     	adjWeight = adjWeight / lowWeight;
-                    fish.CalcScore(adjWeight);
+                    //Fix this to use the new system
+                    //fish.CalcScore(adjWeight);
                     break;
         		}
         	}

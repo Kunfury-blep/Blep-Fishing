@@ -1,8 +1,6 @@
 package com.kunfury.blepFishing;
 
 import java.io.File;
-import java.nio.file.Files;
-import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
@@ -25,7 +23,6 @@ public class Setup extends JavaPlugin {
 	public static Setup setup;
 	public static File dataFolder;
 	public static boolean hasEcon = true;
-	public static DecimalFormat df = new DecimalFormat("##.##");
 	
 	private static Economy econ = null;
 	private static final Logger log = Logger.getLogger("Minecraft");
@@ -54,10 +51,6 @@ public class Setup extends JavaPlugin {
     	
     	FishSign.LoadSigns();
     	
-    	File tmpDir = new File(dataFolder + "/fish data/");
-    	if(!Files.exists(tmpDir.toPath()))
-    		tmpDir.mkdir();
-    	
     	getServer().getPluginManager().registerEvents(new FishSwitch(), this);
     	getServer().getPluginManager().registerEvents(new FishSign(), this);
     	getServer().getPluginManager().registerEvents(new AdminMenu(), this);
@@ -75,12 +68,7 @@ public class Setup extends JavaPlugin {
     	AdminMenu.CreateStacks(); //Creates the icons for the admin panel
     	
     }
-    // Fired when plugin is disabled
-    @Override
-    public void onDisable() {
 
-    }
-    
     private boolean setupEconomy() {
         if (getServer().getPluginManager().getPlugin("Vault") == null) {
             return false;

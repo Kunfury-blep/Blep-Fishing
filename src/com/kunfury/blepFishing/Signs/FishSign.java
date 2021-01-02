@@ -7,7 +7,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -28,10 +27,10 @@ import com.kunfury.blepFishing.Setup;
 
 import Miscellaneous.FishEconomy;
 import Miscellaneous.Variables;
-import Objects.FishObject;
+import Objects.BaseFishObject;
 import Objects.MarketObject;
 
-import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
 
 
@@ -42,17 +41,6 @@ public class FishSign implements Listener {
 	static String signFilePath = Setup.dataFolder + "/signs.data";
 	static String marketFilePath = Setup.dataFolder + "/markets.data";   
 	public static List<Location> signLocs = new ArrayList<>();
-	@SuppressWarnings("deprecation")
-	List<Material> signs = Arrays.asList(Material.OAK_SIGN, Material.OAK_WALL_SIGN,
-										Material.DARK_OAK_SIGN, Material.DARK_OAK_WALL_SIGN,
-										Material.ACACIA_SIGN, Material.ACACIA_WALL_SIGN,
-										Material.BIRCH_SIGN, Material.BIRCH_WALL_SIGN,
-										Material.JUNGLE_SIGN, Material.JUNGLE_WALL_SIGN,
-										Material.SPRUCE_SIGN, Material.SPRUCE_WALL_SIGN,
-										Material.CRIMSON_SIGN, Material.CRIMSON_WALL_SIGN, 
-										Material.WARPED_SIGN, Material.WARPED_WALL_SIGN,										
-										Material.LEGACY_SIGN, Material.LEGACY_SIGN_POST, 
-										Material.LEGACY_WALL_SIGN);
 	
 	DecimalFormat df = new DecimalFormat("#.##");
 	
@@ -69,7 +57,7 @@ public class FishSign implements Listener {
 			}else 
 			{
 			//Checks if fish exist in the main list in FishSwitch
-	    	for(FishObject fish : Variables.FishList) {
+	    	for(BaseFishObject fish : Variables.BaseFishList) {
 	    		if(fish.Name.equalsIgnoreCase(e.getLine(1))) {
 	    			int level = 0;
 	    			if(!lines[2].isEmpty()) { //Gets the provided leaderboard level
@@ -94,7 +82,7 @@ public class FishSign implements Listener {
 		
 	}
 	
-	public void UpdateSigns() {
+	public static void UpdateSigns() {
 		for (SignObject signObj : rankSigns) {
 			if(signObj.GetSign() != null) {
 				RefreshSign.Refresh(signObj);
@@ -185,7 +173,10 @@ public class FishSign implements Listener {
 	
 	@EventHandler
 	public void onSignBreak(BlockBreakEvent e) {
-		if(signs.contains(e.getBlock().getType())) { //Checks if the block is a sign
+		
+		BlockState bs = e.getBlock().getState();
+		
+		if(bs instanceof org.bukkit.block.Sign) { //Checks if the block is a sign
 			if(rankSigns != null && rankSigns.size() > 0) {
 				Sign bSign = (Sign)e.getBlock().getState();
 				//The foreach loop is erroring
@@ -231,13 +222,13 @@ public class FishSign implements Listener {
 	
 	@EventHandler
 	public void onUseEvent(PlayerInteractEvent e) {
-		if(e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
-			Block b = e.getClickedBlock();
+		if(e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {			
+			BlockState bs = e.getClickedBlock().getState();		
 			
-			if(Setup.hasEcon && signs.contains(b.getType()) && e.getItem() != null  && e.getItem().getType() == Material.SALMON){
+			if(Setup.hasEcon && bs instanceof org.bukkit.block.Sign && e.getItem() != null  && e.getItem().getType() == Material.SALMON){
 				
 				for(MarketObject market : marketSigns) {
-					if(market.CheckBool((Sign)b.getState())){
+					if(market.CheckBool((Sign)bs)){
 					    FishEconomy.SellFish(e.getPlayer());					    
 						break;
 					}

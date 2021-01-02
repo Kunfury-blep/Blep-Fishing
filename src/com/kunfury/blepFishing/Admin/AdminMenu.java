@@ -16,7 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import Miscellaneous.Variables;
-import Objects.FishObject;
+import Objects.BaseFishObject;
 import Objects.RarityObject;
 
 public class AdminMenu implements Listener {
@@ -99,7 +99,8 @@ public class AdminMenu implements Listener {
 		ItemMeta meta = null;
 		
 		int i = 0;
-		for(final FishObject fish : Variables.FishList) {
+		//Needs to be changed to the new BaseObject/FishObject system
+		for(final BaseFishObject fish : Variables.BaseFishList) {
 			meta = fishIcon.getItemMeta();
 			meta.setDisplayName(fish.Name);
 			meta.setCustomModelData(fish.ModelData);
@@ -113,7 +114,6 @@ public class AdminMenu implements Listener {
 			inv.setItem(i, fishIcon);
 			i++;
 		}
-		
 		inv.setItem(inv.getSize() - 1, BackButton);
 		
 		
