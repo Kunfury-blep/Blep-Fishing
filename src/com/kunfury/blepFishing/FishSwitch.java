@@ -30,7 +30,7 @@ import io.netty.util.internal.ThreadLocalRandom;
 public class FishSwitch implements Listener {
 	private Player player;
 	
-	@EventHandler()
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onFish(PlayerFishEvent e) {				
 		player = e.getPlayer();
 		
