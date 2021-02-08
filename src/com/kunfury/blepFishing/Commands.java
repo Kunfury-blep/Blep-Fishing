@@ -4,47 +4,60 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.ChatColor;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import com.kunfury.blepFishing.Admin.AdminMenu;
 
+import Miscellaneous.FishEconomy;
 import Miscellaneous.Formatting;
 import Miscellaneous.Reload;
 import Miscellaneous.Variables;
 import Objects.BaseFishObject;
 import Objects.FishObject;
 import Objects.RarityObject;
+import Tournament.Tournament;
+import Tournament.TournamentRewards;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.hover.content.Text;
 
 public class Commands implements CommandExecutor {
 	
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
     	
-    	if(args.length == 0) { //Runs when base command is sent   		
+    	if(args.length == 0 || args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("?")) { //Runs when base command is sent   		
     		sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
     				"                     &b[Blep Fishing Help] &b\n" 
-    				+ "&b[BF]&f /bf lb <fishname> - displays the leadboard for the fish \n"
-    				+ "&b[BF]&f /bf reload - reloads config \n"
-    				+ "&b[BF]&f /bf fish - Lists all fish \n"
+    				+ Variables.Prefix + "/bf lb <fishname> - displays the leadboard for the fish \n"
+    				+ Variables.Prefix + "/bf reload - reloads config \n"
+    				+ Variables.Prefix + "/bf fish - Lists all fish \n"
+    				+ Variables.Prefix + "/bf claim - Claims any tournament rewwards you may have \n"
+    				+ Variables.Prefix + "/bf tourney - current and previous tournaments \n"
+    				+ Variables.Prefix + "/bf admin - Displays the admin panel \n"
     				));
     		return true;
     	}
     	
-    	if(args.length > 0 && args.length <= 2 && (args[0].equalsIgnoreCase("leader") 
+    	if(args.length > 0 && args.length <= 3 && (args[0].equalsIgnoreCase("leader") 
     			|| args[0].equalsIgnoreCase("lb") || args[0].equalsIgnoreCase("leaderboard"))) {
     		return showLeaderboard(args, sender);
     	}
     	
     	if(args.length == 1 && args[0].equalsIgnoreCase("reload")) {
     		if(sender.hasPermission("bf.reload"))
-    			return Reload.ReloadPlugin(sender);
+    			return new Reload().ReloadPlugin(sender);
     		else
     			return NoPermission(sender);
     	}
@@ -69,6 +82,62 @@ public class Commands implements CommandExecutor {
     	if(args.length == 1 && args[0].equalsIgnoreCase("score")) {
     		sender.sendMessage("Scoring Fish");
 			return ScoreFish(sender);
+    	}
+    	
+    	if(args.length == 1 && args[0].equalsIgnoreCase("sell")){
+    		if(sender.hasPermission("bf.sell")) {
+    			FishEconomy.SellFish((Player)sender, false);
+    			return true;
+    		}else
+    			return NoPermission(sender);
+    	}
+    	
+    	if(args.length == 1 && args[0].equalsIgnoreCase("sellall")){
+    		if(sender.hasPermission("bf.sellall")) {
+    			FishEconomy.SellFish((Player)sender, true);
+    			return true;
+    		}else
+    			return NoPermission(sender);
+    	}
+    	
+    	if(args.length == 2 && args[0].equalsIgnoreCase("sellfor")){
+    		if(sender.hasPermission("bf.sellfor")) {
+    			Player p = Bukkit.getPlayer(args[1]);
+    			if(p != null && p.isOnline())
+    				FishEconomy.SellFish(p);
+    			else
+    				sender.sendMessage("That player could not be found.");
+    			return true;
+    		}else
+    			return NoPermission(sender);
+    	}
+    	
+    	List<String> tourneyList = Arrays.asList( "TOURNAMENT", "TOURNEY", "TOURNEYS", "TOURNAMENTS", "T"); 
+    	
+    	if(args.length == 1 && tourneyList.contains(args[0].toUpperCase())) {
+    		new Tournament().ShowTourney(sender);
+    		return true;
+    	}
+    	
+    	if(args.length > 0 && args[0].equalsIgnoreCase("StartTourney")) {
+    		if(sender.hasPermission("bf.admin")) {
+    			try {
+        			new Tournament().CreateTourny(sender, args[1], Integer.parseInt(args[2]), Integer.parseInt(args[3]), 
+        					args[4], Integer.parseInt(args[5]));
+        			//Oh boi why did I ever write it like this
+        			//This is impractical as all hell
+        			//Definitely need to fix this in the future.
+    			}catch(Exception e) { 
+        			sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+        					Variables.Prefix + "/bf StartTourney <fishName> <duration> <cash prize> <item name> <item count>"));
+        		}
+    		}    		
+    		return true;
+    	}
+    	
+    	if(args.length == 1 && args[0].equalsIgnoreCase("Claim")) {
+    		new TournamentRewards().GetRewards(sender);
+    		return true;
     	}
     		/*
     	if(args.length == 1 && args[0].equalsIgnoreCase("toggle")) {
@@ -95,12 +164,24 @@ public class Commands implements CommandExecutor {
     
 	private boolean showLeaderboard(String[] args, CommandSender sender){
     	if(args.length == 1)
-    		sender.sendMessage("/blep lb <Fish Name>");
+    		sender.sendMessage("/bf lb <Fish Name> <Leaderboard Number>");
 		else {			           	
         	String fishName = args[1].toUpperCase();
-        	String formattedName = StringUtils.capitalize(fishName.toLowerCase());        	
+        	String formattedName = StringUtils.capitalize(fishName.toLowerCase());
         	
-        	if(!Variables.FishDict.containsKey(fishName)){
+        	int startVal = 0;
+        	if(args.length == 3) {
+        		try {
+        			startVal = Integer.parseInt(args[2]) - 1;
+        		}catch(Exception e){
+        			startVal = 0;
+        		}
+        		
+        	}
+        	
+        	
+        	
+        	if(!fishName.equals("ALL") && !Variables.FishDict.containsKey(fishName)){
         		sender.sendMessage("None of that fish has been caught.");
         		return true;
 	        }
@@ -110,65 +191,69 @@ public class Commands implements CommandExecutor {
         	//If the fish exissts, and at least one has been caught, runs the below section
         	///
         	List<FishObject> caughtFishList = Variables.GetFishList(fishName); //Gets the caught fish
+        	if(caughtFishList.size() > startVal) {
+        		caughtFishList.subList(0, startVal).clear();
+        	}else {
+        		startVal = 0;
+        		sender.sendMessage("There aren't that many fish available.");
+        	}
+
+        	if(caughtFishList.size() > 5)
+    			caughtFishList.subList(5, caughtFishList.size()).clear();
         	
         	//Initializes the size of the chatbox
         	int pLength = 15;
-        	int sLength = 10;
-        	int dLength = 10;
-        	int rLength = 20;
-        	
-        	String fPrefix = "&b";
-        	String fPlayer = fixFontSize("Player Name", pLength);
-    		String fSize = fixFontSize("  Fish Size", sLength);
-    		String fDate = fixFontSize("Date Caught", dLength);
-    		String fRarity = fixFontSize("Rarity", rLength);
-    		String fullString = ChatColor.translateAlternateColorCodes('&', fPrefix + fPlayer + fSize + fRarity + fDate);
+
+        	String fPlayer = Formatting.FixFontSize("Player Name", pLength);
+    		String fullString = ChatColor.translateAlternateColorCodes('&', "&b" + fPlayer + " Fish");
     		
-    		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', fPrefix + "--" + formattedName + " Leaderboard--"));
+    		sender.sendMessage(ChatColor.BOLD + ("--" + formattedName + " Leaderboard - Hover For Info--"));
     		sender.sendMessage(fullString);	
-        	
-    		if(caughtFishList.size() > 5) {
-    			for(int i = 0; i < 5; i++) {
-    				FishObject fish = caughtFishList.get(i);
-    				fPlayer = fixFontSize(fish.PlayerName, pLength);
-            		fSize = fixFontSize(Formatting.DoubleFormat(fish.RealSize) + "in", sLength);
-            		fDate = fixFontSize(fish.DateCaught.getMonth().toString() 
-            				+ fish.DateCaught.getDayOfMonth() + ", " + fish.DateCaught.getYear(), dLength);
-            		fRarity = fixFontSize(fish.Rarity, rLength); 
-            		
-            		String lbString = ChatColor.translateAlternateColorCodes('&' ,(i+1) + ". " 
-            						+ fPlayer + fSize + fRarity + "&f" + fDate);
-            		sender.sendMessage(lbString);
-    			}
-    		}else
-    		{
-    			int i = 0;
+    		
+    			int i = startVal;
     			for (FishObject fish : caughtFishList) {
-    				fPlayer = fixFontSize(fish.PlayerName, pLength);
-            		fSize = fixFontSize(Formatting.DoubleFormat(fish.RealSize) + "in", sLength);
-            		fDate = fixFontSize(fish.DateCaught.getMonth().toString() 
-            				+ fish.DateCaught.getDayOfMonth() + ", " + fish.DateCaught.getYear(), dLength);
-            		fRarity = fixFontSize(fish.Rarity, rLength); 
+    				fPlayer = Formatting.FixFontSize(fish.PlayerName, pLength);
+            		String lbString = ChatColor.translateAlternateColorCodes('&' ,
+            				Formatting.FixFontSize((i+1) + ".", 4)
+            				+ fPlayer + fish.Rarity + " " + fish.Name);
             		
-            		String lbString = ChatColor.translateAlternateColorCodes('&' ,(i+1) + ". " 
-                    				+ fPlayer + fSize + fRarity + "&f" + fDate);
-            		sender.sendMessage(lbString);
+            		
+            		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            		TextComponent mainComponent = new TextComponent (lbString);
+            		mainComponent.setHoverEvent(new HoverEvent( HoverEvent.Action.SHOW_TEXT, 
+            				new Text(ChatColor.translateAlternateColorCodes('&' ,(fish.Rarity + " " + fish.Name +
+            						"&f\nFish Size: " + Formatting.DoubleFormat(fish.RealSize) +
+            						"\nRank: " + (i + 1) +
+            						"\nCaught On: " +  formatter.format(fish.DateCaught)  +
+            						"\nScore: " + Formatting.DoubleFormat(fish.Score)
+            						)))));
+            		
+            		sender.spigot().sendMessage(mainComponent);
             		i++;
-            	}
-    		}
+            	}    		
 			return true; 
 		}
     	return true;
     }
     
     public boolean ListFish(CommandSender sender) {
-    	int i = 1;
-    	sender.sendMessage("--Listing Fish--");
+    	sender.sendMessage(ChatColor.translateAlternateColorCodes('&' ,
+    		"&f--&bListing " + Variables.BaseFishList.size() + " Fish&f--"));
+    	TextComponent mainComponent = new TextComponent();
     	for (BaseFishObject fish : Variables.BaseFishList) {
-    		
-    		sender.sendMessage(i + ". " + fish.Name);
-    		i++;
+    		TextComponent subComponent = new TextComponent (ChatColor.AQUA +  " " + fish.Name + ChatColor.WHITE + " -");
+    		subComponent.setHoverEvent(new HoverEvent( HoverEvent.Action.SHOW_TEXT, 
+    				new Text(ChatColor.translateAlternateColorCodes('&' ,
+    						fish.Name +
+							"\nLore: " + fish.Lore +
+    						"&f\nArea: " + fish.Area +
+    						"\nMin Size: " + fish.MinSize +
+    						"\nMax Size: " + fish.MaxSize +
+    						"\nBase Cost: " + fish.BaseCost
+    						))));
+    		mainComponent.addExtra(subComponent);
     	}
+    	sender.spigot().sendMessage(mainComponent);
     	
     	
     	return true;
@@ -217,36 +302,6 @@ public class Commands implements CommandExecutor {
     	return true;
     }
     
-    /********************************************************
-    * Fix string spaces to align text in minecraft chat
-    *
-    * @author David Toledo ([EMAIL]david.oracle@gmail.com[/EMAIL])
-    * @param String to be resized
-    * @param Size to align
-    * @return New aligned String
-    */
-    public static String fixFontSize (String s, int size) {
-     
-    String ret = s;
-     
-    if ( s != null ) {
-     
-    for (int i=0; i < s.length(); i++) {
-    if ( s.charAt(i) == 'I' || s.charAt(i) == ' ') {
-    ret += " ";
-    }
-    }
-     
-    int availLength = size - s.length();
-     
-    for (int i=0; i < availLength; i++) {
-    ret += " ";
-    }
-    }
-     
-    return (ret);
-    }
-     
     
     
 }

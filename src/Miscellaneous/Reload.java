@@ -4,12 +4,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 import com.kunfury.blepFishing.Setup;
@@ -18,11 +22,16 @@ import Objects.AreaObject;
 import Objects.BaseFishObject;
 import Objects.FishObject;
 import Objects.RarityObject;
+import Objects.TournamentObject;
+import Tournament.Tournament;
 
 public class Reload {
 
+	CommandSender sender;
+	
 	@SuppressWarnings("unchecked")
-	public static boolean ReloadPlugin(CommandSender sender) {
+	public boolean ReloadPlugin(CommandSender s) {
+		sender = s;
 		Setup.setup.reloadConfig();
     	Setup.config = Setup.setup.getConfig();
     	
@@ -93,9 +102,13 @@ public class Reload {
     		    if(input != null)
     		    	input.close();
     		} catch (IOException | ClassNotFoundException ex) {
-    			sender.sendMessage("Loading Failed");
+    			sender.sendMessage("Loading of fish Failed");
     			ex.printStackTrace();
     		}   
+    		
+    		//Get all tournaments
+    		LoadTournaments();
+    		
     		
     		//Sets the total weight of rarities and fish
     		for(final RarityObject rarity : Variables.RarityList)
@@ -104,8 +117,11 @@ public class Reload {
         	for(final BaseFishObject fish : Variables.BaseFishList) 
         		Variables.FishTotalWeight += fish.Weight;
         	
+        	Variables.CSym = Setup.config.getString("Currency Symbol");
+        	Variables.ShowScoreboard = Setup.config.getBoolean("Show ScoreBoard");
         	
-        	sender.sendMessage("reload complete");
+        	
+        	sender.sendMessage("Reload Complete");
         	//FixOld();
         	
     	}else {
@@ -113,6 +129,41 @@ public class Reload {
     	}	
 		
 		return true;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void LoadTournaments() {
+		List<TournamentObject> tourneys = new ArrayList<>();
+		
+		//Gets Tournaments from file
+		try {
+			String tourneyPath = Setup.dataFolder + "/tournaments.data";   
+        	ObjectInputStream input = null;
+		    File tempFile = new File(tourneyPath);
+		    if(tempFile.exists()) {
+    		    input = new ObjectInputStream(new FileInputStream (tourneyPath));
+    		    tourneys = (List<TournamentObject>) input.readObject();
+		    }
+		    if(input != null)
+		    	input.close();
+		} catch (IOException | ClassNotFoundException ex) {
+			sender.sendMessage("Loading of tournaments Failed");
+			ex.printStackTrace();
+		}
+		
+		tourneys.forEach(t -> {
+			long diff = ChronoUnit.MILLIS.between(LocalDateTime.now(), t.EndDate);
+			if(t.HasFinished == false) {
+				if(diff <= 0)
+					new Tournament().DelayedWinnings(t);
+				else
+					new Tournament().StartTimer(diff, t);
+			}
+		});
+		
+		
+		Variables.Tournaments = tourneys;
+		
 	}
 	
 	

@@ -19,6 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import Miscellaneous.Formatting;
+import Miscellaneous.NBTEditor;
 import Miscellaneous.Variables;
 import Objects.AreaObject;
 import Objects.BaseFishObject;
@@ -29,7 +30,7 @@ import io.netty.util.internal.ThreadLocalRandom;
 public class FishSwitch implements Listener {
 	private Player player;
 	
-	@EventHandler
+	@EventHandler()
 	public void onFish(PlayerFishEvent e) {				
 		player = e.getPlayer();
 		
@@ -132,12 +133,12 @@ public class FishSwitch implements Listener {
 				    if(chosenRarity.Weight <= Variables.RarityList.get(0).Weight) {
 				    	Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', 
 					    		player.getDisplayName() + " just caught a " + fish.Rarity + " " 
-		    					+ fish.Name + " &fthat was " + fish.RealSize + "\" long!"));
+		    					+ fish.Name + " &fthat was " + Formatting.DoubleFormat(fish.RealSize) + "\" long!"));
 					    Firework fw = (Firework) player.getWorld().spawnEntity(player.getLocation(), EntityType.FIREWORK);
 					    fw.detonate();
 				    }
-				    
-				    BlepScoreboard.FishInfo(player, fish);
+				    if(Variables.ShowScoreboard)
+				    	new BlepScoreboard().FishInfo(player, fish);
 				    Variables.AddToFishDict(fish);
         		}
         		
@@ -147,12 +148,11 @@ public class FishSwitch implements Listener {
 	    }
 	}
 
-	
 	private List<String> CreateLore(FishObject fish, BaseFishObject base){
 		List<String> Lore = new ArrayList<>();   		
 		//Lore.add(fish.Rarity);
 		if(Setup.hasEcon) //Checks that an economy is installed
-			Lore.add("&2Value: $" + Formatting.DoubleFormat(fish.RealCost));
+			Lore.add("&2Value: " + Variables.CSym + Formatting.DoubleFormat(fish.RealCost));
 		Lore.add(base.Lore);
 		 
 		Lore.add("&8Length: " + Formatting.DoubleFormat(fish.RealSize) + "in.");

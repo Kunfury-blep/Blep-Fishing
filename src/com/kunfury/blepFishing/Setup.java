@@ -16,6 +16,7 @@ import com.kunfury.blepFishing.Signs.FishSign;
 
 import Miscellaneous.Reload;
 import Miscellaneous.Villagers;
+import Tournament.TournamentRewards;
 import net.milkbowl.vault.economy.Economy;
 
 public class Setup extends JavaPlugin {
@@ -49,12 +50,13 @@ public class Setup extends JavaPlugin {
             ConfigCreate();
 	        }
     	
-    	FishSign.LoadSigns();
+    	new FishSign().LoadSigns();
     	
     	getServer().getPluginManager().registerEvents(new FishSwitch(), this);
     	getServer().getPluginManager().registerEvents(new FishSign(), this);
     	getServer().getPluginManager().registerEvents(new AdminMenu(), this);
     	getServer().getPluginManager().registerEvents(new Villagers(), this);
+    	getServer().getPluginManager().registerEvents(new TournamentRewards(), this);
     	
     	this.getCommand("BlepFish").setExecutor(new Commands());
     	this.getCommand("blepFish").setExecutor(new Commands());
@@ -62,10 +64,10 @@ public class Setup extends JavaPlugin {
     	this.saveConfig();
     	saveConfig();
 
-    	Reload.ReloadPlugin(Bukkit.getConsoleSender());
+    	new Reload().ReloadPlugin(Bukkit.getConsoleSender());
     	
     	
-    	AdminMenu.CreateStacks(); //Creates the icons for the admin panel
+    	new AdminMenu().CreateStacks(); //Creates the icons for the admin panel
     	
     }
 
@@ -82,6 +84,9 @@ public class Setup extends JavaPlugin {
     }
     
     void ConfigCreate() {
+    	
+    	config.set("Show ScoreBoard", true);
+    	config.set("Currency Symbol", "$");
     	//Bluegill Create
     	config.set("fish.Bluegill.Lore", "Does it call me Pink Lung?");
     	config.set("fish.Bluegill.Min Size", 5);

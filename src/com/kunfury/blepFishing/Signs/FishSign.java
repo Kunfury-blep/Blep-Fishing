@@ -82,7 +82,7 @@ public class FishSign implements Listener {
 		
 	}
 	
-	public static void UpdateSigns() {
+	public void UpdateSigns() {
 		for (SignObject signObj : rankSigns) {
 			if(signObj.GetSign() != null) {
 				RefreshSign.Refresh(signObj);
@@ -91,7 +91,7 @@ public class FishSign implements Listener {
 	}
 		
 	@SuppressWarnings("unchecked")
-	public static void LoadSigns() {
+	public void LoadSigns() {
         //Load Leaderboard Signs
         try 
         {

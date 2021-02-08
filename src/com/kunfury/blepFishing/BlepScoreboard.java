@@ -19,7 +19,7 @@ import Objects.FishObject;
 
 public class BlepScoreboard {
 //
-	public static void FishInfo(Player p, FishObject fish) {
+	public void FishInfo(Player p, FishObject fish) {
 		
 		Bukkit.getServer().getScheduler().runTaskLater(Setup.getPlugin(), new Runnable() {
         	@Override
@@ -40,7 +40,7 @@ public class BlepScoreboard {
                 score.setScore(3);            
                 
                 if(Setup.hasEcon) { //Checks that an economy is installed
-                	Score score1 = objective.getScore(ChatColor.GREEN + "$" + Formatting.DoubleFormat(fish.RealCost));
+                	Score score1 = objective.getScore(ChatColor.GREEN + Variables.CSym + Formatting.DoubleFormat(fish.RealCost));
                 	score1.setScore(2);  
                 }      
                 

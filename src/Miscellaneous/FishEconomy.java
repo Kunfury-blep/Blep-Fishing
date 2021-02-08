@@ -8,7 +8,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import com.kunfury.blepFishing.NBTEditor;
 import com.kunfury.blepFishing.Setup;
 
 import net.milkbowl.vault.economy.Economy;
@@ -19,29 +18,30 @@ public class FishEconomy {
 	protected static List<String> PlayerWaitList = new ArrayList<String>();
 	//Handles the selling of fish
 		public static void SellFish(Player player) {
-			
-			List<ItemStack> itemList = new ArrayList<ItemStack>();
-			
 			if(player.isSneaking()) {
-				
 				if(PlayerWaitList.contains(player.toString())) {
-					for (ItemStack item : player.getInventory().getContents()) {
-						if(item != null && item.getType() == Material.SALMON) {
-							itemList.add(item);
-						}						
-					}
+					SellFish(player, true);
 					PlayerWaitList.remove(player.toString());
 				}else {
 					PlayerWaitList.add(player.toString());
-					player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&b[BF] &fSell all fish? Sneak right-click again to confirm."));
+					player.sendMessage(Variables.Prefix + "Sell all fish? Sneak right-click again to confirm.");
 					return;
 				}
-				
-				
-				
-			}
+			}else
+				SellFish(player, false);
+		}
+		
+		public static void SellFish(Player player, boolean sellAll) {
+			List<ItemStack> itemList = new ArrayList<ItemStack>();
 			
-			itemList.add(player.getInventory().getItemInMainHand());
+			if(sellAll) { //Runs if the player is wanting to sell all fish
+				for (ItemStack item : player.getInventory().getContents()) {
+					if(item != null && item.getType() == Material.SALMON) {
+						itemList.add(item);
+					}						
+				}
+			}else
+				itemList.add(player.getInventory().getItemInMainHand());
 			
 			double total = 0;
 			for (ItemStack item : itemList) 
@@ -65,9 +65,9 @@ public class FishEconomy {
 			}
 			if(itemList.size() > 1)
 				player.sendMessage(ChatColor.translateAlternateColorCodes('&', 
-		    			"&b[BF] &fSold " + itemList.size() + " fish"
-			    		+ "&f for &a$" + Formatting.DoubleFormat(total) + "." ));
-		}	
+						Variables.Prefix + "Sold " + itemList.size() + " fish"
+			    		+ "&f for &a" + Variables.CSym + Formatting.DoubleFormat(total) + "." ));
+		}
 }
 
 

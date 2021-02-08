@@ -23,3 +23,9 @@ permissions:
       description: Gives access to the admin panel
    bf.listFish:
       description: Gives the player access to the fish command
+   bf.sell:
+      description: Gives access to the sell command
+   bf.sellall:
+      description: Gives access to the sellall command
+   bf.sellfor:
+      description: Gives access to the sellfor command
