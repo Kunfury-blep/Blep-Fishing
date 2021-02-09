@@ -42,7 +42,12 @@ public class AdminMenu implements Listener {
 	public static HashMap<Player, Inventory> invMap = new HashMap<Player, Inventory>();
 	public static HashMap<Player, Window> winMap = new HashMap<Player, Window>();
 	public static HashMap<Player, TourneyAdminObject> tourneyMap = new HashMap<>();
-	
+
+	/**
+	 *
+	 * @param sender the sender of the command
+	 * Shows the inventory to the given sender.
+	 */
 	public void ShowInventory(CommandSender sender) {		
 		Player p = (Player)sender;
 		Inventory inv = Bukkit.createInventory(null, 27, " ---Blep Fishing Admin Panel---");		
@@ -60,11 +65,11 @@ public class AdminMenu implements Listener {
 		inv.setItem(4, TourneyGUI);		
 		p.openInventory(inv);
 	}
-	
-	///
-	// Handles when the inventory is clicked
-	// Decides which events to trigger based on the currently active INV enum
-	//
+
+	/**
+	 * Decides which events to trigger based on the currently active INV enum
+	 * @param e event variable
+	 */
 	@EventHandler()
     public void clickEvent(InventoryClickEvent e) { //Handles Interaction with the panel
 		Player p = (Player)e.getWhoClicked();
@@ -111,7 +116,11 @@ public class AdminMenu implements Listener {
 	public String getPromptText(ConversationContext context) {
         return "Please enter the cash reward amount.";
     }
-	
+
+	/**
+	 * Passes a random fish with given Player argument.
+	 * @param p the player to give the fish to
+	 */
 	@SuppressWarnings("serial")
 	private void FishEdit(Player p) {
 		Inventory inv = invMap.get(p);
@@ -145,7 +154,9 @@ public class AdminMenu implements Listener {
 		
 		
 	}
-	
+	/**
+	 * Gives the fish a rarity.
+	 */
 	@SuppressWarnings("serial")
 	private void RarityEdit(Player p) {
 		Inventory inv = invMap.get(p);
@@ -180,8 +191,10 @@ public class AdminMenu implements Listener {
 	private void BiomeEdit(Player p) {
 		//openInv = Inv.BIOMES;
 	}
-	
-	
+
+	/**
+	 * Creates needed itemstacks
+	 */
 	@SuppressWarnings("serial")
 	public void CreateStacks() {
 		String WIP = ChatColor.RED + " WIP " + ChatColor.WHITE;
@@ -252,8 +265,9 @@ public class AdminMenu implements Listener {
 	
 	
 	/**
-	 * @param inv
-	 * @param p
+	 * Creates the TourneyGUI and opens it at given player
+	 * @param inv The inventory it opens
+	 * @param p the player to open the invntory at
 	 */
 	@SuppressWarnings("serial")
 	public void CreateTourneyGUI(Player p) {		

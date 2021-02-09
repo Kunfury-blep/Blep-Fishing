@@ -10,7 +10,10 @@ import Objects.TournamentObject;
 
 public class SortTournaments {
 
-	
+	/**
+	 * Sorts the tournament list
+	 * @return Sorted tournament list
+	 */
 	public List<TournamentObject> Sort(){
 		
 		List<TournamentObject> tourneys = Variables.Tournaments;

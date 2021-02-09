@@ -19,8 +19,8 @@ public class SignObject implements Serializable{
 	private double locY;
 	private double locZ;
 	private String worldStr;
-	
-	
+
+
 	public SignObject(Sign sign, String fishName, int level, World world) {
 
 		locX = sign.getLocation().getX();

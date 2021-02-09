@@ -235,8 +235,13 @@ public class Commands implements CommandExecutor {
 		}
     	return true;
     }
-    
-    public boolean ListFish(CommandSender sender) {
+
+	/**
+	 * Lists all the fishes
+	 * @param sender
+	 * @return
+	 */
+	public boolean ListFish(CommandSender sender) {
     	sender.sendMessage(ChatColor.translateAlternateColorCodes('&' ,
     		"&f--&bListing " + Variables.BaseFishList.size() + " Fish&f--"));
     	TextComponent mainComponent = new TextComponent();
@@ -258,8 +263,13 @@ public class Commands implements CommandExecutor {
     	
     	return true;
     }
-    
-    public boolean NoPermission(CommandSender sender) {
+
+	/**
+	 *
+	 * @param sender
+	 * @return if the player has permission to execute a command
+	 */
+	public boolean NoPermission(CommandSender sender) {
     	sender.sendMessage("Sorry, you don't have permission to do that."); 
     	return true;
     }

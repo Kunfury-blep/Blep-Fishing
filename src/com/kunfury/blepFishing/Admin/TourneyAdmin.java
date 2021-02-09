@@ -17,7 +17,11 @@ import Objects.TourneyAdminObject;
 
 public class TourneyAdmin {
 
-	
+	/**
+	 * Handles the click events in the TourneyGUI
+	 * @param e
+	 * @param item
+	 */
 	public void TourneyClicked(InventoryClickEvent e, ItemStack item) {
 		ItemMeta meta = item.getItemMeta();
 		if(e.getRawSlot() > 17 && e.getRawSlot() < 27) { //If the clicked button is one of the bottom row of GUI
@@ -61,7 +65,16 @@ public class TourneyAdmin {
 
 		}
 	}
-	
+
+	/**
+	 * Updates the TourneyGUI
+	 * @param p the admin that modifies the menu
+	 * @param duration the duration of the tourney
+	 * @param fishName the fish name the tournament is currently running on
+	 * @param rewards the rewards of the tourney
+	 * @param cash the cash rewards of the tourney
+	 *
+	 */
 	public void UpdateTourney(Player p, Integer duration, String fishName, List<ItemStack> rewards, Integer cash) {
 		TourneyAdminObject tObj = AdminMenu.tourneyMap.get(p);
 		

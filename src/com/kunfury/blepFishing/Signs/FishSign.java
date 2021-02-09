@@ -43,7 +43,11 @@ public class FishSign implements Listener {
 	public static List<Location> signLocs = new ArrayList<>();
 	
 	DecimalFormat df = new DecimalFormat("#.##");
-	
+
+	/**
+	 * Signs for the Fishmarket
+	 * @param e event variable
+	 */
 	@EventHandler
 	public void onChange(SignChangeEvent e){
 		String[] lines = e.getLines();
@@ -81,7 +85,10 @@ public class FishSign implements Listener {
 		
 		
 	}
-	
+
+	/**
+	 * Updates the sign
+	 */
 	public void UpdateSigns() {
 		for (SignObject signObj : rankSigns) {
 			if(signObj.GetSign() != null) {
@@ -89,7 +96,12 @@ public class FishSign implements Listener {
 			}				
 		}
 	}
-		
+
+	/**
+	 * Loads all the signs from the tempfile
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
 	@SuppressWarnings("unchecked")
 	public void LoadSigns() {
         //Load Leaderboard Signs
@@ -107,9 +119,9 @@ public class FishSign implements Listener {
 		} catch (IOException | ClassNotFoundException ex) {
 			ex.printStackTrace();
 		}
-        ///
+        //
         //Load Market Signs
-        ///
+        //
         try 
         {
         	marketSigns.clear();
@@ -125,7 +137,14 @@ public class FishSign implements Listener {
 			ex.printStackTrace();
 		}
 	}
-	
+
+	/**
+	 * Creates a Leaderboard on a Sign
+	 * @param sign the sign to create the leaderboard on
+	 * @param level the place the fish would be on the leaderboard
+	 * @param fishName the fish name to create the leaderboard for
+	 * @param world the world the leaderboard got created in
+	 */
 	private void LeaderboardCreate(Sign sign, int level, String fishName, World world) {
 		
 		rankSigns.add(new SignObject(sign, fishName, level, world));
@@ -170,7 +189,12 @@ public class FishSign implements Listener {
 			  }
 			}, 1L);
 	}
-	
+
+	/**
+	 * Triggers when a Sign gets broken
+	 * @param e event variable
+	 * @throws Exception
+	 */
 	@EventHandler
 	public void onSignBreak(BlockBreakEvent e) {
 		
@@ -219,7 +243,11 @@ public class FishSign implements Listener {
 			
 		}
 	}
-	
+
+	/**
+	 * Triggers when a sign gets rightclickked
+	 * @param e event variable
+	 */
 	@EventHandler
 	public void onUseEvent(PlayerInteractEvent e) {
 		if(e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {			

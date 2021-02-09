@@ -18,7 +18,11 @@ import Miscellaneous.Variables;
 import Objects.FishObject;
 
 public class BlepScoreboard {
-//
+	/**
+	 * Displays a scoreboard when a fish is catched
+	 * @param p the player to show the scoreboard to
+	 * @param fish the fish that got catched
+	 */
 	public void FishInfo(Player p, FishObject fish) {
 		
 		Bukkit.getServer().getScheduler().runTaskLater(Setup.getPlugin(), new Runnable() {

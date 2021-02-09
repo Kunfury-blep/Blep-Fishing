@@ -10,7 +10,10 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class Villagers implements Listener {
-	
+	/**
+	 * checks if the entity is a villager and a fisherman
+	 * @param e event variable
+	 */
 	@EventHandler
 	public void VillagerCheck(PlayerInteractEntityEvent e) {
 		Entity entity = e.getRightClicked();

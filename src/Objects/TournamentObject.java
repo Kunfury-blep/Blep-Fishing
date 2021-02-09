@@ -33,7 +33,14 @@ public class TournamentObject implements Serializable {
 	
 	private List<String> rewardNames = new ArrayList<>();
 	private List<Integer> rewardCounts = new ArrayList<>();
-	
+
+	/**
+	 * The tournamentobject
+	 * @param _duration the duration of the tournament
+	 * @param _fishName the fish the tournament got created on
+	 * @param _rewards the rewards of the tournament
+	 * @param _cash the cash rewards of the tournament
+	 */
 	public TournamentObject(int _duration, String _fishName, List<ItemStack> _rewards, int _cash) {
 		Duration = _duration;
 		StartDate = LocalDateTime.now();
@@ -73,7 +80,11 @@ public class TournamentObject implements Serializable {
 		
 		return items;
 	}
-	
+
+	/**
+	 * Get the remaining time of the tournament
+	 * @return the remaining time
+	 */
 	public String GetRemainingTime() {
 		LocalDateTime now = LocalDateTime.now();
 
@@ -81,7 +92,11 @@ public class TournamentObject implements Serializable {
 		
 		return Formatting.TimeFormat(diff);		
 	}
-	
+
+	/**
+	 * Gets the end date but in formatted version
+	 * @return formatted version of the enddate
+	 */
 	public String GetFormattedEndDate() {
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
