@@ -18,7 +18,10 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Text;
 
 public class TournamentFinish {
-	
+	/**
+	 * Triggers when the Tournament is finished
+	 * @param tObj the tournament object
+	 */
 	public TournamentFinish(TournamentObject tObj) {		
 		tObj.HasFinished = true;
 		List<FishObject> tourneyFish = new ArrayList<>();

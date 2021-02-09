@@ -11,7 +11,9 @@ import com.kunfury.blepFishing.Setup;
 import Miscellaneous.Variables;
 
 public class SaveTournaments {
-
+	/**
+	 * Saves all the tournaments
+	 */
 	public SaveTournaments() {
 		try {
 			String tourneyPath = Setup.dataFolder + "/tournaments.data";   

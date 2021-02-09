@@ -21,7 +21,10 @@ import Objects.TournamentObject;
 import net.md_5.bungee.api.ChatColor;
 
 public class Tournament {
-
+	/**
+	 * Shows all active tournaments to the commandsender
+	 * @param sender the command sender
+	 */
 	@SuppressWarnings("serial")
 	public void ShowTourney(CommandSender sender) {
 		
@@ -67,7 +70,16 @@ public class Tournament {
 		
 		player.openInventory(inv);
 	}
-	
+
+	/**
+	 * Creates a new tournament
+	 * @param sender the command sender
+	 * @param fishName The fish name to create the tournament for
+	 * @param duration the duration of the tournament
+	 * @param cashPrize the cash reward of the tournament
+	 * @param itemName ?
+	 * @param itemCount ?
+	 */
 	public void CreateTourny(CommandSender sender, String fishName, int duration, int cashPrize, String itemName, int itemCount) {
 		
 		boolean fishFound = false;

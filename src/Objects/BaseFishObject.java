@@ -3,9 +3,7 @@ package Objects;
 import java.io.Serializable;
 
 public class BaseFishObject implements Serializable{
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -2959331831404886148L;
 	public String Name;
 	public String Lore;

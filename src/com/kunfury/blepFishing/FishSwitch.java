@@ -29,7 +29,11 @@ import io.netty.util.internal.ThreadLocalRandom;
 
 public class FishSwitch implements Listener {
 	private Player player;
-	
+
+	/**
+	 * Triggers when someone catches a fish
+	 * @param e
+	 */
 	@EventHandler()
 	public void onFish(PlayerFishEvent e) {				
 		player = e.getPlayer();
@@ -148,6 +152,12 @@ public class FishSwitch implements Listener {
 	    }
 	}
 
+	/**
+	 * Creates a lore for the fish that has been catched
+	 * @param fish The fish that needs the lore to be created on (Is this proper english?)
+	 * @param base
+	 * @return the lore
+	 */
 	private List<String> CreateLore(FishObject fish, BaseFishObject base){
 		List<String> Lore = new ArrayList<>();   		
 		//Lore.add(fish.Rarity);

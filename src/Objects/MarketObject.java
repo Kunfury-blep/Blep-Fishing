@@ -17,8 +17,12 @@ public class MarketObject implements Serializable{
 	private double locY;
 	private double locZ;
 	private String worldStr;
-	
-	
+
+	/**
+	 * Sets the sign locations
+	 * @param sign a fishmarket sign
+	 * @param world the world where the sign is
+	 */
 	public MarketObject(Sign sign, World world) {
 
 		locX = sign.getLocation().getX();
@@ -26,7 +30,11 @@ public class MarketObject implements Serializable{
 		locZ = sign.getLocation().getZ();
 		worldStr = world.getName();
 	}
-	
+
+	/**
+	 * Get the sign location
+	 * @return location and world
+	 */
 	public Sign GetSign(){
 		Sign sign;
 		
@@ -40,7 +48,12 @@ public class MarketObject implements Serializable{
 		}
 
 	}
-	
+
+	/**
+	 * Checks if a sign is still at the market location
+	 * @param sign the sign to check on
+	 * @return true if the sign is still at the market location
+	 */
 	public boolean CheckBool(Sign sign) {
 		Location signLoc = sign.getLocation();
 		Location markLoc = new Location(Bukkit.getServer().getWorld(worldStr), locX, locY, locZ);

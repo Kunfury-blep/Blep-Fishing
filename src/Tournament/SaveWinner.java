@@ -14,10 +14,13 @@ import com.google.gson.Gson;
 import com.kunfury.blepFishing.Setup;
 
 public class SaveWinner {
-	
-	///
-	//Used for saving rewards to 
-	///
+
+	/**
+	 * Saves the winner do a file
+	 * @param playerName the playername to put into the file
+	 * @param items the items the player gets
+	 * @param cashReward the cash the player gets
+	 */
 	public SaveWinner(String playerName, List<ItemStack> items, int cashReward) {
 		Gson gson = new Gson();		
 		if(cashReward > 0) {

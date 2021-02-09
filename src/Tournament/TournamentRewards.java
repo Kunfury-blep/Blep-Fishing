@@ -27,7 +27,10 @@ import net.md_5.bungee.api.ChatColor;
 import net.milkbowl.vault.economy.Economy;
 
 public class TournamentRewards implements Listener {
-
+	/**
+	 * Gets the rewards of the tournament
+	 * @param sender the command sender
+	 */
 	public void GetRewards(CommandSender sender) {
 		Gson gson = new Gson();
 		String playerName = sender.getName();
@@ -95,16 +98,21 @@ public class TournamentRewards implements Listener {
 		
 	}
 
+	/**
+	 * Gives money to a player
+	 * @param p the player to receive money
+	 * @param value how much money the player should reveive
+	 */
 	private void GiveMoney(Player p, int value) {
 		Economy econ = Setup.getEconomy();
 	    econ.depositPlayer(p, value);
 	    p.sendMessage("You recieved " + Variables.CSym + value);
 	}
-	
-	
-	///
-	//Checks if the player has any rewards to claim and alerts them if so
-	///
+
+	/**
+	 * Checks if the player has any rewards to claim and alerts them if so
+	 * @param e event variable
+	 */
 	@EventHandler
     public void onJoin(PlayerJoinEvent e) {
 		Player p = e.getPlayer();

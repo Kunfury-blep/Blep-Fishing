@@ -35,16 +35,18 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 		Score = CalcScore(base, rarity);
 		RealCost = CalcPrice(base, rarity);
 	}
-	
+
+	/**
+	 * Recalculates the score of the fish
+	 * Needed in order to rescore all fish after a config change
+	 * @param r is the fishobject
+	 * @return the new cost of the fish
+	 */
 	@Override
     public int compareTo(FishObject r) {
         return this.Score.compareTo(r.Score);
     }
-	
-	///
-	//Recalculates the score of the fish
-	//Needed in order to rescore all fish after a config change
-	///
+
 	private double CalcScore(BaseFishObject base, RarityObject rarity) {
 		double adjWeight = rarity.Weight;
         if(Variables.RarityList.get(0).Weight != 1)
