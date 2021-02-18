@@ -1,0 +1,31 @@
+{
+	"parent": "item/generated",
+	"textures": {
+		"layer0": "item/salmon"
+	},
+	
+	"overrides": [
+		{ "predicate": { "custom_model_data": 1}, "model": "item/salmon/bluegill" },
+		{ "predicate": { "custom_model_data": 2}, "model": "item/salmon/brown_trout" },
+		{ "predicate": { "custom_model_data": 3}, "model": "item/salmon/carp" },
+		{ "predicate": { "custom_model_data": 4}, "model": "item/salmon/catfish" },
+		{ "predicate": { "custom_model_data": 5}, "model": "item/salmon/gar" },
+		{ "predicate": { "custom_model_data": 6}, "model": "item/salmon/minnow" },
+		{ "predicate": { "custom_model_data": 7}, "model": "item/salmon/muskellunge" },
+		{ "predicate": { "custom_model_data": 8}, "model": "item/salmon/perch" },
+		{ "predicate": { "custom_model_data": 9}, "model": "item/salmon/smallmouth_bass" },
+		{ "predicate": { "custom_model_data": 10}, "model": "item/salmon/blackfish" },
+		{ "predicate": { "custom_model_data": 11}, "model": "item/salmon/cod" },
+		{ "predicate": { "custom_model_data": 12}, "model": "item/salmon/halibut" },
+		{ "predicate": { "custom_model_data": 13}, "model": "item/salmon/herring" },
+		{ "predicate": { "custom_model_data": 14}, "model": "item/salmon/pink_salmon" },
+		{ "predicate": { "custom_model_data": 15}, "model": "item/salmon/pollock" },
+		{ "predicate": { "custom_model_data": 16}, "model": "item/salmon/rainbow_trout" },
+		{ "predicate": { "custom_model_data": 17}, "model": "item/salmon/red_grouper" },
+		{ "predicate": { "custom_model_data": 18}, "model": "item/salmon/tuna" },
+		{ "predicate": { "custom_model_data": 19}, "model": "item/salmon/bayad" },
+		{ "predicate": { "custom_model_data": 20}, "model": "item/salmon/boulti" },
+		{ "predicate": { "custom_model_data": 21}, "model": "item/salmon/capitaine" },
+		{ "predicate": { "custom_model_data": 22}, "model": "item/salmon/synodontis" }
+	]
+}
