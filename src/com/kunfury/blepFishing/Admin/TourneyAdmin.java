@@ -3,6 +3,7 @@ package com.kunfury.blepFishing.Admin;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -55,12 +56,11 @@ public class TourneyAdmin {
 				case "Create Tournament": 	
 					TourneyAdminObject aObj = AdminMenu.tourneyMap.get(p);
 					TournamentObject tourney = new TournamentObject
-							(aObj.Duration, aObj.FishName, aObj.Rewards, aObj.Cash); 
+							(aObj.Duration, aObj.FishName, aObj.Rewards, aObj.Cash);
 					Variables.AddTournament(tourney);
 					p.closeInventory();
 					p.sendMessage(Variables.Prefix + "Tournament Created!");
 					AdminMenu.tourneyMap.remove(p);
-					return;
 			}
 
 		}
@@ -75,7 +75,7 @@ public class TourneyAdmin {
 	 * @param cash the cash rewards of the tourney
 	 *
 	 */
-	public void UpdateTourney(Player p, Integer duration, String fishName, List<ItemStack> rewards, Integer cash) {
+	public void UpdateTourney(Player p, Number duration, String fishName, List<ItemStack> rewards, Integer cash) {
 		TourneyAdminObject tObj = AdminMenu.tourneyMap.get(p);
 		
 		if(duration != null)

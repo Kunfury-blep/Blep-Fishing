@@ -7,6 +7,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -21,7 +22,8 @@ public class TournamentObject implements Serializable {
 	 */
 	private static final long serialVersionUID = -6710261954442171522L;
 	public LocalDateTime StartDate; //When the tournament began
-	public int Duration; //How long the tournament lasts
+	//public int Duration; //How long the tournament lasts
+	public Number newDuration;
 	public int CashReward;
 	public String FishName;
 	public BaseFishObject Fish;
@@ -36,13 +38,13 @@ public class TournamentObject implements Serializable {
 
 	/**
 	 * The tournamentobject
-	 * @param _duration the duration of the tournament
-	 * @param _fishName the fish the tournament got created on
-	 * @param _rewards the rewards of the tournament
-	 * @param _cash the cash rewards of the tournament
-	 */
-	public TournamentObject(int _duration, String _fishName, List<ItemStack> _rewards, int _cash) {
-		Duration = _duration;
+     * @param _duration the duration of the tournament
+     * @param _fishName the fish the tournament got created on
+     * @param _rewards the rewards of the tournament
+     * @param _cash the cash rewards of the tournament
+     */
+	public TournamentObject(Number _duration, String _fishName, List<ItemStack> _rewards, int _cash) {
+		newDuration = _duration;
 		StartDate = LocalDateTime.now();
 		FishName = _fishName;
 		CashReward = _cash;
@@ -63,9 +65,8 @@ public class TournamentObject implements Serializable {
 				}
 			}
 		}
-		
-		EndDate = StartDate.plusHours(_duration);
-		
+		EndDate = StartDate.plusSeconds((long)(_duration.doubleValue() * 60 * 60));
+
 		new Tournament().StartTimer(StartDate.until(EndDate, ChronoUnit.MILLIS), this);
 		
 	}

@@ -51,18 +51,14 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 		double adjWeight = rarity.Weight;
         if(Variables.RarityList.get(0).Weight != 1)
         	adjWeight = adjWeight / Variables.RarityList.get(0).Weight;
-		
-		double _score = ((RealSize / base.MaxSize)/adjWeight) * 100;	
-		
-		return _score;
+
+		return ((RealSize / base.MaxSize)/adjWeight) * 100;
 	}
 	
 	private double CalcPrice(BaseFishObject base, RarityObject rarity) {
 		double sizeMod = RealSize/base.AvgSize;
-		
-		double realCost = (base.BaseCost * sizeMod) * rarity.PriceMod;
-		
-		return realCost;
+
+		return (base.BaseCost * sizeMod) * rarity.PriceMod;
 	}
 
 	

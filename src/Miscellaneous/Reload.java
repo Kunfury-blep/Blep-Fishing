@@ -6,14 +6,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 import com.kunfury.blepFishing.Setup;
@@ -49,17 +43,16 @@ public class Reload {
         	//Reloading Fish
         	Map<String, Object> fishMap = Setup.config.getConfigurationSection("fish").getValues(false);
     		for(final String key : fishMap.keySet()) {
-    			String name = key;
-    			String lore = Setup.config.getString("fish." + key + ".Lore");
-    			Double minSize = (Setup.config.getDouble("fish." + key + ".Min Size"));
-    			Double maxSize = Setup.config.getDouble("fish." + key + ".Max Size");
+				String lore = Setup.config.getString("fish." + key + ".Lore");
+    			double minSize = (Setup.config.getDouble("fish." + key + ".Min Size"));
+				double maxSize = Setup.config.getDouble("fish." + key + ".Max Size");
     			int modelData = Setup.config.getInt("fish." + key + ".ModelData");
     			String area = Setup.config.getString("fish." + key + ".Area");
-    			Boolean raining = Setup.config.getBoolean("fish." + key + ".Raining");
+    			boolean raining = Setup.config.getBoolean("fish." + key + ".Raining");
     			int weight = Setup.config.getInt("fish." + key + ".Weight");
     			double baseCost = Setup.config.getDouble("fish." + key + ".Base Price");
     			
-    			BaseFishObject base = new BaseFishObject(name, lore, minSize, maxSize, modelData, raining, baseCost, area)
+    			BaseFishObject base = new BaseFishObject(key, lore, minSize, maxSize, modelData, raining, baseCost, area)
     					.weight(weight);
     			Variables.BaseFishList.add(base);
     			
@@ -68,12 +61,11 @@ public class Reload {
     		//Reloading Rarities
         	Map<String, Object> rarityMap = Setup.config.getConfigurationSection("rarities").getValues(false);
     		for(final String key : rarityMap.keySet()) {
-    			String name = key;
-    			int weight = Setup.config.getInt("rarities." + key + ".Weight");
+				int weight = Setup.config.getInt("rarities." + key + ".Weight");
     			String prefix = Setup.config.getString("rarities." + key + ".Color Code");
     			double priceMod = Setup.config.getDouble("rarities." + key + ".Price Mod");
     			
-    			RarityObject rarity = new RarityObject(name, weight, prefix, priceMod);
+    			RarityObject rarity = new RarityObject(key, weight, prefix, priceMod);
     			Variables.RarityList.add(rarity);
     		}
     		Collections.sort(Variables.RarityList);
@@ -81,10 +73,9 @@ public class Reload {
     		//Reloading Areas
     		Map<String, Object> areaMap = Setup.config.getConfigurationSection("areas").getValues(false);
     		for(final String key : areaMap.keySet()) {
-    			String name = key;    			
-    			List<String> biomes = Setup.config.getStringList("areas." + key + ".Biomes");
+				List<String> biomes = Setup.config.getStringList("areas." + key + ".Biomes");
     			
-    			AreaObject area = new AreaObject(name, biomes);
+    			AreaObject area = new AreaObject(key, biomes);
     			Variables.AreaList.add(area);
     		}
     		
@@ -109,7 +100,7 @@ public class Reload {
     		//Get all tournaments
     		LoadTournaments();
     		
-    		
+
     		//Sets the total weight of rarities and fish
     		for(final RarityObject rarity : Variables.RarityList)
         		Variables.RarityTotalWeight += rarity.Weight;
@@ -117,10 +108,15 @@ public class Reload {
         	for(final BaseFishObject fish : Variables.BaseFishList) 
         		Variables.FishTotalWeight += fish.Weight;
         	
-        	Variables.CSym = Setup.config.getString("Currency Symbol");
+        	String t = Setup.config.getString("Currency Symbol");
+        	if(t != null)
+        		Variables.CSym = t;        	
         	Variables.ShowScoreboard = Setup.config.getBoolean("Show ScoreBoard");
-        	
-        	
+        	Variables.HighPriority = Setup.config.getBoolean("High Priority");
+
+        	Locale locale = Locale.FRENCH;
+        	Variables.Messages = ResourceBundle.getBundle("main.resources.resource", locale);
+
         	sender.sendMessage("Reload Complete");
         	//FixOld();
         	
@@ -153,15 +149,14 @@ public class Reload {
 		
 		tourneys.forEach(t -> {
 			long diff = ChronoUnit.MILLIS.between(LocalDateTime.now(), t.EndDate);
-			if(t.HasFinished == false) {
+			if(!t.HasFinished) {
 				if(diff <= 0)
 					new Tournament().DelayedWinnings(t);
 				else
 					new Tournament().StartTimer(diff, t);
 			}
 		});
-		
-		
+
 		Variables.Tournaments = tourneys;
 		
 	}

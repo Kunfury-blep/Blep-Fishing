@@ -10,18 +10,14 @@ import com.kunfury.blepFishing.Setup;
 public class ConFactory {
 
 	public ConversationFactory GetFactory() {
-		ConversationFactory factory = 
-				new ConversationFactory(Setup.getPlugin())
-				.withTimeout(30)
-				.withPrefix(new BlepFishingConPrefix())
-				.thatExcludesNonPlayersWithMessage("Go away evil console!");
-		
-		return factory;
+		return new ConversationFactory(Setup.getPlugin())
+		.withTimeout(30)
+		.withPrefix(new BlepFishingConPrefix())
+		.thatExcludesNonPlayersWithMessage("Go away evil console!");
 		
 	}
 	
-	private class BlepFishingConPrefix implements ConversationPrefix {
-
+	private static class BlepFishingConPrefix implements ConversationPrefix {
 		public String getPrefix(ConversationContext context) {
 			return ChatColor.AQUA + "[BF] " + ChatColor.WHITE;
 		}

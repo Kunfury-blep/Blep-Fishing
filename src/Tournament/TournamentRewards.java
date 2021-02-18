@@ -26,6 +26,9 @@ import Miscellaneous.Variables;
 import net.md_5.bungee.api.ChatColor;
 import net.milkbowl.vault.economy.Economy;
 
+import static Miscellaneous.Variables.Messages;
+import static Miscellaneous.Variables.Prefix;
+
 public class TournamentRewards implements Listener {
 	/**
 	 * Gets the rewards of the tournament
@@ -68,11 +71,11 @@ public class TournamentRewards implements Listener {
 	            });
 	            if(file.delete()) 
 	            { 
-	                System.out.println("File deleted successfully"); 
+	                System.out.println(Prefix + "File deleted successfully");
 	            } 
 	            else
 	            { 
-	                System.out.println("Failed to delete the file"); 
+	                System.out.println(Prefix + "Failed to delete the file");
 	            } 
 	            
 			} catch (IOException e) {
@@ -80,18 +83,16 @@ public class TournamentRewards implements Listener {
 			}
 			
 			if(items.size() > 0) { //Only shows the inventory if the player has rewards to claim
-				final Inventory inv = Bukkit.createInventory(null, 54, " ---Tournament Rewards---");
+				final Inventory inv = Bukkit.createInventory(null, 54, Messages.getString("rewardInvTitle"));
 				
-				items.forEach(item ->{
-					inv.addItem(item);
-				});
+				items.forEach(inv::addItem);
 				
 				p.openInventory(inv);
 			}
 			
 			
 		}else
-			sender.sendMessage("You do not have any rewards to claim.");
+			sender.sendMessage(Messages.getString("noRewards"));
 		
 		
 		
@@ -106,7 +107,7 @@ public class TournamentRewards implements Listener {
 	private void GiveMoney(Player p, int value) {
 		Economy econ = Setup.getEconomy();
 	    econ.depositPlayer(p, value);
-	    p.sendMessage("You recieved " + Variables.CSym + value);
+	    p.sendMessage("You received " + Variables.CSym + value);
 	}
 
 	/**
@@ -126,8 +127,9 @@ public class TournamentRewards implements Listener {
 					  Bukkit.getServer().getScheduler().runTaskLater(Setup.getPlugin(), new Runnable() {
 				        	@Override
 				        	  public void run() {
-				        		p.sendMessage(Variables.Prefix + "You have rewards from fishing tournaments waiting to be claimed!");
-				        		p.sendMessage(Variables.Prefix + "Type " + ChatColor.AQUA + "/bf claim" + ChatColor.WHITE +  " to get them!");
+				        		p.sendMessage(Prefix +  Messages.getString("claimRewards"));
+				        		p.sendMessage(Prefix + ChatColor.translateAlternateColorCodes(
+				        				'&', Messages.getString("claimRewards2")));
 				        	}
 				        }, 250);
 				  }

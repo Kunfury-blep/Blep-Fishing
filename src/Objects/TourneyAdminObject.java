@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 ///
 public class TourneyAdminObject {
 
-	public int Duration;
+	public Number Duration;
 	public String FishName;
 	public List<ItemStack> Rewards;
 	public int Cash;

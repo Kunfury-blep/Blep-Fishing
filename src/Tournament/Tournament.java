@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mysql.jdbc.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -11,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.kunfury.blepFishing.Setup;
@@ -22,13 +24,13 @@ import net.md_5.bungee.api.ChatColor;
 
 public class Tournament {
 	/**
-	 * Shows all active tournaments to the commandsender
+	 * Shows all active tournaments to the command sender
 	 * @param sender the command sender
 	 */
 	@SuppressWarnings("serial")
 	public void ShowTourney(CommandSender sender) {
 		
-		final Inventory inv = Bukkit.createInventory(null, 54, " ---Active Tournaments---");
+		final Inventory inv = Bukkit.createInventory(null, 54, Messages.getString("tourneyInvTitle"));
 		Player player = (Player)sender;
 		
 		List<TournamentObject> tourneys = new SortTournaments().Sort();
@@ -52,7 +54,7 @@ public class Tournament {
 					add("End Date: " + tourney.GetFormattedEndDate());
 				}};
 				meta.setLore(lore);
-			}else { //If the tournament has already expiered
+			}else { //If the tournament has already expired
 				item = new ItemStack(Material.COOKED_COD, 1);
 				meta = item.getItemMeta();
 				meta.setDisplayName(tourney.FishName + ChatColor.DARK_RED + " - Expired");
@@ -96,7 +98,7 @@ public class Tournament {
 		}
 		
 		if(!fishFound) {
-			sender.sendMessage("That fish could not be found");
+			sender.sendMessage(Variables.Prefix + Messages.getString("fishNotFound"));
 			return;
 		}
 			
@@ -106,22 +108,22 @@ public class Tournament {
 			items.add(new ItemStack(Material.getMaterial(itemName.toUpperCase()), itemCount));
 		}
 		catch(Exception e){
-			sender.sendMessage("That is not a valid item or amount");
+			sender.sendMessage(Variables.Prefix + Messages.getString("invalidItem"));
 			return;
 		}
 			
-		TournamentObject tourney = new TournamentObject(duration, fishName, items, cashPrize); 
+		TournamentObject tourney = new TournamentObject(duration, fishName, items, cashPrize);
 		Variables.AddTournament(tourney);
     }
 
 	public void StartTimer(long duration, TournamentObject tourney) {
-		new BukkitRunnable() {	        
+		Bukkit.getServer().getScheduler().runTaskLater(Setup.getPlugin(), new Runnable(){
             @Override
             public void run() {
                 new TournamentFinish(tourney);
             }
             
-        }.runTaskLater(Setup.getPlugin(), duration);
+        }, (duration / 1000 * 20));
 	}	
 	
 	public void DelayedWinnings(TournamentObject tourney) {

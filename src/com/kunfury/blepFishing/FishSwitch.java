@@ -13,6 +13,7 @@ import org.bukkit.entity.Firework;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.inventory.ItemStack;
@@ -34,8 +35,20 @@ public class FishSwitch implements Listener {
 	 * Triggers when someone catches a fish
 	 * @param e
 	 */
-	@EventHandler()
-	public void onFish(PlayerFishEvent e) {				
+	
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void onFishNormal(PlayerFishEvent e) {
+		if(!Variables.HighPriority)
+			FishHandler(e);			
+	}
+	
+	@EventHandler(priority = EventPriority.HIGH)
+	public void onFishHigh(PlayerFishEvent e) {
+		if(Variables.HighPriority)
+			FishHandler(e);			
+	}
+	
+	private void FishHandler(PlayerFishEvent e) {				
 		player = e.getPlayer();
 		
 		List<Material> itemList = new ArrayList<Material>();
@@ -45,8 +58,7 @@ public class FishSwitch implements Listener {
 	    if(e.getCaught() instanceof Item){   	
 	        Item item = (Item) e.getCaught();
 	    	Material t = item.getItemStack().getType();
-	    	
-	    	
+
 	    	List<BaseFishObject> wFish = new ArrayList<>(); //Available fish to choose from
 	        if(itemList.contains(t) && !item.getItemStack().getItemMeta().hasCustomModelData()){
 	        	//Checks For Weather

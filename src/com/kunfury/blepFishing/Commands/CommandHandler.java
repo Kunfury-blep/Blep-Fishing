@@ -1,4 +1,4 @@
-package com.kunfury.blepFishing;
+package com.kunfury.blepFishing.Commands;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.kunfury.blepFishing.Setup;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -22,7 +23,6 @@ import Miscellaneous.FishEconomy;
 import Miscellaneous.Formatting;
 import Miscellaneous.Reload;
 import Miscellaneous.Variables;
-import Objects.BaseFishObject;
 import Objects.FishObject;
 import Objects.RarityObject;
 import Tournament.Tournament;
@@ -32,25 +32,28 @@ import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Text;
 
-public class Commands implements CommandExecutor {
-	
+import static Miscellaneous.Variables.Messages;
+import static Miscellaneous.Variables.Prefix;
+
+public class CommandHandler implements CommandExecutor {
+
+
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-    	
     	if(args.length == 0 || args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("?")) { //Runs when base command is sent   		
     		sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-    				"                     &b[Blep Fishing Help] &b\n" 
-    				+ Variables.Prefix + "/bf lb <fishname> - displays the leadboard for the fish \n"
-    				+ Variables.Prefix + "/bf reload - reloads config \n"
-    				+ Variables.Prefix + "/bf fish - Lists all fish \n"
-    				+ Variables.Prefix + "/bf claim - Claims any tournament rewwards you may have \n"
-    				+ Variables.Prefix + "/bf tourney - current and previous tournaments \n"
-    				+ Variables.Prefix + "/bf admin - Displays the admin panel \n"
+    				"                     &b[Blep Fishing Help] &b"
+    				+ Prefix + "/bf lb <fishname> - displays the leadboard for the fish \n"
+    				+ Prefix + "/bf reload - reloads config \n"
+    				+ Prefix + "/bf fish - Lists all fish \n"
+    				+ Prefix + "/bf claim - Claims any tournament rewwards you may have \n"
+    				+ Prefix + "/bf tourney - current and previous tournaments \n"
+    				+ Prefix + "/bf admin - Displays the admin panel \n"
     				));
     		return true;
     	}
     	
-    	if(args.length > 0 && args.length <= 3 && (args[0].equalsIgnoreCase("leader") 
+    	if(args.length <= 3 && (args[0].equalsIgnoreCase("leader")
     			|| args[0].equalsIgnoreCase("lb") || args[0].equalsIgnoreCase("leaderboard"))) {
     		return showLeaderboard(args, sender);
     	}
@@ -63,8 +66,10 @@ public class Commands implements CommandExecutor {
     	}
     	
     	if(args.length == 1 && args[0].equalsIgnoreCase("fish")) {
-    		if(sender.hasPermission("bf.listFish"))
-    			return ListFish(sender);
+    		if(sender.hasPermission("bf.listFish")){
+				new ListFish(sender);
+				return true;
+			}
     		else
     			return NoPermission(sender);
     	}
@@ -119,7 +124,7 @@ public class Commands implements CommandExecutor {
     		return true;
     	}
     	
-    	if(args.length > 0 && args[0].equalsIgnoreCase("StartTourney")) {
+    	if(args[0].equalsIgnoreCase("StartTourney")) {
     		if(sender.hasPermission("bf.admin")) {
     			try {
         			new Tournament().CreateTourny(sender, args[1], Integer.parseInt(args[2]), Integer.parseInt(args[3]), 
@@ -129,7 +134,7 @@ public class Commands implements CommandExecutor {
         			//Definitely need to fix this in the future.
     			}catch(Exception e) { 
         			sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-        					Variables.Prefix + "/bf StartTourney <fishName> <duration> <cash prize> <item name> <item count>"));
+        					Prefix + "/bf StartTourney <fishName> <duration> <cash prize> <item name> <item count>"));
         		}
     		}    		
     		return true;
@@ -173,9 +178,7 @@ public class Commands implements CommandExecutor {
         	if(args.length == 3) {
         		try {
         			startVal = Integer.parseInt(args[2]) - 1;
-        		}catch(Exception e){
-        			startVal = 0;
-        		}
+        		}catch(Exception ignored){}
         		
         	}
         	
@@ -191,16 +194,18 @@ public class Commands implements CommandExecutor {
         	//If the fish exissts, and at least one has been caught, runs the below section
         	///
         	List<FishObject> caughtFishList = Variables.GetFishList(fishName); //Gets the caught fish
-        	if(caughtFishList.size() > startVal) {
-        		caughtFishList.subList(0, startVal).clear();
-        	}else {
-        		startVal = 0;
-        		sender.sendMessage("There aren't that many fish available.");
-        	}
+			if(caughtFishList != null){
+				if( caughtFishList.size() > startVal) {
+					caughtFishList.subList(0, startVal).clear();
+				}else {
+					startVal = 0;
+					sender.sendMessage("There aren't that many fish available.");
+				}
 
-        	if(caughtFishList.size() > 5)
-    			caughtFishList.subList(5, caughtFishList.size()).clear();
-        	
+				if(caughtFishList.size() > 5)
+					caughtFishList.subList(5, caughtFishList.size()).clear();
+			}
+
         	//Initializes the size of the chatbox
         	int pLength = 15;
 
@@ -209,9 +214,10 @@ public class Commands implements CommandExecutor {
     		
     		sender.sendMessage(ChatColor.BOLD + ("--" + formattedName + " Leaderboard - Hover For Info--"));
     		sender.sendMessage(fullString);	
-    		
+
     			int i = startVal;
-    			for (FishObject fish : caughtFishList) {
+
+			for (FishObject fish : caughtFishList) {
     				fPlayer = Formatting.FixFontSize(fish.PlayerName, pLength);
             		String lbString = ChatColor.translateAlternateColorCodes('&' ,
             				Formatting.FixFontSize((i+1) + ".", 4)
@@ -237,40 +243,12 @@ public class Commands implements CommandExecutor {
     }
 
 	/**
-	 * Lists all the fishes
-	 * @param sender
-	 * @return
-	 */
-	public boolean ListFish(CommandSender sender) {
-    	sender.sendMessage(ChatColor.translateAlternateColorCodes('&' ,
-    		"&f--&bListing " + Variables.BaseFishList.size() + " Fish&f--"));
-    	TextComponent mainComponent = new TextComponent();
-    	for (BaseFishObject fish : Variables.BaseFishList) {
-    		TextComponent subComponent = new TextComponent (ChatColor.AQUA +  " " + fish.Name + ChatColor.WHITE + " -");
-    		subComponent.setHoverEvent(new HoverEvent( HoverEvent.Action.SHOW_TEXT, 
-    				new Text(ChatColor.translateAlternateColorCodes('&' ,
-    						fish.Name +
-							"\nLore: " + fish.Lore +
-    						"&f\nArea: " + fish.Area +
-    						"\nMin Size: " + fish.MinSize +
-    						"\nMax Size: " + fish.MaxSize +
-    						"\nBase Cost: " + fish.BaseCost
-    						))));
-    		mainComponent.addExtra(subComponent);
-    	}
-    	sender.spigot().sendMessage(mainComponent);
-    	
-    	
-    	return true;
-    }
-
-	/**
 	 *
 	 * @param sender
 	 * @return if the player has permission to execute a command
 	 */
 	public boolean NoPermission(CommandSender sender) {
-    	sender.sendMessage("Sorry, you don't have permission to do that."); 
+    	sender.sendMessage(Prefix + Messages.getString("noPermissions"));
     	return true;
     }
     
@@ -280,7 +258,7 @@ public class Commands implements CommandExecutor {
     	List<FishObject> fishList = new ArrayList<>();
     	
     	
-    	for (File file : new File(Setup.dataFolder.getAbsolutePath() + File.separator + "fish data").listFiles()) {    		
+    	for (File file : new File(Setup.dataFolder.getAbsolutePath() + File.separator + "fish data").listFiles()) {
     		try { //Finds the file        				
     		    ObjectInputStream input = new ObjectInputStream(new FileInputStream (file.getPath()));
     		    fishList.addAll((List<FishObject>)input.readObject());

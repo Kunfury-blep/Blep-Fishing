@@ -3,10 +3,7 @@ package Miscellaneous;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.Map.Entry;
 
 import org.bukkit.conversations.ConversationFactory;
@@ -38,13 +35,15 @@ public class Variables {
 	public static int FishTotalWeight;
 	
 	public static String Prefix = ChatColor.AQUA + "[BF] " + ChatColor.WHITE;
-	public static String CSym = "$"; //The global currency symbol
-	public static boolean ShowScoreboard; //Handles if the scoreboard will be shown or not
 	
+	public static String CSym = "$"; //The global currency symbol
+	public static boolean ShowScoreboard = true; //Handles if the scoreboard will be shown or not	
 	public static boolean HighPriority = false;
 	
 	public static ConversationFactory ConFactory = new ConFactory().GetFactory();
-	
+
+	public static ResourceBundle Messages;
+
 	//Handles saving the fish to the local dictionary
 	public static void AddToFishDict(FishObject f) {
 		String fishName = f.Name.toUpperCase(); //Gets the name of the fish to be saved

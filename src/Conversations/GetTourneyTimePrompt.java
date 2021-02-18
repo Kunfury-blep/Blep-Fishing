@@ -18,7 +18,7 @@ public class GetTourneyTimePrompt {
 
 	    @Override
         protected boolean isNumberValid(ConversationContext context, Number input) {
-            return input.intValue() > 0;
+            return input.doubleValue() > 0;
         }
 
 	    
@@ -26,7 +26,7 @@ public class GetTourneyTimePrompt {
 		protected Prompt acceptValidatedInput(ConversationContext context, Number val) {
 			//Conversation plugin = (Conversation) context.getPlugin();
 			context.setSessionData("time", val);
-			return new TourneyFinishPrompt();
+			return new TimeFinishPrompt();
 		}
 		
 		@Override
@@ -43,12 +43,12 @@ public class GetTourneyTimePrompt {
 		
 	};
 	
-	private class TourneyFinishPrompt extends MessagePrompt {
+	private static class TimeFinishPrompt extends MessagePrompt {
 
 		@Override
 		public String getPromptText(ConversationContext context) {
 			Player p = (Player)context.getForWhom();
-			Integer time = (Integer)context.getSessionData("time");
+			Number time = (Number)context.getSessionData("time");
 			
 			new TourneyAdmin().UpdateTourney(p, time, null, null, null);
 			new AdminMenu().CreateTourneyGUI(p);
