@@ -19,18 +19,18 @@ public class ListFish {
      */
     public ListFish(CommandSender sender) {
         String str = String.format(Messages.getString("listFish"), BaseFishList.size());
-        sender.sendMessage("--" + ChatColor.AQUA + str + ChatColor.WHITE + "--");
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', str));
         TextComponent mainComponent = new TextComponent();
         for (BaseFishObject fish : BaseFishList) {
             TextComponent subComponent = new TextComponent (ChatColor.AQUA +  " " + fish.Name + ChatColor.WHITE + " -");
             subComponent.setHoverEvent(new HoverEvent( HoverEvent.Action.SHOW_TEXT,
                     new Text(ChatColor.translateAlternateColorCodes('&' ,
                             fish.Name +
-                                    "\nLore: " + fish.Lore +
-                                    "\n&fArea: " + fish.Area +
-                                    "\nMin Size: " + fish.MinSize +
-                                    "\nMax Size: " + fish.MaxSize +
-                                    "\nBase Cost: " + fish.BaseCost
+                                    "\n" + Messages.getString("lore") + fish.Lore +
+                                    "\n" + Messages.getString("area") + fish.Area +
+                                    "\n" + Messages.getString("minSize") + fish.MinSize +
+                                    "\n" + Messages.getString("maxSize") + fish.MaxSize +
+                                    "\n" + Messages.getString("baseCost") + fish.BaseCost
                     ))));
             mainComponent.addExtra(subComponent);
         }

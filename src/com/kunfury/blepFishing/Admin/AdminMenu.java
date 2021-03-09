@@ -50,7 +50,7 @@ public class AdminMenu implements Listener {
 	 */
 	public void ShowInventory(CommandSender sender) {		
 		Player p = (Player)sender;
-		Inventory inv = Bukkit.createInventory(null, 27, " ---Blep Fishing Admin Panel---");		
+		Inventory inv = Bukkit.createInventory(null, 27, Variables.Messages.getString("adminInvTitle"));
 		invMap.put(p, inv);
 		winMap.put(p, Window.BASE);
 		
@@ -266,7 +266,6 @@ public class AdminMenu implements Listener {
 	
 	/**
 	 * Creates the TourneyGUI and opens it at given player
-	 * @param inv The inventory it opens
 	 * @param p the player to open the invntory at
 	 */
 	@SuppressWarnings("serial")

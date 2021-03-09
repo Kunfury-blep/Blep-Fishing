@@ -15,6 +15,7 @@ public class CreateConfig {
     	config.set("Show ScoreBoard", true);
     	config.set("Currency Symbol", "$");
     	config.set("High Priority", false);
+		config.set("Language Symbol", "en");
     	//Bluegill Create
     	config.set("fish.Bluegill.Lore", "Does it call me Pink Lung?");
     	config.set("fish.Bluegill.Min Size", 5);
@@ -215,7 +216,7 @@ public class CreateConfig {
 				"RIVER", "BEACH", "MUSHROOM_FIELDS", "MUSHROOM_FIELD_SHORE");
     	List<String> bEnd = Arrays.asList("THE_END", "SMALL_END_ISLANDS", "END_MIDLANDS",
 				"END_HIGHLANDS", "END_BARRENS");
-    	List<String> bDry = Arrays.asList("DESERT", "DESERT_LAKES", "SAVANNA", "SHATTERED_SAVANNA",
+    	List<String> bDry = Arrays.asList("DESERT", "DESERT_LAKES", "DESERT_HILLS" ,"SAVANNA", "SHATTERED_SAVANNA",
 				"BADLANDS", "ERODED_BADLANDS", "WOODED_BADLANDS_PLATEAU", "MODIFIED_WOODED_BADLANDS_PLATEAU");
     	List<String> bNether = Arrays.asList("NETHER_WASTES", "SOUL_SAND_VALLEY", "CRIMSON_FOREST",
 				"WARPED_FOREST", "BASALT_DELTAS");

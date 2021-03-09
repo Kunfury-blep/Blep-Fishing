@@ -30,7 +30,7 @@ public class Tournament {
 	@SuppressWarnings("serial")
 	public void ShowTourney(CommandSender sender) {
 		
-		final Inventory inv = Bukkit.createInventory(null, 54, Messages.getString("tourneyInvTitle"));
+		final Inventory inv = Bukkit.createInventory(null, 54, Variables.Messages.getString("tourneyInvTitle"));
 		Player player = (Player)sender;
 		
 		List<TournamentObject> tourneys = new SortTournaments().Sort();
@@ -59,8 +59,8 @@ public class Tournament {
 				meta = item.getItemMeta();
 				meta.setDisplayName(tourney.FishName + ChatColor.DARK_RED + " - Expired");
 				List<String> lore = new ArrayList<String>() {{
-					add("End Date: " + tourney.GetFormattedEndDate());
-					add("First Place: " + tourney.Winner);
+					add(Variables.Messages.getString("endDate") + tourney.GetFormattedEndDate());
+					add(Variables.Messages.getString("winner") + tourney.Winner);
 				}};
 				meta.setLore(lore);
 			}

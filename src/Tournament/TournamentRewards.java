@@ -92,7 +92,7 @@ public class TournamentRewards implements Listener {
 			
 			
 		}else
-			sender.sendMessage(Messages.getString("noRewards"));
+			sender.sendMessage(Prefix + Messages.getString("noRewards"));
 		
 		
 		

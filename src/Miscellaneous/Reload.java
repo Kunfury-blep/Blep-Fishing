@@ -114,10 +114,13 @@ public class Reload {
         	Variables.ShowScoreboard = Setup.config.getBoolean("Show ScoreBoard");
         	Variables.HighPriority = Setup.config.getBoolean("High Priority");
 
-        	Locale locale = Locale.FRENCH;
+        	String langSymbol = Setup.config.getString("Language Symbol");
+        	Locale locale = Locale.ENGLISH;
+        	if(langSymbol != null && !langSymbol.trim().isEmpty())
+        		locale = new Locale(langSymbol);
         	Variables.Messages = ResourceBundle.getBundle("main.resources.resource", locale);
 
-        	sender.sendMessage("Reload Complete");
+        	sender.sendMessage(Variables.Prefix + Variables.Messages.getString("reloaded"));
         	//FixOld();
         	
     	}else {

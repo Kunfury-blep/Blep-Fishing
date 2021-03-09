@@ -42,13 +42,13 @@ public class CommandHandler implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
     	if(args.length == 0 || args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("?")) { //Runs when base command is sent   		
     		sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-    				"                     &b[Blep Fishing Help] &b"
-    				+ Prefix + "/bf lb <fishname> - displays the leadboard for the fish \n"
-    				+ Prefix + "/bf reload - reloads config \n"
-    				+ Prefix + "/bf fish - Lists all fish \n"
-    				+ Prefix + "/bf claim - Claims any tournament rewwards you may have \n"
-    				+ Prefix + "/bf tourney - current and previous tournaments \n"
-    				+ Prefix + "/bf admin - Displays the admin panel \n"
+    				"                     " + Messages.getString("helpTitle") + "\n"
+    				+ Prefix + "/bf lb <fishname> - " + Messages.getString("leaderboardHelp") + "\n"
+    				+ Prefix + "/bf reload - " + Messages.getString("reloadHelp") + "\n"
+    				+ Prefix + "/bf fish - " + Messages.getString("fishHelp") + "\n"
+    				+ Prefix + "/bf claim - " + Messages.getString("claimHelp") + "\n"
+    				+ Prefix + "/bf tourney - " + Messages.getString("tourneyHelp") + "\n"
+    				+ Prefix + "/bf admin - " + Messages.getString("adminHelp") + "\n"
     				));
     		return true;
     	}
