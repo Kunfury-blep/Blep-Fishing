@@ -2,19 +2,22 @@ package Tournament;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import com.kunfury.blepFishing.Admin.AdminMenu;
+import com.kunfury.blepFishing.Admin.TourneyAdmin;
 import com.mysql.jdbc.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
-
 import com.kunfury.blepFishing.Setup;
 
 import Miscellaneous.Variables;
@@ -22,12 +25,14 @@ import Objects.BaseFishObject;
 import Objects.TournamentObject;
 import net.md_5.bungee.api.ChatColor;
 
-public class Tournament {
+public class Tournament implements Listener {
+	private static HashMap<Player, Inventory> viewMap = new HashMap<Player, Inventory>();
+
+
 	/**
 	 * Shows all active tournaments to the command sender
 	 * @param sender the command sender
 	 */
-	@SuppressWarnings("serial")
 	public void ShowTourney(CommandSender sender) {
 		
 		final Inventory inv = Bukkit.createInventory(null, 54, Variables.Messages.getString("tourneyInvTitle"));
@@ -69,7 +74,7 @@ public class Tournament {
 			inv.addItem(item);
 		}
 		
-		
+		viewMap.put(player, inv);
 		player.openInventory(inv);
 	}
 
@@ -82,7 +87,7 @@ public class Tournament {
 	 * @param itemName ?
 	 * @param itemCount ?
 	 */
-	public void CreateTourny(CommandSender sender, String fishName, int duration, int cashPrize, String itemName, int itemCount) {
+	public void CreateTourny(CommandSender sender, String fishName, Number duration, int cashPrize, String itemName, int itemCount) {
 		
 		boolean fishFound = false;
 		if(fishName.equalsIgnoreCase("ALL"))
@@ -134,7 +139,27 @@ public class Tournament {
         	    }
         }, 600);
 	}
-	
-	
+
+
+	@EventHandler()
+	public void clickEvent(InventoryClickEvent e) { //Handles Interaction with the panel
+		Player p = (Player)e.getWhoClicked();
+		Inventory inv = viewMap.get(p);
+		if(e.getInventory() == inv){
+			e.setCancelled(true);
+		}
+	}
+
+	public void CheckActiveTournaments(){
+		boolean running = false;
+		for (TournamentObject var : Variables.Tournaments)
+		{
+			if (!var.HasFinished) {
+				running = true;
+				break;
+			}
+		}
+		Variables.TournamentRunning = running;
+	}
 
 }

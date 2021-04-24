@@ -94,6 +94,7 @@ public class TournamentFinish {
 		}
 		
 		new SaveTournaments(); //Saves the tournaments once more to ensure the tournament does not reward twice
+		new Tournament().CheckActiveTournaments();
 	}
 
 }

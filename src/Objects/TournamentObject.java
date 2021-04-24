@@ -6,7 +6,11 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+import com.patreon.resources.Reward;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -28,14 +32,15 @@ public class TournamentObject implements Serializable {
 	public String FishName;
 	public BaseFishObject Fish;
 	public LocalDateTime EndDate;
-	public boolean HasFinished = true;
+	public boolean HasFinished;
 	
 	public String Winner = Variables.Messages.getString("noWinner");
 	//public List<ItemStack> Rewards = new ArrayList<>(); //The item rewards of the tournament
 	
-	private List<String> rewardNames = new ArrayList<>();
-	private List<Integer> rewardCounts = new ArrayList<>();
+	private final List<String> rewardNames = new ArrayList<>();
+	private final List<Integer> rewardCounts = new ArrayList<>();
 
+	private List<String> SerializedItems = new ArrayList<>();
 	/**
 	 * The tournamentobject
      * @param _duration the duration of the tournament
@@ -48,8 +53,10 @@ public class TournamentObject implements Serializable {
 		StartDate = LocalDateTime.now();
 		FishName = _fishName;
 		CashReward = _cash;
-		
+
 		if(_rewards != null) {
+			SerializedItems = Variables.SerializeItemList(_rewards);
+			Bukkit.broadcastMessage(String.valueOf(SerializedItems.size()));
 			for(ItemStack i : _rewards) {
 				rewardNames.add(i.getType().name());
 				rewardCounts.add(i.getAmount());
@@ -68,18 +75,11 @@ public class TournamentObject implements Serializable {
 		EndDate = StartDate.plusSeconds((long)(_duration.doubleValue() * 60 * 60));
 
 		new Tournament().StartTimer(StartDate.until(EndDate, ChronoUnit.MILLIS), this);
-		
 	}
 	
 	public List<ItemStack> GetRewards(){
 		
-		List<ItemStack> items = new ArrayList<>();
-		for(int i = 0; i < rewardNames.size(); i++) {
-			ItemStack itemStack = new ItemStack(Material.getMaterial(rewardNames.get(i)), rewardCounts.get(i));
-			items.add(itemStack);
-		}
-		
-		return items;
+		return Variables.DeserializeItemList(SerializedItems);
 	}
 
 	/**
@@ -101,10 +101,8 @@ public class TournamentObject implements Serializable {
 	public String GetFormattedEndDate() {
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-		
-		String formatDateTime = EndDate.format(formatter);
-		
-		return formatDateTime;
+
+		return EndDate.format(formatter);
 	}
 	
 	

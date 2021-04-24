@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
+import Miscellaneous.Variables;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -38,9 +39,9 @@ public class SaveWinner {
 			  }
 			  
 			  FileWriter myWriter = new FileWriter(fileName, true);
-			  
-			  items.forEach(item ->{
-				  String message = gson.toJson(item) + System.lineSeparator();
+
+			 Variables.SerializeItemList(items).forEach(serializedItem ->{
+				  String message = serializedItem + System.lineSeparator();
 				  try {
 					myWriter.write(message);
 				} catch (IOException e) {

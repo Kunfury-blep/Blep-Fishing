@@ -54,21 +54,9 @@ public class TournamentRewards implements Listener {
 	                list.add(str);
 	            }
 				in.close();
-	            list.forEach(s -> {
-	            	try {
-	            		ItemStack savedItem = gson.fromJson(s, ItemStack.class);
-	            		if(savedItem != null) {
-	            			if(savedItem.getType() == Material.AIR && Setup.hasEcon)
-	            				GiveMoney(p, savedItem.getAmount());
-	            			else
-	            				items.add(savedItem);
-	            		}
-	            			
-	            	}catch(Exception e) {
-	            		Logger log = Bukkit.getLogger();
-	            		log.severe("Error in " + fileName + " - Please ensure it has not been modified.");
-	            	}
-	            });
+
+	            items = Variables.DeserializeItemList(list);
+
 	            if(file.delete()) 
 	            { 
 	                System.out.println(Prefix + "File deleted successfully");

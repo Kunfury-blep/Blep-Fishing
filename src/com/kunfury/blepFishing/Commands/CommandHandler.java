@@ -127,7 +127,7 @@ public class CommandHandler implements CommandExecutor {
     	if(args[0].equalsIgnoreCase("StartTourney")) {
     		if(sender.hasPermission("bf.admin")) {
     			try {
-        			new Tournament().CreateTourny(sender, args[1], Integer.parseInt(args[2]), Integer.parseInt(args[3]), 
+        			new Tournament().CreateTourny(sender, args[1], Double.parseDouble(args[2]), Integer.parseInt(args[3]),
         					args[4], Integer.parseInt(args[5]));
         			//Oh boi why did I ever write it like this
         			//This is impractical as all hell

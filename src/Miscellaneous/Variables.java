@@ -1,11 +1,11 @@
 package Miscellaneous;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.*;
 import java.util.Map.Entry;
 
+import Tournament.Tournament;
+import com.google.gson.Gson;
 import org.bukkit.conversations.ConversationFactory;
 
 import com.kunfury.blepFishing.Setup;
@@ -19,6 +19,9 @@ import Objects.RarityObject;
 import Objects.TournamentObject;
 import Tournament.SaveTournaments;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.io.BukkitObjectInputStream;
+import org.bukkit.util.io.BukkitObjectOutputStream;
 
 public class Variables {
 
@@ -39,10 +42,15 @@ public class Variables {
 	public static String CSym = "$"; //The global currency symbol
 	public static boolean ShowScoreboard = true; //Handles if the scoreboard will be shown or not	
 	public static boolean HighPriority = false;
+	public static boolean TournamentOnly = false;
+
+	public static boolean TournamentRunning;
 	
 	public static ConversationFactory ConFactory = new ConFactory().GetFactory();
 
 	public static ResourceBundle Messages;
+
+	private static Gson gson = new Gson();
 
 	//Handles saving the fish to the local dictionary
 	public static void AddToFishDict(FishObject f) {
@@ -107,8 +115,44 @@ public class Variables {
 		if(tourney != null)
 			Tournaments.add(tourney);
 		new SaveTournaments();
+
+		new Tournament().CheckActiveTournaments();
 	}
-	
-	
-	
+
+	public static List<String> SerializeItemList(List<ItemStack> items){
+		List<String> serializedItems = new ArrayList<>();
+		items.forEach(item -> {
+			try {
+				ByteArrayOutputStream io = new ByteArrayOutputStream();
+				BukkitObjectOutputStream os = new BukkitObjectOutputStream(io);
+				os.writeObject(item);
+				os.flush();
+
+				byte[] serializeObject = io.toByteArray();
+				serializedItems.add(Base64.getEncoder().encodeToString(serializeObject));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+		return serializedItems;
+	}
+
+	public static List<ItemStack> DeserializeItemList(List<String> data){
+		List<ItemStack> items = new ArrayList<>();
+
+		data.forEach(d -> {
+			byte[] serializedObject = Base64.getDecoder().decode(d);
+
+			try {
+				ByteArrayInputStream in = new ByteArrayInputStream(serializedObject);
+				BukkitObjectInputStream is= new BukkitObjectInputStream(in);
+				items.add((ItemStack) is.readObject());
+			} catch (IOException | ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+		});
+
+
+		return items;
+	}
 }

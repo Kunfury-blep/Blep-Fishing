@@ -113,6 +113,8 @@ public class Reload {
         		Variables.CSym = t;        	
         	Variables.ShowScoreboard = Setup.config.getBoolean("Show ScoreBoard");
         	Variables.HighPriority = Setup.config.getBoolean("High Priority");
+        	Variables.TournamentOnly = Setup.config.getBoolean("Tournament Only");
+
 
         	String langSymbol = Setup.config.getString("Language Symbol");
         	Locale locale = Locale.ENGLISH;
@@ -161,7 +163,7 @@ public class Reload {
 		});
 
 		Variables.Tournaments = tourneys;
-		
+		new Tournament().CheckActiveTournaments();
 	}
 	
 	

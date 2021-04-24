@@ -3,6 +3,7 @@ package com.kunfury.blepFishing;
 import java.io.File;
 import java.util.logging.Logger;
 
+import Tournament.Tournament;
 import com.kunfury.blepFishing.Commands.CommandHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -57,7 +58,8 @@ public class Setup extends JavaPlugin {
     	getServer().getPluginManager().registerEvents(new AdminMenu(), this);
     	getServer().getPluginManager().registerEvents(new Villagers(), this);
     	getServer().getPluginManager().registerEvents(new TournamentRewards(), this);
-    	
+		getServer().getPluginManager().registerEvents(new Tournament(), this);
+
     	this.getCommand("BlepFish").setExecutor(new CommandHandler());
     	this.getCommand("blepFish").setExecutor(new CommandHandler());
     	this.getCommand("bf").setExecutor(new CommandHandler());

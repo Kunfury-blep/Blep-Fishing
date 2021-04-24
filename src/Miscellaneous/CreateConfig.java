@@ -16,6 +16,7 @@ public class CreateConfig {
     	config.set("Currency Symbol", "$");
     	config.set("High Priority", false);
 		config.set("Language Symbol", "en");
+		config.set("Tournament Only", false);
     	//Bluegill Create
     	config.set("fish.Bluegill.Lore", "Does it call me Pink Lung?");
     	config.set("fish.Bluegill.Min Size", 5);
