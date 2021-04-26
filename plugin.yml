@@ -4,15 +4,10 @@ version: 1.6.5
 api-version: 1.13
 softdepend: [Vault]
 commands:
-   BlepFish:
-      description: The base command for the plugin
-      usage: /BlepFish
    bf:
       description: The base command for the plugin
       usage: /bf
-   bf reload:
-      description: Reloads the blep fishing plugin
-      usage: /bf reload
+      aliases: [BlepFish]
 permissions:
    bf.*:
       description: Gives access to all Blep commands

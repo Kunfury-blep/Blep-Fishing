@@ -114,6 +114,9 @@ public class Reload {
         	Variables.ShowScoreboard = Setup.config.getBoolean("Show ScoreBoard");
         	Variables.HighPriority = Setup.config.getBoolean("High Priority");
         	Variables.TournamentOnly = Setup.config.getBoolean("Tournament Only");
+        	Variables.RequireAreaPerm = Setup.config.getBoolean("Area Permissions");
+        	Variables.WorldsWhitelist = Setup.config.getBoolean("World Whitelist");
+        	Variables.AllowedWorlds = Setup.config.getStringList("Allowed Worlds");
 
 
         	String langSymbol = Setup.config.getString("Language Symbol");

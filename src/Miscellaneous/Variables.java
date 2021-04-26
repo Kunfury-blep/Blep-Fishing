@@ -5,7 +5,6 @@ import java.util.*;
 import java.util.Map.Entry;
 
 import Tournament.Tournament;
-import com.google.gson.Gson;
 import org.bukkit.conversations.ConversationFactory;
 
 import com.kunfury.blepFishing.Setup;
@@ -25,33 +24,43 @@ import org.bukkit.util.io.BukkitObjectOutputStream;
 
 public class Variables {
 
+	//region Static Lists
 	public static List<BaseFishObject> BaseFishList = new ArrayList<>(); //Available fish to catch
 	public static List<RarityObject> RarityList = new ArrayList<>(); //Available rarities
 	public static List<AreaObject> AreaList = new ArrayList<>(); //Available Areas
-	
+
 	public static List<FishObject> CaughtFish = new ArrayList<>(); //Fish that have been caught, needs to be depreciated
 	public static List<TournamentObject> Tournaments = new ArrayList<>();
-	
+
+	public static List<String> AllowedWorlds = new ArrayList<>();
+	//endregion
+
+	//region Static Booleans
+	public static boolean ShowScoreboard = true; //Handles if the scoreboard will be shown or not
+	public static boolean HighPriority = false;
+	public static boolean TournamentOnly = false;
+	public static boolean TournamentRunning;
+	public static boolean WorldsWhitelist = false;
+	public static boolean RequireAreaPerm = false;
+	//endregion
+
+	//region Unique Static
 	public static HashMap<String, List<FishObject>> FishDict = new HashMap<>(); //Dictionary containing lists of all caught fish
-	
+	public static ConversationFactory ConFactory = new ConFactory().GetFactory();
+	public static ResourceBundle Messages;
+	//endregion
+
 	public static int RarityTotalWeight;
 	public static int FishTotalWeight;
 	
 	public static String Prefix = ChatColor.AQUA + "[BF] " + ChatColor.WHITE;
 	
 	public static String CSym = "$"; //The global currency symbol
-	public static boolean ShowScoreboard = true; //Handles if the scoreboard will be shown or not	
-	public static boolean HighPriority = false;
-	public static boolean TournamentOnly = false;
 
-	public static boolean TournamentRunning;
-	
-	public static ConversationFactory ConFactory = new ConFactory().GetFactory();
 
-	public static ResourceBundle Messages;
-
-	private static Gson gson = new Gson();
-
+	/**
+	 * @param f The fish to be saved
+	 */
 	//Handles saving the fish to the local dictionary
 	public static void AddToFishDict(FishObject f) {
 		String fishName = f.Name.toUpperCase(); //Gets the name of the fish to be saved

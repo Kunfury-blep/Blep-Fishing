@@ -17,6 +17,11 @@ public class CreateConfig {
     	config.set("High Priority", false);
 		config.set("Language Symbol", "en");
 		config.set("Tournament Only", false);
+		config.set("Area Permissions", false);
+		//config.set("","");
+		config.set("World Whitelist", false);
+		List<String> worldWhitelist = Arrays.asList("WORLD", "WORLD_THE_END", "WORLD_NETHER");
+		config.set("Allowed Worlds", worldWhitelist);
     	//Bluegill Create
     	config.set("fish.Bluegill.Lore", "Does it call me Pink Lung?");
     	config.set("fish.Bluegill.Min Size", 5);

@@ -2,8 +2,14 @@ package Objects;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import Miscellaneous.Formatting;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.TextComponent;
 
 import Miscellaneous.Variables;
+import net.md_5.bungee.api.chat.hover.content.Text;
 
 public class FishObject implements Serializable, Comparable<FishObject>{
 	/**
@@ -61,5 +67,13 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 		return (base.BaseCost * sizeMod) * rarity.PriceMod;
 	}
 
-	
+	public Text GetHoverText(){
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+		return new Text(ChatColor.translateAlternateColorCodes('&' ,(Rarity + " " + Name +
+				"&f\nFish Size: " + Formatting.DoubleFormat(RealSize) +
+				//"\nRank: " + (i) +
+				"\nCaught On: " +  formatter.format(DateCaught)  +
+				"\nScore: " + Formatting.DoubleFormat(Score)
+		)));
+	}
 }

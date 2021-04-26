@@ -59,7 +59,7 @@ public class TourneyAdmin {
 							(aObj.Duration, aObj.FishName, aObj.Rewards, aObj.Cash);
 					Variables.AddTournament(tourney);
 					p.closeInventory();
-					p.sendMessage(Variables.Prefix + "Tournament Created!");
+					//p.sendMessage(Variables.Prefix + "Tournament Created!");
 					AdminMenu.tourneyMap.remove(p);
 			}
 

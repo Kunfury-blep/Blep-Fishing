@@ -1,7 +1,10 @@
 package com.kunfury.blepFishing;
+import java.sql.Array;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -23,6 +26,7 @@ import Objects.AreaObject;
 import Objects.BaseFishObject;
 import Objects.FishObject;
 import Objects.RarityObject;
+import Objects.TournamentObject;
 import io.netty.util.internal.ThreadLocalRandom;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,7 +36,6 @@ public class FishSwitch implements Listener {
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onFishNormal(PlayerFishEvent e) {
 		if(!Variables.HighPriority){
-			Bukkit.broadcastMessage("Running at lowest Priority");
 			FishHandler(e);
 		}
 	}
@@ -40,7 +43,6 @@ public class FishSwitch implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onFishHigh(PlayerFishEvent e) {
 		if(Variables.HighPriority){
-			Bukkit.broadcastMessage("Running at highest Priority");
 			FishHandler(e);
 		}
 
@@ -48,20 +50,20 @@ public class FishSwitch implements Listener {
 	}
 	
 	private void FishHandler(@NotNull PlayerFishEvent e) {
+		if(e.getState() != PlayerFishEvent.State.CAUGHT_FISH) return;
 	    if(e.getCaught() instanceof Item){
 			Item item = (Item) e.getCaught();
-			Bukkit.broadcastMessage(item.getName());
-			//Check if the item is a fish, stop running if not
-			if (!itemList.contains(item.getItemStack().getType()) || Objects.requireNonNull(item.getItemStack().getItemMeta()).hasCustomModelData()) return;
-
-
-			if(Variables.TournamentOnly && !Variables.TournamentRunning) return;
-
 			Player player = e.getPlayer();
+			//Bukkit.broadcastMessage(item.getName());
+			//Check if the item is a fish, stop running if not
+
+			if(!CanFish(item, player, e )) return;
+
+
 			ItemStack is = item.getItemStack();
 			is.setType(Material.SALMON);
 			BaseFishObject base = GetCaughtFish(item);
-
+			if(base == null || base.Name == null) return;
 			//Rarity Selection
 			int randR = ThreadLocalRandom.current().nextInt(0, Variables.RarityTotalWeight);
 			RarityObject chosenRarity = Variables.RarityList.get(0);
@@ -102,6 +104,8 @@ public class FishSwitch implements Listener {
 			}
 			if(Variables.ShowScoreboard)
 				new BlepScoreboard().FishInfo(player, fish);
+
+			CheckAgainstTournaments(fish);
 			Variables.AddToFishDict(fish);
 		}
 
@@ -190,4 +194,74 @@ public class FishSwitch implements Listener {
 
 	}
 
+	private void CheckAgainstTournaments(FishObject fish){
+		boolean isTop = false;
+		if(!Variables.TournamentRunning) return;
+		for (TournamentObject t : Variables.Tournaments){
+			if(!t.HasFinished
+			&& (t.FishName.equalsIgnoreCase("ALL") || t.FishName.equalsIgnoreCase(fish.Name))){
+				List<FishObject> winners = t.GetWinners();
+				if(winners != null && winners.size() > 0){
+					FishObject winner = winners.get(0);
+					if(winner != null && fish.Score > winner.Score) isTop = true;
+				}else{
+					isTop = true;
+				}
+
+				if(isTop){
+					String lbString = net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&' ,
+									Variables.Prefix +
+									fish.PlayerName + " took the top spot of the tournament with a " + fish.Rarity + " " + fish.Name + "!");
+					TextComponent mainComponent = new TextComponent (lbString);
+					mainComponent.setHoverEvent(new HoverEvent( HoverEvent.Action.SHOW_TEXT, fish.GetHoverText()));
+
+					for(Player p : Bukkit.getOnlinePlayers()) {
+						p.spigot().sendMessage(mainComponent);
+					}
+				}
+				//Bukkit.broadcastMessage("Active Tournament for " + fish.Name + " running!");
+			}
+		}
+	}
+
+	private boolean CanFish(Item item, Player player, PlayerFishEvent e)
+	{
+		String world = e.getPlayer().getWorld().getName().toUpperCase();
+
+		//Check Area
+		String biomeName = item.getLocation().getBlock().getBiome().name(); //change to location of hook
+		List<AreaObject> areas = new ArrayList<>();
+		for(AreaObject a : Variables.AreaList) {
+			if (a.Biomes.contains(biomeName)) areas.add(a);
+		}
+
+		if(areas.size() <= 0) return false; //Makes sure the area exists
+		else if(Variables.RequireAreaPerm){ //Checks for area permissions
+			for(AreaObject a : areas){
+				if(!(player.hasPermission("bf.area.*") || player.hasPermission("bf.area." + a.Name)))
+					return false;
+			}
+		}
+
+		//&& (player.hasPermission("bf.area.*") || player.hasPermission("bf.area." + biomeName)))
+
+		//Ensures the item caught is a fish
+		if (!itemList.contains(item.getItemStack().getType()) || Objects.requireNonNull(item.getItemStack().getItemMeta()).hasCustomModelData()) return false;
+
+		//Checks if the server is tournament only
+		if(Variables.TournamentOnly && !Variables.TournamentRunning) return false;
+
+		//Check for world permissions
+		if(Variables.WorldsWhitelist && !Variables.AllowedWorlds.contains(world)) return false;
+
+
+
+
+		return true;
+	}
+
+
+	private void CheckMCMMO(){
+
+	}
 }

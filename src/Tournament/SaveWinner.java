@@ -1,6 +1,6 @@
 package Tournament;
 
-import java.io.File;
+import 	java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,7 +11,6 @@ import Miscellaneous.Variables;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import com.google.gson.Gson;
 import com.kunfury.blepFishing.Setup;
 
 public class SaveWinner {
@@ -23,11 +22,10 @@ public class SaveWinner {
 	 * @param cashReward the cash the player gets
 	 */
 	public SaveWinner(String playerName, List<ItemStack> items, int cashReward) {
-		Gson gson = new Gson();		
-		if(cashReward > 0) {
-			ItemStack cash = new ItemStack(Material.AIR, cashReward);
-			items.add(cash);
-		}		
+		if(items.size() <= 0 && cashReward <= 0) return;
+
+		ItemStack cash = new ItemStack(Material.AIR, cashReward);
+		items.add(cash);
 		 try {
 			 Files.createDirectories(Paths.get(Setup.dataFolder + "/Rewards"));
 			 String fileName = Setup.dataFolder + "/Rewards/" + playerName + ".json";

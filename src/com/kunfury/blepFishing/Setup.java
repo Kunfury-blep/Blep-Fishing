@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.logging.Logger;
 
 import Tournament.Tournament;
-import com.kunfury.blepFishing.Commands.CommandHandler;
+import com.kunfury.blepFishing.Commands.*;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -60,9 +60,7 @@ public class Setup extends JavaPlugin {
     	getServer().getPluginManager().registerEvents(new TournamentRewards(), this);
 		getServer().getPluginManager().registerEvents(new Tournament(), this);
 
-    	this.getCommand("BlepFish").setExecutor(new CommandHandler());
-    	this.getCommand("blepFish").setExecutor(new CommandHandler());
-    	this.getCommand("bf").setExecutor(new CommandHandler());
+    	SetupCommands();
     	this.saveConfig();
     	saveConfig();
 
@@ -93,5 +91,12 @@ public class Setup extends JavaPlugin {
     public static Economy getEconomy() {
         return econ;
     }
-    
+
+    private void SetupCommands(){
+		this.getCommand("bf").setExecutor(new CommandManager());
+		//this.getCommand("bf").setTabCompleter(new BaseTabCompletion());
+
+		//this.getCommand("bf StartTourney").setExecutor(new StartTourneyCommand());
+		//this.getCommand("bf StartTourney").setTabCompleter(new StartTourneyTabCompletion());
+	}
 }

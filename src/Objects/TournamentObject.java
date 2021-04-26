@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -74,11 +75,15 @@ public class TournamentObject implements Serializable {
 		}
 		EndDate = StartDate.plusSeconds((long)(_duration.doubleValue() * 60 * 60));
 
+		//Announce to players that a new tournament has begun
+		Bukkit.broadcastMessage(Variables.Prefix + "A new tournament has been started!");
+		if(FishName.equalsIgnoreCase("ALL")) Bukkit.broadcastMessage(Variables.Prefix + "Catch any fish to compete!");
+		else Bukkit.broadcastMessage(Variables.Prefix + "Catch a " + FishName + " to compete!");
+
 		new Tournament().StartTimer(StartDate.until(EndDate, ChronoUnit.MILLIS), this);
 	}
 	
 	public List<ItemStack> GetRewards(){
-		
 		return Variables.DeserializeItemList(SerializedItems);
 	}
 
@@ -104,6 +109,24 @@ public class TournamentObject implements Serializable {
 
 		return EndDate.format(formatter);
 	}
-	
-	
+
+	public List<FishObject> GetWinners(){
+		List<FishObject> tourneyFish = new ArrayList<>();
+		FishObject winner = null;
+		Variables.GetFishList("ALL").forEach(f -> { //Gets all fish from the list to check against what was caught
+			//Checks if the fish is the correct type and was caught after the start date
+			if((FishName.equalsIgnoreCase("ALL") || f.Name.equalsIgnoreCase(FishName))
+					&& f.DateCaught.isAfter(StartDate)) {
+				tourneyFish.add(f);
+			}
+		});
+
+		if(tourneyFish.size() > 0) { //If any fish have been caught
+			tourneyFish.sort(Collections.reverseOrder());
+
+			if (tourneyFish.size() > 3)
+				tourneyFish.subList(3, tourneyFish.size()).clear();
+		}
+		return tourneyFish;
+	}
 }
