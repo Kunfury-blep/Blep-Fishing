@@ -3,18 +3,17 @@ package com.kunfury.blepFishing.Admin;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import Conversations.GetCashPrompt;
-import Conversations.GetFishTypePrompt;
-import Conversations.GetTourneyTimePrompt;
-import Miscellaneous.Variables;
-import Objects.TournamentObject;
-import Objects.TourneyAdminObject;
+import com.kunfury.blepFishing.Conversations.GetCashPrompt;
+import com.kunfury.blepFishing.Conversations.GetFishTypePrompt;
+import com.kunfury.blepFishing.Conversations.GetTourneyTimePrompt;
+import com.kunfury.blepFishing.Miscellaneous.Variables;
+import com.kunfury.blepFishing.Objects.TournamentObject;
+import com.kunfury.blepFishing.Objects.TourneyAdminObject;
 
 public class TourneyAdmin {
 
@@ -43,7 +42,7 @@ public class TourneyAdmin {
 					Variables.ConFactory.withFirstPrompt(new GetCashPrompt()
 							.new InitialPrompt()).buildConversation(p).begin();
 					return;
-				case "Tournament Time": 
+				case "com.kunfury.blepFishing.Tournament Time":
 					p.closeInventory();
 					Variables.ConFactory.withFirstPrompt(new GetTourneyTimePrompt()
 							.new InitialPrompt()).buildConversation(p).begin();
@@ -53,13 +52,13 @@ public class TourneyAdmin {
 					Variables.ConFactory.withFirstPrompt(new GetFishTypePrompt()
 							.new InitialPrompt()).buildConversation(p).begin();
 					return;
-				case "Create Tournament": 	
+				case "Create com.kunfury.blepFishing.Tournament":
 					TourneyAdminObject aObj = AdminMenu.tourneyMap.get(p);
 					TournamentObject tourney = new TournamentObject
 							(aObj.Duration, aObj.FishName, aObj.Rewards, aObj.Cash);
 					Variables.AddTournament(tourney);
 					p.closeInventory();
-					//p.sendMessage(Variables.Prefix + "Tournament Created!");
+					//p.sendMessage(Variables.Prefix + "com.kunfury.blepFishing.Tournament Created!");
 					AdminMenu.tourneyMap.remove(p);
 			}
 

@@ -13,9 +13,9 @@ import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
-import Miscellaneous.Formatting;
-import Miscellaneous.Variables;
-import Objects.FishObject;
+import com.kunfury.blepFishing.Miscellaneous.Formatting;
+import com.kunfury.blepFishing.Miscellaneous.Variables;
+import com.kunfury.blepFishing.Objects.FishObject;
 
 public class BlepScoreboard {
 	/**

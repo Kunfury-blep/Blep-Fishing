@@ -1,15 +1,11 @@
 package com.kunfury.blepFishing.Commands.SubCommands;
 
-import Miscellaneous.FishEconomy;
-import Miscellaneous.Variables;
-import Objects.BaseFishObject;
+import com.kunfury.blepFishing.Miscellaneous.FishEconomy;
 import com.kunfury.blepFishing.Commands.SubCommand;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SellAllSubcommand extends SubCommand {
@@ -30,7 +26,7 @@ public class SellAllSubcommand extends SubCommand {
 
     @Override
     public void perform(@NotNull CommandSender sender, String[] args) {
-        FishEconomy.SellFish((Player)sender, true);
+        FishEconomy.SellFish((Player)sender, true, 1);
     }
 
     @Override

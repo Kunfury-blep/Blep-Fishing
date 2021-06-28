@@ -1,9 +1,9 @@
 package com.kunfury.blepFishing.Commands.SubCommands;
 
-import Miscellaneous.Formatting;
-import Miscellaneous.Variables;
-import Objects.BaseFishObject;
-import Objects.FishObject;
+import com.kunfury.blepFishing.Miscellaneous.Formatting;
+import com.kunfury.blepFishing.Miscellaneous.Variables;
+import com.kunfury.blepFishing.Objects.BaseFishObject;
+import com.kunfury.blepFishing.Objects.FishObject;
 import com.kunfury.blepFishing.Commands.SubCommand;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.HoverEvent;

@@ -1,8 +1,8 @@
 name: BlepFishing
 main: com.kunfury.blepFishing.Setup
-version: 1.6.5
+version: 1.7.1
 api-version: 1.13
-softdepend: [Vault]
+softdepend: [Vault, mcMMO, PlaceholderAPI]
 commands:
    bf:
       description: The base command for the plugin

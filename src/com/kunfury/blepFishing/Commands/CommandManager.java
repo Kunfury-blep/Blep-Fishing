@@ -11,8 +11,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static Miscellaneous.Variables.Messages;
-import static Miscellaneous.Variables.Prefix;
+import static com.kunfury.blepFishing.Miscellaneous.Variables.Messages;
+import static com.kunfury.blepFishing.Miscellaneous.Variables.Prefix;
 
 public class CommandManager implements TabExecutor {
     private final ArrayList<SubCommand> subCommands = new ArrayList<>();
@@ -26,7 +26,8 @@ public class CommandManager implements TabExecutor {
         subCommands.add(new SellForSubcommand());
         subCommands.add(new SellAllSubcommand());
         subCommands.add(new TournamentSubcommand());
-
+        subCommands.add(new ClaimSubcommand());
+        subCommands.add(new ListFishSubcommand());
     }
 
     @Override

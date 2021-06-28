@@ -6,9 +6,9 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Sign;
 
-import Miscellaneous.Formatting;
-import Miscellaneous.Variables;
-import Objects.FishObject;
+import com.kunfury.blepFishing.Miscellaneous.Formatting;
+import com.kunfury.blepFishing.Miscellaneous.Variables;
+import com.kunfury.blepFishing.Objects.FishObject;
 
 public class RefreshSign {
 	public static void Refresh(SignObject signObj) {

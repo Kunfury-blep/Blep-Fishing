@@ -1,6 +1,6 @@
 package com.kunfury.blepFishing.Commands.SubCommands;
 
-import Miscellaneous.FishEconomy;
+import com.kunfury.blepFishing.Miscellaneous.FishEconomy;
 import com.kunfury.blepFishing.Commands.SubCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -30,7 +30,7 @@ public class SellForSubcommand extends SubCommand {
     public void perform(@NotNull CommandSender sender, String[] args) {
         Player p = Bukkit.getPlayer(args[1]);
         if(p != null && p.isOnline())
-            FishEconomy.SellFish(p);
+            FishEconomy.SellFish(p, 1);
         else
             sender.sendMessage("That player could not be found.");
     }

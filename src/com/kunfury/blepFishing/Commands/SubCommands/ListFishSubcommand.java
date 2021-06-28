@@ -1,6 +1,6 @@
 package com.kunfury.blepFishing.Commands.SubCommands;
 
-import Objects.BaseFishObject;
+import com.kunfury.blepFishing.Objects.BaseFishObject;
 import com.kunfury.blepFishing.Commands.SubCommand;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -12,8 +12,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.List;
 
-import static Miscellaneous.Variables.BaseFishList;
-import static Miscellaneous.Variables.Messages;
+import static com.kunfury.blepFishing.Miscellaneous.Variables.BaseFishList;
+import static com.kunfury.blepFishing.Miscellaneous.Variables.Messages;
 
 public class ListFishSubcommand extends SubCommand {
     @Override

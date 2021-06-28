@@ -1,9 +1,8 @@
 package com.kunfury.blepFishing.Commands.SubCommands;
 
-import Miscellaneous.Reload;
+import com.kunfury.blepFishing.Miscellaneous.Reload;
 import com.kunfury.blepFishing.Commands.CommandManager;
 import com.kunfury.blepFishing.Commands.SubCommand;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 

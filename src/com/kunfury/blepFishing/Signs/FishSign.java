@@ -25,10 +25,10 @@ import org.bukkit.plugin.Plugin;
 
 import com.kunfury.blepFishing.Setup;
 
-import Miscellaneous.FishEconomy;
-import Miscellaneous.Variables;
-import Objects.BaseFishObject;
-import Objects.MarketObject;
+import com.kunfury.blepFishing.Miscellaneous.FishEconomy;
+import com.kunfury.blepFishing.Miscellaneous.Variables;
+import com.kunfury.blepFishing.Objects.BaseFishObject;
+import com.kunfury.blepFishing.Objects.MarketObject;
 
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
@@ -257,7 +257,7 @@ public class FishSign implements Listener {
 				
 				for(MarketObject market : marketSigns) {
 					if(market.CheckBool((Sign)bs)){
-					    FishEconomy.SellFish(e.getPlayer());					    
+					    FishEconomy.SellFish(e.getPlayer(), 1);
 						break;
 					}
 				}

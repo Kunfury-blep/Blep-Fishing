@@ -19,10 +19,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import com.kunfury.blepFishing.Setup;
 
-import Miscellaneous.Variables;
-import Objects.BaseFishObject;
-import Objects.RarityObject;
-import Objects.TourneyAdminObject;
+import com.kunfury.blepFishing.Miscellaneous.Variables;
+import com.kunfury.blepFishing.Objects.BaseFishObject;
+import com.kunfury.blepFishing.Objects.RarityObject;
+import com.kunfury.blepFishing.Objects.TourneyAdminObject;
 
 public class AdminMenu implements Listener {
 	
@@ -226,18 +226,18 @@ public class AdminMenu implements Listener {
 		
 		TourneyGUI = new ItemStack(Material.FISHING_ROD, 1);
 		meta = TourneyGUI.getItemMeta();
-		meta.setDisplayName("Tournament Creation");
+		meta.setDisplayName("com.kunfury.blepFishing.Tournament Creation");
 		TourneyGUI.setItemMeta(meta);
 		
 		TourneyCreate = new ItemStack(Material.FISHING_ROD, 1);
 		meta = TourneyCreate.getItemMeta();
-		meta.setDisplayName("Create Tournament");
+		meta.setDisplayName("Create com.kunfury.blepFishing.Tournament");
 		TourneyCreate.setItemMeta(meta);
 		
 		
 		TourneyHelp = new ItemStack(Material.BOOK, 1);
 		meta = TourneyHelp.getItemMeta();
-		meta.setDisplayName("Tournament Help");
+		meta.setDisplayName("com.kunfury.blepFishing.Tournament Help");
 		List<String> lore = new ArrayList<String>(){{
 			add("Add items to this menu to add them to the reward list.");
 			add("Click on the following icons to set the tournaments values");
@@ -252,7 +252,7 @@ public class AdminMenu implements Listener {
 		
 		TourneyTime = new ItemStack(Material.CLOCK, 1);
 		meta = TourneyTime.getItemMeta();
-		meta.setDisplayName("Tournament Time");
+		meta.setDisplayName("com.kunfury.blepFishing.Tournament Time");
 		TourneyTime.setItemMeta(meta);
 		
 		TourneyFish = new ItemStack(Material.SALMON, 1);

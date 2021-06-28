@@ -1,6 +1,6 @@
 package com.kunfury.blepFishing.Commands.SubCommands;
 
-import Tournament.Tournament;
+import com.kunfury.blepFishing.Tournament.Tournament;
 import com.kunfury.blepFishing.Commands.SubCommand;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -10,9 +10,7 @@ import java.util.List;
 
 public class TournamentSubcommand extends SubCommand {
     @Override
-    public String getName() {
-        return "Tournament";
-    }
+    public String getName() {return "Tournament";}
 
     @Override
     public String getDescription() {

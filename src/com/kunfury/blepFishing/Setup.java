@@ -1,10 +1,14 @@
 package com.kunfury.blepFishing;
 
 import java.io.File;
+import java.util.Objects;
 import java.util.logging.Logger;
 
-import Tournament.Tournament;
+import com.kunfury.blepFishing.Crafting.CraftingManager;
+import com.kunfury.blepFishing.Crafting.SmithingTableHandler;
+import com.kunfury.blepFishing.Tournament.Tournament;
 import com.kunfury.blepFishing.Commands.*;
+import com.kunfury.blepFishing.Plugins.PluginHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -14,10 +18,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.kunfury.blepFishing.Admin.AdminMenu;
 import com.kunfury.blepFishing.Signs.FishSign;
 
-import Miscellaneous.CreateConfig;
-import Miscellaneous.Reload;
-import Miscellaneous.Villagers;
-import Tournament.TournamentRewards;
+import com.kunfury.blepFishing.Miscellaneous.CreateConfig;
+import com.kunfury.blepFishing.Miscellaneous.Reload;
+import com.kunfury.blepFishing.Miscellaneous.Villagers;
+import com.kunfury.blepFishing.Tournament.TournamentRewards;
 import net.milkbowl.vault.economy.Economy;
 
 public class Setup extends JavaPlugin {
@@ -53,12 +57,17 @@ public class Setup extends JavaPlugin {
     	
     	new FishSign().LoadSigns();
     	
-    	getServer().getPluginManager().registerEvents(new FishSwitch(), this);
+    	getServer().getPluginManager().registerEvents(new FishListener(), this);
     	getServer().getPluginManager().registerEvents(new FishSign(), this);
     	getServer().getPluginManager().registerEvents(new AdminMenu(), this);
     	getServer().getPluginManager().registerEvents(new Villagers(), this);
     	getServer().getPluginManager().registerEvents(new TournamentRewards(), this);
 		getServer().getPluginManager().registerEvents(new Tournament(), this);
+		//getServer().getPluginManager().registerEvents(new SmithingTableHandler(), this);
+
+
+		new PluginHandler().InitializePlugins();
+
 
     	SetupCommands();
     	this.saveConfig();
@@ -68,6 +77,9 @@ public class Setup extends JavaPlugin {
     	
     	
     	new AdminMenu().CreateStacks(); //Creates the icons for the admin panel
+
+		new CraftingManager().InitItems();
+		//new NetheriteRod().CreateRecipe();
     	
     }
 
@@ -80,7 +92,7 @@ public class Setup extends JavaPlugin {
             return false;
         }
         econ = rsp.getProvider();
-        return econ != null;
+        return true;
     }
     
     
@@ -93,10 +105,6 @@ public class Setup extends JavaPlugin {
     }
 
     private void SetupCommands(){
-		this.getCommand("bf").setExecutor(new CommandManager());
-		//this.getCommand("bf").setTabCompleter(new BaseTabCompletion());
-
-		//this.getCommand("bf StartTourney").setExecutor(new StartTourneyCommand());
-		//this.getCommand("bf StartTourney").setTabCompleter(new StartTourneyTabCompletion());
+		Objects.requireNonNull(this.getCommand("bf")).setExecutor(new CommandManager());
 	}
 }

@@ -1,21 +1,17 @@
 package com.kunfury.blepFishing.Commands.SubCommands;
 
-import Miscellaneous.Variables;
-import Objects.BaseFishObject;
-import Tournament.Tournament;
+import com.kunfury.blepFishing.Miscellaneous.Variables;
+import com.kunfury.blepFishing.Objects.BaseFishObject;
+import com.kunfury.blepFishing.Tournament.Tournament;
 import com.kunfury.blepFishing.Commands.SubCommand;
 import net.md_5.bungee.api.ChatColor;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import static Miscellaneous.Variables.BaseFishList;
-import static Miscellaneous.Variables.Prefix;
+import static com.kunfury.blepFishing.Miscellaneous.Variables.Prefix;
 
 public class StartTourney extends SubCommand {
     @Override

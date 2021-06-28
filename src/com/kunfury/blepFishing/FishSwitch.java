@@ -1,5 +1,4 @@
 package com.kunfury.blepFishing;
-import java.sql.Array;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -12,44 +11,26 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import Miscellaneous.Formatting;
-import Miscellaneous.NBTEditor;
-import Miscellaneous.Variables;
-import Objects.AreaObject;
-import Objects.BaseFishObject;
-import Objects.FishObject;
-import Objects.RarityObject;
-import Objects.TournamentObject;
+import com.kunfury.blepFishing.Miscellaneous.Formatting;
+import com.kunfury.blepFishing.Miscellaneous.NBTEditor;
+import com.kunfury.blepFishing.Miscellaneous.Variables;
+import com.kunfury.blepFishing.Objects.AreaObject;
+import com.kunfury.blepFishing.Objects.BaseFishObject;
+import com.kunfury.blepFishing.Objects.FishObject;
+import com.kunfury.blepFishing.Objects.RarityObject;
+import com.kunfury.blepFishing.Objects.TournamentObject;
 import io.netty.util.internal.ThreadLocalRandom;
 import org.jetbrains.annotations.NotNull;
 
-public class FishSwitch implements Listener {
+public class FishSwitch{
 	private static final List<Material> itemList = Arrays.asList(Material.SALMON, Material.COD, Material.TROPICAL_FISH);
 
-	@EventHandler(priority = EventPriority.LOWEST)
-	public void onFishNormal(PlayerFishEvent e) {
-		if(!Variables.HighPriority){
-			FishHandler(e);
-		}
-	}
-	
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onFishHigh(PlayerFishEvent e) {
-		if(Variables.HighPriority){
-			FishHandler(e);
-		}
 
-
-	}
-	
-	private void FishHandler(@NotNull PlayerFishEvent e) {
+	public void FishHandler(@NotNull PlayerFishEvent e) {
 		if(e.getState() != PlayerFishEvent.State.CAUGHT_FISH) return;
 	    if(e.getCaught() instanceof Item){
 			Item item = (Item) e.getCaught();
@@ -160,12 +141,15 @@ public class FishSwitch implements Listener {
 			}
 		});
 
+		int yLevel = item.getLocation().getBlockY();
+
 		//Get fish who can be caught in the area
 		for (BaseFishObject f : wFish) {
-			areas.forEach(a -> {
-				if (a.Name.equals(f.Area))
-					fishList.add(f);
-			});
+			if(f.MaxHeight >= yLevel && f.MinHeight <= yLevel){
+				areas.forEach(a -> {
+					if (a.Name.equals(f.Area)) fishList.add(f);
+				});
+			}
 		}
 
 		fishList.sort((o1, o2) -> {
@@ -173,6 +157,12 @@ public class FishSwitch implements Listener {
 			Integer newWeight2 = o2.Weight;
 			return (newWeight1).compareTo(newWeight2);
 		});
+
+		//Get fish where height matches.
+
+
+
+
 		/* Commented out until I figure out what it was meant to do.
 		int randF = ThreadLocalRandom.current().nextInt(0, Variables.FishTotalWeight);
 		for(final BaseFishObject sort : Variables.BaseFishList) {
@@ -219,7 +209,7 @@ public class FishSwitch implements Listener {
 						p.spigot().sendMessage(mainComponent);
 					}
 				}
-				//Bukkit.broadcastMessage("Active Tournament for " + fish.Name + " running!");
+				//Bukkit.broadcastMessage("Active com.kunfury.blepFishing.Tournament for " + fish.Name + " running!");
 			}
 		}
 	}
@@ -260,8 +250,4 @@ public class FishSwitch implements Listener {
 		return true;
 	}
 
-
-	private void CheckMCMMO(){
-
-	}
 }

@@ -1,6 +1,6 @@
 package com.kunfury.blepFishing.Commands.SubCommands;
 
-import Miscellaneous.FishEconomy;
+import com.kunfury.blepFishing.Miscellaneous.FishEconomy;
 import com.kunfury.blepFishing.Commands.SubCommand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -26,7 +26,7 @@ public class SellSubcommand extends SubCommand {
 
     @Override
     public void perform(@NotNull CommandSender sender, String[] args) {
-        FishEconomy.SellFish((Player)sender, false);
+        FishEconomy.SellFish((Player)sender, false, 1);
     }
 
     @Override
