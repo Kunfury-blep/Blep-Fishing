@@ -24,8 +24,11 @@ public class SaveWinner {
 	public SaveWinner(String playerName, List<ItemStack> items, int cashReward) {
 		if(items.size() <= 0 && cashReward <= 0) return;
 
-		ItemStack cash = new ItemStack(Material.AIR, cashReward);
+		ItemStack cash = new ItemStack(Material.COMMAND_BLOCK, cashReward);
+		//TODO: Ensure the below is needed
+		cash.setAmount(cashReward); //Possibly not needed
 		items.add(cash);
+
 		 try {
 			 Files.createDirectories(Paths.get(Setup.dataFolder + "/Rewards"));
 			 String fileName = Setup.dataFolder + "/Rewards/" + playerName + ".json";

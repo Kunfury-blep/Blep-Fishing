@@ -52,7 +52,6 @@ public class TournamentObject implements Serializable {
 
 		if(_rewards != null) {
 			SerializedItems = Variables.SerializeItemList(_rewards);
-			Bukkit.broadcastMessage(String.valueOf(SerializedItems.size()));
 			for(ItemStack i : _rewards) {
 				rewardNames.add(i.getType().name());
 				rewardCounts.add(i.getAmount());

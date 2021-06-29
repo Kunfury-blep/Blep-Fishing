@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.libs.org.apache.commons.io.FilenameUtils;
 import org.bukkit.entity.Player;
@@ -17,7 +18,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import com.google.gson.Gson;
 import com.kunfury.blepFishing.Setup;
 
 import com.kunfury.blepFishing.Miscellaneous.Variables;
@@ -33,7 +33,6 @@ public class TournamentRewards implements Listener {
 	 * @param sender the command sender
 	 */
 	public void GetRewards(CommandSender sender) {
-		Gson gson = new Gson();
 		String playerName = sender.getName();
 		Player p = (Player)sender;
 		List<String> list = new ArrayList<>();
@@ -55,34 +54,33 @@ public class TournamentRewards implements Listener {
 
 	            items = Variables.DeserializeItemList(list);
 
-	            if(file.delete()) 
-	            { 
-	                System.out.println(Prefix + "File deleted successfully");
-	            } 
-	            else
-	            { 
-	                System.out.println(Prefix + "Failed to delete the file");
-	            } 
+
+	            if(!file.delete())
+	            {
+					System.out.println(Prefix + "Failed to delete the rewards file for " + playerName);
+	            }
 	            
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			
+
+
+			int cashVal = 0;
+
 			if(items.size() > 0) { //Only shows the inventory if the player has rewards to claim
 				final Inventory inv = Bukkit.createInventory(null, 54, Messages.getString("rewardInvTitle"));
-				
-				items.forEach(inv::addItem);
-				
+
+				for (ItemStack item : items) {
+					if(item.getType().equals(Material.COMMAND_BLOCK))cashVal += item.getAmount();
+					else inv.addItem(item);
+				}
+				if(cashVal > 0 && Setup.hasEcon) GiveMoney(p, cashVal);
 				p.openInventory(inv);
 			}
 			
 			
 		}else
 			sender.sendMessage(Prefix + Messages.getString("noRewards"));
-		
-		
-		
-		
 	}
 
 	/**
