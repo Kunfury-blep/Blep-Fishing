@@ -26,17 +26,27 @@ import net.md_5.bungee.api.ChatColor;
 public class Tournament implements Listener {
 	private static HashMap<Player, Inventory> viewMap = new HashMap<Player, Inventory>();
 
+	 public static Inventory tourneyInv = null;
+	 public static List<TournamentObject> tourneys;
+
+	 public void Initialize(){
+		 Bukkit.getServer().getScheduler().runTaskLater(Setup.getPlugin(), new Runnable() {
+			 @Override
+			 public void run() {
+				 tourneyInv = Bukkit.createInventory(null, 54, Variables.Messages.getString("tourneyInvTitle"));
+			 }
+		 }, 30);
+	 }
 
 	/**
 	 * Shows all active tournaments to the command sender
 	 * @param sender the command sender
 	 */
 	public void ShowTourney(CommandSender sender) {
-		
-		final Inventory inv = Bukkit.createInventory(null, 54, Variables.Messages.getString("tourneyInvTitle"));
+		tourneyInv.clear();
 		Player player = (Player)sender;
 		
-		List<TournamentObject> tourneys = new SortTournaments().Sort();
+		tourneys = new SortTournaments().Sort();
 		
 		for(TournamentObject tourney : tourneys) {
 			ItemStack item = null;
@@ -45,7 +55,7 @@ public class Tournament implements Listener {
 				item = new ItemStack(Material.FISHING_ROD, 1);
 				
 				meta = item.getItemMeta();
-				
+				assert meta != null;
 				if(!tourney.FishName.equalsIgnoreCase("ALL")) {
 					item.setType(Material.SALMON);
 					meta.setCustomModelData(tourney.Fish.ModelData);
@@ -62,18 +72,18 @@ public class Tournament implements Listener {
 				meta = item.getItemMeta();
 				meta.setDisplayName(tourney.FishName + ChatColor.DARK_RED + " - Expired");
 				List<String> lore = new ArrayList<String>() {{
-					add(Variables.Messages.getString("endDate") + tourney.GetFormattedEndDate());
-					add(Variables.Messages.getString("winner") + tourney.Winner);
+					add(Variables.Messages.getString("endDate") + " " + tourney.GetFormattedEndDate());
+					add(Variables.Messages.getString("winner") + " " + tourney.Winner);
 				}};
 				meta.setLore(lore);
 			}
 
 			item.setItemMeta(meta);
-			inv.addItem(item);
+			tourneyInv.addItem(item);
 		}
 		
-		viewMap.put(player, inv);
-		player.openInventory(inv);
+		viewMap.put(player, tourneyInv);
+		player.openInventory(tourneyInv);
 	}
 
 	/**

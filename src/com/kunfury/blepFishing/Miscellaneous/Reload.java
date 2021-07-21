@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
+import com.kunfury.blepFishing.DisplayFishInfo;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -116,13 +117,15 @@ public class Reload {
         	
         	String t = Setup.config.getString("Currency Symbol");
         	if(t != null)
-        		Variables.CSym = t;        	
-        	Variables.ShowScoreboard = Setup.config.getBoolean("Show ScoreBoard");
+        		Variables.CSym = t;
         	Variables.HighPriority = Setup.config.getBoolean("High Priority");
-        	Variables.TournamentOnly = Setup.config.getBoolean("com.kunfury.blepFishing.Tournament Only");
+        	Variables.TournamentOnly = Setup.config.getBoolean("Tournament Only");
         	Variables.RequireAreaPerm = Setup.config.getBoolean("Area Permissions");
         	Variables.WorldsWhitelist = Setup.config.getBoolean("World Whitelist");
         	Variables.AllowedWorlds = Setup.config.getStringList("Allowed Worlds");
+
+			DisplayFishInfo.InfoScoreboard = Setup.config.getBoolean("Show ScoreBoard");
+			DisplayFishInfo.InfoChat = Setup.config.getBoolean("Show Chat");
 
         	Variables.AllowWanderingTraders = Setup.config.getBoolean("Allow Wandering Traders");
         	if(Variables.AllowWanderingTraders) Variables.TraderMod = Setup.config.getDouble("Wandering Traders Modifier");
@@ -178,6 +181,7 @@ public class Reload {
 
 		Variables.Tournaments = tourneys;
 		new Tournament().CheckActiveTournaments();
+		new Tournament().Initialize();
 	}
 	
 	

@@ -55,11 +55,10 @@ public class FishSign implements Listener {
 		
 		//Beginning of new sign creation
 		if(lines[0].equals("[bf]")) { //Checks that the sign is a Blep Fishing sign			
-			if(lines[1].equals("Fish Market")) {
-				MarketCreate((Sign)e.getBlock().getState(), player.getWorld());
-				return;
-			}else 
-			{
+			if(lines[1].equalsIgnoreCase("Fish Market")) {
+				if(player.hasPermission("bf.admin")) MarketCreate((Sign)e.getBlock().getState(), player.getWorld());
+				else player.sendMessage(Variables.Prefix + "You need to be an admin to do that.");
+			}else {
 			//Checks if fish exist in the main list in FishSwitch
 	    	for(BaseFishObject fish : Variables.BaseFishList) {
 	    		if(fish.Name.equalsIgnoreCase(e.getLine(1))) {

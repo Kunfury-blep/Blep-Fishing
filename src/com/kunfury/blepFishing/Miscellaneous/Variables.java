@@ -35,7 +35,6 @@ public class Variables {
 	//endregion
 
 	//region Static Booleans
-	public static boolean ShowScoreboard = true; //Handles if the scoreboard will be shown or not
 	public static boolean HighPriority = false;
 	public static boolean TournamentOnly = false;
 	public static boolean TournamentRunning;

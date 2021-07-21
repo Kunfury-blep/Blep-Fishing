@@ -2,7 +2,10 @@ package com.kunfury.blepFishing;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -17,13 +20,26 @@ import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Miscellaneous.Variables;
 import com.kunfury.blepFishing.Objects.FishObject;
 
-public class BlepScoreboard {
+public class DisplayFishInfo {
+
+
+	public static boolean InfoScoreboard, InfoChat;
+
+
+
+
+
+	public void InitialDisplay(Player p, FishObject fish){
+		if(InfoScoreboard) ShowScoreboard(p, fish);
+		if(InfoChat) ShowChat(p, fish);
+	}
+
 	/**
-	 * Displays a scoreboard when a fish is catched
+	 * Displays a scoreboard when a fish is caught
 	 * @param p the player to show the scoreboard to
 	 * @param fish the fish that got catched
 	 */
-	public void FishInfo(Player p, FishObject fish) {
+	private void ShowScoreboard(Player p, FishObject fish) {
 		
 		Bukkit.getServer().getScheduler().runTaskLater(Setup.getPlugin(), new Runnable() {
         	@Override
@@ -32,7 +48,7 @@ public class BlepScoreboard {
         		String fishName = fish.Name.toUpperCase();
         		
         		ScoreboardManager manager = Bukkit.getScoreboardManager();
-                final Scoreboard board = manager.getNewScoreboard();
+                final Scoreboard board = Objects.requireNonNull(manager).getNewScoreboard();
                 final Objective objective = board.registerNewObjective("test", "dummy", "blep");     
                 objective.setDisplaySlot(DisplaySlot.SIDEBAR);
                 objective.setDisplayName(ChatColor.RED + "--" + formattedName + "--");
@@ -49,25 +65,29 @@ public class BlepScoreboard {
                 }      
                 
                 List<FishObject> caughtFishList = Variables.FishDict.get(fishName);
-        		Collections.sort(caughtFishList, Collections.reverseOrder());
+        		caughtFishList.sort(Collections.reverseOrder());
         		
         		Score score3 = objective.getScore(ChatColor.AQUA + "Rank #" + (caughtFishList.indexOf(fish) + 1));
                 score3.setScore(3);
                 
         		
         		p.setScoreboard(board);
-                Bukkit.getServer().getScheduler().runTaskLater(Setup.getPlugin(), new Runnable() {
-                	@Override
-                	  public void run() {
-                	    for (String s : board.getEntries()) {
-                	        board.resetScores(s);
-                	    }
-                	  }
-                }, 200);
+                Bukkit.getServer().getScheduler().runTaskLater(Setup.getPlugin(), () -> {
+					for (String s : board.getEntries()) {
+						board.resetScores(s);
+					}
+				  }, 200);
         	    }
         }, 2);
 		
         
 	}
-	
+
+	private void ShowChat(Player p, FishObject fish){
+		String lbString = Variables.Prefix + "You just caught a " +
+				net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&' , fish.Rarity + " " + fish.Name) + ChatColor.WHITE +  "!";
+		TextComponent mainComponent = new TextComponent (lbString);
+		mainComponent.setHoverEvent(new HoverEvent( HoverEvent.Action.SHOW_TEXT, fish.GetHoverText()));
+		p.spigot().sendMessage(mainComponent);
+	}
 }

@@ -48,6 +48,7 @@ public class StartTourney extends SubCommand {
             for(BaseFishObject fish : Variables.BaseFishList){
                 optionList.add(fish.Name);
             }
+            optionList.add("All");
             optionList.add("<fish name>");
         }
         if(args.length == 3){

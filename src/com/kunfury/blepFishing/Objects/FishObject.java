@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
+import com.kunfury.blepFishing.Setup;
+import com.mysql.fabric.xmlrpc.base.Value;
 import net.md_5.bungee.api.ChatColor;
 
 import com.kunfury.blepFishing.Miscellaneous.Variables;
@@ -68,11 +70,15 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 
 	public Text GetHoverText(){
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-		return new Text(ChatColor.translateAlternateColorCodes('&' ,(Rarity + " " + Name +
+
+		String content = Rarity + " " + Name +
 				"&f\nFish Size: " + Formatting.DoubleFormat(RealSize) +
 				//"\nRank: " + (i) +
 				"\nCaught On: " +  formatter.format(DateCaught)  +
-				"\nScore: " + Formatting.DoubleFormat(Score)
-		)));
+				"\nScore: " + Formatting.DoubleFormat(Score);
+
+		if(Setup.hasEcon) content += "\nValue: "  + Variables.CSym + Formatting.DoubleFormat(RealCost);
+
+		return new Text(ChatColor.translateAlternateColorCodes('&' , content));
 	}
 }

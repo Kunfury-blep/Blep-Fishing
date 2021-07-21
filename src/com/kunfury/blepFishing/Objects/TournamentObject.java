@@ -7,8 +7,10 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Fish;
 import org.bukkit.inventory.ItemStack;
 
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
@@ -105,15 +107,7 @@ public class TournamentObject implements Serializable {
 	}
 
 	public List<FishObject> GetWinners(){
-		List<FishObject> tourneyFish = new ArrayList<>();
-		FishObject winner = null;
-		Variables.GetFishList("ALL").forEach(f -> { //Gets all fish from the list to check against what was caught
-			//Checks if the fish is the correct type and was caught after the start date
-			if((FishName.equalsIgnoreCase("ALL") || f.Name.equalsIgnoreCase(FishName))
-					&& f.DateCaught.isAfter(StartDate)) {
-				tourneyFish.add(f);
-			}
-		});
+		List<FishObject> tourneyFish = GetTournamentFish();
 
 		if(tourneyFish.size() > 0) { //If any fish have been caught
 			tourneyFish.sort(Collections.reverseOrder());
@@ -121,6 +115,18 @@ public class TournamentObject implements Serializable {
 			if (tourneyFish.size() > 3)
 				tourneyFish.subList(3, tourneyFish.size()).clear();
 		}
+		return tourneyFish;
+	}
+
+	public List<FishObject> GetTournamentFish(){
+		List<FishObject> tourneyFish = new ArrayList<>();
+		Objects.requireNonNull(Variables.GetFishList("ALL")).forEach(f -> { //Gets all fish from the list to check against what was caught
+			//Checks if the fish is the correct type and was caught after the start date
+			if((FishName.equalsIgnoreCase("ALL") || f.Name.equalsIgnoreCase(FishName))
+					&& f.DateCaught.isAfter(StartDate) && f.DateCaught.isBefore(EndDate)) {
+				tourneyFish.add(f);
+			}
+		});
 		return tourneyFish;
 	}
 }

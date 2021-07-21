@@ -83,8 +83,7 @@ public class FishSwitch{
 				Firework fw = (Firework) player.getWorld().spawnEntity(player.getLocation(), EntityType.FIREWORK);
 				fw.detonate();
 			}
-			if(Variables.ShowScoreboard)
-				new BlepScoreboard().FishInfo(player, fish);
+			new DisplayFishInfo().InitialDisplay(player, fish);
 
 			CheckAgainstTournaments(fish);
 			Variables.AddToFishDict(fish);

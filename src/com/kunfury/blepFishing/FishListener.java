@@ -2,7 +2,6 @@ package com.kunfury.blepFishing;
 
 import com.kunfury.blepFishing.Miscellaneous.Variables;
 import com.kunfury.blepFishing.Plugins.McMMOListener;
-import com.kunfury.blepFishing.Plugins.PluginHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

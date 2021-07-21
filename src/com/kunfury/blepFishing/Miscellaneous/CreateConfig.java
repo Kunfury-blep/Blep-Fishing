@@ -13,13 +13,14 @@ public class CreateConfig {
     	FileConfiguration config = Setup.config;
     	
     	config.set("Show ScoreBoard", true);
+		config.set("Show Chat", false);
     	config.set("Currency Symbol", "$");
     	config.set("Allow Wandering Traders", false);
     	config.set("Wandering Traders Modifier", 1.50);
 		config.set("Language Symbol", "en");
 		config.set("Chat Prefix", "&b[BF]&f ");
 		config.set("High Priority", false);
-		config.set("com.kunfury.blepFishing.Tournament Only", false);
+		config.set("Tournament Only", false);
 		config.set("Area Permissions", false);
 		//config.set("","");
 		config.set("World Whitelist", false);
