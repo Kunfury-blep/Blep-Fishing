@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../../Maven/BlepFishing/BlepFishing.iml" filepath="$PROJECT_DIR$/../../Maven/BlepFishing/BlepFishing.iml" />
       <module fileurl="file://$PROJECT_DIR$/Blep_Fishing.iml" filepath="$PROJECT_DIR$/Blep_Fishing.iml" />
     </modules>
   </component>

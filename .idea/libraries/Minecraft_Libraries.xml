@@ -5,11 +5,8 @@
       <root url="jar://$PROJECT_DIR$/../libraries/patreon-0.4.2.jar!/" />
       <root url="jar://$PROJECT_DIR$/../libraries/mcMMO.jar!/" />
       <root url="jar://$PROJECT_DIR$/../libraries/PlaceholderAPI-2.10.9.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../libraries/spigot-1.17.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES>
-      <root url="jar://$PROJECT_DIR$/../libraries/spigot-1.17.jar!/" />
-    </SOURCES>
+    <SOURCES />
   </library>
 </component>
