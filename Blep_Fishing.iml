@@ -56,7 +56,25 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.md-5:bungeecord-chat:1.16-R0.4" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.yaml:snakeyaml:1.28" level="project" />
     <orderEntry type="library" name="Maven: org.spigotmc:minecraft-server:1.17-R0.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: mysql:mysql-connector-java:5.1.49" level="project" />
+    <orderEntry type="library" name="Maven: mysql:mysql-connector-java:8.0.16" level="project" />
+    <orderEntry type="library" name="Maven: com.google.protobuf:protobuf-java:3.6.1" level="project" />
     <orderEntry type="library" name="Maven: org.spigotmc:spigot:1.17-R0.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q.worldguard:worldguard-bukkit:7.0.6" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q.worldguard:worldguard-core:7.0.6" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q.worldguard.worldguard-libs:core:7.0.6" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q.worldedit:worldedit-core:7.2.6-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q.worldedit.worldedit-libs:core:7.2.6-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.antlr:antlr4:4.9.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.antlr:antlr-runtime:3.5.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.antlr:ST4:4.3" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.abego.treelayout:org.abego.treelayout.core:1.0.3" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.glassfish:javax.json:1.0.4" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.ibm.icu:icu4j:61.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.mozilla:rhino-runtime:1.7.13" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.logging.log4j:log4j-api:2.14.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: it.unimi.dsi:fastutil:8.2.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.antlr:antlr4-runtime:4.9.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.flywaydb:flyway-core:3.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q.worldedit:worldedit-bukkit:7.2.6-SNAPSHOT" level="project" />
   </component>
 </module>

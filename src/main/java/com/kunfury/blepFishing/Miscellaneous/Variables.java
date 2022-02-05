@@ -41,6 +41,7 @@ public class Variables {
 	public static boolean WorldsWhitelist = false;
 	public static boolean RequireAreaPerm = false;
 	public static boolean AllowWanderingTraders = false;
+	public static boolean LegendaryFishAnnounce = true;
 	//endregion
 
 	//region Unique Static

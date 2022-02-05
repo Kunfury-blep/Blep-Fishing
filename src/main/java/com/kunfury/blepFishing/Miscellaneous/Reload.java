@@ -123,6 +123,7 @@ public class Reload {
         	Variables.RequireAreaPerm = Setup.config.getBoolean("Area Permissions");
         	Variables.WorldsWhitelist = Setup.config.getBoolean("World Whitelist");
         	Variables.AllowedWorlds = Setup.config.getStringList("Allowed Worlds");
+        	Variables.LegendaryFishAnnounce = Setup.config.getBoolean("Announce Legendary");
 
 			DisplayFishInfo.InfoScoreboard = Setup.config.getBoolean("Show ScoreBoard");
 			DisplayFishInfo.InfoChat = Setup.config.getBoolean("Show Chat");

@@ -2,6 +2,13 @@ package com.kunfury.blepFishing;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import com.kunfury.blepFishing.Plugins.PluginHandler;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldedit.util.Location;
+import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.protection.ApplicableRegionSet;
+import com.sk89q.worldguard.protection.regions.RegionContainer;
+import com.sk89q.worldguard.protection.regions.RegionQuery;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -24,6 +31,7 @@ import com.kunfury.blepFishing.Objects.FishObject;
 import com.kunfury.blepFishing.Objects.RarityObject;
 import com.kunfury.blepFishing.Objects.TournamentObject;
 import io.netty.util.internal.ThreadLocalRandom;
+import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 public class FishSwitch{
@@ -77,9 +85,11 @@ public class FishSwitch{
 
 			//Broadcasts if the player catches the rarest fish possible
 			if(chosenRarity.Weight <= Variables.RarityList.get(0).Weight) {
-				Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&',
-						player.getDisplayName() + " just caught a " + fish.Rarity + " "
-								+ fish.Name + " &fthat was " + Formatting.DoubleFormat(fish.RealSize) + "\" long!"));
+				if(Variables.LegendaryFishAnnounce){
+					Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&',
+							player.getDisplayName() + " just caught a " + fish.Rarity + " "
+									+ fish.Name + " &fthat was " + Formatting.DoubleFormat(fish.RealSize) + "\" long!"));
+				}
 				Firework fw = (Firework) player.getWorld().spawnEntity(player.getLocation(), EntityType.FIREWORK);
 				fw.detonate();
 			}
@@ -208,7 +218,6 @@ public class FishSwitch{
 						p.spigot().sendMessage(mainComponent);
 					}
 				}
-				//Bukkit.broadcastMessage("Active com.kunfury.blepFishing.Tournament for " + fish.Name + " running!");
 			}
 		}
 	}
@@ -243,8 +252,9 @@ public class FishSwitch{
 		//Check for world permissions
 		if(Variables.WorldsWhitelist && !Variables.AllowedWorlds.contains(world)) return false;
 
+		var l = item.getLocation();
 
-
+		if(PluginHandler.hasWorldGuard) PluginHandler.CheckWorldGuard(new Location(BukkitAdapter.adapt(l.getWorld()), l.getX(), l.getY(), l.getZ()), player);
 
 		return true;
 	}

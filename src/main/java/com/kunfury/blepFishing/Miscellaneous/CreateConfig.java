@@ -21,6 +21,7 @@ public class CreateConfig {
 		config.set("Chat Prefix", "&b[BF]&f ");
 		config.set("High Priority", false);
 		config.set("Tournament Only", false);
+		config.set("Announce Legendary", true);
 		config.set("Area Permissions", false);
 		//config.set("","");
 		config.set("World Whitelist", false);

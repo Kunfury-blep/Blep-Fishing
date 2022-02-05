@@ -109,6 +109,9 @@ public class TournamentRewards implements Listener {
 			File[] listOfFiles = folder.listFiles();
 			for (int i = 0; i < listOfFiles.length; i++) {
 				File f = listOfFiles[i];
+
+				//TODO: Check to ensure the file is properly being read
+
 				String fileName = FilenameUtils.removeExtension(f.getName());
 				  if (f.isFile() && fileName.equals(p.getName())) {
 					  Bukkit.getServer().getScheduler().runTaskLater(Setup.getPlugin(), new Runnable() {

@@ -3,7 +3,7 @@ main: com.kunfury.blepFishing.Setup
 version: 1.7.6
 api-version: 1.13
 author: Kunfury
-softdepend: [Vault, mcMMO, PlaceholderAPI]
+softdepend: [Vault, mcMMO, PlaceholderAPI, WorldGuard]
 commands:
    bf:
       description: The base command for the plugin
