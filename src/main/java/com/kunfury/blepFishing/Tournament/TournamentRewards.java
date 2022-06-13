@@ -6,13 +6,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.libs.jline.internal.Log;
-import org.bukkit.craftbukkit.libs.org.apache.commons.io.FilenameUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,6 +17,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import org.apache.commons.io.FilenameUtils;
 import com.kunfury.blepFishing.Setup;
 
 import com.kunfury.blepFishing.Miscellaneous.Variables;
@@ -94,7 +92,7 @@ public class TournamentRewards implements Listener {
 	private void GiveMoney(Player p, int value) {
 		Economy econ = Setup.getEconomy();
 	    econ.depositPlayer(p, value);
-	    p.sendMessage("You received " + Variables.CSym + value);
+	    p.sendMessage("You received " + Variables.CurrSym + value);
 	}
 
 	/**
@@ -111,8 +109,12 @@ public class TournamentRewards implements Listener {
 				File f = listOfFiles[i];
 
 				//TODO: Check to ensure the file is properly being read
+				//TODO: Switch to using UUID instead of Player Name
+
 
 				String fileName = FilenameUtils.removeExtension(f.getName());
+				//String pUUID = p.getUniqueId();
+
 				  if (f.isFile() && fileName.equals(p.getName())) {
 					  Bukkit.getServer().getScheduler().runTaskLater(Setup.getPlugin(), new Runnable() {
 				        	@Override

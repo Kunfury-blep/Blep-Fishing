@@ -5,7 +5,6 @@ import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,6 +28,7 @@ public class CommandManager implements TabExecutor {
         subCommands.add(new TournamentSubcommand());
         subCommands.add(new ClaimSubcommand());
         subCommands.add(new ListFishSubcommand());
+        subCommands.add(new ConfigSubcommand());
     }
 
     @Override
@@ -84,19 +84,15 @@ public class CommandManager implements TabExecutor {
     }
 
     private void BaseCommand(CommandSender sender){
-        Player player = (Player)sender;
-        sender.sendMessage("Current Biome: " + player.getLocation().getBlock().getBiome().name());
-
-
-//        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-//                "                     " + Messages.getString("helpTitle") + "\n"
-//                        + Prefix + "/bf lb <fishname> - " + Messages.getString("leaderboardHelp") + "\n"
-//                        + Prefix + "/bf reload - " + Messages.getString("reloadHelp") + "\n"
-//                        + Prefix + "/bf fish - " + Messages.getString("fishHelp") + "\n"
-//                        + Prefix + "/bf claim - " + Messages.getString("claimHelp") + "\n"
-//                        + Prefix + "/bf tourney - " + Messages.getString("tourneyHelp") + "\n"
-//                        + Prefix + "/bf admin - " + Messages.getString("adminHelp") + "\n"
-//        ));
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                "                     " + Messages.getString("helpTitle") + "\n"
+                        + Prefix + "/bf lb <fishname> - " + Messages.getString("leaderboardHelp") + "\n"
+                        + Prefix + "/bf reload - " + Messages.getString("reloadHelp") + "\n"
+                        + Prefix + "/bf fish - " + Messages.getString("fishHelp") + "\n"
+                        + Prefix + "/bf claim - " + Messages.getString("claimHelp") + "\n"
+                        + Prefix + "/bf tourney - " + Messages.getString("tourneyHelp") + "\n"
+                        + Prefix + "/bf admin - " + Messages.getString("adminHelp") + "\n"
+        ));
     }
 
 }

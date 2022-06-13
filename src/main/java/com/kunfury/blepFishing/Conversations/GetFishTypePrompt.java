@@ -2,7 +2,6 @@ package com.kunfury.blepFishing.Conversations;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.MessagePrompt;
 import org.bukkit.conversations.Prompt;
@@ -62,7 +61,6 @@ public class GetFishTypePrompt {
 		public String getPromptText(ConversationContext context) {
 			Player p = (Player)context.getForWhom();
 			String fish = (String)context.getSessionData("fish");
-			fish = StringUtils.capitalize(fish.toLowerCase());
 			new TourneyAdmin().UpdateTourney(p, null, fish, null, null);
 			new AdminMenu().CreateTourneyGUI(p);
 			

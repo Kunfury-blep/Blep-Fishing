@@ -1,36 +1,32 @@
 package com.kunfury.blepFishing;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
+import com.kunfury.blepFishing.Crafting.Equipment.FishBag.BagInfo;
+import com.kunfury.blepFishing.Crafting.Equipment.FishBag.UpdateBag;
+import com.kunfury.blepFishing.Crafting.Equipment.Update;
 import com.kunfury.blepFishing.Plugins.PluginHandler;
-import com.sk89q.worldedit.bukkit.BukkitAdapter;
-import com.sk89q.worldedit.util.Location;
-import com.sk89q.worldguard.WorldGuard;
-import com.sk89q.worldguard.protection.ApplicableRegionSet;
-import com.sk89q.worldguard.protection.regions.RegionContainer;
-import com.sk89q.worldguard.protection.regions.RegionQuery;
+import io.github.bananapuncher714.nbteditor.NBTEditor;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Firework;
-import org.bukkit.entity.Item;
-import org.bukkit.entity.Player;
+import org.bukkit.Sound;
+import org.bukkit.entity.*;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
-import com.kunfury.blepFishing.Miscellaneous.NBTEditor;
 import com.kunfury.blepFishing.Miscellaneous.Variables;
 import com.kunfury.blepFishing.Objects.AreaObject;
 import com.kunfury.blepFishing.Objects.BaseFishObject;
 import com.kunfury.blepFishing.Objects.FishObject;
 import com.kunfury.blepFishing.Objects.RarityObject;
 import com.kunfury.blepFishing.Objects.TournamentObject;
-import io.netty.util.internal.ThreadLocalRandom;
+//import io.netty.util.internal.ThreadLocalRandom;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -48,9 +44,6 @@ public class FishSwitch{
 
 			if(!CanFish(item, player, e )) return;
 
-
-			ItemStack is = item.getItemStack();
-			is.setType(Material.SALMON);
 			BaseFishObject base = GetCaughtFish(item);
 			if(base == null || base.Name == null) return;
 			//Rarity Selection
@@ -64,24 +57,25 @@ public class FishSwitch{
 					randR -= rarity.Weight;
 			}
 
-			if(is.getItemMeta() == null) return; //Needed in case of errors. Should remove the chance of errors being thrown.
-			ItemMeta m = is.getItemMeta();
-
-			m.setDisplayName(ChatColor.translateAlternateColorCodes('&', '&' + chosenRarity.Prefix + base.Name));
-			m.setCustomModelData(base.ModelData);
-
-
-
 			double size = ThreadLocalRandom.current().nextDouble(base.MinSize, base.MaxSize);
 
 			FishObject fish = new FishObject(base, chosenRarity, e.getPlayer().getName(), size);
 
-			m.setLore(CreateLore(fish, base));
-			is.setItemMeta(m);
-			is = NBTEditor.set( is, fish.RealCost, "blep", "item", "fishValue" );
-
-			item.setItemStack(is);
-
+			item.setItemStack(fish.GenerateItemStack());
+			//Checks if the player has a fishing bag. Automatically adds the fish to it if so
+			for (var slot : player.getInventory())
+			{
+				if (slot != null && slot.getType().equals(Material.HEART_OF_THE_SEA)
+						&& NBTEditor.getBoolean(slot, "blep", "item", "fishBagAutoPickup" ) && !BagInfo.IsFull(slot))
+				{
+					String bagId = NBTEditor.getString(slot, "blep", "item", "fishBagId" );
+					fish.BagID = bagId;
+					item.remove();
+					player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, .33f, 1f);
+					new UpdateBag(slot, player);
+					break;
+				}
+			}
 
 			//Broadcasts if the player catches the rarest fish possible
 			if(chosenRarity.Weight <= Variables.RarityList.get(0).Weight) {
@@ -99,31 +93,6 @@ public class FishSwitch{
 			Variables.AddToFishDict(fish);
 		}
 
-	}
-
-	/**
-	 * Creates a lore for the fish that has been catched
-	 * @param fish The fish that needs the lore to be created on (Is this proper english?)
-	 * @param base The template of the fish
-	 * @return the lore
-	 */
-	private List<String> CreateLore(FishObject fish, BaseFishObject base){
-		List<String> Lore = new ArrayList<>();   		
-		//Lore.add(fish.Rarity);
-		if(Setup.hasEcon) //Checks that an economy is installed
-			Lore.add("&2Value: " + Variables.CSym + Formatting.DoubleFormat(fish.RealCost));
-		Lore.add(base.Lore);
-		 
-		Lore.add("&8Length: " + Formatting.DoubleFormat(fish.RealSize) + "in.");
-			 
-		LocalDateTime now = LocalDateTime.now();
-		String details = ("&8Caught By: " + fish.PlayerName + " on " + now.toLocalDate());
-		Lore.add(details);
-		
-		List<String> colorLore = new ArrayList<>();
-		for (String line : Lore) colorLore.add(ChatColor.translateAlternateColorCodes('&', line));
-		
-		return colorLore;
 	}
 
 
@@ -254,7 +223,7 @@ public class FishSwitch{
 
 		var l = item.getLocation();
 
-		if(PluginHandler.hasWorldGuard) PluginHandler.CheckWorldGuard(new Location(BukkitAdapter.adapt(l.getWorld()), l.getX(), l.getY(), l.getZ()), player);
+		//if(PluginHandler.hasWorldGuard) PluginHandler.CheckWorldGuard(new Location(BukkitAdapter.adapt(l.getWorld()), l.getX(), l.getY(), l.getZ()), player);
 
 		return true;
 	}

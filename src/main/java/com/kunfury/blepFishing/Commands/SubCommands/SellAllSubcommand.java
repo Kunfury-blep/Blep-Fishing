@@ -2,6 +2,7 @@ package com.kunfury.blepFishing.Commands.SubCommands;
 
 import com.kunfury.blepFishing.Miscellaneous.FishEconomy;
 import com.kunfury.blepFishing.Commands.SubCommand;
+import com.kunfury.blepFishing.Setup;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -26,7 +27,8 @@ public class SellAllSubcommand extends SubCommand {
 
     @Override
     public void perform(@NotNull CommandSender sender, String[] args) {
-        FishEconomy.SellFish((Player)sender, true, 1);
+        if(Setup.getEconomy() != null) FishEconomy.SellFish((Player)sender, true, 1);
+        else sender.sendMessage("No economy plugin found.");
     }
 
     @Override

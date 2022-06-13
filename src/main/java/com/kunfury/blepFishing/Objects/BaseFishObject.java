@@ -1,6 +1,10 @@
 package com.kunfury.blepFishing.Objects;
 
+import com.kunfury.blepFishing.Miscellaneous.Variables;
+import org.bukkit.ChatColor;
+
 import java.io.Serializable;
+import java.util.List;
 
 public class BaseFishObject implements Serializable{
 
@@ -46,5 +50,14 @@ public class BaseFishObject implements Serializable{
 			Weight = 100;
 		return this;
 	}
-	
+
+	public static BaseFishObject GetBase(String Name){
+		List<BaseFishObject> baseList = Variables.BaseFishList;
+		for(int i = 0; i < baseList.size(); i++){
+			if(baseList.get(i).Name.equalsIgnoreCase(ChatColor.stripColor(Name))){
+				return(baseList.get(i));
+			}
+		}
+		return null;
+	}
 }

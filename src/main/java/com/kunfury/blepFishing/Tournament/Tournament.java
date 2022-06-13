@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
-import com.mysql.jdbc.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -23,19 +23,17 @@ import com.kunfury.blepFishing.Objects.BaseFishObject;
 import com.kunfury.blepFishing.Objects.TournamentObject;
 import net.md_5.bungee.api.ChatColor;
 
+import static com.kunfury.blepFishing.Miscellaneous.Variables.Messages;
+
 public class Tournament implements Listener {
-	private static HashMap<Player, Inventory> viewMap = new HashMap<Player, Inventory>();
+	private static final HashMap<Player, Inventory> viewMap = new HashMap<>();
 
 	 public static Inventory tourneyInv = null;
 	 public static List<TournamentObject> tourneys;
 
 	 public void Initialize(){
-		 Bukkit.getServer().getScheduler().runTaskLater(Setup.getPlugin(), new Runnable() {
-			 @Override
-			 public void run() {
-				 tourneyInv = Bukkit.createInventory(null, 54, Variables.Messages.getString("tourneyInvTitle"));
-			 }
-		 }, 30);
+		 Bukkit.getServer().getScheduler().runTaskLater(Setup.getPlugin(), () ->
+				 tourneyInv = Bukkit.createInventory(null, 54, Messages.getString("tourneyInvTitle")), 30);
 	 }
 
 	/**
@@ -49,8 +47,8 @@ public class Tournament implements Listener {
 		tourneys = new SortTournaments().Sort();
 		
 		for(TournamentObject tourney : tourneys) {
-			ItemStack item = null;
-			ItemMeta meta = null;
+			ItemStack item;
+			ItemMeta meta;
 			if(tourney.EndDate.isAfter(LocalDateTime.now())) { //Checks if the tournament has ended yet or not
 				item = new ItemStack(Material.FISHING_ROD, 1);
 				
@@ -62,7 +60,7 @@ public class Tournament implements Listener {
 				}
 				meta.setDisplayName(tourney.FishName);
 				
-				List<String> lore = new ArrayList<String>() {{
+				List<String> lore = new ArrayList<>() {{
 					add("Time Left: " + tourney.GetRemainingTime());
 					add("End Date: " + tourney.GetFormattedEndDate());
 				}};
@@ -70,10 +68,10 @@ public class Tournament implements Listener {
 			}else { //If the tournament has already expired
 				item = new ItemStack(Material.COOKED_COD, 1);
 				meta = item.getItemMeta();
-				meta.setDisplayName(tourney.FishName + ChatColor.DARK_RED + " - Expired");
-				List<String> lore = new ArrayList<String>() {{
-					add(Variables.Messages.getString("endDate") + " " + tourney.GetFormattedEndDate());
-					add(Variables.Messages.getString("winner") + " " + tourney.Winner);
+				Objects.requireNonNull(meta).setDisplayName(tourney.FishName + ChatColor.DARK_RED + " - Expired");
+				List<String> lore = new ArrayList<>() {{
+					add(Messages.getString("endDate") + " " + tourney.GetFormattedEndDate());
+					add(Messages.getString("winner") + " " + tourney.Winner);
 				}};
 				meta.setLore(lore);
 			}
@@ -118,7 +116,7 @@ public class Tournament implements Listener {
 		
 		List<ItemStack> items = new ArrayList<>();
 		try{
-			items.add(new ItemStack(Material.getMaterial(itemName.toUpperCase()), itemCount));
+			items.add(new ItemStack(Objects.requireNonNull(Material.getMaterial(itemName.toUpperCase())), itemCount));
 		}
 		catch(Exception e){
 			sender.sendMessage(Variables.Prefix + Messages.getString("invalidItem"));
@@ -130,27 +128,18 @@ public class Tournament implements Listener {
     }
 
 	public void StartTimer(long duration, TournamentObject tourney) {
-		Bukkit.getServer().getScheduler().runTaskLater(Setup.getPlugin(), new Runnable(){
-            @Override
-            public void run() {
-                new TournamentFinish(tourney);
-            }
-            
-        }, (duration / 1000 * 20));
+		Bukkit.getServer().getScheduler().runTaskLater(Setup.getPlugin(), () ->
+				new TournamentFinish(tourney), (duration / 1000 * 20));
 	}	
 	
 	public void DelayedWinnings(TournamentObject tourney) {
-		Bukkit.getServer().getScheduler().runTaskLater(Setup.getPlugin(), new Runnable() {
-        	@Override
-        	  public void run() {
-        		new TournamentFinish(tourney);
-        	    }
-        }, 600);
+		Bukkit.getServer().getScheduler().runTaskLater(Setup.getPlugin(), () ->
+				new TournamentFinish(tourney), 600);
 	}
 
 
 	@EventHandler()
-	public void clickEvent(InventoryClickEvent e) { //Handles Interaction with the panel
+	public void TourneyClickListener(InventoryClickEvent e) { //Handles Interaction with the panel
 		Player p = (Player)e.getWhoClicked();
 		Inventory inv = viewMap.get(p);
 		if(e.getInventory() == inv){

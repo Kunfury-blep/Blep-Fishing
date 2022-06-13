@@ -4,7 +4,9 @@ import java.io.*;
 import java.util.*;
 import java.util.Map.Entry;
 
+import com.kunfury.blepFishing.Crafting.Equipment.Update;
 import com.kunfury.blepFishing.Tournament.Tournament;
+import org.bukkit.Bukkit;
 import org.bukkit.conversations.ConversationFactory;
 
 import com.kunfury.blepFishing.Setup;
@@ -28,7 +30,6 @@ public class Variables {
 	public static List<RarityObject> RarityList = new ArrayList<>(); //Available rarities
 	public static List<AreaObject> AreaList = new ArrayList<>(); //Available Areas
 
-	public static List<FishObject> CaughtFish = new ArrayList<>(); //Fish that have been caught, needs to be depreciated
 	public static List<TournamentObject> Tournaments = new ArrayList<>();
 
 	public static List<String> AllowedWorlds = new ArrayList<>();
@@ -45,11 +46,18 @@ public class Variables {
 	//endregion
 
 	//region Unique Static
-	public static HashMap<String, List<FishObject>> FishDict = new HashMap<>(); //Dictionary containing lists of all caught fish
+		//Dictionary containing lists of all caught fish
+		//String =
+	public static HashMap<String, List<FishObject>> FishDict = new HashMap<>();
 	public static ConversationFactory ConFactory = new ConFactory().GetFactory();
 	public static ResourceBundle Messages;
 	public static double TraderMod = 1;
 	//endregion
+
+
+
+	//endregion
+
 
 	//region Private Variables
 	private static List<String> FishNameList = new ArrayList<>();
@@ -61,11 +69,14 @@ public class Variables {
 	
 	public static String Prefix;
 	
-	public static String CSym = "$"; //The global currency symbol
+	public static String CurrSym = "$"; //The global currency symbol
+	public static String SizeSym = "\""; //The global size symbol
 
 
 	/**
 	 * @param f The fish to be saved
+	 * Desc: Stores the fish in the Dict and then to file
+	 * Key is the fish name and the data stored is a list of the fish
 	 */
 	//Handles saving the fish to the local dictionary
 	public static void AddToFishDict(FishObject f) {
@@ -79,17 +90,10 @@ public class Variables {
 		
 		
 		list.add(f);
-		
+
+		if(list.size() <= 0) return; //TODO: Add console warning when this happens
 		FishDict.put(fishName, list);
-    	try {
-			String dictPath = Setup.dataFolder + "/fish.data";   
-		    ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(dictPath));
-		    
-		    output.writeObject(FishDict);
-		    output.close();
-		} catch (IOException ex) {
-		    ex.printStackTrace();
-		}
+		UpdateFishData();
 
 		new FishSign().UpdateSigns();
 	}
@@ -97,13 +101,16 @@ public class Variables {
 	public static List<FishObject> GetFishList(String fishName) {
 		fishName = fishName.toUpperCase();
 		boolean fishFound = false;
-		
-		//Ensures the fish exists, else returns null
-		for (BaseFishObject f : BaseFishList) {
-    		if(fishName.equals(f.Name.toUpperCase())) {
-    			fishFound = true;
-    			break;
-    		}
+
+		if(fishName.equalsIgnoreCase("ALL")) fishFound = true;
+		else{
+			//Ensures the fish exists, else returns null
+			for (BaseFishObject f : BaseFishList) {
+				if(fishName.equals(f.Name.toUpperCase())) {
+					fishFound = true;
+					break;
+				}
+			}
 		}
 		
 		if(fishFound || fishName.equals("ALL")) { //If the fish is found, get all caught
@@ -125,7 +132,19 @@ public class Variables {
 			return null;
 		
 	}
-	
+
+	public static void UpdateFishData(){
+		try {
+			String dictPath = Setup.dataFolder + "/fish.data";
+			ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(dictPath));
+
+			output.writeObject(FishDict);
+			output.close();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+	}
+
 	public static void AddTournament(TournamentObject tourney) {
 		if(tourney != null)
 			Tournaments.add(tourney);

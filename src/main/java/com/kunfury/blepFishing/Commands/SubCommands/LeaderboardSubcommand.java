@@ -9,14 +9,16 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Text;
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
+
+
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 public class LeaderboardSubcommand extends SubCommand {
     @Override
@@ -39,8 +41,8 @@ public class LeaderboardSubcommand extends SubCommand {
         if(args.length == 1)
             sender.sendMessage("/bf lb <Fish Name> <Leaderboard Number>");
         else {
-            String fishName = args[1].toUpperCase();
-            String formattedName = StringUtils.capitalize(fishName.toLowerCase());
+            String fishName = args[1];
+            String formattedName = fishName;
 
             int startVal = 0;
             if(args.length == 3) {
@@ -52,7 +54,7 @@ public class LeaderboardSubcommand extends SubCommand {
 
 
 
-            if(!fishName.equals("ALL") && !Variables.FishDict.containsKey(fishName)){
+            if(!fishName.equalsIgnoreCase("ALL") && !Variables.FishDict.containsKey(fishName)){
                 sender.sendMessage("None of that fish has been caught.");
                 return;
             }

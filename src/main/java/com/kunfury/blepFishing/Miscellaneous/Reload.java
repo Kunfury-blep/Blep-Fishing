@@ -9,7 +9,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 import com.kunfury.blepFishing.DisplayFishInfo;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -32,14 +31,13 @@ public class Reload {
 		Setup.setup.reloadConfig();
     	Setup.config = Setup.setup.getConfig();
     	
-    	Set<String> existCheck = Setup.config.getConfigurationSection("").getKeys(false); //Gets all the config
+    	Set<String> existCheck = Setup.config.getConfigurationSection("").getKeys(false); //Gets all the config-
 		
-    	if(existCheck.contains("fish") && existCheck.contains("rarities") ) {
+    	if(true || existCheck.contains("fish") && existCheck.contains("rarities") ) {
     		//Reset all variables to reduce crashing
     		Variables.BaseFishList.clear();
         	Variables.RarityList.clear();
         	Variables.AreaList.clear();
-        	Variables.CaughtFish.clear();
         	Variables.RarityTotalWeight = 0;
         	Variables.FishTotalWeight = 0;
         	
@@ -117,7 +115,7 @@ public class Reload {
         	
         	String t = Setup.config.getString("Currency Symbol");
         	if(t != null)
-        		Variables.CSym = t;
+        		Variables.CurrSym = t;
         	Variables.HighPriority = Setup.config.getBoolean("High Priority");
         	Variables.TournamentOnly = Setup.config.getBoolean("Tournament Only");
         	Variables.RequireAreaPerm = Setup.config.getBoolean("Area Permissions");
@@ -144,7 +142,7 @@ public class Reload {
         	//FixOld();
         	
     	}else {
-    		sender.sendMessage("Your config is incorrect");
+    		sender.sendMessage("Your config is incorrect, nuking it all for some reason.");
     	}	
 		
 		return true;

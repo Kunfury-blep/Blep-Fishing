@@ -226,19 +226,19 @@ public class AdminMenu implements Listener {
 		
 		TourneyGUI = new ItemStack(Material.FISHING_ROD, 1);
 		meta = TourneyGUI.getItemMeta();
-		meta.setDisplayName("com.kunfury.blepFishing.Tournament Creation");
+		meta.setDisplayName("Tournament Creation");
 		TourneyGUI.setItemMeta(meta);
 		
 		TourneyCreate = new ItemStack(Material.FISHING_ROD, 1);
 		meta = TourneyCreate.getItemMeta();
-		meta.setDisplayName("Create com.kunfury.blepFishing.Tournament");
+		meta.setDisplayName("Create Tournament");
 		TourneyCreate.setItemMeta(meta);
 		
 		
 		TourneyHelp = new ItemStack(Material.BOOK, 1);
 		meta = TourneyHelp.getItemMeta();
-		meta.setDisplayName("com.kunfury.blepFishing.Tournament Help");
-		List<String> lore = new ArrayList<String>(){{
+		meta.setDisplayName("Tournament Help");
+		List<String> lore = new ArrayList<>(){{
 			add("Add items to this menu to add them to the reward list.");
 			add("Click on the following icons to set the tournaments values");
 		}};
@@ -252,7 +252,7 @@ public class AdminMenu implements Listener {
 		
 		TourneyTime = new ItemStack(Material.CLOCK, 1);
 		meta = TourneyTime.getItemMeta();
-		meta.setDisplayName("com.kunfury.blepFishing.Tournament Time");
+		meta.setDisplayName("Tournament Time");
 		TourneyTime.setItemMeta(meta);
 		
 		TourneyFish = new ItemStack(Material.SALMON, 1);
@@ -306,7 +306,7 @@ public class AdminMenu implements Listener {
 			add("Fish Type: " + tObj.FishName);
 			add("Duration: " + tObj.Duration + " Hour(s)");
 			if(Setup.hasEcon)
-				add("Cash Prize: " + Variables.CSym + tObj.Cash);
+				add("Cash Prize: " + Variables.CurrSym + tObj.Cash);
 			add("Click to finish creation.");
 		}};
 		meta.setLore(lore);

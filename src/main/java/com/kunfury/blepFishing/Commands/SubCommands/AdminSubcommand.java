@@ -29,8 +29,7 @@ public class AdminSubcommand extends SubCommand {
         if(sender.hasPermission("bf.admin")) {
             AdminMenu menu = new AdminMenu();
             menu.ShowInventory(sender);
-        }else
-            new CommandManager().NoPermission(sender);
+        }else new CommandManager().NoPermission(sender);
     }
 
     @Override

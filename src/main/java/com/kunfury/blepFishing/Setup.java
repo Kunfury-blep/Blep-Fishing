@@ -5,18 +5,15 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 import com.kunfury.blepFishing.Crafting.CraftingManager;
+import com.kunfury.blepFishing.Crafting.Equipment.FishBag.UseFishBag;
 import com.kunfury.blepFishing.Tournament.TournamentClickListener;
 import com.kunfury.blepFishing.Tournament.Tournament;
 import com.kunfury.blepFishing.Commands.*;
 import com.kunfury.blepFishing.Plugins.PluginHandler;
-import com.sk89q.worldguard.WorldGuard;
-import com.sk89q.worldguard.protection.flags.Flag;
-import com.sk89q.worldguard.protection.flags.StateFlag;
-import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
-import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -62,13 +59,16 @@ public class Setup extends JavaPlugin {
     	
     	new FishSign().LoadSigns();
 
-    	getServer().getPluginManager().registerEvents(new FishListener(), this);
-    	getServer().getPluginManager().registerEvents(new FishSign(), this);
-    	getServer().getPluginManager().registerEvents(new AdminMenu(), this);
-    	getServer().getPluginManager().registerEvents(new Villagers(), this);
-    	getServer().getPluginManager().registerEvents(new TournamentRewards(), this);
-		getServer().getPluginManager().registerEvents(new Tournament(), this);
-		getServer().getPluginManager().registerEvents(new TournamentClickListener(), this);
+    	PluginManager pm = getServer().getPluginManager();
+    	pm.registerEvents(new FishListener(), this);
+		pm.registerEvents(new FishSign(), this);
+		pm.registerEvents(new AdminMenu(), this);
+		pm.registerEvents(new Villagers(), this);
+		pm.registerEvents(new TournamentRewards(), this);
+		pm.registerEvents(new Tournament(), this);
+		pm.registerEvents(new TournamentClickListener(), this);
+		pm.registerEvents(new UseFishBag(), this);
+		pm.registerEvents(new CraftingManager(), this);
 		//getServer().getPluginManager().registerEvents(new SmithingTableHandler(), this);
 
 
@@ -85,30 +85,13 @@ public class Setup extends JavaPlugin {
 
 		new CraftingManager().InitItems();
 		//new NetheriteRod().CreateRecipe();
-    	
+
+
     }
 
 	@Override
 	public void onLoad() {
-		if(Bukkit.getPluginManager().getPlugin("WorldGuard") != null){
-			FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
-			try {
-				// create a flag with the name "my-custom-flag", defaulting to true
-				StateFlag flag = new StateFlag("blep-fish", true);
-				registry.register(flag);
-				PluginHandler.BLEP_FISH = flag; // only set our field if there was no error
-			} catch (FlagConflictException e) {
-				// some other plugin registered a flag by the same name already.
-				// you can use the existing flag, but this may cause conflicts - be sure to check type
-				Flag<?> existing = registry.get("blep-fish");
-				if (existing instanceof StateFlag) {
-					PluginHandler.BLEP_FISH = (StateFlag) existing;
-				} else {
-					// types don't match - this is bad news! some other plugin conflicts with you
-					// hopefully this never actually happens
-				}
-			}
-		}
+
 	}
 
     private boolean setupEconomy() {

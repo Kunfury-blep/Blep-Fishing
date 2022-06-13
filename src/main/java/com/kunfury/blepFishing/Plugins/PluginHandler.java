@@ -48,6 +48,25 @@ public class PluginHandler {
     private void SetupWorldGuard(){
         if(Bukkit.getPluginManager().getPlugin("WorldGuard") != null){
             hasWorldGuard = true;
+
+//            FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
+//            try {
+//                // create a flag with the name "my-custom-flag", defaulting to true
+//                StateFlag flag = new StateFlag("blep-fish", true);
+//                registry.register(flag);
+//                PluginHandler.BLEP_FISH = flag; // only set our field if there was no error
+//            } catch (FlagConflictException e) {
+//                // some other plugin registered a flag by the same name already.
+//                // you can use the existing flag, but this may cause conflicts - be sure to check type
+//                Flag<?> existing = registry.get("blep-fish");
+//                if (existing instanceof StateFlag) {
+//                    PluginHandler.BLEP_FISH = (StateFlag) existing;
+//                } else {
+//                    // types don't match - this is bad news! some other plugin conflicts with you
+//                    // hopefully this never actually happens
+//                }
+//            }
+
         }
     }
 

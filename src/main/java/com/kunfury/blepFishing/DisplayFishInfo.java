@@ -6,7 +6,6 @@ import java.util.Objects;
 
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -44,7 +43,7 @@ public class DisplayFishInfo {
 		Bukkit.getServer().getScheduler().runTaskLater(Setup.getPlugin(), new Runnable() {
         	@Override
         	  public void run() {
-        		String formattedName = StringUtils.capitalize(fish.Name.toLowerCase());
+        		String formattedName = fish.Name;
         		String fishName = fish.Name.toUpperCase();
         		
         		ScoreboardManager manager = Bukkit.getScoreboardManager();
@@ -60,7 +59,7 @@ public class DisplayFishInfo {
                 score.setScore(3);            
                 
                 if(Setup.hasEcon) { //Checks that an economy is installed
-                	Score score1 = objective.getScore(ChatColor.GREEN + Variables.CSym + Formatting.DoubleFormat(fish.RealCost));
+                	Score score1 = objective.getScore(ChatColor.GREEN + Variables.CurrSym + Formatting.DoubleFormat(fish.RealCost));
                 	score1.setScore(2);  
                 }      
                 

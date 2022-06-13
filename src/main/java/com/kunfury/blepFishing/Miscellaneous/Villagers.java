@@ -1,5 +1,7 @@
 package com.kunfury.blepFishing.Miscellaneous;
 
+import com.kunfury.blepFishing.Setup;
+import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -20,20 +22,29 @@ public class Villagers implements Listener {
 		Entity entity = e.getRightClicked();
 		Player player = e.getPlayer();
 		ItemStack item = player.getInventory().getItemInMainHand();
-		
-		if(entity instanceof Villager) {
-			Villager villager = (Villager)entity;
-			if(villager.getProfession().equals(Villager.Profession.FISHERMAN) 
-					&& item.getType() == Material.SALMON) {
-				FishEconomy.SellFish(player, 1);
-				e.setCancelled(true);
+		if(Setup.getEconomy() != null){
+			if(entity instanceof Villager) {
+				Villager villager = (Villager)entity;
+				if(villager.getProfession().equals(Villager.Profession.FISHERMAN)
+						&& item.getType() == Material.SALMON) {
+					FishEconomy.SellFish(player, 1);
+					e.setCancelled(true);
+				}
+
 			}
-			
+			if(Variables.AllowWanderingTraders && entity instanceof WanderingTrader){
+				if(item.getType() == Material.SALMON){
+					FishEconomy.SellFish(player, Variables.TraderMod);
+					e.setCancelled(true);
+				}
+				//
+				if(item.getType() == Material.HEART_OF_THE_SEA && NBTEditor.contains(item,"blep", "item", "fishBagId" )){
+
+				}
+
+			}
 		}
-		if(Variables.AllowWanderingTraders && entity instanceof WanderingTrader && item.getType() == Material.SALMON){
-			FishEconomy.SellFish(player, Variables.TraderMod);
-			e.setCancelled(true);
-		}
+
 		
 		
 	}

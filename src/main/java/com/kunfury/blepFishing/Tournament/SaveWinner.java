@@ -26,7 +26,7 @@ public class SaveWinner {
 
 		ItemStack cash = new ItemStack(Material.COMMAND_BLOCK, cashReward);
 		//TODO: Ensure the below is needed
-		cash.setAmount(cashReward); //Possibly not needed
+		cash.setAmount(cashReward); //Possibly not needed as the above defines the amount
 		items.add(cash);
 
 		 try {
