@@ -72,7 +72,7 @@ public class FishSwitch{
 					fish.BagID = bagId;
 					item.remove();
 					player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, .33f, 1f);
-					new UpdateBag(slot, player);
+					new UpdateBag().Update(slot, player);
 					break;
 				}
 			}

@@ -84,15 +84,18 @@ public class CommandManager implements TabExecutor {
     }
 
     private void BaseCommand(CommandSender sender){
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+        String helpMessage = ChatColor.translateAlternateColorCodes('&',
                 "                     " + Messages.getString("helpTitle") + "\n"
                         + Prefix + "/bf lb <fishname> - " + Messages.getString("leaderboardHelp") + "\n"
                         + Prefix + "/bf reload - " + Messages.getString("reloadHelp") + "\n"
                         + Prefix + "/bf fish - " + Messages.getString("fishHelp") + "\n"
                         + Prefix + "/bf claim - " + Messages.getString("claimHelp") + "\n"
                         + Prefix + "/bf tourney - " + Messages.getString("tourneyHelp") + "\n"
-                        + Prefix + "/bf admin - " + Messages.getString("adminHelp") + "\n"
-        ));
+                        + Prefix + "/bf admin - " + Messages.getString("adminHelp") + "\n");
+        if(sender.hasPermission("bf.admin")) helpMessage += Prefix + "/bf config - " + Messages.getString("configHelp") + "\n";
+
+
+        sender.sendMessage(helpMessage);
     }
 
 }

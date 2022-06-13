@@ -40,7 +40,7 @@ public class FishBagWithdraw {
             p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, .33f, 1f);
             Variables.UpdateFishData();
 
-            new UpdateBag(bag, p);
+            new UpdateBag().Update(bag, p);
         }
 
     }

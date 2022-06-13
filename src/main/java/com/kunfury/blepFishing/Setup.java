@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import com.kunfury.blepFishing.Crafting.CraftingManager;
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.UseFishBag;
+import com.kunfury.blepFishing.Crafting.SmithingTableHandler;
 import com.kunfury.blepFishing.Tournament.TournamentClickListener;
 import com.kunfury.blepFishing.Tournament.Tournament;
 import com.kunfury.blepFishing.Commands.*;
@@ -69,8 +70,9 @@ public class Setup extends JavaPlugin {
 		pm.registerEvents(new TournamentClickListener(), this);
 		pm.registerEvents(new UseFishBag(), this);
 		pm.registerEvents(new CraftingManager(), this);
-		//getServer().getPluginManager().registerEvents(new SmithingTableHandler(), this);
+		pm.registerEvents(new SmithingTableHandler(), this);
 
+		new SmithingTableHandler().InitializeSmithRecipes();
 
 		new PluginHandler().InitializePlugins();
 

@@ -1,5 +1,6 @@
-package com.kunfury.blepFishing.Crafting;
+package com.kunfury.blepFishing.Crafting.Equipment.FishBag;
 
+import com.kunfury.blepFishing.Crafting.Equipment.Update;
 import com.kunfury.blepFishing.Setup;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Bukkit;
@@ -20,7 +21,7 @@ import java.util.UUID;
 import static com.kunfury.blepFishing.Crafting.CraftingManager.*;
 
 public class FishBagRecipe {
-    public void BasicBag(){
+    public void SmallBag(){
         ItemStack bag = new ItemStack(Material.HEART_OF_THE_SEA, 1);
         bag = NBTEditor.set(bag, 1, "blep", "item", "fishBagTier" ); //Sets the tier of the bag to 1
         bag = NBTEditor.set(bag, 0, "blep", "item", "fishBagAmount" ); //Sets the current amount of the bag to 0
@@ -33,16 +34,7 @@ public class FishBagRecipe {
         ItemMeta m = bag.getItemMeta();
         m.setDisplayName("Small Bag o' Fish");
 
-        ArrayList<String> lore = new ArrayList<String>();
-        lore.add("Holds a small amount of fish");
-        lore.add("");
-
-        lore.add(ChatColor.WHITE + ("|||||||||| - 0/256"));
-
-        lore.add("");
-        lore.add(ChatColor.RED + "Left-Click While Holding to Toggle " + ChatColor.YELLOW + ChatColor.ITALIC + "Auto-Pickup");
-
-        m.setLore(lore);
+        m.setLore(new UpdateBag().GenerateLore(bag));
 
         m.setCustomModelData(1);
         m.addItemFlags(ItemFlag.HIDE_ENCHANTS);
@@ -72,4 +64,5 @@ public class FishBagRecipe {
             }
         }, 1L); // 600L (ticks) is equal to 30 seconds (20 ticks = 1 second)
     }
+
 }

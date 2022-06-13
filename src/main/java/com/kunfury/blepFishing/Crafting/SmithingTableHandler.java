@@ -1,13 +1,22 @@
 package com.kunfury.blepFishing.Crafting;
 
+import com.kunfury.blepFishing.Crafting.Equipment.FishBag.BagInfo;
+import com.kunfury.blepFishing.Crafting.Equipment.FishBag.UpdateBag;
+import com.kunfury.blepFishing.Crafting.Equipment.Update;
+import com.kunfury.blepFishing.Setup;
+import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.PrepareSmithingEvent;
+import org.bukkit.event.inventory.SmithItemEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.RecipeChoice;
+import org.bukkit.inventory.SmithingRecipe;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -16,6 +25,12 @@ import java.util.List;
 
 public class SmithingTableHandler implements Listener {
 
+
+
+    String[] bagNames = {"Small", "Medium", "Large", "Giant"};
+
+
+
     @EventHandler
     public void prepareSmithingEvent(PrepareSmithingEvent e){
 
@@ -23,33 +38,71 @@ public class SmithingTableHandler implements Listener {
 
         ItemStack[] inv = e.getInventory().getStorageContents();
 
-        if(inv[0] != null && inv[1] != null && inv[0].getType() == Material.FISHING_ROD){
-            switch(inv[1].getType()){
-                case DIAMOND:
-                    Bukkit.broadcastMessage("Attempting Diamond Rod!");
+        ItemStack origItem = inv[0];
+        ItemStack upItem = inv[1];
+
+        if(origItem != null && inv[1] != null){
+            switch(origItem.getType()){
+                case HEART_OF_THE_SEA:
+                    UpgradeBag(origItem, upItem, e);
                     break;
-                case IRON_INGOT:
-                    Bukkit.broadcastMessage("Attempting Iron Rod!");
-                    break;
-                case NETHERITE_INGOT:
-                    e.setResult(NetheriteRodSetup(inv[0]));
-                    Bukkit.broadcastMessage("Attempting Netherite Rod!");
-                    break;
+//                case FISHING_ROD:
+//                    UpgradeRod(origItem, upItem, e);
+//                    break;
                 default:
-                    Bukkit.broadcastMessage("Not Crafting Specific!");
                     break;
             }
 
             List<HumanEntity> viewers = e.getViewers();
             viewers.forEach(humanEntity -> ((Player)humanEntity).updateInventory());
-            //ItemStack item = e.getInventory().getStorageContents()[0];
-            //item.setType(Material.BAKED_POTATO);
         }
 
         //Bukkit.broadcastMessage("Smithing Inventory: " + Arrays.toString(e.getInventory().getStorageContents()));
     }
 
-    public ItemStack NetheriteRodSetup(ItemStack initialRod){
+
+
+    private void UpgradeBag(ItemStack oldBag, ItemStack upgradeItem, PrepareSmithingEvent e){
+        if(!BagInfo.IsFull(oldBag)){
+            e.setResult(new ItemStack(Material.AIR, 0));
+            return;
+        }
+        switch(upgradeItem.getType()){
+            case IRON_BLOCK:
+                e.setResult(BagSetup(oldBag, 2));
+                break;
+            case DIAMOND_BLOCK:
+                e.setResult(BagSetup(oldBag, 3));
+                break;
+            case NETHERITE_BLOCK:
+                e.setResult(BagSetup(oldBag, 4));
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void UpgradeRod(ItemStack oldRod, ItemStack upgradeItem, PrepareSmithingEvent e){
+        switch(upgradeItem.getType()){
+            case DIAMOND:
+                Bukkit.broadcastMessage("Attempting Diamond Rod!");
+                break;
+            case IRON_INGOT:
+                Bukkit.broadcastMessage("Attempting Iron Rod!");
+                break;
+            case NETHERITE_INGOT:
+                e.setResult(NetheriteRodSetup(oldRod));
+                Bukkit.broadcastMessage("Attempting Netherite Rod!");
+                break;
+            default:
+                Bukkit.broadcastMessage("Not Crafting Specific!");
+                break;
+        }
+    }
+
+
+
+    private ItemStack NetheriteRodSetup(ItemStack initialRod){
 
         ItemStack result = new ItemStack(initialRod);
         ItemMeta meta = result.getItemMeta();
@@ -60,6 +113,51 @@ public class SmithingTableHandler implements Listener {
         meta.setDisplayName("Netherite Fishing Rod");
         result.setItemMeta(meta);
         return result;
+    }
+
+    private ItemStack BagSetup(ItemStack oldBag, int goalTier){
+
+        ItemStack result = new ItemStack(oldBag);
+        int tier = NBTEditor.getInt(result, "blep", "item", "fishBagTier" );
+        if(tier != goalTier - 1 ) return new ItemStack(Material.AIR, 0);
+
+        result = NBTEditor.set(result, tier + 1, "blep", "item", "fishBagTier" ); //Sets the tier of the bag to 2
+
+        ItemMeta m = result.getItemMeta();
+
+        m.setDisplayName(bagNames[tier] + " Bag o' Fish");
+        m.setLore(new UpdateBag().GenerateLore(result));
+
+        result.setItemMeta(m);
+
+
+
+        return result;
+    }
+
+
+
+    public void InitializeSmithRecipes(){
+        SmithingRecipe medBag = new SmithingRecipe(new NamespacedKey(Setup.getPlugin(), "FishBagMed"),
+                new ItemStack(Material.AIR), // any material seems fine
+                new RecipeChoice.MaterialChoice(Material.HEART_OF_THE_SEA),
+                new RecipeChoice.MaterialChoice(Material.IRON_BLOCK)
+        );
+        Bukkit.addRecipe(medBag);
+
+        SmithingRecipe largeBag = new SmithingRecipe(new NamespacedKey(Setup.getPlugin(), "FishBagLarge"),
+                new ItemStack(Material.AIR), // any material seems fine
+                new RecipeChoice.MaterialChoice(Material.HEART_OF_THE_SEA),
+                new RecipeChoice.MaterialChoice(Material.DIAMOND_BLOCK)
+        );
+        Bukkit.addRecipe(largeBag);
+
+        SmithingRecipe giantBag = new SmithingRecipe(new NamespacedKey(Setup.getPlugin(), "FishBagGiant"),
+                new ItemStack(Material.AIR), // any material seems fine
+                new RecipeChoice.MaterialChoice(Material.HEART_OF_THE_SEA),
+                new RecipeChoice.MaterialChoice(Material.NETHERITE_BLOCK)
+        );
+        Bukkit.addRecipe(giantBag);
     }
 
 }

@@ -1,19 +1,19 @@
 package com.kunfury.blepFishing.Crafting;
 
-import com.kunfury.blepFishing.Setup;
+import com.kunfury.blepFishing.Crafting.Equipment.FishBag.BagInfo;
+import com.kunfury.blepFishing.Crafting.Equipment.FishBag.FishBagRecipe;
+import com.kunfury.blepFishing.Miscellaneous.Variables;
+import io.github.bananapuncher714.nbteditor.NBTEditor;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.RecipeChoice;
-import org.bukkit.inventory.ShapelessRecipe;
-import org.bukkit.inventory.SmithingRecipe;
-import org.bukkit.inventory.meta.Damageable;
-import org.bukkit.inventory.meta.ItemMeta;
 
 public class CraftingManager implements Listener {
 
@@ -23,7 +23,7 @@ public class CraftingManager implements Listener {
 
 
     public void InitItems(){
-        new FishBagRecipe().BasicBag();
+        new FishBagRecipe().SmallBag();
 
     }
 
@@ -34,6 +34,29 @@ public class CraftingManager implements Listener {
         e.getPlayer().discoverRecipe(CraftingManager.key);
     }
 
+    @EventHandler
+    public void onCraftItem(CraftItemEvent e) {
+        CraftingInventory inv = e.getInventory();
 
+        //TODO: Check for any crafting being done with the custom items and cancel it. Possibly send message to player?
+        for (ItemStack it : inv.getStorageContents()) {
+            if (it != null && it.getType() != Material.AIR) {
+                switch(it.getType()){
+                    case HEART_OF_THE_SEA:
+                        CheckBagCraft(e, it);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+    }
+
+    private void CheckBagCraft(CraftItemEvent e, ItemStack item){
+        if(!BagInfo.IsBag(item) || BagInfo.IsBag(e.getInventory().getResult())) return;
+        e.setCancelled(true);
+        e.getWhoClicked().sendMessage(Variables.Prefix + ChatColor.RED + "You cannot use your bag for that.");
+    }
 
 }

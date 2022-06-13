@@ -16,6 +16,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -28,7 +29,6 @@ import java.util.stream.Collectors;
 
 public class UseFishBag implements Listener {
 
-    private Inventory BagInv;
     @EventHandler
     public void FishBagInteract(PlayerInteractEvent e){
 
@@ -36,21 +36,17 @@ public class UseFishBag implements Listener {
         ItemStack item = p.getInventory().getItemInMainHand();
         Action a = e.getAction();
 
-        if(item != null && item.getType() == Material.HEART_OF_THE_SEA && a != Action.PHYSICAL){
+        if(item != null && item.getType() == Material.HEART_OF_THE_SEA && a != Action.PHYSICAL
+                && NBTEditor.contains(item, "blep", "item", "fishBagId") && !p.getOpenInventory().getType().equals(InventoryType.CHEST)){
             e.setCancelled(true);
 
-
-            boolean nbt = NBTEditor.contains(item, "blep", "item", "fishBagId");
-
-            if(nbt){
-                if(a == Action.LEFT_CLICK_AIR || a == Action.LEFT_CLICK_BLOCK){
-                    TogglePickup(item, p);
-                    //TODO: Shift-Right to fill bag from inventory
+            if(a == Action.LEFT_CLICK_AIR || a == Action.LEFT_CLICK_BLOCK){
+                TogglePickup(item, p);
+                //TODO: Shift-Right to fill bag from inventory
 //                    if(p.isSneaking()) FillBag(item, p);
 //                    else TogglePickup(item, p);
-                }else if(a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK){
-                    UseBag(item, p);
-                }
+            }else if(a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK){
+                UseBag(item, p);
             }
         }
     }
@@ -60,14 +56,10 @@ public class UseFishBag implements Listener {
     public void inventoryClick(InventoryClickEvent e) {
         ClickType a = e.getClick();
         ItemStack item = e.getCurrentItem();
-        if(item != null && e.getInventory() == BagInv){
+        Player p = (Player) e.getWhoClicked();
+        ItemStack bag = p.getInventory().getItemInMainHand();
+        if(item != null && bag != null && e.getView().getTitle().equals(bag.getItemMeta().getDisplayName())){
             e.setCancelled(true);
-            Player p = (Player) e.getWhoClicked();
-            ItemStack bag = p.getInventory().getItemInMainHand();
-
-            if(!e.getView().getTitle().equals(bag.getItemMeta().getDisplayName())) return; //Ensures the user still has the bag selected
-
-
             String fishName = item.getItemMeta().getDisplayName();
             String bagId = NBTEditor.getString(item,"blep", "item", "fishBagId" );
 
@@ -122,56 +114,9 @@ public class UseFishBag implements Listener {
 
 
             scheduler.runTask(Setup.getPlugin(), () -> {
-                ReturnBagContents(tempFish, player, bagId, bag);
+                new UpdateBag().ShowBagInv(tempFish, player, bagId, bag);
             });
         });
-    }
-
-    public void ReturnBagContents(List<FishObject> fishObjectList, Player p, String bagId, @NotNull ItemStack bag){
-        int fishTypes = (int) (Math.ceil(Variables.BaseFishList.size()/9.0) * 9); ; //Makes as many slots as needed for generated fish, rounded up to the nearest multiple of 9
-        BagInv = Bukkit.createInventory(null, fishTypes, bag.getItemMeta().getDisplayName());
-
-        for (int i=0; i<Variables.BaseFishList.size(); i++)
-        {
-            BaseFishObject bFIsh = Variables.BaseFishList.get(i);
-
-            List<FishObject> availFish = fishObjectList.stream()
-                    .filter(f -> f.Name.equalsIgnoreCase(bFIsh.Name))
-                    .collect(Collectors.toList());
-
-            //Fills the inventory with the fish in the bag
-            if(availFish != null && availFish.size() > 0){
-                ItemStack fish = new ItemStack(Material.SALMON, 1);
-
-                fish = NBTEditor.set(fish, bagId, "blep", "item", "fishBagId" ); //Adds the current bag id to the fish objects. Likely inefficient, change in future
-                ItemMeta m = fish.getItemMeta();
-
-                //TODO: Set color of display name to the rarity of the largest one caught
-                m.setDisplayName(ChatColor.AQUA +  bFIsh.Name);
-
-                ArrayList<String> lore = new ArrayList<String>();
-                if(bFIsh.Lore != null && !bFIsh.Lore.isEmpty()) lore.add(bFIsh.Lore);
-                lore.add("");
-
-                FishObject biggestFish = availFish.get(availFish.size() - 1);
-
-                lore.add(ChatColor.AQUA + "Amount Stored: " + ChatColor.WHITE + availFish.size());
-                lore.add(ChatColor.AQUA + "Largest Fish: " + ChatColor.WHITE + biggestFish.GetSize() + Variables.SizeSym);
-                lore.add("");
-                lore.add(ChatColor.RED + "Left-Click to Withdraw " + ChatColor.YELLOW + ChatColor.ITALIC + "Smallest");
-                lore.add(ChatColor.RED + "Right-Click to Withdraw "  + ChatColor.YELLOW + ChatColor.ITALIC + "Largest");
-                lore.add("");
-                lore.add(ChatColor.RED + "" + ChatColor.ITALIC + "Hold Shift to Withdraw " + ChatColor.YELLOW + "All");
-                m.setLore(lore);
-
-                m.setCustomModelData(bFIsh.ModelData);
-                fish.setItemMeta(m);
-
-                BagInv.addItem(fish);
-            }
-
-            p.openInventory(BagInv);
-        }
     }
 
 
@@ -229,7 +174,7 @@ public class UseFishBag implements Listener {
         fishObj.BagID = bagId;
         fish.setAmount(0);
         Variables.UpdateFishData();
-        new UpdateBag(bag, p);
+        new UpdateBag().Update(bag, p);
         p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, .33f, 1f);
     }
 }
