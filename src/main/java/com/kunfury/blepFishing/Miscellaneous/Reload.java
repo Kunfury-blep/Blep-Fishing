@@ -8,32 +8,29 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
+import com.kunfury.blepFishing.AllBlue.AllBlueVars;
 import com.kunfury.blepFishing.DisplayFishInfo;
+import com.kunfury.blepFishing.Objects.*;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 
 import com.kunfury.blepFishing.Setup;
 
-import com.kunfury.blepFishing.Objects.AreaObject;
-import com.kunfury.blepFishing.Objects.BaseFishObject;
-import com.kunfury.blepFishing.Objects.FishObject;
-import com.kunfury.blepFishing.Objects.RarityObject;
-import com.kunfury.blepFishing.Objects.TournamentObject;
 import com.kunfury.blepFishing.Tournament.Tournament;
 
 public class Reload {
 
 	CommandSender sender;
 
-	@SuppressWarnings("unchecked")
 	public boolean ReloadPlugin(CommandSender s) {
 		sender = s;
 		Setup.setup.reloadConfig();
     	Setup.config = Setup.setup.getConfig();
-    	
+
     	Set<String> existCheck = Setup.config.getConfigurationSection("").getKeys(false); //Gets all the config-
 		
-    	if(true || existCheck.contains("fish") && existCheck.contains("rarities") ) {
+    	if(existCheck.contains("fish") && existCheck.contains("rarities") ) {
     		//Reset all variables to reduce crashing
     		Variables.BaseFishList.clear();
         	Variables.RarityList.clear();
@@ -79,32 +76,12 @@ public class Reload {
     		Map<String, Object> areaMap = Setup.config.getConfigurationSection("areas").getValues(false);
     		for(final String key : areaMap.keySet()) {
 				List<String> biomes = Setup.config.getStringList("areas." + key + ".Biomes");
-    			
-    			AreaObject area = new AreaObject(key, biomes);
+    			String compassHint = Setup.config.getString("areas." + key + ".Compass Hint");
+    			boolean hasCompass = Setup.config.getBoolean("areas." + key + ".Has Compass");
+
+    			AreaObject area = new AreaObject(key, biomes, compassHint, hasCompass);
     			Variables.AreaList.add(area);
     		}
-    		
-    	
-    		//Getting all caught fish
-    		try {
-    			String dictPath = Setup.dataFolder + "/fish.data";   
-            	ObjectInputStream input = null;
-    		    File tempFile = new File(dictPath);
-    		    if(tempFile.exists()) {
-        		    input = new ObjectInputStream(new FileInputStream (dictPath));
-        		    Variables.FishDict = (HashMap<String, List<FishObject>>) input.readObject();
-    		    	//savedFishList.addAll((List<FishObject>)input.readObject());	
-    		    }
-    		    if(input != null)
-    		    	input.close();
-    		} catch (IOException | ClassNotFoundException ex) {
-    			sender.sendMessage("Loading of fish Failed");
-    			ex.printStackTrace();
-    		}   
-    		
-    		//Get all tournaments
-    		LoadTournaments();
-    		
 
     		//Sets the total weight of rarities and fish
     		for(final RarityObject rarity : Variables.RarityList)
@@ -140,10 +117,22 @@ public class Reload {
 
         	sender.sendMessage(Variables.Prefix + Variables.Messages.getString("reloaded"));
         	//FixOld();
-        	
-    	}else {
-    		sender.sendMessage("Your config is incorrect, nuking it all for some reason.");
-    	}	
+
+
+			//AreaObjects
+
+
+
+
+			//Getting all caught fish
+			LoadFishDict();
+
+			//Get all tournaments
+			LoadTournaments();
+
+			//Get all active All Blue
+			LoadAllBlue();
+    	}
 		
 		return true;
 	}
@@ -183,5 +172,37 @@ public class Reload {
 		new Tournament().Initialize();
 	}
 	
-	
+	private void LoadFishDict(){
+		try {
+			String dictPath = Setup.dataFolder + "/fish.data";
+			ObjectInputStream input = null;
+			File tempFile = new File(dictPath);
+			if(tempFile.exists()) {
+				input = new ObjectInputStream(new FileInputStream (dictPath));
+				Variables.FishDict = (HashMap<String, List<FishObject>>) input.readObject();
+			}
+			if(input != null)
+				input.close();
+		} catch (IOException | ClassNotFoundException ex) {
+			sender.sendMessage("Loading of fish Failed");
+			ex.printStackTrace();
+		}
+	}
+
+	private void LoadAllBlue(){
+		try {
+			String path = Setup.dataFolder + "/AllBlue.data";
+			ObjectInputStream input = null;
+			File tempFile = new File(path);
+			if(tempFile.exists()) {
+				input = new ObjectInputStream(new FileInputStream (path));
+				AllBlueVars.AllBlueCenters = (List<LocationObject>) input.readObject();
+			}
+			if(input != null)
+				input.close();
+		} catch (IOException | ClassNotFoundException ex) {
+			sender.sendMessage("Loading of all blue Failed");
+			ex.printStackTrace();
+		}
+	}
 }
