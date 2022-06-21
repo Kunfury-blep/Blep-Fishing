@@ -1,33 +1,25 @@
 package com.kunfury.blepFishing;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
+import com.kunfury.blepFishing.AllBlue.AllBlueInfo;
+import com.kunfury.blepFishing.AllBlue.AllBlueVars;
+import com.kunfury.blepFishing.AllBlue.DangerEvents;
+import com.kunfury.blepFishing.AllBlue.TreasureHandler;
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.BagInfo;
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.UpdateBag;
-import com.kunfury.blepFishing.Crafting.Equipment.Update;
-import com.kunfury.blepFishing.Plugins.PluginHandler;
+import com.kunfury.blepFishing.Objects.*;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Miscellaneous.Variables;
-import com.kunfury.blepFishing.Objects.AreaObject;
-import com.kunfury.blepFishing.Objects.BaseFishObject;
-import com.kunfury.blepFishing.Objects.FishObject;
-import com.kunfury.blepFishing.Objects.RarityObject;
-import com.kunfury.blepFishing.Objects.TournamentObject;
 //import io.netty.util.internal.ThreadLocalRandom;
-import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 public class FishSwitch{
@@ -39,13 +31,22 @@ public class FishSwitch{
 	    if(e.getCaught() instanceof Item){
 			Item item = (Item) e.getCaught();
 			Player player = e.getPlayer();
-			//Bukkit.broadcastMessage(item.getName());
-			//Check if the item is a fish, stop running if not
 
 			if(!CanFish(item, player, e )) return;
+			AllBlueObject allBlueObj = AllBlueInfo.GetAllBlue(item.getLocation());
+			boolean allBlue = (allBlueObj != null);
+
+			if(new TreasureHandler().TreasureCheck()){
+				ItemStack treasure = new TreasureHandler().GenerateTreasure(player, item.getLocation());
+				if(treasure != null && treasure.getType() != Material.AIR){
+					item.setItemStack(treasure);
+					return;
+				}
+			}
 
 			BaseFishObject base = GetCaughtFish(item);
 			if(base == null || base.Name == null) return;
+
 			//Rarity Selection
 			int randR = ThreadLocalRandom.current().nextInt(0, Variables.RarityTotalWeight);
 			RarityObject chosenRarity = Variables.RarityList.get(0);
@@ -57,11 +58,12 @@ public class FishSwitch{
 					randR -= rarity.Weight;
 			}
 
-			double size = ThreadLocalRandom.current().nextDouble(base.MinSize, base.MaxSize);
 
-			FishObject fish = new FishObject(base, chosenRarity, e.getPlayer().getName(), size);
+
+			FishObject fish = new FishObject(base, chosenRarity, e.getPlayer().getName(), base.getSize(allBlue));
 
 			item.setItemStack(fish.GenerateItemStack());
+
 			//Checks if the player has a fishing bag. Automatically adds the fish to it if so
 			for (var slot : player.getInventory())
 			{
@@ -91,75 +93,58 @@ public class FishSwitch{
 
 			CheckAgainstTournaments(fish);
 			Variables.AddToFishDict(fish);
+
+			if(allBlue) allBlueObj.RemoveFish(1, player);
+			new DangerEvents().Trigger(player, item.getLocation()); //TODO: Pass if in All Blue or not
 		}
 
 	}
 
 
+	/**
+	 * Returns the fish to be caught. Checks against the possible areas
+	 * @param item The item that was fished up
+	 * @return
+	 */
 	private BaseFishObject GetCaughtFish(Item item) {
-		List<BaseFishObject> fishList = new ArrayList<>();
+		Location iLoc = item.getLocation();
 
-		List<BaseFishObject> wFish = new ArrayList<>(); //Available fish to choose from
-		//Checks For Weather
-		if (!Bukkit.getWorlds().get(0).hasStorm()) {
-			for (final BaseFishObject fish : Variables.BaseFishList) {
-				if (!fish.IsRaining)
-					wFish.add(fish);
-			}
-		} else
-			wFish = Variables.BaseFishList;
+		List<BaseFishObject> availFish = Variables.BaseFishList; //Available fish to choose from
 
 
-		//Checks for active area
-		List<AreaObject> areas = new ArrayList<>();
-		String biomeName = item.getLocation().getBlock().getBiome().name();
-		Variables.AreaList.forEach(a -> {
-			if (a.Biomes.contains(biomeName)) {
-				areas.add(a);
-			}
-		});
+		if(!AllBlueInfo.InAllBlue(iLoc)) { //If in All Blue, skips the below testing and instead just returns whole list
 
-		int yLevel = item.getLocation().getBlockY();
+			List<AreaObject> areas = AreaObject.GetArea(iLoc); //Available areas to pull fish from
+			int height = iLoc.getBlockY();
+			Iterator iter = availFish.iterator();
 
-		//Get fish who can be caught in the area
-		for (BaseFishObject f : wFish) {
-			if(f.MaxHeight >= yLevel && f.MinHeight <= yLevel){
-				areas.forEach(a -> {
-					if (a.Name.equals(f.Area)) fishList.add(f);
-				});
+			if (!Bukkit.getWorlds().get(0).hasStorm()) {
+				while (iter.hasNext()) {
+					BaseFishObject bFish = (BaseFishObject) iter.next();
+					if (bFish.RequiresRain) iter.remove();
+					else if (bFish.MaxHeight >= height && bFish.MinHeight <= height) {
+						areas.forEach(a -> {
+							if (a.Name.equals(bFish.Area)) iter.remove();
+						});
+					}
+				}
 			}
 		}
-
-		fishList.sort((o1, o2) -> {
+		availFish.sort((o1, o2) -> {
 			Integer newWeight1 = o1.Weight;
 			Integer newWeight2 = o2.Weight;
 			return (newWeight1).compareTo(newWeight2);
 		});
 
+
 		//Get fish where height matches.
 
-
-
-
-		/* Commented out until I figure out what it was meant to do.
-		int randF = ThreadLocalRandom.current().nextInt(0, Variables.FishTotalWeight);
-		for(final BaseFishObject sort : Variables.BaseFishList) {
-			if(randF <= sort.Weight) {
-				base = sort;
-				break;
-			}else
-				randF -= base.Weight;
-		}
-	 	*/
-		//The following is temporary until I get fish weights introduced
-
 		BaseFishObject base = null;
-		if(fishList.size() > 0){
-			int rand = ThreadLocalRandom.current().nextInt(0, fishList.size());
-			base = fishList.get(rand);
+		if (availFish.size() > 0) {
+			int rand = ThreadLocalRandom.current().nextInt(0, availFish.size());
+			base = availFish.get(rand);
 		}
 		return base;
-
 	}
 
 	private void CheckAgainstTournaments(FishObject fish){

@@ -17,28 +17,24 @@ import org.bukkit.inventory.ItemStack;
 
 public class CraftingManager implements Listener {
 
-    public static ItemStack ironRod, goldFishingRod, diamondFishingRod, netheriteFishingRod;
     public static NamespacedKey key;
 
-
-
     public void InitItems(){
-        new FishBagRecipe().SmallBag();
-
+        if(Variables.EnableFishBags) new FishBagRecipe().SmallBag();
     }
 
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e)
     {
-        e.getPlayer().discoverRecipe(CraftingManager.key);
+        if(Variables.EnableFishBags) e.getPlayer().discoverRecipe(CraftingManager.key);
     }
 
     @EventHandler
     public void onCraftItem(CraftItemEvent e) {
         CraftingInventory inv = e.getInventory();
 
-        //TODO: Check for any crafting being done with the custom items and cancel it. Possibly send message to player?
+        //Checks that custom items are not used in recipes
         for (ItemStack it : inv.getStorageContents()) {
             if (it != null && it.getType() != Material.AIR) {
                 switch(it.getType()){

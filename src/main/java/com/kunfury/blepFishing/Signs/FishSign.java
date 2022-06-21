@@ -39,59 +39,98 @@ public class FishSign implements Listener {
 	public static List<SignObject> rankSigns = new ArrayList<>();
 	public static List<MarketObject> marketSigns = new ArrayList<>();
 	static String signFilePath = Setup.dataFolder + "/signs.data";
-	static String marketFilePath = Setup.dataFolder + "/markets.data";   
-	public static List<Location> signLocs = new ArrayList<>();
-
-	private boolean fishExists;
-	DecimalFormat df = new DecimalFormat("#.##");
+	static String marketFilePath = Setup.dataFolder + "/markets.data";
 
 	/**
 	 * Signs for the Fishmarket
 	 * @param e event variable
 	 */
 	@EventHandler
-	public void onChange(SignChangeEvent e){
+	public void onSignChange(SignChangeEvent e){
 		String[] lines = e.getLines();
 		Player player = e.getPlayer();
-		
+
+		Sign sign = (Sign)e.getBlock().getState();
+		boolean fishExists = false;
 		//Beginning of new sign creation
 		if(lines[0].equals("[bf]")) { //Checks that the sign is a Blep Fishing sign			
 			if(lines[1].equalsIgnoreCase("Fish Market")) {
-				if(player.hasPermission("bf.admin")) MarketCreate((Sign)e.getBlock().getState(), player.getWorld());
+				if(player.hasPermission("bf.admin")) MarketCreate(sign, player.getWorld());
 				else player.sendMessage(Variables.Prefix + "You need to be an admin to do that.");
 			}else {
 				//Checks if fish exist in the main list in FishSwitch
-				if(!e.getLine(1).equalsIgnoreCase("ALL")){
+				if(lines[1].equalsIgnoreCase("ALL")) fishExists = true;
+				else{
 					for(BaseFishObject fish : Variables.BaseFishList) {
 						if(fish.Name.equalsIgnoreCase(e.getLine(1))) {
 							fishExists = true;
 							break;
-						}
-					}
-				}else fishExists = true;
+				}}}
 
 				//Only runs the code if the fish type exists
 				if(fishExists){
 					int level = 0;
-					if(!lines[2].isEmpty()) { //Gets the provided leaderboard level
-						try {
-							level = Integer.parseInt(lines[2]) - 1;
-							if(level <= 0)
-								level = 0;
-						}catch(Exception ex) {
-							player.sendMessage("Third line is not a number, defaulting to 1st place.");
-							level = 0;
-						}
-					}
-					LeaderboardCreate((Sign)e.getBlock().getState(), level, lines[1], player.getWorld());
+					if(!lines[2].isEmpty() && isNumeric(lines[2])) { //Gets the provided leaderboard level
+						level = Integer.parseInt(lines[2]) - 1;
+						if(level < 0) level = 0;
+					}else player.sendMessage(Variables.Prefix + "Third line is not a number, defaulting to 1st place.");
+
+					rankSigns.add(new SignObject((Sign)e.getBlock().getState(), lines[1], level, player.getWorld()));
+					UpdateSignsFile();
 				}else e.setLine(3, ChatColor.translateAlternateColorCodes('&',"&4Fish Doesn't Exist"));
-
-
 			}
 		}
-		
-		
 	}
+
+	/**
+	 * Triggers when a Sign gets broken
+	 * @param e event variable
+	 * @throws Exception
+	 */
+	@EventHandler
+	public void onSignBreak(BlockBreakEvent e) {
+		if (e.getBlock().getState() instanceof org.bukkit.block.Sign) { //Checks if the block is a sign
+			Sign sign = (Sign) e.getBlock().getState();
+
+			if (rankSigns != null && rankSigns.size() > 0) {
+				for (SignObject signObj : rankSigns) {
+					if (signObj != null && signObj.GetSign() != null && signObj.GetSign().equals(sign)) {
+						rankSigns.remove(signObj);
+						UpdateSignsFile();
+						break;
+					}}}
+
+			if (marketSigns != null  && marketSigns.size() > 0) {
+				for (MarketObject marketObj : marketSigns) {
+					if (marketObj != null && marketObj.GetSign() != null  && marketObj.GetSign().equals(sign)) {
+						marketSigns.remove(marketObj);
+						UpdateSignsFile();
+						break;
+					}}}
+		}
+	}
+
+	/**
+	 * Triggers when a sign gets rightclickked
+	 * @param e event variable
+	 */
+	@EventHandler
+	public void onSignInteract(PlayerInteractEvent e) {
+		if(e.getAction().equals(Action.RIGHT_CLICK_BLOCK) && e.getClickedBlock().getState() instanceof  Sign) {
+			Sign sign = (Sign) e.getClickedBlock().getState();
+
+			if(Setup.hasEcon && e.getItem() != null  && e.getItem().getType() == Material.SALMON){
+				for(MarketObject market : marketSigns) {
+					if(market.CheckBool(sign)){
+						FishEconomy.SellFish(e.getPlayer(), 1);
+						break;
+					}
+				}
+			}
+		}
+
+	}
+
 
 	/**
 	 * Updates the sign
@@ -144,33 +183,6 @@ public class FishSign implements Listener {
 			ex.printStackTrace();
 		}
 	}
-
-	/**
-	 * Creates a Leaderboard on a Sign
-	 * @param sign the sign to create the leaderboard on
-	 * @param level the place the fish would be on the leaderboard
-	 * @param fishName the fish name to create the leaderboard for
-	 * @param world the world the leaderboard got created in
-	 */
-	private void LeaderboardCreate(Sign sign, int level, String fishName, World world) {
-		
-		rankSigns.add(new SignObject(sign, fishName, level, world));
-		
-		 //Save Fish
-		try {
-		    ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(signFilePath));
-		    output.writeObject(rankSigns);
-		    output.close();
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		}
-		Bukkit.getScheduler().runTaskLater((Plugin) Setup.getPlugin(), new Runnable() {
-			  @Override
-			  public void run() {
-				  UpdateSigns();
-			  }
-			}, 1L);
-	}
 	
 	private void MarketCreate(Sign sign, World world) {
 		
@@ -197,79 +209,30 @@ public class FishSign implements Listener {
 			}, 1L);
 	}
 
-	/**
-	 * Triggers when a Sign gets broken
-	 * @param e event variable
-	 * @throws Exception
-	 */
-	@EventHandler
-	public void onSignBreak(BlockBreakEvent e) {
-		
-		BlockState bs = e.getBlock().getState();
-		
-		if(bs instanceof org.bukkit.block.Sign) { //Checks if the block is a sign
-			if(rankSigns != null && rankSigns.size() > 0) {
-				Sign bSign = (Sign)e.getBlock().getState();
-				//The foreach loop is erroring
-				try {
-					for (SignObject signObj : rankSigns) {
-						try {
-							if(signObj.GetSign().equals(bSign)) {
-								rankSigns.remove(signObj);
-								break;
-							}
-						}catch(Exception ex) {
-							rankSigns.remove(signObj);
-						}
-					}
-				}
-				catch(Exception ex) {
-					//This is just needed because for some reason the sign list has an error sign in it
-				}
-				
-			}
-			if(marketSigns != null && marketSigns.size() > 0) {
-				Sign bSign = (Sign)e.getBlock().getState();
-				//The foreach loop is erroring
-				try {
-					for (MarketObject marketObj : marketSigns) {
-						try {
-							if(marketObj.GetSign().equals(bSign)) {
-								marketSigns.remove(marketObj);
-								break;
-							}
-						}catch(Exception ex) {
-							marketSigns.remove(marketObj);
-						}
-					}
-				}
-				catch(Exception ex) {
-					//This is just needed because for some reason the sign list has an error sign in it
-				}
-			}
-			
+	public void UpdateSignsFile(){
+		try {
+			ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(signFilePath));
+			output.writeObject(rankSigns);
+			output.close();
+		} catch (IOException ex) {
+			ex.printStackTrace();
 		}
+		Bukkit.getScheduler().runTaskLater(Setup.getPlugin(), () -> UpdateSigns(), 1L);
+
+		//TODO: Possibly delete file if empty
+		//TODO: Combine MarketObject and SignObject
 	}
 
-	/**
-	 * Triggers when a sign gets rightclickked
-	 * @param e event variable
-	 */
-	@EventHandler
-	public void onUseEvent(PlayerInteractEvent e) {
-		if(e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {			
-			BlockState bs = e.getClickedBlock().getState();		
-			
-			if(Setup.hasEcon && bs instanceof org.bukkit.block.Sign && e.getItem() != null  && e.getItem().getType() == Material.SALMON){
-				
-				for(MarketObject market : marketSigns) {
-					if(market.CheckBool((Sign)bs)){
-					    FishEconomy.SellFish(e.getPlayer(), 1);
-						break;
-					}
-				}
-			}
+	public static boolean isNumeric(String strNum) {
+		if (strNum == null) {
+			return false;
 		}
-		
+		try {
+			double d = Double.parseDouble(strNum);
+		} catch (NumberFormatException nfe) {
+			return false;
+		}
+		return true;
 	}
+
 }

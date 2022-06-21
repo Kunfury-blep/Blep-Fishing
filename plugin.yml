@@ -1,6 +1,6 @@
 name: BlepFishing
 main: com.kunfury.blepFishing.Setup
-version: 1.8
+version: 1.8.3
 api-version: 1.13
 author: Kunfury
 softdepend: [Vault, mcMMO, PlaceholderAPI, WorldGuard]

@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 
 import com.kunfury.blepFishing.AllBlue.AllBlueVars;
 import com.kunfury.blepFishing.DisplayFishInfo;
@@ -93,6 +94,8 @@ public class Reload {
         	String t = Setup.config.getString("Currency Symbol");
         	if(t != null)
         		Variables.CurrSym = t;
+
+
         	Variables.HighPriority = Setup.config.getBoolean("High Priority");
         	Variables.TournamentOnly = Setup.config.getBoolean("Tournament Only");
         	Variables.RequireAreaPerm = Setup.config.getBoolean("Area Permissions");
@@ -118,11 +121,17 @@ public class Reload {
         	sender.sendMessage(Variables.Prefix + Variables.Messages.getString("reloaded"));
         	//FixOld();
 
+			AllBlueVars.TreasureEnabled = Setup.config.getBoolean("Enable Treasure");
+			if(AllBlueVars.TreasureEnabled) AllBlueVars.TreasureChance = Setup.config.getInt("Treasure Chance");
+			Variables.UseEconomy = Setup.config.getBoolean("Use Economy");
+			Variables.EnableFishBags = Setup.config.getBoolean("Enable Fish Bags");
 
-			//AreaObjects
+			//TODO: Add these config options to the website
 
-
-
+			AllBlueVars.Enabled = Setup.config.getBoolean("Enable All Blue");
+			AllBlueVars.Permanent = Setup.config.getBoolean("Permanent All Blue");
+			AllBlueVars.AllBlueFishCount = Setup.config.getInt("All Blue Fish");
+			AllBlueVars.AllBlueName = Setup.config.getString("All Blue Name");
 
 			//Getting all caught fish
 			LoadFishDict();
@@ -171,7 +180,8 @@ public class Reload {
 		new Tournament().CheckActiveTournaments();
 		new Tournament().Initialize();
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	private void LoadFishDict(){
 		try {
 			String dictPath = Setup.dataFolder + "/fish.data";
@@ -189,14 +199,16 @@ public class Reload {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void LoadAllBlue(){
+		AllBlueVars.AllBlueList = new ArrayList<>();
 		try {
 			String path = Setup.dataFolder + "/AllBlue.data";
 			ObjectInputStream input = null;
 			File tempFile = new File(path);
 			if(tempFile.exists()) {
 				input = new ObjectInputStream(new FileInputStream (path));
-				AllBlueVars.AllBlueCenters = (List<LocationObject>) input.readObject();
+				AllBlueVars.AllBlueList = (List<AllBlueObject>) input.readObject();
 			}
 			if(input != null)
 				input.close();
@@ -205,4 +217,6 @@ public class Reload {
 			ex.printStackTrace();
 		}
 	}
+
+
 }

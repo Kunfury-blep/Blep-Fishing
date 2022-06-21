@@ -21,6 +21,7 @@ import java.util.UUID;
 import static com.kunfury.blepFishing.Crafting.CraftingManager.*;
 
 public class FishBagRecipe {
+
     public void SmallBag(){
         ItemStack bag = new ItemStack(Material.HEART_OF_THE_SEA, 1);
         bag = NBTEditor.set(bag, 1, "blep", "item", "fishBagTier" ); //Sets the tier of the bag to 1

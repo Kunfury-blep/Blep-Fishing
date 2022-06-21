@@ -1,5 +1,7 @@
 package com.kunfury.blepFishing.Crafting;
 
+import com.kunfury.blepFishing.AllBlue.AllBlueGeneration;
+import com.kunfury.blepFishing.AllBlue.CompassHandler;
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.BagInfo;
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.UpdateBag;
 import com.kunfury.blepFishing.Crafting.Equipment.Update;
@@ -12,6 +14,8 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.inventory.PrepareSmithingEvent;
 import org.bukkit.event.inventory.SmithItemEvent;
 import org.bukkit.inventory.ItemStack;
@@ -41,7 +45,7 @@ public class SmithingTableHandler implements Listener {
         ItemStack origItem = inv[0];
         ItemStack upItem = inv[1];
 
-        if(origItem != null && inv[1] != null){
+        if(origItem != null && upItem != null){
             switch(origItem.getType()){
                 case HEART_OF_THE_SEA:
                     UpgradeBag(origItem, upItem, e);
@@ -49,6 +53,9 @@ public class SmithingTableHandler implements Listener {
 //                case FISHING_ROD:
 //                    UpgradeRod(origItem, upItem, e);
 //                    break;
+                case PRISMARINE_CRYSTALS:
+                    new CompassHandler().CombinePieces(origItem, upItem, e);
+                    break;
                 default:
                     break;
             }
@@ -60,7 +67,16 @@ public class SmithingTableHandler implements Listener {
         //Bukkit.broadcastMessage("Smithing Inventory: " + Arrays.toString(e.getInventory().getStorageContents()));
     }
 
+    @EventHandler
+    public void smithingTableClick(InventoryClickEvent e){
+        if(e.getClickedInventory() != null && e.getClickedInventory().getType() == InventoryType.SMITHING && e.getSlot() == 2){
+            ItemStack item = e.getCurrentItem();
+            if(item != null && item.getType().equals(Material.COMPASS) && NBTEditor.getBoolean(item, "blep", "item", "allBlueCompassComplete")) {
+                new AllBlueGeneration().Generate(e);
+            }
 
+        }
+    }
 
     private void UpgradeBag(ItemStack oldBag, ItemStack upgradeItem, PrepareSmithingEvent e){
         if(!BagInfo.IsFull(oldBag)){
@@ -81,26 +97,6 @@ public class SmithingTableHandler implements Listener {
                 break;
         }
     }
-
-    private void UpgradeRod(ItemStack oldRod, ItemStack upgradeItem, PrepareSmithingEvent e){
-        switch(upgradeItem.getType()){
-            case DIAMOND:
-                Bukkit.broadcastMessage("Attempting Diamond Rod!");
-                break;
-            case IRON_INGOT:
-                Bukkit.broadcastMessage("Attempting Iron Rod!");
-                break;
-            case NETHERITE_INGOT:
-                e.setResult(NetheriteRodSetup(oldRod));
-                Bukkit.broadcastMessage("Attempting Netherite Rod!");
-                break;
-            default:
-                Bukkit.broadcastMessage("Not Crafting Specific!");
-                break;
-        }
-    }
-
-
 
     private ItemStack NetheriteRodSetup(ItemStack initialRod){
 
@@ -158,6 +154,13 @@ public class SmithingTableHandler implements Listener {
                 new RecipeChoice.MaterialChoice(Material.NETHERITE_BLOCK)
         );
         Bukkit.addRecipe(giantBag);
+
+        SmithingRecipe allBlueCompass = new SmithingRecipe(new NamespacedKey(Setup.getPlugin(), "AllBlueCompass"),
+                new ItemStack(Material.AIR), // any material seems fine
+                new RecipeChoice.MaterialChoice(Material.PRISMARINE_CRYSTALS),
+                new RecipeChoice.MaterialChoice(Material.PRISMARINE_CRYSTALS)
+        );
+        Bukkit.addRecipe(allBlueCompass);
     }
 
 }

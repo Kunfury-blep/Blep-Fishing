@@ -4,9 +4,11 @@ import java.io.File;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+import com.kunfury.blepFishing.AllBlue.EventListener;
 import com.kunfury.blepFishing.Crafting.CraftingManager;
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.UseFishBag;
 import com.kunfury.blepFishing.Crafting.SmithingTableHandler;
+import com.kunfury.blepFishing.Miscellaneous.Variables;
 import com.kunfury.blepFishing.Tournament.TournamentClickListener;
 import com.kunfury.blepFishing.Tournament.Tournament;
 import com.kunfury.blepFishing.Commands.*;
@@ -72,6 +74,8 @@ public class Setup extends JavaPlugin {
 		pm.registerEvents(new CraftingManager(), this);
 		pm.registerEvents(new SmithingTableHandler(), this);
 
+		pm.registerEvents(new EventListener(), this);
+
 		new SmithingTableHandler().InitializeSmithRecipes();
 
 		new PluginHandler().InitializePlugins();
@@ -86,7 +90,6 @@ public class Setup extends JavaPlugin {
     	new AdminMenu().CreateStacks(); //Creates the icons for the admin panel
 
 		new CraftingManager().InitItems();
-		//new NetheriteRod().CreateRecipe();
 
 
     }
@@ -97,7 +100,7 @@ public class Setup extends JavaPlugin {
 	}
 
     private boolean setupEconomy() {
-        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+        if (Variables.UseEconomy && getServer().getPluginManager().getPlugin("Vault") == null) {
             return false;
         }
         RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);

@@ -1,10 +1,12 @@
 package com.kunfury.blepFishing.Objects;
 
+import com.kunfury.blepFishing.AllBlue.AllBlueInfo;
 import com.kunfury.blepFishing.Miscellaneous.Variables;
 import org.bukkit.ChatColor;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class BaseFishObject implements Serializable{
 
@@ -15,7 +17,7 @@ public class BaseFishObject implements Serializable{
 	public double MaxSize;
 	public double AvgSize;
 	public int ModelData;
-	public boolean IsRaining;
+	public boolean RequiresRain;
 	public int Weight = 100;
 	public double BaseCost = 1;
 	public String Area;		
@@ -24,14 +26,14 @@ public class BaseFishObject implements Serializable{
 	public int MinHeight = -1000;
 
 	public BaseFishObject(String name, String lore, double minSize, double maxSize, 
-			int modelData, boolean isRaining, double baseCost, String area, int _minHeight, int _maxHeight){
+			int modelData, boolean _requiresRain, double baseCost, String area, int _minHeight, int _maxHeight){
 		Name = name;
 		Lore = lore;
 		MinSize = minSize;
 		MaxSize = maxSize;
 		AvgSize = (minSize + maxSize)/2;
 		ModelData = modelData;		
-		IsRaining = isRaining;
+		RequiresRain = _requiresRain;
 		BaseCost = baseCost;
 		Area = area;
 
@@ -59,5 +61,16 @@ public class BaseFishObject implements Serializable{
 			}
 		}
 		return null;
+	}
+
+	public double getSize(boolean allBlue){
+		double realMax = MaxSize;
+
+		if(allBlue) realMax *= 1.1;
+
+
+		double size = ThreadLocalRandom.current().nextDouble(MinSize, realMax);
+
+		return size;
 	}
 }

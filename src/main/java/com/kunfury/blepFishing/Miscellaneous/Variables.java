@@ -43,6 +43,8 @@ public class Variables {
 	public static boolean RequireAreaPerm = false;
 	public static boolean AllowWanderingTraders = false;
 	public static boolean LegendaryFishAnnounce = true;
+	public static boolean UseEconomy = true;
+	public static boolean EnableFishBags = true;
 	//endregion
 
 	//region Unique Static
@@ -91,7 +93,7 @@ public class Variables {
 		
 		list.add(f);
 
-		if(list.size() <= 0) return; //TODO: Add console warning when this happens
+		if(list.size() <= 0) return;
 		FishDict.put(fishName, list);
 		UpdateFishData();
 

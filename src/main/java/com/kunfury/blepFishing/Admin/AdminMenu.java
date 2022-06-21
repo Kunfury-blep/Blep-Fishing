@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.kunfury.blepFishing.Commands.SubCommands.ConfigSubcommand;
+import com.kunfury.blepFishing.Commands.SubCommands.ReloadSubcommand;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -26,7 +28,7 @@ import com.kunfury.blepFishing.Objects.TourneyAdminObject;
 
 public class AdminMenu implements Listener {
 	
-	public static ItemStack Background, FishEdit, RarityEdit, BiomeEdit, BackButton, 
+	public static ItemStack Background, FishView, RarityView, ConfigEdit, BackButton, ReloadButton,
 		TourneyGUI, TourneyCreate, TourneyHelp, TourneyCash, TourneyTime, TourneyFish; 
 	
 	//static Inventory inv;
@@ -59,9 +61,10 @@ public class AdminMenu implements Listener {
 			inv.setItem(i, Background);
 		}
 		
-		inv.setItem(12, RarityEdit);
-		inv.setItem(13, FishEdit);
-		inv.setItem(14, BiomeEdit);		
+		inv.setItem(12, RarityView);
+		inv.setItem(13, ConfigEdit);
+		inv.setItem(14, FishView);
+		inv.setItem(22, ReloadButton);
 		inv.setItem(4, TourneyGUI);		
 		p.openInventory(inv);
 	}
@@ -89,14 +92,16 @@ public class AdminMenu implements Listener {
 				
 			
 			if(activeWindow.equals(Window.BASE)) {
-				if(item.equals(FishEdit))
+				if(item.equals(FishView))
 					FishEdit(p);
-				if(item.equals(RarityEdit))
+				if(item.equals(RarityView))
 					RarityEdit(p);
-				if(item.equals(BiomeEdit))
-					BiomeEdit(p);	
+				if(item.equals(ConfigEdit))
+					ConfigEdit(p);
 				if(item.equals(TourneyGUI))
 					CreateTourneyGUI((Player)e.getWhoClicked());
+				if(item.equals(ReloadButton))
+					new ReloadSubcommand().perform(p, null);
 				return;
 			}
 			if(activeWindow.equals(Window.FISH)) {
@@ -188,8 +193,9 @@ public class AdminMenu implements Listener {
 		inv.setItem(inv.getSize() - 1, BackButton);
 	}
 	
-	private void BiomeEdit(Player p) {
-		//openInv = Inv.BIOMES;
+	private void ConfigEdit(Player p) {
+		p.closeInventory();
+		new ConfigSubcommand().perform(p, null);
 	}
 
 	/**
@@ -197,27 +203,37 @@ public class AdminMenu implements Listener {
 	 */
 	@SuppressWarnings("serial")
 	public void CreateStacks() {
-		String WIP = ChatColor.RED + " WIP " + ChatColor.WHITE;
 		
 		Background = new ItemStack(Material.PINK_STAINED_GLASS_PANE, 1);
 		ItemMeta meta = Background.getItemMeta();
 		meta.setDisplayName(" ");
 		Background.setItemMeta(meta);
 		
-		FishEdit = new ItemStack(Material.SALMON, 1);
-		meta = FishEdit.getItemMeta();
-		meta.setDisplayName("Edit Fish" + WIP);
-		FishEdit.setItemMeta(meta);
+		FishView = new ItemStack(Material.SALMON, 1);
+		meta = FishView.getItemMeta();
+		meta.setDisplayName("View Fish Types");
+		FishView.setItemMeta(meta);
 		
-		RarityEdit = new ItemStack(Material.EMERALD, 1);
-		meta = RarityEdit.getItemMeta();
-		meta.setDisplayName("Edit Rarity" + WIP);
-		RarityEdit.setItemMeta(meta);
+		RarityView = new ItemStack(Material.EMERALD, 1);
+		meta = RarityView.getItemMeta();
+		meta.setDisplayName("View Rarities");
+		RarityView.setItemMeta(meta);
 		
-		BiomeEdit = new ItemStack(Material.COMPASS, 1);
-		meta = BiomeEdit.getItemMeta();
-		meta.setDisplayName("Edit Biome" + WIP);
-		BiomeEdit.setItemMeta(meta);
+		ConfigEdit = new ItemStack(Material.REDSTONE_TORCH, 1);
+		meta = ConfigEdit.getItemMeta();
+		meta.setDisplayName("Edit Config");
+		ArrayList<String> lore = new ArrayList();
+		lore.add("Runs the " + ChatColor.AQUA + "/bf Config " + ChatColor.DARK_PURPLE + "command");
+		meta.setLore(lore);
+		ConfigEdit.setItemMeta(meta);
+
+		ReloadButton = new ItemStack(Material.NETHER_STAR, 1);
+		meta = ReloadButton.getItemMeta();
+		meta.setDisplayName("Reload Plugin");
+		lore = new ArrayList();
+		lore.add("Runs the " + ChatColor.AQUA + "/bf Reload " + ChatColor.DARK_PURPLE + "command");
+		meta.setLore(lore);
+		ReloadButton.setItemMeta(meta);
 		
 		BackButton = new ItemStack(Material.BARRIER, 1);
 		meta = BackButton.getItemMeta();
@@ -238,8 +254,8 @@ public class AdminMenu implements Listener {
 		TourneyHelp = new ItemStack(Material.BOOK, 1);
 		meta = TourneyHelp.getItemMeta();
 		meta.setDisplayName("Tournament Help");
-		List<String> lore = new ArrayList<>(){{
-			add("Add items to this menu to add them to the reward list.");
+		lore = new ArrayList<>(){{
+			add("Add items to this menu to add them to the reward list");
 			add("Click on the following icons to set the tournaments values");
 		}};
 		meta.setLore(lore);

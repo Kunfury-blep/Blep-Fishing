@@ -37,16 +37,11 @@ public class MarketObject implements Serializable{
 	 */
 	public Sign GetSign(){
 		Sign sign;
-		
-		try {
-			Location loc = new Location(Bukkit.getServer().getWorld(worldStr), locX, locY, locZ);
-			sign = (Sign)loc.getBlock().getState();	
-			sign.getLines().toString(); //This is just for checking if it's a sign
-			return sign;
-		}catch(Exception e){
-			return null;
-		}
 
+		Location loc = new Location(Bukkit.getServer().getWorld(worldStr), locX, locY, locZ);
+		if(!(loc.getBlock().getState() instanceof Sign)) return null;
+		sign = (Sign)loc.getBlock().getState();
+		return sign;
 	}
 
 	/**
@@ -57,10 +52,7 @@ public class MarketObject implements Serializable{
 	public boolean CheckBool(Sign sign) {
 		Location signLoc = sign.getLocation();
 		Location markLoc = new Location(Bukkit.getServer().getWorld(worldStr), locX, locY, locZ);
-		
-		if(signLoc.equals(markLoc))
-			return true;
-		
-		return false;
+
+		return signLoc.equals(markLoc);
 	}
 }

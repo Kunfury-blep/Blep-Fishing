@@ -18,14 +18,11 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitScheduler;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class UseFishBag implements Listener {
 
@@ -54,11 +51,16 @@ public class UseFishBag implements Listener {
 
     @EventHandler
     public void inventoryClick(InventoryClickEvent e) {
+        if(e.getClickedInventory() == null) return;
+
         ClickType a = e.getClick();
         ItemStack item = e.getCurrentItem();
         Player p = (Player) e.getWhoClicked();
         ItemStack bag = p.getInventory().getItemInMainHand();
-        if(item != null && bag != null && e.getView().getTitle().equals(bag.getItemMeta().getDisplayName())){
+        if(item != null && bag != null){
+            ItemMeta meta = bag.getItemMeta();
+            if(meta == null || !e.getView().getTitle().equals(meta.getDisplayName())) return;
+
             e.setCancelled(true);
             String fishName = item.getItemMeta().getDisplayName();
             String bagId = NBTEditor.getString(item,"blep", "item", "fishBagId" );
