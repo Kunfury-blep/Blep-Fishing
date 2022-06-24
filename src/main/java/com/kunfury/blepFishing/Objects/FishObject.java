@@ -123,8 +123,7 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 	}
 
 	public String GetSize(){
-		String size = String.valueOf(round(RealSize, 2));
-		return size;
+		return String.valueOf(round(RealSize, 2));
 	}
 
 	public ItemStack GenerateItemStack(){
@@ -150,11 +149,10 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 	 */
 	private List<String> CreateLore(BaseFishObject base){
 		List<String> Lore = new ArrayList<>();
+		Lore.add(base.Lore);
 
 		if(Setup.hasEcon) //Checks that an economy is installed
 			Lore.add("&2Value: " + Variables.CurrSym + Formatting.DoubleFormat(RealCost));
-		Lore.add(base.Lore);
-
 		Lore.add("&8Length: " + Formatting.DoubleFormat(RealSize) + "in.");
 
 		LocalDateTime now = LocalDateTime.now();
