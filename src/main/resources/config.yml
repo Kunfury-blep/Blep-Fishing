@@ -1,0 +1,481 @@
+#TEST
+
+
+Show ScoreBoard: true
+Show Chat: false
+High Priority: false
+Tournament Only: false
+Area Permissions: false
+Announce Legendary: true
+Use Economy: true
+Enable Fish Bags: true
+Chat Prefix: '&b[BF]&f '
+Currency Symbol: $
+Language Symbol: en
+Enable All Blue: true
+Permanent All Blue: true
+All Blue Name: All Blue
+All Blue Fish: 1500
+Allow Wandering Traders: false
+Wandering Traders Modifier: 1.5
+Enable Treasure: true
+Treasure Chance: 5
+World Whitelist: false
+Allowed Worlds:
+- WORLD
+- WORLD_THE_END
+- WORLD_NETHER
+fish:
+  Bluegill:
+    Lore: Does it call me Pink Lung?
+    Min Size: 5
+    Max Size: 15
+    ModelData: 1
+    Base Price: 10
+    Min Height: 0
+    Max Height: 0
+    Raining: false
+    Area: Temperate
+  Brown Trout:
+    Lore: Looks more beige to me.
+    Min Size: 15
+    Max Size: 39
+    ModelData: 2
+    Base Price: 10
+    Min Height: 0
+    Max Height: 0
+    Raining: true
+    Area: Temperate
+  Carp:
+    Lore: ' '
+    Min Size: 16
+    Max Size: 31
+    ModelData: 3
+    Base Price: 10
+    Min Height: 0
+    Max Height: 0
+    Raining: false
+    Area: Temperate
+  Catfish:
+    Lore: I prefer a Dogfish.
+    Min Size: 45
+    Max Size: 65
+    ModelData: 4
+    Base Price: 10
+    Min Height: 0
+    Max Height: 0
+    Raining: false
+    Area: Temperate
+  Gar:
+    Lore: ' '
+    Min Size: 5
+    Max Size: 15
+    ModelData: 5
+    Base Price: 10
+    Min Height: 0
+    Max Height: 0
+    Raining: false
+    Area: Temperate
+  Minnow:
+    Lore: ' '
+    Min Size: 1
+    Max Size: 8
+    ModelData: 6
+    Base Price: 10
+    Min Height: 0
+    Max Height: 0
+    Raining: false
+    Area: Temperate
+  Muskeullunge:
+    Lore: Don’t listen to them, I think you’re fin-tastic!
+    Min Size: 28
+    Max Size: 48
+    ModelData: 7
+    Base Price: 10
+    Min Height: 0
+    Max Height: 0
+    Raining: false
+    Area: Temperate
+  Perch:
+    Lore: ' '
+    Min Size: 8
+    Max Size: 20
+    ModelData: 8
+    Base Price: 10
+    Min Height: 0
+    Max Height: 0
+    Raining: false
+    Area: Temperate
+  Smallmouth Bass:
+    Lore: ' '
+    Min Size: 12
+    Max Size: 28
+    ModelData: 9
+    Base Price: 10
+    Min Height: 0
+    Max Height: 0
+    Raining: false
+    Area: Temperate
+  Blackfish:
+    Lore: ' '
+    Min Size: 8
+    Max Size: 24
+    ModelData: 10
+    Base Price: 10
+    Min Height: 0
+    Max Height: 0
+    Raining: false
+    Area: Cold
+  Cod:
+    Lore: Cod you pass me the salt?
+    Min Size: 24
+    Max Size: 36
+    ModelData: 11
+    Base Price: 10
+    Min Height: 0
+    Max Height: 0
+    Raining: false
+    Area: Cold
+  Halibut:
+    Lore: Do it for the Halibut!
+    Min Size: 36
+    Max Size: 96
+    ModelData: 12
+    Base Price: 10
+    Min Height: 0
+    Max Height: 0
+    Raining: false
+    Area: Cold
+  Herring:
+    Lore: Now to find a red one...
+    Min Size: 8
+    Max Size: 15
+    ModelData: 13
+    Base Price: 10
+    Min Height: 0
+    Max Height: 0
+    Raining: false
+    Area: Cold
+  Pink Salmon:
+    Lore: ' '
+    Min Size: 19
+    Max Size: 26
+    ModelData: 14
+    Base Price: 10
+    Min Height: 0
+    Max Height: 0
+    Raining: false
+    Area: Cold
+  Pollock:
+    Lore: What a load of Pollocks.
+    Min Size: 10
+    Max Size: 21
+    ModelData: 15
+    Base Price: 10
+    Min Height: 0
+    Max Height: 0
+    Raining: false
+    Area: Cold
+  Rainbow Trout:
+    Lore: ' '
+    Min Size: 23
+    Max Size: 45
+    ModelData: 16
+    Base Price: 10
+    Min Height: 0
+    Max Height: 0
+    Raining: false
+    Area: Cold
+  Red Grouper:
+    Lore: I'm green with envy.
+    Min Size: 26
+    Max Size: 50
+    ModelData: 17
+    Base Price: 10
+    Min Height: 0
+    Max Height: 0
+    Raining: false
+    Area: Ocean
+  Tuna:
+    Lore: Hmm... Tastes like chicken!
+    Min Size: 72
+    Max Size: 168
+    ModelData: 18
+    Base Price: 10
+    Min Height: 0
+    Max Height: 0
+    Raining: false
+    Area: Ocean
+  Bayad:
+    Lore: I'm hooked!
+    Min Size: 30
+    Max Size: 44
+    ModelData: 19
+    Base Price: 10
+    Min Height: 0
+    Max Height: 0
+    Raining: false
+    Area: Dry
+  Boulti:
+    Lore: ''
+    Min Size: 7
+    Max Size: 24
+    ModelData: 20
+    Base Price: 10
+    Min Height: 0
+    Max Height: 0
+    Raining: false
+    Area: Dry
+  Lungfish:
+    Lore: Not quite up to scale.
+    Min Size: 38
+    Max Size: 64
+    ModelData: 21
+    Base Price: 10
+    Min Height: 0
+    Max Height: 0
+    Raining: false
+    Area: Dry
+  Synodontis:
+    Lore: A bunch of Fischious Rumors.
+    Min Size: 4
+    Max Size: 12
+    ModelData: 22
+    Base Price: 10
+    Min Height: 0
+    Max Height: 0
+    Raining: false
+    Area: Dry
+  Anglerfish:
+    Lore: Go with the Glow!
+    Min Size: 9
+    Max Size: 39
+    ModelData: 23
+    Base Price: 10
+    Min Height: -256
+    Max Height: 15
+    Raining: false
+    Area: Ocean
+  Arapaima:
+    Lore: ''
+    Min Size: 60
+    Max Size: 130
+    ModelData: 24
+    Base Price: 10
+    Min Height: 0
+    Max Height: 0
+    Raining: false
+    Area: Jungle
+  Tambaqui:
+    Lore: ''
+    Min Size: 20
+    Max Size: 44
+    ModelData: 25
+    Base Price: 10
+    Min Height: 0
+    Max Height: 0
+    Raining: false
+    Area: Jungle
+  Armored Catfish:
+    Lore: ''
+    Min Size: 3
+    Max Size: 38
+    ModelData: 26
+    Base Price: 10
+    Min Height: 0
+    Max Height: 0
+    Raining: false
+    Area: Jungle
+  Red-bellied Piranha:
+    Lore: ''
+    Min Size: 7
+    Max Size: 13
+    ModelData: 27
+    Base Price: 10
+    Min Height: 0
+    Max Height: 0
+    Raining: false
+    Area: Jungle
+  Electric Eel:
+    Lore: ''
+    Min Size: 72
+    Max Size: 130
+    ModelData: 28
+    Base Price: 10
+    Min Height: 0
+    Max Height: 0
+    Raining: false
+    Area: Jungle
+rarities:
+  Legendary:
+    Weight: 5
+    Color Code: '6'
+    Price Mod: 10.0
+  Epic:
+    Weight: 30
+    Color Code: d
+    Price Mod: 5.0
+  Rare:
+    Weight: 60
+    Color Code: b
+    Price Mod: 2.5
+  Common:
+    Weight: 100
+    Color Code: a
+    Price Mod: 1.0
+areas:
+  Cold:
+    Has Compass: true
+    Compass Hint: The pieces feel cold to the touch.
+    Biomes:
+    - frozen_river
+    - frozen_ocean
+    - frozen_peaks
+    - grove
+    - ice_spikes
+    - jagged_peaks
+    - mountain_edge
+    - mountains
+    - snowy_beach
+    - snowy_mountains
+    - snowy_plains
+    - snowy_slopes
+    - snowy_taiga
+    - snowy_taiga_hills
+    - snowy_taiga_mountains
+    - snowy_tundra
+  Temperate:
+    Has Compass: true
+    Compass Hint: ''
+    Biomes:
+    - birch_forest
+    - birch_forest_hills
+    - dark_forest
+    - dark_forest_hills
+    - flower_forest
+    - forest
+    - giant_spruce_taiga
+    - giant_spruce_taiga_hills
+    - giant_tree_taiga
+    - giant_tree_taiga_hills
+    - gravelly_mountains
+    - meadow
+    - modified_gravelly_mountains
+    - old_growth_birch_forest
+    - old_growth_pine_taiga
+    - old_growth_spruce_taiga
+    - plains
+    - river
+    - sunflower_plains
+    - taiga
+    - taiga_hills
+    - taiga_mountains
+    - tall_birch_forest
+    - tall_birch_hills
+    - windswept_forest
+    - windswept_hills
+    - wooded_hills
+    - wooded_mountains
+    - windswept_gravelly_hills
+    - stony_peaks
+  Jungle:
+    Has Compass: true
+    Compass Hint: ''
+    Biomes:
+    - bamboo_jungle
+    - bamboo_jungle_hills
+    - jungle
+    - jungle_edge
+    - jungle_hills
+    - modified_jungle
+    - modified_jungle_edge
+    - sparse_jungle
+    - mangrove_swamp
+    - swamp
+    - swamp_hills
+    - mushroom_field_shore
+    - mushroom_fields
+  Ocean:
+    Has Compass: true
+    Compass Hint: ''
+    Biomes:
+    - beach
+    - cold_ocean
+    - deep_cold_ocean
+    - deep_frozen_ocean
+    - deep_lukewarm_ocean
+    - deep_ocean
+    - deep_warm_ocean
+    - lukewarm_ocean
+    - ocean
+    - warm_ocean
+    - stone_shore
+    - stony_shore
+  Dry:
+    Has Compass: true
+    Compass Hint: The piece feels strangely warm and seems to almost dry out your
+      hands just touching it.
+    Biomes:
+    - badlands
+    - badlands_plateau
+    - desert
+    - desert_hills
+    - desert_lakes
+    - eroded_badlands
+    - modified_badlands_plateau
+    - modified_wooded_badlands_plateau
+    - savanna
+    - savanna_plateau
+    - shattered_savanna
+    - shattered_savanna_plateau
+    - windswept_savanna
+    - wooded_badlands
+    - wooded_badlands_plateau
+treasure:
+  Legendary Casket:
+    Weight: 5
+    Prefix: '6'
+    Model Data: 1
+    Drop Table:
+    - "rO0ABXNyABpvcmcuYnVra2l0LnV0aWwuaW8uV3JhcHBlcvJQR+zxEm8FAgABTAADbWFwdAAPTGph\r\
+      \ndmEvdXRpbC9NYXA7eHBzcgA1Y29tLmdvb2dsZS5jb21tb24uY29sbGVjdC5JbW11dGFibGVNYXAk\r\
+      \nU2VyaWFsaXplZEZvcm0AAAAAAAAAAAIAAkwABGtleXN0ABJMamF2YS9sYW5nL09iamVjdDtMAAZ2\r\
+      \nYWx1ZXNxAH4ABHhwdXIAE1tMamF2YS5sYW5nLk9iamVjdDuQzlifEHMpbAIAAHhwAAAABHQAAj09\r\
+      \ndAABdnQABHR5cGV0AARtZXRhdXEAfgAGAAAABHQAHm9yZy5idWtraXQuaW52ZW50b3J5Lkl0ZW1T\r\
+      \ndGFja3NyABFqYXZhLmxhbmcuSW50ZWdlchLioKT3gYc4AgABSQAFdmFsdWV4cgAQamF2YS5sYW5n\r\
+      \nLk51bWJlcoaslR0LlOCLAgAAeHAAAAwhdAAQSEVBUlRfT0ZfVEhFX1NFQXNxAH4AAHNxAH4AA3Vx\r\
+      \nAH4ABgAAAAhxAH4ACHQACW1ldGEtdHlwZXQADGRpc3BsYXktbmFtZXQABGxvcmV0ABFjdXN0b20t\r\
+      \nbW9kZWwtZGF0YXQACGVuY2hhbnRzdAAJSXRlbUZsYWdzdAAIaW50ZXJuYWx1cQB+AAYAAAAIdAAI\r\
+      \nSXRlbU1ldGF0AApVTlNQRUNJRklDdAAyeyJleHRyYSI6W3sidGV4dCI6IlNtYWxsIEJhZyBvJyBG\r\
+      \naXNoIn1dLCJ0ZXh0IjoiIn1zcgA2Y29tLmdvb2dsZS5jb21tb24uY29sbGVjdC5JbW11dGFibGVM\r\
+      \naXN0JFNlcmlhbGl6ZWRGb3JtAAAAAAAAAAACAAFbAAhlbGVtZW50c3QAE1tMamF2YS9sYW5nL09i\r\
+      \namVjdDt4cHVxAH4ABgAAAAV0AD17ImV4dHJhIjpbeyJ0ZXh0IjoiSG9sZHMgYSBzbWFsbCBhbW91\r\
+      \nbnQgb2YgZmlzaCJ9XSwidGV4dCI6IiJ9dAALeyJ0ZXh0IjoiIn10AfB7ImV4dHJhIjpbeyJib2xk\r\
+      \nIjpmYWxzZSwiaXRhbGljIjpmYWxzZSwidW5kZXJsaW5lZCI6ZmFsc2UsInN0cmlrZXRocm91Z2gi\r\
+      \nOmZhbHNlLCJvYmZ1c2NhdGVkIjpmYWxzZSwiY29sb3IiOiJ3aGl0ZSIsInRleHQiOiJ8In0seyJp\r\
+      \ndGFsaWMiOmZhbHNlLCJjb2xvciI6IndoaXRlIiwidGV4dCI6InwifSx7Iml0YWxpYyI6ZmFsc2Us\r\
+      \nImNvbG9yIjoid2hpdGUiLCJ0ZXh0IjoifCJ9LHsiaXRhbGljIjpmYWxzZSwiY29sb3IiOiJ3aGl0\r\
+      \nZSIsInRleHQiOiJ8In0seyJpdGFsaWMiOmZhbHNlLCJjb2xvciI6IndoaXRlIiwidGV4dCI6Inwi\r\
+      \nfSx7Iml0YWxpYyI6ZmFsc2UsImNvbG9yIjoid2hpdGUiLCJ0ZXh0IjoifCJ9LHsiaXRhbGljIjpm\r\
+      \nYWxzZSwiY29sb3IiOiJ3aGl0ZSIsInRleHQiOiJ8In0seyJpdGFsaWMiOmZhbHNlLCJjb2xvciI6\r\
+      \nIndoaXRlIiwidGV4dCI6InwifSx7Iml0YWxpYyI6ZmFsc2UsImNvbG9yIjoid2hpdGUiLCJ0ZXh0\r\
+      \nIjoifCAwLzI1NiJ9XSwidGV4dCI6IiJ9dAALeyJ0ZXh0IjoiIn10AOB7ImV4dHJhIjpbeyJib2xk\r\
+      \nIjpmYWxzZSwiaXRhbGljIjpmYWxzZSwidW5kZXJsaW5lZCI6ZmFsc2UsInN0cmlrZXRocm91Z2gi\r\
+      \nOmZhbHNlLCJvYmZ1c2NhdGVkIjpmYWxzZSwiY29sb3IiOiJyZWQiLCJ0ZXh0IjoiTGVmdC1DbGlj\r\
+      \nayBXaGlsZSBIb2xkaW5nIHRvIFRvZ2dsZSAifSx7Iml0YWxpYyI6dHJ1ZSwiY29sb3IiOiJ5ZWxs\r\
+      \nb3ciLCJ0ZXh0IjoiQXV0by1QaWNrdXAifV0sInRleHQiOiIifXNxAH4ADgAAAAFzcgA3Y29tLmdv\r\
+      \nb2dsZS5jb21tb24uY29sbGVjdC5JbW11dGFibGVCaU1hcCRTZXJpYWxpemVkRm9ybQAAAAAAAAAA\r\
+      \nAgAAeHEAfgADdXEAfgAGAAAAAXQACkRVUkFCSUxJVFl1cQB+AAYAAAABcQB+AClzcgATamF2YS51\r\
+      \ndGlsLkFycmF5TGlzdHiB0h2Zx2GdAwABSQAEc2l6ZXhwAAAAAXcEAAAAAXQADUhJREVfRU5DSEFO\r\
+      \nVFN4dACsSDRzSUFBQUFBQUFBLytOaVlPQmlZRW5LU1MwQVVwa2xxYm1NRElKcG1jVVpUb25wanFV\r\
+      \nbCtRR1p5ZG1sQll6TUROeFF3WkRNMUNJR0JnYWdDQzlNV1c1K2FWNEpVSXlCZzRFVEt1YVp3cUJp\r\
+      \na3BacWFKeVNhS1NiYkdTV3FHdGlZWmlvYTVtU25LeHJacDVza1pobVlHSmhZSllLMUFRQWlxMWVM\r\
+      \nWUVBQUFBPQ==\r\n"
+    - "rO0ABXNyABpvcmcuYnVra2l0LnV0aWwuaW8uV3JhcHBlcvJQR+zxEm8FAgABTAADbWFwdAAPTGph\r\
+      \ndmEvdXRpbC9NYXA7eHBzcgA1Y29tLmdvb2dsZS5jb21tb24uY29sbGVjdC5JbW11dGFibGVNYXAk\r\
+      \nU2VyaWFsaXplZEZvcm0AAAAAAAAAAAIAAkwABGtleXN0ABJMamF2YS9sYW5nL09iamVjdDtMAAZ2\r\
+      \nYWx1ZXNxAH4ABHhwdXIAE1tMamF2YS5sYW5nLk9iamVjdDuQzlifEHMpbAIAAHhwAAAABHQAAj09\r\
+      \ndAABdnQABHR5cGV0AAZhbW91bnR1cQB+AAYAAAAEdAAeb3JnLmJ1a2tpdC5pbnZlbnRvcnkuSXRl\r\
+      \nbVN0YWNrc3IAEWphdmEubGFuZy5JbnRlZ2VyEuKgpPeBhzgCAAFJAAV2YWx1ZXhyABBqYXZhLmxh\r\
+      \nbmcuTnVtYmVyhqyVHQuU4IsCAAB4cAAADCF0AA1ESUFNT05EX0JMT0NLc3EAfgAOAAAABQ==\r\
+      \n"

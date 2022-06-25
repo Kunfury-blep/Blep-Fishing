@@ -1,6 +1,7 @@
 package com.kunfury.blepFishing;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Objects;
 import java.util.logging.Logger;
 
@@ -8,13 +9,14 @@ import com.kunfury.blepFishing.AllBlue.EventListener;
 import com.kunfury.blepFishing.Crafting.CraftingManager;
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.UseFishBag;
 import com.kunfury.blepFishing.Crafting.SmithingTableHandler;
-import com.kunfury.blepFishing.Miscellaneous.Variables;
+import com.kunfury.blepFishing.Miscellaneous.*;
 import com.kunfury.blepFishing.Tournament.TournamentClickListener;
 import com.kunfury.blepFishing.Tournament.Tournament;
 import com.kunfury.blepFishing.Commands.*;
 import com.kunfury.blepFishing.Plugins.PluginHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -23,9 +25,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.kunfury.blepFishing.Admin.AdminMenu;
 import com.kunfury.blepFishing.Signs.FishSign;
 
-import com.kunfury.blepFishing.Miscellaneous.CreateConfig;
-import com.kunfury.blepFishing.Miscellaneous.Reload;
-import com.kunfury.blepFishing.Miscellaneous.Villagers;
 import com.kunfury.blepFishing.Tournament.TournamentRewards;
 import net.milkbowl.vault.economy.Economy;
 
@@ -44,7 +43,6 @@ public class Setup extends JavaPlugin {
     @Override
     public void onEnable() {
     	plugin = this;
-    	config = this.getConfig();
     	setup = this;
     	dataFolder = getDataFolder();
     	
@@ -52,14 +50,20 @@ public class Setup extends JavaPlugin {
     		log.warning(String.format("[%s] - Economy support disabled due to no Vault dependency found!", getDescription().getName()));
     		hasEcon = false;
     	}
-    	
-    	File configFile;
-    	configFile = new File(getDataFolder(), "config.yml");
-    	 
-    	if(!configFile.exists()){
-            new CreateConfig();
-	        }
-    	
+
+		File configFile = new File(getDataFolder(), "config.yml"); //Massive Thank You to YourPalJake for their spigot thread containing this config loading
+		if(!configFile.exists()){
+			new FileCopy().copy(getResource("config.yml"), configFile);
+		}
+		config = new YamlConfiguration().loadConfiguration(configFile);
+
+		try{
+			config.save(configFile);
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+
+
     	new FishSign().LoadSigns();
 
     	PluginManager pm = getServer().getPluginManager();
@@ -93,11 +97,6 @@ public class Setup extends JavaPlugin {
 
 
     }
-
-	@Override
-	public void onLoad() {
-
-	}
 
     private boolean setupEconomy() {
         if (Variables.UseEconomy && getServer().getPluginManager().getPlugin("Vault") == null) {
