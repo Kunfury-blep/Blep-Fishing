@@ -9,6 +9,7 @@ import com.kunfury.blepFishing.AllBlue.TreasureHandler;
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.BagInfo;
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.UpdateBag;
 import com.kunfury.blepFishing.Objects.*;
+import com.kunfury.blepFishing.Plugins.FishCaughtEvent;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -62,7 +63,7 @@ public class FishSwitch{
 
 			FishObject fish = new FishObject(base, chosenRarity, e.getPlayer().getName(), base.getSize(allBlue));
 
-			item.setItemStack(fish.GenerateItemStack());
+			item.setItemStack(fish.GenerateItemStack()); //TODO: Change the caught item to the itemstack as soon as possible to hide the transition
 
 			//Checks if the player has a fishing bag. Automatically adds the fish to it if so
 			for (var slot : player.getInventory())
@@ -94,6 +95,10 @@ public class FishSwitch{
 			CheckAgainstTournaments(fish);
 			Variables.AddToFishDict(fish);
 
+			//Calls the event
+			FishCaughtEvent event = new FishCaughtEvent(fish, player);
+			Bukkit.getServer().getPluginManager().callEvent(event);
+
 			if(allBlue) allBlueObj.RemoveFish(1, player);
 			new DangerEvents().Trigger(player, item.getLocation()); //TODO: Pass if in All Blue or not
 		}
@@ -109,30 +114,27 @@ public class FishSwitch{
 	private BaseFishObject GetCaughtFish(Item item) {
 		Location iLoc = item.getLocation();
 
-		List<BaseFishObject> availFish = Variables.BaseFishList; //Available fish to choose from
-
+		List<BaseFishObject> availFish = new ArrayList<>(); //Available fish to choose from
 
 		if(!AllBlueInfo.InAllBlue(iLoc)) { //If in All Blue, skips the below testing and instead just returns whole list
 
+
 			List<AreaObject> areas = AreaObject.GetArea(iLoc); //Available areas to pull fish from
 			int height = iLoc.getBlockY();
-			Iterator iter = availFish.iterator();
+			boolean isRaining = Bukkit.getWorlds().get(0).hasStorm();
 
-			if (!Bukkit.getWorlds().get(0).hasStorm()) {
-				while (iter.hasNext()) {
-					BaseFishObject bFish = (BaseFishObject) iter.next();
-					if (bFish.RequiresRain) iter.remove();
-					else if (bFish.MaxHeight >= height && bFish.MinHeight <= height) {
-						areas.forEach(a -> {
-							if (a.Name.equals(bFish.Area)) iter.remove();
-						});
-					}
-				}
-			}
-		}
-		availFish.sort((o1, o2) -> {
-			Integer newWeight1 = o1.Weight;
-			Integer newWeight2 = o2.Weight;
+			for (var bFish : Variables.BaseFishList)
+			{
+				if((!bFish.RequiresRain || (bFish.RequiresRain && isRaining)) && bFish.MinHeight <= height && bFish.MaxHeight >= height){
+					for (var area : areas) {
+						if (area.Name.equals(bFish.Area)) {
+							availFish.add(bFish); //Removes the fish if its area does not match the current area
+							break;
+			}}}}}
+
+		availFish.sort((fish1, fish2) -> {
+			Integer newWeight1 = fish1.Weight;
+			Integer newWeight2 = fish2.Weight;
 			return (newWeight1).compareTo(newWeight2);
 		});
 
