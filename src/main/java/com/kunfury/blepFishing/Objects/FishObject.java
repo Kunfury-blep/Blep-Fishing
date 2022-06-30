@@ -2,8 +2,6 @@ package com.kunfury.blepFishing.Objects;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -19,7 +17,6 @@ import net.md_5.bungee.api.ChatColor;
 import com.kunfury.blepFishing.Miscellaneous.Variables;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Material;
-import org.bukkit.entity.Fish;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -30,7 +27,7 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 	@Serial
 	private static final long serialVersionUID = -2959331831404886148L;
 	//Leaderboards Info
-	public String Name;
+	public final String Name;
 	public String Rarity;
 	public String PlayerName;
 	public LocalDateTime DateCaught;
@@ -86,7 +83,7 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 
 		double realCost = (base.BaseCost * sizeMod) * rarity.PriceMod;
 
-		return round(realCost, 2);
+		return Formatting.round(realCost, 2);
 	}
 
 	public Text GetHoverText(){
@@ -98,18 +95,12 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 				"\nCaught On: " +  formatter.format(DateCaught)  +
 				"\nScore: " + Formatting.DoubleFormat(Score);
 
-		if(Setup.hasEcon) content += "\nValue: "  + Variables.CurrSym + Formatting.DoubleFormat(RealCost);
+		if(Setup.econEnabled) content += "\nValue: "  + Variables.CurrSym + Formatting.DoubleFormat(RealCost);
 
 		return new Text(ChatColor.translateAlternateColorCodes('&' , content));
 	}
 
-	public static double round(double value, int places) {
-		if (places < 0) throw new IllegalArgumentException();
 
-		BigDecimal bd = BigDecimal.valueOf(value);
-		bd = bd.setScale(places, RoundingMode.HALF_UP);
-		return bd.doubleValue();
-	}
 
 	public double GetScore(){return Score;}
 
@@ -123,7 +114,7 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 	}
 
 	public String GetSize(){
-		return String.valueOf(round(RealSize, 2));
+		return String.valueOf(Formatting.round(RealSize, 2));
 	}
 
 	public ItemStack GenerateItemStack(){
@@ -151,7 +142,7 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 		List<String> Lore = new ArrayList<>();
 		Lore.add(base.Lore);
 
-		if(Setup.hasEcon) //Checks that an economy is installed
+		if(Setup.econEnabled) //Checks that an economy is installed
 			Lore.add("&2Value: " + Variables.CurrSym + Formatting.DoubleFormat(RealCost));
 		Lore.add("&8Length: " + Formatting.DoubleFormat(RealSize) + "in.");
 

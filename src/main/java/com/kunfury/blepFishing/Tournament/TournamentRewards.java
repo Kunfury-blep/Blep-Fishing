@@ -24,7 +24,6 @@ import com.kunfury.blepFishing.Miscellaneous.Variables;
 import net.md_5.bungee.api.ChatColor;
 import net.milkbowl.vault.economy.Economy;
 
-import static com.kunfury.blepFishing.Miscellaneous.Variables.Messages;
 import static com.kunfury.blepFishing.Miscellaneous.Variables.Prefix;
 
 public class TournamentRewards implements Listener {
@@ -69,19 +68,19 @@ public class TournamentRewards implements Listener {
 			int cashVal = 0;
 
 			if(items.size() > 0) { //Only shows the inventory if the player has rewards to claim
-				final Inventory inv = Bukkit.createInventory(null, 54, Messages.getString("rewardInvTitle"));
+				final Inventory inv = Bukkit.createInventory(null, 54, Variables.getMessage("rewardInvTitle"));
 
 				for (ItemStack item : items) {
 					if(item.getType().equals(Material.COMMAND_BLOCK))cashVal += item.getAmount();
 					else inv.addItem(item);
 				}
-				if(cashVal > 0 && Setup.hasEcon) GiveMoney(p, cashVal);
+				if(cashVal > 0 && Setup.econEnabled) GiveMoney(p, cashVal);
 				p.openInventory(inv);
 			}
 			
 			
 		}else
-			sender.sendMessage(Prefix + Messages.getString("noRewards"));
+			sender.sendMessage(Prefix + Variables.getMessage("noRewards"));
 	}
 
 	/**
@@ -119,9 +118,9 @@ public class TournamentRewards implements Listener {
 					  Bukkit.getServer().getScheduler().runTaskLater(Setup.getPlugin(), new Runnable() {
 				        	@Override
 				        	  public void run() {
-				        		p.sendMessage(Prefix +  Messages.getString("claimRewards"));
+				        		p.sendMessage(Prefix +  Variables.getMessage("claimRewards"));
 				        		p.sendMessage(Prefix + ChatColor.translateAlternateColorCodes(
-				        				'&', Messages.getString("claimRewards2")));
+				        				'&', Variables.getMessage("claimRewards2")));
 				        	}
 				        }, 250);
 				  }

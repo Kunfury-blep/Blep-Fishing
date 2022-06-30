@@ -23,8 +23,6 @@ import com.kunfury.blepFishing.Objects.BaseFishObject;
 import com.kunfury.blepFishing.Objects.TournamentObject;
 import net.md_5.bungee.api.ChatColor;
 
-import static com.kunfury.blepFishing.Miscellaneous.Variables.Messages;
-
 public class Tournament implements Listener {
 	private static final HashMap<Player, Inventory> viewMap = new HashMap<>();
 
@@ -33,7 +31,7 @@ public class Tournament implements Listener {
 
 	 public void Initialize(){
 		 Bukkit.getServer().getScheduler().runTaskLater(Setup.getPlugin(), () ->
-				 tourneyInv = Bukkit.createInventory(null, 54, Messages.getString("tourneyInvTitle")), 30);
+				 tourneyInv = Bukkit.createInventory(null, 54, Variables.getMessage("tourneyInvTitle")), 30);
 	 }
 
 	/**
@@ -70,8 +68,8 @@ public class Tournament implements Listener {
 				meta = item.getItemMeta();
 				Objects.requireNonNull(meta).setDisplayName(tourney.FishName + ChatColor.DARK_RED + " - Expired");
 				List<String> lore = new ArrayList<>() {{
-					add(Messages.getString("endDate") + " " + tourney.GetFormattedEndDate());
-					add(Messages.getString("winner") + " " + tourney.Winner);
+					add(Variables.getMessage("endDate") + " " + tourney.GetFormattedEndDate());
+					add(Variables.getMessage("winner") + " " + tourney.Winner);
 				}};
 				meta.setLore(lore);
 			}
@@ -109,7 +107,7 @@ public class Tournament implements Listener {
 		}
 		
 		if(!fishFound) {
-			sender.sendMessage(Variables.Prefix + Messages.getString("fishNotFound"));
+			sender.sendMessage(Variables.Prefix + Variables.getMessage("fishNotFound"));
 			return;
 		}
 			
@@ -119,7 +117,7 @@ public class Tournament implements Listener {
 			items.add(new ItemStack(Objects.requireNonNull(Material.getMaterial(itemName.toUpperCase())), itemCount));
 		}
 		catch(Exception e){
-			sender.sendMessage(Variables.Prefix + Messages.getString("invalidItem"));
+			sender.sendMessage(Variables.Prefix + Variables.getMessage("invalidItem"));
 			return;
 		}
 			

@@ -32,7 +32,7 @@ public class TournamentObject implements Serializable {
 	public LocalDateTime EndDate;
 	public boolean HasFinished;
 	
-	public String Winner = Variables.Messages.getString("noWinner");
+	public String Winner = Variables.getMessage("noWinner");
 	//public List<ItemStack> Rewards = new ArrayList<>(); //The item rewards of the tournament
 	
 	private final List<String> rewardNames = new ArrayList<>();

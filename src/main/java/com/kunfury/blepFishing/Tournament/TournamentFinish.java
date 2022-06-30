@@ -2,6 +2,7 @@ package com.kunfury.blepFishing.Tournament;
 
 import java.util.List;
 
+import com.kunfury.blepFishing.Miscellaneous.Variables;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -12,7 +13,6 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 
-import static com.kunfury.blepFishing.Miscellaneous.Variables.Messages;
 import static com.kunfury.blepFishing.Miscellaneous.Variables.Prefix;
 
 public class TournamentFinish {
@@ -30,7 +30,7 @@ public class TournamentFinish {
         	String fPlayer = Formatting.FixFontSize("Player Name", pLength);
     		String fullString = ChatColor.translateAlternateColorCodes('&', "&b" + fPlayer + " Fish");
     		
-    		Bukkit.broadcastMessage(ChatColor.BOLD + (Messages.getString("tournamentLeaderboard")));
+    		Bukkit.broadcastMessage(ChatColor.BOLD + (Variables.getMessage("tournamentLeaderboard")));
     		Bukkit.broadcastMessage(fullString);	
     		
 			int i = 1;
@@ -49,8 +49,8 @@ public class TournamentFinish {
 			}
 			
 			for(Player p : Bukkit.getOnlinePlayers()) {
-				p.sendMessage(Prefix + Messages.getString("tournamentFinish"));
-	    		p.sendMessage(Prefix + ChatColor.translateAlternateColorCodes('&', Messages.getString("tournamentFinish2")));
+				p.sendMessage(Prefix + Variables.getMessage("tournamentFinish"));
+	    		p.sendMessage(Prefix + ChatColor.translateAlternateColorCodes('&', Variables.getMessage("tournamentFinish2")));
 
     		}
 			
@@ -63,7 +63,7 @@ public class TournamentFinish {
 			String tempName = tObj.FishName.toLowerCase();
 			if(tempName.equalsIgnoreCase("ALL"))
 				tempName = "fish";
-			Bukkit.broadcastMessage(Prefix + String.format(Messages.getString("tournamentNoCaught"), tempName));
+			Bukkit.broadcastMessage(Prefix + String.format(Variables.getMessage("tournamentNoCaught"), tempName));
 		}
 		
 		new SaveTournaments(); //Saves the tournaments once more to ensure the tournament does not reward twice

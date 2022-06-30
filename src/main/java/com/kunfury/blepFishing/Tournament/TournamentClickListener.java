@@ -22,7 +22,6 @@ import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.kunfury.blepFishing.Miscellaneous.Variables.Messages;
 import static com.kunfury.blepFishing.Miscellaneous.Variables.Prefix;
 
 public class TournamentClickListener implements Listener {
@@ -42,7 +41,7 @@ public class TournamentClickListener implements Listener {
                 assert meta != null;
                 meta.setDisplayName("Confirm Delete");
 
-                List<String> lore = new ArrayList<String>() {{
+                List<String> lore = new ArrayList<>() {{
                     add("Shift Right-Click to confirm you wish to delete the tournament");
                     add("Left Click to cancel");
                     add("Type: " + tourney.FishName);
@@ -87,7 +86,7 @@ public class TournamentClickListener implements Listener {
             String fPlayer = Formatting.FixFontSize("Player Name", pLength);
             String fullString = ChatColor.translateAlternateColorCodes('&', "&b" + fPlayer + " Fish");
 
-            Bukkit.broadcastMessage(ChatColor.BOLD + (Messages.getString("tournamentLeaderboard")));
+            Bukkit.broadcastMessage(ChatColor.BOLD + (Variables.getMessage("tournamentLeaderboard")));
             Bukkit.broadcastMessage(fullString);
 
             if(fishList.size() > 3){

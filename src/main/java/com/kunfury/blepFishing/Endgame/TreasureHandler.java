@@ -53,10 +53,8 @@ public class TreasureHandler {
         boolean hasParrot =  (pL != null && pL.getType().equals(EntityType.PARROT)) || (pR != null && pR.getType().equals(EntityType.PARROT));
         boolean inBoat = p.isInsideVehicle() && p.getVehicle() instanceof Boat;
 
-        Bukkit.broadcastMessage("Rolled: " + rolledAmt);
         if(hasParrot) rolledAmt -= Variables.ParrotBonus;
         if(inBoat) rolledAmt -= Variables.BoatBonus;
-        Bukkit.broadcastMessage("Final: " + rolledAmt);
         return rolledAmt;
     }
 

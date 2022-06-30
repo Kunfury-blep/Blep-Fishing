@@ -14,7 +14,7 @@ public class SaveTournaments {
 	 */
 	public SaveTournaments() {
 		try {
-			String tourneyPath = Setup.dataFolder + "/tournaments.data";   
+			String tourneyPath = Setup.dataFolder + "/Data" + "/tournaments.data";
 		    ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(tourneyPath));
 		    output.writeObject(Variables.Tournaments);
 		    output.close();

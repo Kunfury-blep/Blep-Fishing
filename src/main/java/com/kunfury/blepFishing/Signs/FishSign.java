@@ -5,13 +5,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -21,7 +19,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.plugin.Plugin;
 
 import com.kunfury.blepFishing.Setup;
 
@@ -30,7 +27,6 @@ import com.kunfury.blepFishing.Miscellaneous.Variables;
 import com.kunfury.blepFishing.Objects.BaseFishObject;
 import com.kunfury.blepFishing.Objects.MarketObject;
 
-import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
 
 
@@ -38,8 +34,8 @@ public class FishSign implements Listener {
 	
 	public static List<SignObject> rankSigns = new ArrayList<>();
 	public static List<MarketObject> marketSigns = new ArrayList<>();
-	static String signFilePath = Setup.dataFolder + "/signs.data";
-	static String marketFilePath = Setup.dataFolder + "/markets.data";
+	static String signFilePath = Setup.dataFolder + "/Data" + "/signs.data";
+	static String marketFilePath = Setup.dataFolder + "/Data" + "/markets.data";
 
 	/**
 	 * Signs for the Fishmarket
@@ -119,7 +115,7 @@ public class FishSign implements Listener {
 		if(e.getAction().equals(Action.RIGHT_CLICK_BLOCK) && e.getClickedBlock().getState() instanceof  Sign) {
 			Sign sign = (Sign) e.getClickedBlock().getState();
 
-			if(Setup.hasEcon && e.getItem() != null  && e.getItem().getType() == Material.SALMON){
+			if(Setup.econEnabled && e.getItem() != null  && e.getItem().getType() == Material.SALMON){
 				for(MarketObject market : marketSigns) {
 					if(market.CheckBool(sign)){
 						FishEconomy.SellFish(e.getPlayer(), 1);
@@ -196,17 +192,14 @@ public class FishSign implements Listener {
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
-		Bukkit.getScheduler().runTaskLater((Plugin) Setup.getPlugin(), new Runnable() {
-			  @Override
-			  public void run() {
-				  	sign.setLine(0, "-------------");
-	    			sign.setLine(1, "Fish");
-	    			sign.setLine(2, "Market");
-	    			sign.setLine(3, "-------------");
-	    			sign.update();
-	    			UpdateSigns();
-			  }
-			}, 1L);
+		Bukkit.getScheduler().runTaskLater(Setup.getPlugin(), () -> {
+			sign.setLine(0, "-------------");
+			sign.setLine(1, "Fish");
+			sign.setLine(2, "Market");
+			sign.setLine(3, "-------------");
+			sign.update();
+			UpdateSigns();
+		}, 1L);
 	}
 
 	public void UpdateSignsFile(){

@@ -73,5 +73,6 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q.worldedit:worldedit-bukkit:7.2.6-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: commons-io:commons-io:2.11.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: io.github.bananapuncher714:nbteditor:7.18.3" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-all:4.1.68.Final" level="project" />
   </component>
 </module>

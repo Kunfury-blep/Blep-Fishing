@@ -36,7 +36,7 @@ public class FishEconomy {
 		public static void SellFish(Player player, boolean sellAll, double priceMod) {
 			Economy econ = Setup.getEconomy();
 			if(econ != null){
-				List<ItemStack> itemList = new ArrayList<ItemStack>();
+				List<ItemStack> itemList = new ArrayList<>();
 
 				if(sellAll) { //Runs if the player is wanting to sell all fish
 					for (ItemStack item : player.getInventory().getContents()) {
@@ -75,7 +75,7 @@ public class FishEconomy {
 							Variables.Prefix + "Sold " + itemList.size() + " fish"
 									+ "&f for &a" + Variables.CurrSym + Formatting.DoubleFormat(total) + "." ));
 			}
-			}
+		}
 
 }
 
