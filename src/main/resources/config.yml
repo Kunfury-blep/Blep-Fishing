@@ -1,5 +1,6 @@
-#TEST
-
+#
+#This config was created using the Config Web Panel. Use /BF Config in game to generate your own!
+#
 
 Show ScoreBoard: true
 Show Chat: false
@@ -11,15 +12,18 @@ Use Economy: true
 Enable Fish Bags: true
 Chat Prefix: '&b[BF]&f '
 Currency Symbol: $
-Language Symbol: en
+Language Symbol: sdf
 Enable All Blue: true
 Permanent All Blue: true
 All Blue Name: All Blue
 All Blue Fish: 1500
+Endgame Area: Ocean
 Allow Wandering Traders: false
 Wandering Traders Modifier: 1.5
 Enable Treasure: true
 Treasure Chance: 5
+Parrot Treasure Bonus: 5
+Boat Treasure Bonus: 5
 World Whitelist: false
 Allowed Worlds:
 - WORLD
@@ -305,7 +309,9 @@ fish:
     Min Height: 0
     Max Height: 0
     Raining: false
-    Area: Jungle
+    Areas:
+      - Jungle
+      - Ocean
 rarities:
   Legendary:
     Weight: 5
@@ -431,51 +437,48 @@ areas:
     - windswept_savanna
     - wooded_badlands
     - wooded_badlands_plateau
+
+#For Help with the Treasure: https://github.com/Kunfury-blep/Blep-Fishing/wiki/Config-Treasure
 treasure:
   Legendary Casket:
     Weight: 5
     Prefix: '6'
     Model Data: 1
     Drop Table:
-    - "rO0ABXNyABpvcmcuYnVra2l0LnV0aWwuaW8uV3JhcHBlcvJQR+zxEm8FAgABTAADbWFwdAAPTGph\r\
-      \ndmEvdXRpbC9NYXA7eHBzcgA1Y29tLmdvb2dsZS5jb21tb24uY29sbGVjdC5JbW11dGFibGVNYXAk\r\
-      \nU2VyaWFsaXplZEZvcm0AAAAAAAAAAAIAAkwABGtleXN0ABJMamF2YS9sYW5nL09iamVjdDtMAAZ2\r\
-      \nYWx1ZXNxAH4ABHhwdXIAE1tMamF2YS5sYW5nLk9iamVjdDuQzlifEHMpbAIAAHhwAAAABHQAAj09\r\
-      \ndAABdnQABHR5cGV0AARtZXRhdXEAfgAGAAAABHQAHm9yZy5idWtraXQuaW52ZW50b3J5Lkl0ZW1T\r\
-      \ndGFja3NyABFqYXZhLmxhbmcuSW50ZWdlchLioKT3gYc4AgABSQAFdmFsdWV4cgAQamF2YS5sYW5n\r\
-      \nLk51bWJlcoaslR0LlOCLAgAAeHAAAAwhdAAQSEVBUlRfT0ZfVEhFX1NFQXNxAH4AAHNxAH4AA3Vx\r\
-      \nAH4ABgAAAAhxAH4ACHQACW1ldGEtdHlwZXQADGRpc3BsYXktbmFtZXQABGxvcmV0ABFjdXN0b20t\r\
-      \nbW9kZWwtZGF0YXQACGVuY2hhbnRzdAAJSXRlbUZsYWdzdAAIaW50ZXJuYWx1cQB+AAYAAAAIdAAI\r\
-      \nSXRlbU1ldGF0AApVTlNQRUNJRklDdAAyeyJleHRyYSI6W3sidGV4dCI6IlNtYWxsIEJhZyBvJyBG\r\
-      \naXNoIn1dLCJ0ZXh0IjoiIn1zcgA2Y29tLmdvb2dsZS5jb21tb24uY29sbGVjdC5JbW11dGFibGVM\r\
-      \naXN0JFNlcmlhbGl6ZWRGb3JtAAAAAAAAAAACAAFbAAhlbGVtZW50c3QAE1tMamF2YS9sYW5nL09i\r\
-      \namVjdDt4cHVxAH4ABgAAAAV0AD17ImV4dHJhIjpbeyJ0ZXh0IjoiSG9sZHMgYSBzbWFsbCBhbW91\r\
-      \nbnQgb2YgZmlzaCJ9XSwidGV4dCI6IiJ9dAALeyJ0ZXh0IjoiIn10AfB7ImV4dHJhIjpbeyJib2xk\r\
-      \nIjpmYWxzZSwiaXRhbGljIjpmYWxzZSwidW5kZXJsaW5lZCI6ZmFsc2UsInN0cmlrZXRocm91Z2gi\r\
-      \nOmZhbHNlLCJvYmZ1c2NhdGVkIjpmYWxzZSwiY29sb3IiOiJ3aGl0ZSIsInRleHQiOiJ8In0seyJp\r\
-      \ndGFsaWMiOmZhbHNlLCJjb2xvciI6IndoaXRlIiwidGV4dCI6InwifSx7Iml0YWxpYyI6ZmFsc2Us\r\
-      \nImNvbG9yIjoid2hpdGUiLCJ0ZXh0IjoifCJ9LHsiaXRhbGljIjpmYWxzZSwiY29sb3IiOiJ3aGl0\r\
-      \nZSIsInRleHQiOiJ8In0seyJpdGFsaWMiOmZhbHNlLCJjb2xvciI6IndoaXRlIiwidGV4dCI6Inwi\r\
-      \nfSx7Iml0YWxpYyI6ZmFsc2UsImNvbG9yIjoid2hpdGUiLCJ0ZXh0IjoifCJ9LHsiaXRhbGljIjpm\r\
-      \nYWxzZSwiY29sb3IiOiJ3aGl0ZSIsInRleHQiOiJ8In0seyJpdGFsaWMiOmZhbHNlLCJjb2xvciI6\r\
-      \nIndoaXRlIiwidGV4dCI6InwifSx7Iml0YWxpYyI6ZmFsc2UsImNvbG9yIjoid2hpdGUiLCJ0ZXh0\r\
-      \nIjoifCAwLzI1NiJ9XSwidGV4dCI6IiJ9dAALeyJ0ZXh0IjoiIn10AOB7ImV4dHJhIjpbeyJib2xk\r\
-      \nIjpmYWxzZSwiaXRhbGljIjpmYWxzZSwidW5kZXJsaW5lZCI6ZmFsc2UsInN0cmlrZXRocm91Z2gi\r\
-      \nOmZhbHNlLCJvYmZ1c2NhdGVkIjpmYWxzZSwiY29sb3IiOiJyZWQiLCJ0ZXh0IjoiTGVmdC1DbGlj\r\
-      \nayBXaGlsZSBIb2xkaW5nIHRvIFRvZ2dsZSAifSx7Iml0YWxpYyI6dHJ1ZSwiY29sb3IiOiJ5ZWxs\r\
-      \nb3ciLCJ0ZXh0IjoiQXV0by1QaWNrdXAifV0sInRleHQiOiIifXNxAH4ADgAAAAFzcgA3Y29tLmdv\r\
-      \nb2dsZS5jb21tb24uY29sbGVjdC5JbW11dGFibGVCaU1hcCRTZXJpYWxpemVkRm9ybQAAAAAAAAAA\r\
-      \nAgAAeHEAfgADdXEAfgAGAAAAAXQACkRVUkFCSUxJVFl1cQB+AAYAAAABcQB+AClzcgATamF2YS51\r\
-      \ndGlsLkFycmF5TGlzdHiB0h2Zx2GdAwABSQAEc2l6ZXhwAAAAAXcEAAAAAXQADUhJREVfRU5DSEFO\r\
-      \nVFN4dACsSDRzSUFBQUFBQUFBLytOaVlPQmlZRW5LU1MwQVVwa2xxYm1NRElKcG1jVVpUb25wanFV\r\
-      \nbCtRR1p5ZG1sQll6TUROeFF3WkRNMUNJR0JnYWdDQzlNV1c1K2FWNEpVSXlCZzRFVEt1YVp3cUJp\r\
-      \na3BacWFKeVNhS1NiYkdTV3FHdGlZWmlvYTVtU25LeHJacDVza1pobVlHSmhZSllLMUFRQWlxMWVM\r\
-      \nWUVBQUFBPQ==\r\n"
-    - "rO0ABXNyABpvcmcuYnVra2l0LnV0aWwuaW8uV3JhcHBlcvJQR+zxEm8FAgABTAADbWFwdAAPTGph\r\
-      \ndmEvdXRpbC9NYXA7eHBzcgA1Y29tLmdvb2dsZS5jb21tb24uY29sbGVjdC5JbW11dGFibGVNYXAk\r\
-      \nU2VyaWFsaXplZEZvcm0AAAAAAAAAAAIAAkwABGtleXN0ABJMamF2YS9sYW5nL09iamVjdDtMAAZ2\r\
-      \nYWx1ZXNxAH4ABHhwdXIAE1tMamF2YS5sYW5nLk9iamVjdDuQzlifEHMpbAIAAHhwAAAABHQAAj09\r\
-      \ndAABdnQABHR5cGV0AAZhbW91bnR1cQB+AAYAAAAEdAAeb3JnLmJ1a2tpdC5pbnZlbnRvcnkuSXRl\r\
-      \nbVN0YWNrc3IAEWphdmEubGFuZy5JbnRlZ2VyEuKgpPeBhzgCAAFJAAV2YWx1ZXhyABBqYXZhLmxh\r\
-      \nbmcuTnVtYmVyhqyVHQuU4IsCAAB4cAAADCF0AA1ESUFNT05EX0JMT0NLc3EAfgAOAAAABQ==\r\
-      \n"
+      - 'CASH: 1000'
+      - 'ITEM: DIAMOND 4'
+      - 'ITEM: DIAMOND 8'
+      - 'ITEM: ANCIENT_DEBRIS 1'
+      - 'ITEM: HEART_OF_THE_SEA 1'
+  Epic Casket:
+    Weight: 30
+    Prefix: d
+    Model Data: 2
+    Drop Table:
+      - 'CASH: 1000'
+      - 'ITEM: SEA_LANTERN 1'
+      - 'ITEM: TURTLE_EGG 1'
+      - 'ITEM: DIAMOND 1'
+      - 'ITEM: DIAMOND 1'
+  Rare Casket:
+    Weight: 60
+    Prefix: b
+    Model Data: 3
+    Drop Table:
+      - 'CASH: 250'
+      - 'ITEM: SADDLE 1'
+      - 'ITEM: SPYGLASS 1'
+      - 'ITEM: SCUTE 1'
+  Common Casket:
+    Weight: 100
+    Prefix: a
+    Model Data: 4
+    Drop Table:
+      - 'CASH: 10'
+      - 'ITEM: NAUTILUS_SHELL 1'
+      - 'ITEM: DRIED_KELP 8'
+      - 'ITEM: KELP 8'
+      - 'ITEM: SEA_PICKLE 1'
+      - 'ITEM: IRON_INGOT 2'
+      - 'ITEM: GOLD_NUGGET 7'
+      - 'ITEM: INK_SAC 8'
