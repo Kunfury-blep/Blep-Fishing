@@ -1,6 +1,6 @@
 package com.kunfury.blepFishing.Commands.SubCommands;
 
-import com.kunfury.blepFishing.Miscellaneous.Reload;
+import com.kunfury.blepFishing.Config.Reload;
 import com.kunfury.blepFishing.Commands.CommandManager;
 import com.kunfury.blepFishing.Commands.SubCommand;
 import org.bukkit.command.CommandSender;

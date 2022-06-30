@@ -58,7 +58,7 @@ public class DisplayFishInfo {
                 Score score = objective.getScore(ChatColor.AQUA + "" + Formatting.DoubleFormat(fish.RealSize) + "\"" );
                 score.setScore(3);            
                 
-                if(Setup.hasEcon) { //Checks that an economy is installed
+                if(Setup.econEnabled) { //Checks that an economy is installed
                 	Score score1 = objective.getScore(ChatColor.GREEN + Variables.CurrSym + Formatting.DoubleFormat(fish.RealCost));
                 	score1.setScore(2);  
                 }      

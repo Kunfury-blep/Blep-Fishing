@@ -1,5 +1,7 @@
 package com.kunfury.blepFishing.Miscellaneous;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -12,6 +14,7 @@ public class Formatting {
 	//Formats doubles to two decimal places and returns them
 	//Parses through a locale formatter in order to ensure no incompatibilities
 	public static String DoubleFormat(Double d) {
+		if(d == null) d = 0.0;
 		NumberFormat format = NumberFormat.getInstance(Locale.getDefault());
 		Number number = 0;
 		try {
@@ -62,6 +65,12 @@ public class Formatting {
 	     
 	    return (ret);
     }
-	     
-	
+
+	public static double round(double value, int places) {
+		if (places < 0) throw new IllegalArgumentException();
+
+		BigDecimal bd = BigDecimal.valueOf(value);
+		bd = bd.setScale(places, RoundingMode.HALF_UP);
+		return bd.doubleValue();
+	}
 }
