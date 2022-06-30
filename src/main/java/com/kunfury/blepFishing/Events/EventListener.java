@@ -8,7 +8,6 @@ import com.kunfury.blepFishing.CollectionLog.CollectionHandler;
 import com.kunfury.blepFishing.CollectionLog.JournalHandler;
 import com.kunfury.blepFishing.Crafting.CraftingManager;
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.BagInfo;
-import com.kunfury.blepFishing.Crafting.Equipment.FishBag.FishBagWithdraw;
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.ParseFish;
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.UseFishBag;
 import com.kunfury.blepFishing.Crafting.SmithingTableHandler;
@@ -265,7 +264,7 @@ public class EventListener implements Listener {
                         default:
                             break;
                     }
-                    new FishBagWithdraw(tempFish, largeChoice, singleChoice, p, bag);
+                    new UseFishBag().FishBagWithdraw(tempFish, largeChoice, singleChoice, p, bag);
                 });
             });
 

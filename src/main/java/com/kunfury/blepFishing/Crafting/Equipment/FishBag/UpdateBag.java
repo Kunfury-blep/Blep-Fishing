@@ -41,6 +41,7 @@ public class UpdateBag {
 
             scheduler.runTask(Setup.getPlugin(), () -> {
                 FinalizeUpdate(bag, p, tempFish.size());
+                ShowBagInv(tempFish, p, bagId, bag);
             });
         });
     }
@@ -74,7 +75,6 @@ public class UpdateBag {
         inv.setItem(heldSlot, bag);
 
         p.updateInventory();
-
     }
 
 
@@ -159,7 +159,6 @@ public class UpdateBag {
             }
 
             p.openInventory(BagInv);
-            p.playSound(p.getLocation(), Sound.ITEM_ARMOR_EQUIP_LEATHER, .05f, 1f);
         }
     }
 }

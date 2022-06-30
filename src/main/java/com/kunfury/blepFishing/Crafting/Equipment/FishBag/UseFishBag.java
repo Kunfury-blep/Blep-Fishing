@@ -25,9 +25,8 @@ import org.bukkit.scheduler.BukkitScheduler;
 import java.util.*;
 
 public class UseFishBag {
-    public void UseBag(ItemStack bag, Player player){
+    public void UseBag(ItemStack bag, Player p){
         String bagId = NBTEditor.getString(bag, "blep", "item", "fishBagId");
-        //p.sendMessage("Bag UUID: " + bagId);
 
         final BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
 
@@ -37,7 +36,8 @@ public class UseFishBag {
 
 
             scheduler.runTask(Setup.getPlugin(), () -> {
-                new UpdateBag().ShowBagInv(tempFish, player, bagId, bag);
+                new UpdateBag().ShowBagInv(tempFish, p, bagId, bag);
+                p.playSound(p.getLocation(), Sound.ITEM_ARMOR_EQUIP_LEATHER, .3f, 1f);
             });
         });
     }
@@ -98,6 +98,33 @@ public class UseFishBag {
         fish.setAmount(0);
         Variables.UpdateFishData();
         new UpdateBag().Update(bag, p);
-        p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, .33f, 1f);
+        p.playSound(p.getLocation(), Sound.ENTITY_PUFFER_FISH_FLOP, .5f, 1f);
+    }
+
+    public void FishBagWithdraw(List<FishObject> fishObjectList, boolean large, boolean single, Player p, ItemStack bag){
+        if(fishObjectList.size() > 0){
+
+            int freeSlots = 0;
+            for (ItemStack it : p.getInventory().getStorageContents()) {
+                if (it == null || it.getType() == Material.AIR) {
+                    freeSlots++;
+                }
+            }
+
+            if(single && freeSlots > 1) freeSlots = 1;
+            else if(freeSlots > fishObjectList.size()) freeSlots = fishObjectList.size();
+            if(large) Collections.reverse(fishObjectList);
+
+            for(int i = 0; i < freeSlots; i++){
+                FishObject fish = fishObjectList.get(i);
+                fish.BagID = null;
+                p.getInventory().addItem(fish.GenerateItemStack());
+            }
+            p.playSound(p.getLocation(), Sound.ENTITY_SALMON_FLOP, .5f, 1f);
+            Variables.UpdateFishData();
+
+            new UpdateBag().Update(bag, p);
+        }
+
     }
 }
