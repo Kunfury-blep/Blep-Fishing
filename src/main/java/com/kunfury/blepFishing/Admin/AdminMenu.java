@@ -41,8 +41,8 @@ public class AdminMenu implements Listener {
 		TOURNEY
 	};
 	
-	public static HashMap<Player, Inventory> invMap = new HashMap<Player, Inventory>();
-	public static HashMap<Player, Window> winMap = new HashMap<Player, Window>();
+	public static HashMap<Player, Inventory> invMap = new HashMap<>();
+	public static HashMap<Player, Window> winMap = new HashMap<>();
 	public static HashMap<Player, TourneyAdminObject> tourneyMap = new HashMap<>();
 
 	/**
@@ -52,7 +52,7 @@ public class AdminMenu implements Listener {
 	 */
 	public void ShowInventory(CommandSender sender) {		
 		Player p = (Player)sender;
-		Inventory inv = Bukkit.createInventory(null, 27, Variables.Messages.getString("adminInvTitle"));
+		Inventory inv = Bukkit.createInventory(null, 27, Variables.getMessage("adminInvTitle"));
 		invMap.put(p, inv);
 		winMap.put(p, Window.BASE);
 		
@@ -132,7 +132,7 @@ public class AdminMenu implements Listener {
 		winMap.put(p, Window.FISH);
 		inv.clear();
 		
-		for(int i = 0; i < 27; i++) {
+		for(int i = 0; i < inv.getSize() - 1; i++) {
 			inv.setItem(i, Background);
 		}
 		
@@ -142,18 +142,22 @@ public class AdminMenu implements Listener {
 		int i = 0;
 		//Needs to be changed to the new BaseObject/FishObject system
 		for(final BaseFishObject fish : Variables.BaseFishList) {
-			meta = fishIcon.getItemMeta();
-			meta.setDisplayName(fish.Name);
-			meta.setCustomModelData(fish.ModelData);
-			List<String> lore = new ArrayList<String>() {{
-				add("Min Size: " + fish.MinSize);
-				add("Max Size: " + fish.MaxSize);
-				add("Base Price: " + fish.BaseCost);
-			}};
-			meta.setLore(lore);
-			fishIcon.setItemMeta(meta);
-			inv.setItem(i, fishIcon);
-			i++;
+			if(inv.getSize() <= i) break;
+			else {
+				meta = fishIcon.getItemMeta();
+				meta.setDisplayName(fish.Name);
+				meta.setCustomModelData(fish.ModelData);
+				List<String> lore = new ArrayList<String>() {{
+					add("Min Size: " + fish.MinSize);
+					add("Max Size: " + fish.MaxSize);
+					add("Base Price: " + fish.BaseCost);
+				}};
+				meta.setLore(lore);
+				fishIcon.setItemMeta(meta);
+				inv.setItem(i, fishIcon);
+				i++;
+			}
+
 		}
 		inv.setItem(inv.getSize() - 1, BackButton);
 		
@@ -293,7 +297,7 @@ public class AdminMenu implements Listener {
 		inv.setItem(19, TourneyFish);
 		inv.setItem(20, TourneyTime);
 		inv.setItem(21, Background);
-		if(Setup.hasEcon)
+		if(Setup.econEnabled)
 			inv.setItem(21, TourneyCash);
 		inv.setItem(22, Background);
 		inv.setItem(23, Background);
@@ -321,7 +325,7 @@ public class AdminMenu implements Listener {
 		List<String> lore = new ArrayList<String>() {{
 			add("Fish Type: " + tObj.FishName);
 			add("Duration: " + tObj.Duration + " Hour(s)");
-			if(Setup.hasEcon)
+			if(Setup.econEnabled)
 				add("Cash Prize: " + Variables.CurrSym + tObj.Cash);
 			add("Click to finish creation.");
 		}};
