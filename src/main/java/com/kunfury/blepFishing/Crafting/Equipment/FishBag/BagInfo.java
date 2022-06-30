@@ -2,10 +2,11 @@ package com.kunfury.blepFishing.Crafting.Equipment.FishBag;
 
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Material;
-import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 
 public class BagInfo {
+
+    public static String[] bagTypes = {"Small", "Medium", "Large", "Giant"};
 
     static Material[] UpgradeItems = new Material[]{
             Material.IRON_BLOCK,
@@ -35,6 +36,10 @@ public class BagInfo {
 
     public static boolean IsBag(ItemStack bag){
         return NBTEditor.contains(bag, "blep", "item", "fishBagId");
+    }
+
+    public static String GetType(ItemStack bag){
+        return bagTypes[NBTEditor.getInt(bag, "blep", "item", "fishBagTier" )];
     }
 
     public static ItemStack GetUpgradeComp(ItemStack bag){
