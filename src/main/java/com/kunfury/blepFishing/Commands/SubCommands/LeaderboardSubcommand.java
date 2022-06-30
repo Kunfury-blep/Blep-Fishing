@@ -41,7 +41,7 @@ public class LeaderboardSubcommand extends SubCommand {
         if(args.length == 1)
             sender.sendMessage("/bf lb <Fish Name> <Leaderboard Number>");
         else {
-            String fishName = args[1];
+            String fishName = args[1].toUpperCase();
             String formattedName = fishName;
 
             int startVal = 0;
