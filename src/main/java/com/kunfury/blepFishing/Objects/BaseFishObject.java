@@ -1,6 +1,6 @@
 package com.kunfury.blepFishing.Objects;
 
-import com.kunfury.blepFishing.AllBlue.AllBlueInfo;
+import com.kunfury.blepFishing.Endgame.EndgameVars;
 import com.kunfury.blepFishing.Miscellaneous.Variables;
 import org.bukkit.ChatColor;
 
@@ -20,13 +20,13 @@ public class BaseFishObject implements Serializable{
 	public boolean RequiresRain;
 	public int Weight = 100;
 	public double BaseCost = 1;
-	public String Area;		
+	public List<String> Areas;
 
 	public int MaxHeight = 1000;
 	public int MinHeight = -1000;
 
 	public BaseFishObject(String name, String lore, double minSize, double maxSize, 
-			int modelData, boolean _requiresRain, double baseCost, String area, int _minHeight, int _maxHeight){
+			int modelData, boolean _requiresRain, double baseCost, List<String> areas, int _minHeight, int _maxHeight){
 		Name = name;
 		Lore = lore;
 		MinSize = minSize;
@@ -35,7 +35,7 @@ public class BaseFishObject implements Serializable{
 		ModelData = modelData;		
 		RequiresRain = _requiresRain;
 		BaseCost = baseCost;
-		Area = area;
+		Areas = areas;
 
 		if(_minHeight != 0 && _maxHeight != 0){
 			MinHeight = _minHeight;
@@ -66,8 +66,8 @@ public class BaseFishObject implements Serializable{
 	public double getSize(boolean allBlue){
 		double realMax = MaxSize;
 
-		if(allBlue) realMax *= 1.1;
-
+		if(allBlue) realMax *= EndgameVars.FishSizeMod;
+		//TODO: Increase fish stats based on config
 
 		double size = ThreadLocalRandom.current().nextDouble(MinSize, realMax);
 

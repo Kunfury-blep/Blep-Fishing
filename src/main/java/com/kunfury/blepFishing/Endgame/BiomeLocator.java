@@ -1,11 +1,12 @@
-package com.kunfury.blepFishing.AllBlue;
+package com.kunfury.blepFishing.Endgame;
 
-import com.kunfury.blepFishing.Miscellaneous.Variables;
+import com.kunfury.blepFishing.Objects.AreaObject;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
 import org.bukkit.inventory.ItemStack;
+
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -23,11 +24,11 @@ public class BiomeLocator {
         while(i < attempt){
             assert world != null;
             Location tempLoc = getRandomLoc(world);
-            Biome biome = getBiome(tempLoc);
-            if(biome.equals(Biome.DEEP_LUKEWARM_OCEAN)){
-                int d = AllBlueVars.AllBlueRadius;
-                if(ConfirmBiome(AllBlueVars.oceanBiomes, tempLoc, d, 0, 0) && ConfirmBiome(AllBlueVars.oceanBiomes, tempLoc, -d, 0, 0)
-                && ConfirmBiome(AllBlueVars.oceanBiomes, tempLoc, 0, 0, d) && ConfirmBiome(AllBlueVars.oceanBiomes, tempLoc, 0, 0, -d)){
+
+            if(ConfirmArea(tempLoc, 0, 0, 0)){
+                int d = EndgameVars.AreaRadius;
+                if(ConfirmArea(tempLoc, d, 0, 0) && ConfirmArea(tempLoc, -d, 0, 0)
+                && ConfirmArea(tempLoc, 0, 0, d) && ConfirmArea(tempLoc, 0, 0, -d)){
                     tempLoc.setY(64);
                     return tempLoc;
                 }
@@ -38,11 +39,18 @@ public class BiomeLocator {
         return null;
     }
 
-    private boolean ConfirmBiome(List<String> biomes, Location loc, int x, int y, int z){
-        Location newLoc = new Location(loc.getWorld(), loc.getX() + x, loc.getY() + y, loc.getZ() + z);
-        Biome biome = newLoc.getBlock().getBiome();
+    /**
+     * @param origLoc -  Original location
+     * @param x - Offset on the X-Axis
+     * @param y - Offset on the Y-Axis
+     * @param z - Offset on the Z-Axis
+     * @return
+     */
+    public boolean ConfirmArea(Location origLoc, int x, int y, int z){
+        Location loc = new Location(origLoc.getWorld(), origLoc.getX() + x, origLoc.getY() + y, origLoc.getZ() + z); //Gets new location offset from original
 
-        return biomes.contains(biome.toString());
+        List<AreaObject> areaList = AreaObject.GetAreas(loc);
+        return areaList.contains(EndgameVars.EndgameArea);
     }
 
     public Biome getBiome(Location loc){

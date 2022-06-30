@@ -24,87 +24,8 @@ import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.*;
 
-public class UseFishBag implements Listener {
-
-    @EventHandler
-    public void FishBagInteract(PlayerInteractEvent e){
-
-        Player p = e.getPlayer();
-        ItemStack item = p.getInventory().getItemInMainHand();
-        Action a = e.getAction();
-
-        if(item != null && item.getType() == Material.HEART_OF_THE_SEA && a != Action.PHYSICAL
-                && NBTEditor.contains(item, "blep", "item", "fishBagId") && !p.getOpenInventory().getType().equals(InventoryType.CHEST)){
-            e.setCancelled(true);
-
-            if(a == Action.LEFT_CLICK_AIR || a == Action.LEFT_CLICK_BLOCK){
-                TogglePickup(item, p);
-                //TODO: Shift-Right to fill bag from inventory
-//                    if(p.isSneaking()) FillBag(item, p);
-//                    else TogglePickup(item, p);
-            }else if(a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK){
-                UseBag(item, p);
-            }
-        }
-    }
-
-
-    @EventHandler
-    public void inventoryClick(InventoryClickEvent e) {
-        if(e.getClickedInventory() == null) return;
-
-        ClickType a = e.getClick();
-        ItemStack item = e.getCurrentItem();
-        Player p = (Player) e.getWhoClicked();
-        ItemStack bag = p.getInventory().getItemInMainHand();
-        if(item != null && bag != null){
-            ItemMeta meta = bag.getItemMeta();
-            if(meta == null || !e.getView().getTitle().equals(meta.getDisplayName())) return;
-
-            e.setCancelled(true);
-            String fishName = item.getItemMeta().getDisplayName();
-            String bagId = NBTEditor.getString(item,"blep", "item", "fishBagId" );
-
-
-            final BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
-            //Grabs the collection Asynchronously
-            scheduler.runTaskAsynchronously(Setup.getPlugin(), () -> {
-                final List<FishObject> tempFish = new ParseFish().RetrieveFish(bagId, fishName);
-                scheduler.runTask(Setup.getPlugin(), () -> {
-                    boolean largeChoice = true;
-                    boolean singleChoice = true;
-                    switch(a){
-                        case LEFT:
-                            largeChoice = false;
-                            singleChoice = true;
-                            break;
-                        case SHIFT_LEFT:
-                            largeChoice = false;
-                            singleChoice = false;
-                            break;
-                        case RIGHT:
-                            largeChoice = true;
-                            singleChoice = true;
-                            break;
-                        case SHIFT_RIGHT:
-                            largeChoice = true;
-                            singleChoice = false;
-                            break;
-                        default:
-                            break;
-                    }
-                    new FishBagWithdraw(tempFish, largeChoice, singleChoice, p, bag);
-                });
-            });
-
-            //Inventory is the player inv
-            if(e.getClickedInventory() == p.getInventory() && item.getType() == Material.SALMON && NBTEditor.contains( item,"blep", "item", "fishValue" )){
-                AddFish(p.getInventory().getItemInMainHand(), p, item);
-            }
-        }
-    }
-
-    private void UseBag(ItemStack bag, Player player){
+public class UseFishBag {
+    public void UseBag(ItemStack bag, Player player){
         String bagId = NBTEditor.getString(bag, "blep", "item", "fishBagId");
         //p.sendMessage("Bag UUID: " + bagId);
 
@@ -122,11 +43,11 @@ public class UseFishBag implements Listener {
     }
 
 
-    private void FillBag(ItemStack bag, Player p){
+    public void FillBag(ItemStack bag, Player p){
         p.sendMessage("In Progress: Fill Bag. Pulls all fish from inventory into bag");
     }
 
-    private void TogglePickup(ItemStack bag, Player p){
+    public void TogglePickup(ItemStack bag, Player p){
         boolean enabled = NBTEditor.getBoolean(bag, "blep", "item", "fishBagAutoPickup" );
 
         p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
@@ -153,7 +74,7 @@ public class UseFishBag implements Listener {
      * @param p
      * @param fish
      */
-    private void AddFish(ItemStack bag, Player p, ItemStack fish){
+    public void AddFish(ItemStack bag, Player p, ItemStack fish){
         if(BagInfo.IsFull(bag)){
             p.sendMessage(Variables.Prefix + "There is no more space in that bag.");
             return;
