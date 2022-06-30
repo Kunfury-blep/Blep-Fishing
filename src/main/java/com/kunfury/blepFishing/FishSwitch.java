@@ -2,14 +2,14 @@ package com.kunfury.blepFishing;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-import com.kunfury.blepFishing.AllBlue.AllBlueInfo;
-import com.kunfury.blepFishing.AllBlue.AllBlueVars;
-import com.kunfury.blepFishing.AllBlue.DangerEvents;
-import com.kunfury.blepFishing.AllBlue.TreasureHandler;
+import com.kunfury.blepFishing.Endgame.AllBlueInfo;
+import com.kunfury.blepFishing.Endgame.DangerEvents;
+import com.kunfury.blepFishing.Endgame.TreasureHandler;
+import com.kunfury.blepFishing.CollectionLog.CollectionHandler;
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.BagInfo;
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.UpdateBag;
+import com.kunfury.blepFishing.Events.FishCaughtEvent;
 import com.kunfury.blepFishing.Objects.*;
-import com.kunfury.blepFishing.Plugins.FishCaughtEvent;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -37,12 +37,10 @@ public class FishSwitch{
 			AllBlueObject allBlueObj = AllBlueInfo.GetAllBlue(item.getLocation());
 			boolean allBlue = (allBlueObj != null);
 
-			if(new TreasureHandler().TreasureCheck()){
-				ItemStack treasure = new TreasureHandler().GenerateTreasure(player, item.getLocation());
-				if(treasure != null && treasure.getType() != Material.AIR){
-					item.setItemStack(treasure);
-					return;
-				}
+			ItemStack treasure = new TreasureHandler().Perform(player, item.getLocation());
+			if(treasure != null && treasure.getType() != Material.AIR){
+				item.setItemStack(treasure);
+				return;
 			}
 
 			BaseFishObject base = GetCaughtFish(item);
@@ -63,8 +61,18 @@ public class FishSwitch{
 
 			FishObject fish = new FishObject(base, chosenRarity, e.getPlayer().getName(), base.getSize(allBlue));
 
+			//Calls the event
+			FishCaughtEvent event = new FishCaughtEvent(item, fish, player);
+			Bukkit.getServer().getPluginManager().callEvent(event);
+
+			if(event.isCancelled()){
+				Bukkit.broadcastMessage("Cancelling the event!");
+				return;
+			}
+
 			item.setItemStack(fish.GenerateItemStack()); //TODO: Change the caught item to the itemstack as soon as possible to hide the transition
 
+			new DangerEvents().Trigger(player, item.getLocation()); //TODO: Pass if in All Blue or not
 			//Checks if the player has a fishing bag. Automatically adds the fish to it if so
 			for (var slot : player.getInventory())
 			{
@@ -95,12 +103,8 @@ public class FishSwitch{
 			CheckAgainstTournaments(fish);
 			Variables.AddToFishDict(fish);
 
-			//Calls the event
-			FishCaughtEvent event = new FishCaughtEvent(fish, player);
-			Bukkit.getServer().getPluginManager().callEvent(event);
-
 			if(allBlue) allBlueObj.RemoveFish(1, player);
-			new DangerEvents().Trigger(player, item.getLocation()); //TODO: Pass if in All Blue or not
+			new CollectionHandler().CaughtFish(player, fish); //Adds the caught fish to the players collection
 		}
 
 	}
@@ -119,7 +123,7 @@ public class FishSwitch{
 		if(!AllBlueInfo.InAllBlue(iLoc)) { //If in All Blue, skips the below testing and instead just returns whole list
 
 
-			List<AreaObject> areas = AreaObject.GetArea(iLoc); //Available areas to pull fish from
+			List<AreaObject> areas = AreaObject.GetAreas(iLoc); //Available areas to pull fish from
 			int height = iLoc.getBlockY();
 			boolean isRaining = Bukkit.getWorlds().get(0).hasStorm();
 
@@ -127,7 +131,7 @@ public class FishSwitch{
 			{
 				if((!bFish.RequiresRain || (bFish.RequiresRain && isRaining)) && bFish.MinHeight <= height && bFish.MaxHeight >= height){
 					for (var area : areas) {
-						if (area.Name.equals(bFish.Area)) {
+						if (bFish.Areas.contains(area.Name)) {
 							availFish.add(bFish); //Removes the fish if its area does not match the current area
 							break;
 			}}}}}

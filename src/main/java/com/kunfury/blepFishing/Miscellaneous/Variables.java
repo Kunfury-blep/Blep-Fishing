@@ -5,19 +5,16 @@ import java.util.*;
 import java.util.Map.Entry;
 
 import com.kunfury.blepFishing.Crafting.Equipment.Update;
+import com.kunfury.blepFishing.Objects.*;
 import com.kunfury.blepFishing.Tournament.Tournament;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.conversations.ConversationFactory;
 
 import com.kunfury.blepFishing.Setup;
 import com.kunfury.blepFishing.Signs.FishSign;
 
 import com.kunfury.blepFishing.Conversations.ConFactory;
-import com.kunfury.blepFishing.Objects.AreaObject;
-import com.kunfury.blepFishing.Objects.BaseFishObject;
-import com.kunfury.blepFishing.Objects.FishObject;
-import com.kunfury.blepFishing.Objects.RarityObject;
-import com.kunfury.blepFishing.Objects.TournamentObject;
 import com.kunfury.blepFishing.Tournament.SaveTournaments;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.io.BukkitObjectInputStream;
@@ -43,7 +40,7 @@ public class Variables {
 	public static boolean RequireAreaPerm = false;
 	public static boolean AllowWanderingTraders = false;
 	public static boolean LegendaryFishAnnounce = true;
-	public static boolean UseEconomy = true;
+	//public static boolean UseEconomy = true;
 	public static boolean EnableFishBags = true;
 	//endregion
 
@@ -51,8 +48,9 @@ public class Variables {
 		//Dictionary containing lists of all caught fish
 		//String =
 	public static HashMap<String, List<FishObject>> FishDict = new HashMap<>();
+	public static List<CollectionLogObject> CollectionLogs = new ArrayList<>();
 	public static ConversationFactory ConFactory = new ConFactory().GetFactory();
-	public static ResourceBundle Messages;
+	private static ResourceBundle Messages;
 	public static double TraderMod = 1;
 	//endregion
 
@@ -68,6 +66,8 @@ public class Variables {
 
 	public static int RarityTotalWeight;
 	public static int FishTotalWeight;
+	public static double ParrotBonus;
+	public static double BoatBonus;
 	
 	public static String Prefix;
 	
@@ -137,7 +137,7 @@ public class Variables {
 
 	public static void UpdateFishData(){
 		try {
-			String dictPath = Setup.dataFolder + "/fish.data";
+			String dictPath = Setup.dataFolder + "/Data" + "/fish.data";
 			ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(dictPath));
 
 			output.writeObject(FishDict);
@@ -204,4 +204,18 @@ public class Variables {
 		return FishNameList;
 	}
 
+	public static String getMessage(String key){
+		if(Messages == null) return "Not Found";
+		else{
+			return Messages.getString(key);
+		}
+	}
+
+	public static void setMessagesBundle(ResourceBundle resource){
+		if(resource != null)Messages = resource;
+		else{
+			Messages = ResourceBundle.getBundle("resource");
+		}
+
+	}
 }
