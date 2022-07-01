@@ -31,7 +31,7 @@ public class UpdateBag {
      * @param bag : The ItemStack of the bag being updated
      * @param p   : The player holding the bag with the inventory open
      */
-    public void Update(ItemStack bag, Player p) {
+    public void Update(ItemStack bag, Player p, boolean bagOpen) {
         //Grabs the amount of fish caught to display on the item
         final BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
         String bagId = NBTEditor.getString(bag, "blep", "item", "fishBagId");
@@ -41,7 +41,7 @@ public class UpdateBag {
 
             scheduler.runTask(Setup.getPlugin(), () -> {
                 FinalizeUpdate(bag, p, tempFish.size());
-                ShowBagInv(tempFish, p, bagId, bag);
+                if(bagOpen) ShowBagInv(tempFish, p, bagId, bag);
             });
         });
     }

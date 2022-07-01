@@ -97,7 +97,7 @@ public class UseFishBag {
         fishObj.BagID = bagId;
         fish.setAmount(0);
         Variables.UpdateFishData();
-        new UpdateBag().Update(bag, p);
+        new UpdateBag().Update(bag, p, true);
         p.playSound(p.getLocation(), Sound.ENTITY_PUFFER_FISH_FLOP, .5f, 1f);
     }
 
@@ -123,7 +123,7 @@ public class UseFishBag {
             p.playSound(p.getLocation(), Sound.ENTITY_SALMON_FLOP, .5f, 1f);
             Variables.UpdateFishData();
 
-            new UpdateBag().Update(bag, p);
+            new UpdateBag().Update(bag, p, true);
         }
 
     }
