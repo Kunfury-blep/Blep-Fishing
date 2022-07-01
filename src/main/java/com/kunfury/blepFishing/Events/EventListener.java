@@ -126,15 +126,15 @@ public class EventListener implements Listener {
                 Villager villager = (Villager)entity;
                 if(villager.getProfession().equals(Villager.Profession.FISHERMAN)
                         && item.getType() == Material.SALMON) {
-                    FishEconomy.SellFish(player, 1);
                     e.setCancelled(true);
+                    FishEconomy.SellFish(player, 1);
                 }
 
             }
             if(Variables.AllowWanderingTraders && entity instanceof WanderingTrader){
                 if(item.getType() == Material.SALMON){
-                    FishEconomy.SellFish(player, Variables.TraderMod);
                     e.setCancelled(true);
+                    FishEconomy.SellFish(player, Variables.TraderMod);
                 }
                 //
                 if(item.getType() == Material.HEART_OF_THE_SEA && NBTEditor.contains(item,"blep", "item", "fishBagId" )){
