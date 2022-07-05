@@ -24,34 +24,42 @@ public class CompassHandler {
     public void CombinePieces(ItemStack main, ItemStack second, PrepareSmithingEvent e){
         ItemStack combination = main;
         List<String> AchieveAreas = new ArrayList<>();
+        List<AreaObject> validAreas = new ArrayList<>();
         for(var area : Variables.AreaList){
-            boolean piece1 = NBTEditor.getBoolean(main, "blep", "item", "allBlueCompass_" + area.Name);
-            boolean piece2 = NBTEditor.getBoolean(second, "blep", "item", "allBlueCompass_" + area.Name);
+            if(area.HasCompass){
+                validAreas.add(area);
+                boolean piece1 = NBTEditor.getBoolean(main, "blep", "item", "allBlueCompass_" + area.Name);
+                boolean piece2 = NBTEditor.getBoolean(second, "blep", "item", "allBlueCompass_" + area.Name);
 
-            if(piece1 || piece2){
-                combination = NBTEditor.set(combination, "blep", "item", "allBlueCompass_" + area.Name);
-                AchieveAreas.add(area.Name);
+                if(piece1 || piece2){
+                    combination = NBTEditor.set(combination, "blep", "item", "allBlueCompass_" + area.Name);
+                    AchieveAreas.add(area.Name);
+                }
             }
+
         }
 
-        if(AchieveAreas.size() >= Variables.AreaList.size()){
+        if(AchieveAreas.size() >= validAreas.size()){
             CompleteCompass(e);
             return;
         }
 
         ItemMeta m = combination.getItemMeta();
         //TODO: Rename pieces to dynamic name based on percantage completed
-        m.setDisplayName("Compass Pieces - " + AchieveAreas.size());
+        if (m != null) {
+            m.setDisplayName("Compass Pieces - " + AchieveAreas.size());
+            ArrayList<String> lore = new ArrayList<>();
+            lore.add("A piece of something great...");
+            lore.add("");
 
-        ArrayList<String> lore = new ArrayList<String>();
-        lore.add("A piece of something great...");
-        lore.add("");
+            for(var area : AchieveAreas){
+                lore.add(ChatColor.AQUA + area);
+            }
 
-        for(var area : AchieveAreas){
-            lore.add(ChatColor.AQUA + area);
+            m.setLore(lore);
         }
 
-       m.setLore(lore);
+
 
         combination.setItemMeta(m);
 
@@ -61,6 +69,7 @@ public class CompassHandler {
     public static List<Player> ActivePlayers = new ArrayList<>();
     public void UseCompass(ItemStack comp, Player p){
         CompassMeta cMeta = (CompassMeta) comp.getItemMeta();
+        assert cMeta != null : "Compass Meta is null.";
         Location cLoc = cMeta.getLodestone();
         Location pLoc = p.getLocation();
         cLoc.setY(pLoc.getY());
