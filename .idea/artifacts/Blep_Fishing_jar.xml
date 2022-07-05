@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" build-on-make="true" name="Blep Fishing:jar">
-    <output-path>$PROJECT_DIR$/../../../../../Desktop/Minecraft Stuff/BuildTools/plugins</output-path>
+    <output-path>C:/Build Tools/plugins</output-path>
     <root id="archive" name="Blep Fishing.jar">
       <element id="module-output" name="Blep_Fishing" />
       <element id="file-copy" path="$PROJECT_DIR$/plugin.yml" />
