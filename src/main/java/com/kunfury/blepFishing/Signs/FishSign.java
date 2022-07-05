@@ -55,25 +55,18 @@ public class FishSign implements Listener {
 				else player.sendMessage(Variables.Prefix + "You need to be an admin to do that.");
 			}else {
 				//Checks if fish exist in the main list in FishSwitch
-				if(lines[1].equalsIgnoreCase("ALL")) fishExists = true;
-				else{
-					for(BaseFishObject fish : Variables.BaseFishList) {
-						if(fish.Name.equalsIgnoreCase(e.getLine(1))) {
-							fishExists = true;
-							break;
-				}}}
+				int level = 0;
+				if(!lines[2].isEmpty() && isNumeric(lines[2])) { //Gets the provided leaderboard level
+					level = Integer.parseInt(lines[2]) - 1;
+					if(level < 0) level = 0;
+				}else player.sendMessage(Variables.Prefix + "Third line is not a number, defaulting to 1st place.");
 
-				//Only runs the code if the fish type exists
-				if(fishExists){
-					int level = 0;
-					if(!lines[2].isEmpty() && isNumeric(lines[2])) { //Gets the provided leaderboard level
-						level = Integer.parseInt(lines[2]) - 1;
-						if(level < 0) level = 0;
-					}else player.sendMessage(Variables.Prefix + "Third line is not a number, defaulting to 1st place.");
+				SignObject signObj = new SignObject((Sign)e.getBlock().getState(), lines[1], level, player.getWorld());
 
-					rankSigns.add(new SignObject((Sign)e.getBlock().getState(), lines[1], level, player.getWorld()));
+				if(signObj.FishName != null && !signObj.FishName.isEmpty()){
+					rankSigns.add(signObj);
 					UpdateSignsFile();
-				}else e.setLine(3, ChatColor.translateAlternateColorCodes('&',"&4Fish Doesn't Exist"));
+				} else e.setLine(3, ChatColor.translateAlternateColorCodes('&',"&4Fish Doesn't Exist"));
 			}
 		}
 	}
