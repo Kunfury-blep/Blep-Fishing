@@ -4,6 +4,7 @@ import com.kunfury.blepFishing.Miscellaneous.Variables;
 import com.kunfury.blepFishing.Objects.AreaObject;
 import com.kunfury.blepFishing.Setup;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -32,7 +33,7 @@ public class CompassHandler {
                 boolean piece2 = NBTEditor.getBoolean(second, "blep", "item", "allBlueCompass_" + area.Name);
 
                 if(piece1 || piece2){
-                    combination = NBTEditor.set(combination, "blep", "item", "allBlueCompass_" + area.Name);
+                    combination = NBTEditor.set(combination, true,"blep", "item", "allBlueCompass_" + area.Name);
                     AchieveAreas.add(area.Name);
                 }
             }
@@ -108,17 +109,17 @@ public class CompassHandler {
     }
 
 
-    public ItemStack GenerateCompassPiece(Player p, Location loc){
+    public ItemStack GenerateCompassPiece(Player p, Location loc, boolean spawned){
         List<AreaObject> availAreas = AreaObject.GetAreas(loc);
         List<AreaObject> trimmedAreas = availAreas;
 
-        if(p.getInventory().contains(Material.PRISMARINE_CRYSTALS)){
+        if(!spawned && p.getInventory().contains(Material.PRISMARINE_CRYSTALS)){
             for (var slot : p.getInventory())
             {
                 if (slot != null && slot.getType().equals(Material.PRISMARINE_CRYSTALS) && AllBlueInfo.IsCompass(slot) && availAreas != null && availAreas.size() > 0)
                 {
                     for(int i = 0; i < availAreas.size(); i++){
-                        if(!availAreas.get(i).HasCompass || NBTEditor.contains(slot,"blep", "item", "allBlueCompass_" + availAreas.get(i).Name))
+                        if(!availAreas.get(i).HasCompass || NBTEditor.contains(slot,"blep", "item", "allBlueCompass_" + availAreas.get(i).Name)) //Makes sure the player doesn't get duplicate drops
                             trimmedAreas.remove(availAreas.get(i));
                     }
                 }

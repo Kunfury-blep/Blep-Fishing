@@ -36,7 +36,7 @@ public class TreasureHandler {
 
         if(GetTreasureChance(p) <= EndgameVars.TreasureChance){
             switch(new Random().nextInt(3)){
-                case 0: return new CompassHandler().GenerateCompassPiece(p, loc);
+                case 0: return new CompassHandler().GenerateCompassPiece(p, loc, false);
                 case 1: return GetMessageBottle();
                 case 2: return GetTreasureCasket();
                 default: throw new IllegalStateException();

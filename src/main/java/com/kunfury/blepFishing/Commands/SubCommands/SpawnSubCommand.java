@@ -101,14 +101,19 @@ public class SpawnSubCommand extends SubCommand {
 
         if(type.equalsIgnoreCase("COMPASS_PIECE")){
             for (int i = 0; i < amount; i++) {
-                items.add(new CompassHandler().GenerateCompassPiece(p, p.getLocation()));
+                items.add(new CompassHandler().GenerateCompassPiece(p, p.getLocation(), true));
             }
         }
 
         if(items.size() > 0){
-            for(var i : items)
-                p.getWorld().dropItem(p.getLocation(), i);
-            p.sendMessage(Variables.Prefix +  "Spawned " + amount + " " + type);
+            for(var i : items){
+                if(i != null){
+                    p.getWorld().dropItem(p.getLocation(), i);
+                }else p.sendMessage(Variables.Prefix + ChatColor.RED + "Error generating treasure: " + ChatColor.YELLOW + type.toUpperCase());
+            }
+
+
+            p.sendMessage(Variables.Prefix +  "Finsihed spawning " + amount + " " + type);
             Setup.getPlugin().getLogger().log(Level.FINE, Variables.Prefix + ChatColor.GRAY + "Spawned " + amount + " " + type + " for " + p.getName());
         }else p.sendMessage(Variables.Prefix + ChatColor.RED + "Error generating treasure: " + ChatColor.YELLOW + type.toUpperCase());
     }
