@@ -61,10 +61,6 @@ public class EventListener implements Listener {
                         break;
                     }
                 case PRISMARINE_CRYSTALS:
-                    if(p.getShoulderEntityLeft() != null) Bukkit.broadcastMessage("Left Shoulder Found: " + p.getShoulderEntityLeft().getType());
-                    else Bukkit.broadcastMessage("No Left Shoulder");
-                    if(p.getShoulderEntityRight() != null) Bukkit.broadcastMessage("Right Shoulder Found: " + p.getShoulderEntityRight().getType());
-                    else Bukkit.broadcastMessage("No Right Shoulder");
                     if(AllBlueInfo.IsCompass(item)){
                         new CompassHandler().LocateNextPiece(item, p);
                         break;
@@ -229,9 +225,8 @@ public class EventListener implements Listener {
         Player p = (Player) e.getWhoClicked();
         ItemStack bag = p.getInventory().getItemInMainHand();
         if(item != null && bag != null){
-            ItemMeta meta = bag.getItemMeta();
-            if(meta == null || !e.getView().getTitle().equals(meta.getDisplayName())) return;
-
+            ItemMeta bMeta = bag.getItemMeta();
+            if(bMeta == null || !e.getView().getTitle().equals(bMeta.getDisplayName()) || !NBTEditor.contains(bag, "blep", "item", "fishBagId")) return;
             e.setCancelled(true);
             String fishName = item.getItemMeta().getDisplayName();
             String bagId = NBTEditor.getString(item,"blep", "item", "fishBagId" );
