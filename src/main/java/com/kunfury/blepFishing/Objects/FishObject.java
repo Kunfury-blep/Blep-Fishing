@@ -17,6 +17,7 @@ import net.md_5.bungee.api.ChatColor;
 import com.kunfury.blepFishing.Miscellaneous.Variables;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -57,6 +58,20 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 		
 		Score = CalcScore(base, rarity);
 		RealCost = CalcPrice(base, rarity);
+	}
+
+
+	public FishObject(BaseFishObject base, String _playerName){
+		Name = base.Name;
+		PlayerName = _playerName;
+		DateCaught = LocalDateTime.now();
+		RealSize = base.getSize(false);
+
+		RarityObject rarity = RarityObject.GetRandom();
+		Rarity = rarity.Name;
+		Score = CalcScore(base, rarity);
+		RealCost = CalcPrice(base, rarity);
+
 	}
 
 	/**

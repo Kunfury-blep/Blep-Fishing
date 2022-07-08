@@ -1,10 +1,13 @@
 package com.kunfury.blepFishing.Commands.SubCommands;
 
+import com.kunfury.blepFishing.Endgame.AllBlueGeneration;
 import com.kunfury.blepFishing.Endgame.CompassHandler;
 import com.kunfury.blepFishing.Endgame.TreasureHandler;
 import com.kunfury.blepFishing.Commands.CommandManager;
 import com.kunfury.blepFishing.Commands.SubCommand;
 import com.kunfury.blepFishing.Miscellaneous.Variables;
+import com.kunfury.blepFishing.Objects.BaseFishObject;
+import com.kunfury.blepFishing.Objects.FishObject;
 import com.kunfury.blepFishing.Setup;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -14,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 
 public class SpawnSubCommand extends SubCommand {
@@ -39,15 +43,28 @@ public class SpawnSubCommand extends SubCommand {
             return;
         }
 
-        if(args[1].equalsIgnoreCase("TREASURE")){
-            if(args.length > 2){
+        switch(args[1].toUpperCase()){
+            case "TREASURE":
+                if(args.length > 2){
+                    int amt = 1;
+                    if(args.length >= 4 && CommandManager.isNumeric(args[3])) amt = Integer.parseInt(args[3]);
+                    SpawnTreasure(p, args[2], amt);
+                    break;
+                }
+                else p.sendMessage(Variables.Prefix + ChatColor.RED + "Please include the treasure type you wish to spawn.");
+            case "FISH":
+                String name = "";
+                if(args.length <= 2){
+                    name = "RANDOM";
+                }else name = args[2];
+
                 int amt = 1;
-                if(args.length >= 4 && CommandManager.isNumeric(args[3])) amt = Integer.parseInt(args[3]);
-                SpawnTreasure(p, args[2], amt);
-                return;
-            }
-            else p.sendMessage(Variables.Prefix + ChatColor.RED + "Please include the treasure type you wish to spawn.");
+                if(args.length >= 4 && CommandManager.isNumeric(args[3]))
+                    amt = Integer.parseInt(args[3]);
+                SpawnFish(p, name, amt);
+                break;
         }
+
     }
 
     @Override
@@ -55,14 +72,24 @@ public class SpawnSubCommand extends SubCommand {
         List<String> optionList = new ArrayList<>();
         switch(args.length){
             case 2:
-                optionList.add("Treasure");
+                optionList.add("FISH");
+                optionList.add("TREASURE");
                 break;
             case 3:
                 if(args[1].equalsIgnoreCase("TREASURE")){
                     optionList.add("CASKET");
                     optionList.add("MESSAGE_BOTTLE");
                     optionList.add("COMPASS_PIECE");
+                    optionList.add("COMPASS");
                     break;
+                }
+                if(args[1].equalsIgnoreCase("FISH")){
+                    optionList.add("<fish_name>");
+                    optionList.add("RANDOM");
+                    for(BaseFishObject fish : Variables.BaseFishList){
+                        optionList.add(fish.Name);
+                    }
+
                 }
             case 4:
                 if(args[1].equalsIgnoreCase("TREASURE")){
@@ -86,24 +113,30 @@ public class SpawnSubCommand extends SubCommand {
     private void SpawnTreasure(Player p, String type, int amount){
         if(amount <= 0) p.sendMessage(Variables.Prefix + ChatColor.RED + "Please enter a valid amount.");
         List<ItemStack> items = new ArrayList<>();
-        if(type.equalsIgnoreCase("CASKET")){
-            for (int i = 0; i < amount; i++) {
-                items.add(new TreasureHandler().GetTreasureCasket());
-            }
+
+        switch(type.toUpperCase()){
+            case "CASKET":
+                for (int i = 0; i < amount; i++) {
+                    items.add(new TreasureHandler().GetTreasureCasket());
+                }
+                break;
+            case "MESSAGE_BOTTLE":
+                for (int i = 0; i < amount; i++) {
+                    items.add(new TreasureHandler().GetMessageBottle());
+                }
+                break;
+
+            case "COMPASS_PIECE":
+                for (int i = 0; i < amount; i++) {
+                    items.add(new CompassHandler().GenerateCompassPiece(p, p.getLocation(), true));
+                }
+                break;
+
+            case "COMPASS":
+                items.add(new AllBlueGeneration().CreateCompass(p));
+                break;
         }
 
-
-        if(type.equalsIgnoreCase("MESSAGE_BOTTLE")){
-            for (int i = 0; i < amount; i++) {
-                items.add(new TreasureHandler().GetMessageBottle());
-            }
-        }
-
-        if(type.equalsIgnoreCase("COMPASS_PIECE")){
-            for (int i = 0; i < amount; i++) {
-                items.add(new CompassHandler().GenerateCompassPiece(p, p.getLocation(), true));
-            }
-        }
 
         if(items.size() > 0){
             for(var i : items){
@@ -111,10 +144,49 @@ public class SpawnSubCommand extends SubCommand {
                     p.getWorld().dropItem(p.getLocation(), i);
                 }else p.sendMessage(Variables.Prefix + ChatColor.RED + "Error generating treasure: " + ChatColor.YELLOW + type.toUpperCase());
             }
-
-
-            p.sendMessage(Variables.Prefix +  "Finsihed spawning " + amount + " " + type);
+            p.sendMessage(Variables.Prefix +  "Finished spawning " + amount + " " + type);
             Setup.getPlugin().getLogger().log(Level.FINE, Variables.Prefix + ChatColor.GRAY + "Spawned " + amount + " " + type + " for " + p.getName());
         }else p.sendMessage(Variables.Prefix + ChatColor.RED + "Error generating treasure: " + ChatColor.YELLOW + type.toUpperCase());
     }
+
+    private void SpawnFish(Player p, String name, int amount){
+        if(amount <= 0) p.sendMessage(Variables.Prefix + ChatColor.RED + "Please enter a valid amount.");
+        List<FishObject> fish = new ArrayList<>();
+
+
+        BaseFishObject base = BaseFishObject.GetBase(name);
+
+        Random rand = new Random();
+        for (int i = 0; i < amount; i++) {
+            if(name.equalsIgnoreCase("RANDOM") || name.equalsIgnoreCase("ALL") || name.equalsIgnoreCase("<fish_name>"))
+                base = Variables.BaseFishList.get(rand.nextInt(Variables.BaseFishList.size())); //Changes the fish for each spawn if it is random
+
+            if(base == null){
+                p.sendMessage(Variables.Prefix + ChatColor.RED + "Please enter a valid fish type.");
+                return;
+            }
+            fish.add(new FishObject(base, p.getName()));
+        }
+
+        if(fish.size() > 0){
+            for(var f : fish){
+                if(f != null){
+                    p.getWorld().dropItem(p.getLocation(), f.GenerateItemStack());
+                    Variables.AddToFishDict(f);
+                }else p.sendMessage(Variables.Prefix + ChatColor.RED + "Error generating fish.");
+            }
+
+
+            p.sendMessage(Variables.Prefix +  "Finished spawning " + amount + " fish.");
+            Setup.getPlugin().getLogger().log(Level.FINE, Variables.Prefix + ChatColor.GRAY + "Spawned " + amount + " fish for " + p.getName());
+        }else p.sendMessage(Variables.Prefix + ChatColor.RED + "Error generating fish.");
+
+
+    }
+
+    private void SpawnCompass(Player p){
+
+    }
+
+
 }
