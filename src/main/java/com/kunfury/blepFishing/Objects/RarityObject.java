@@ -1,9 +1,11 @@
 package com.kunfury.blepFishing.Objects;
 
+import com.gmail.nossr50.datatypes.treasure.Rarity;
 import com.kunfury.blepFishing.Miscellaneous.Variables;
 import org.bukkit.ChatColor;
 
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class RarityObject implements Comparable<RarityObject>{
 	public String Name;
@@ -33,6 +35,21 @@ public class RarityObject implements Comparable<RarityObject>{
 			}
 		}
 		return null;
+	}
+
+	public static RarityObject GetRandom(){
+		//Rarity Selection
+		int randR = ThreadLocalRandom.current().nextInt(0, Variables.RarityTotalWeight);
+		RarityObject chosenRarity = Variables.RarityList.get(0);
+		for(final RarityObject rarity : Variables.RarityList) {
+			if(randR <= rarity.Weight) {
+				chosenRarity = rarity;
+				break;
+			}else
+				randR -= rarity.Weight;
+		}
+
+		return chosenRarity;
 	}
 	
 }
