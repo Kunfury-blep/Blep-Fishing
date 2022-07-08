@@ -31,6 +31,7 @@ public class FishBagRecipe {
         bag = NBTEditor.set(bag, "null", "blep", "item", "fishBagId" ); //The UUID of the fishBag
 
         ItemMeta m = bag.getItemMeta();
+        assert m != null;
         m.setDisplayName("Small Bag o' Fish");
 
         m.setLore(new UpdateBag().GenerateLore(bag));
@@ -47,19 +48,18 @@ public class FishBagRecipe {
         tokenRecipe.setIngredient('1', Material.AIR);
         tokenRecipe.setIngredient('2', Material.AIR);
         tokenRecipe.setIngredient('3', Material.AIR);
-        tokenRecipe.setIngredient('4', Material.STICK);
+        tokenRecipe.setIngredient('4', Material.STRING);
         tokenRecipe.setIngredient('5', Material.SALMON);
-        tokenRecipe.setIngredient('6', Material.STICK);
+        tokenRecipe.setIngredient('6', Material.STRING);
         tokenRecipe.setIngredient('7', Material.LEATHER);
-        tokenRecipe.setIngredient('8', Material.STICK);
+        tokenRecipe.setIngredient('8', Material.STRING);
         tokenRecipe.setIngredient('9', Material.LEATHER);
         Bukkit.addRecipe(tokenRecipe);
 
-        Bukkit.getScheduler().scheduleSyncDelayedTask(Setup.getPlugin(), new Runnable() { //This doesn't work for some reason
-            public void run() {
-                for(Player p : Setup.getPlugin().getServer().getOnlinePlayers()) {
-                    p.discoverRecipe(key);
-                }
+        //This doesn't work for some reason
+        Bukkit.getScheduler().scheduleSyncDelayedTask(Setup.getPlugin(), () -> {
+            for(Player p : Setup.getPlugin().getServer().getOnlinePlayers()) {
+                p.discoverRecipe(key);
             }
         }, 1L); // 600L (ticks) is equal to 30 seconds (20 ticks = 1 second)
     }
