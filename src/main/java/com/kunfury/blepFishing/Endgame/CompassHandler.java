@@ -76,7 +76,9 @@ public class CompassHandler {
         cLoc.setY(pLoc.getY());
 
         double distance = pLoc.distance(cLoc);
-        String distanceStr = "";
+        String distanceStr;
+
+        if(Variables.DebugMode) p.sendMessage("Radius: "+ EndgameVars.AreaRadius);
 
         if(distance >= 10000) distanceStr = "You feel an incredible distance seperates you and your target.";
 //        else if(distance >= 7500) distanceStr = "There is still a long journey in front of you.";
@@ -86,9 +88,11 @@ public class CompassHandler {
         else if(distance > EndgameVars.AreaRadius) distanceStr = "You feel you are very close.";
         else distanceStr = "You are in the " + EndgameVars.AreaName + ".";
 
+        //if(Variables.DebugMode) p.teleport(cLoc);
+
         p.sendMessage(ChatColor.GRAY + distanceStr);
 
-        if(ActivePlayers.contains(p)) return;
+        if(ActivePlayers.contains(p) || distance < EndgameVars.AreaRadius) return;
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -99,7 +103,7 @@ public class CompassHandler {
                 if(!ActivePlayers.contains(p)) ActivePlayers.add(p);
                 double dist = pLoc.distance(cLoc);
                 if(dist <= EndgameVars.AreaRadius){
-                    p.sendMessage(ChatColor.GRAY + "You have reached the all blue!");
+                    p.sendMessage(ChatColor.GRAY + "You have reached the " + EndgameVars.AreaName + "!");
                     if(ActivePlayers.contains(p)) ActivePlayers.remove(p);
                     cancel();
                 }
