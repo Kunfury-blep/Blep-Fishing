@@ -119,6 +119,8 @@ public class Reload {
 			EndgameVars.AvailableFish = Setup.config.getInt("All Blue Fish");
 			EndgameVars.AreaName = Setup.config.getString("All Blue Name");
 
+
+			EndgameVars.AreaRadius = Setup.config.getInt("Endgame Radius");
 			String areaStr = Setup.config.getString("Endgame Area");
 			EndgameVars.EndgameArea =  AreaObject.FromString(areaStr); //TODO: Add to web panel
 

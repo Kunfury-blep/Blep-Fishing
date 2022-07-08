@@ -42,6 +42,7 @@ public class Variables {
 	public static boolean LegendaryFishAnnounce = true;
 	//public static boolean UseEconomy = true;
 	public static boolean EnableFishBags = true;
+	public static boolean DebugMode = false;
 	//endregion
 
 	//region Unique Static

@@ -1,7 +1,6 @@
 #
 #This config was created using the Config Web Panel. Use /BF Config in game to generate your own!
 #
-
 Show ScoreBoard: true
 Show Chat: false
 High Priority: false
@@ -10,25 +9,186 @@ Area Permissions: false
 Announce Legendary: true
 Use Economy: true
 Enable Fish Bags: true
+
 Chat Prefix: '&b[BF]&f '
 Currency Symbol: $
-Language Symbol: sdf
+Language Symbol: en
+
 Enable All Blue: true
 Permanent All Blue: true
 All Blue Name: All Blue
-All Blue Fish: 1500
-Endgame Area: Ocean
+All Blue Fish: 2000
+Endgame Radius: 32 #The size of the endgame zone. Larger sizes may make it more difficult to find an appropriate location
+Endgame Area: Ocean #The area for the endgame zone to generate in
+
 Allow Wandering Traders: false
 Wandering Traders Modifier: 1.5
+
 Enable Treasure: true
 Treasure Chance: 5
 Parrot Treasure Bonus: 5
 Boat Treasure Bonus: 5
+
 World Whitelist: false
 Allowed Worlds:
-- WORLD
-- WORLD_THE_END
-- WORLD_NETHER
+  - WORLD
+  - WORLD_THE_END
+  - WORLD_NETHER
+
+rarities:
+  Legendary:
+    Weight: 5
+    Color Code: 6
+    Price Mod: 10
+
+  Epic:
+    Weight: 30
+    Color Code: d
+    Price Mod: 5
+
+  Rare:
+    Weight: 60
+    Color Code: b
+    Price Mod: 2.5
+
+  Common:
+    Weight: 100
+    Color Code: a
+    Price Mod: 1
+
+areas:
+  Cold:
+    Has Compass: true
+    Compass Hint: The pieces feel cold to the touch.
+    Biomes:
+      - frozen_river
+      - frozen_ocean
+      - frozen_peaks
+      - grove
+      - ice_spikes
+      - jagged_peaks
+      - mountain_edge
+      - mountains
+      - snowy_beach
+      - snowy_mountains
+      - snowy_plains
+      - snowy_slopes
+      - snowy_taiga
+      - snowy_taiga_hills
+      - snowy_taiga_mountains
+      - snowy_tundra
+
+  Temperate:
+    Has Compass: true
+    Compass Hint:
+    Biomes:
+      - birch_forest
+      - birch_forest_hills
+      - dark_forest
+      - dark_forest_hills
+      - flower_forest
+      - forest
+      - giant_spruce_taiga
+      - giant_spruce_taiga_hills
+      - giant_tree_taiga
+      - giant_tree_taiga_hills
+      - gravelly_mountains
+      - meadow
+      - modified_gravelly_mountains
+      - old_growth_birch_forest
+      - old_growth_pine_taiga
+      - old_growth_spruce_taiga
+      - plains
+      - river
+      - sunflower_plains
+      - taiga
+      - taiga_hills
+      - taiga_mountains
+      - tall_birch_forest
+      - tall_birch_hills
+      - windswept_forest
+      - windswept_hills
+      - wooded_hills
+      - wooded_mountains
+      - windswept_gravelly_hills
+      - stony_peaks
+
+  Jungle:
+    Has Compass: true
+    Compass Hint:
+    Biomes:
+      - bamboo_jungle
+      - bamboo_jungle_hills
+      - jungle
+      - jungle_edge
+      - jungle_hills
+      - modified_jungle
+      - modified_jungle_edge
+      - sparse_jungle
+      - mangrove_swamp
+      - swamp
+      - swamp_hills
+      - mushroom_field_shore
+      - mushroom_fields
+
+  Ocean:
+    Has Compass: true
+    Compass Hint:
+    Biomes:
+      - beach
+      - cold_ocean
+      - deep_cold_ocean
+      - deep_frozen_ocean
+      - deep_lukewarm_ocean
+      - deep_ocean
+      - deep_warm_ocean
+      - lukewarm_ocean
+      - ocean
+      - warm_ocean
+      - stone_shore
+      - stony_shore
+
+  Dry:
+    Has Compass: true
+    Compass Hint: The piece feels strangely warm and seems to almost dry out your hands just touching it.
+    Biomes:
+      - badlands
+      - badlands_plateau
+      - desert
+      - desert_hills
+      - desert_lakes
+      - eroded_badlands
+      - modified_badlands_plateau
+      - modified_wooded_badlands_plateau
+      - savanna
+      - savanna_plateau
+      - shattered_savanna
+      - shattered_savanna_plateau
+      - windswept_savanna
+      - wooded_badlands
+      - wooded_badlands_plateau
+
+  End:
+    Has Compass: false
+    Compass Hint:
+    Biomes:
+      - end_barrens
+      - end_highlands
+      - end_midlands
+      - small_end_islands
+      - the_end
+      - the_void
+
+  Nether:
+    Has Compass: false
+    Compass Hint:
+    Biomes:
+      - basalt_deltas
+      - crimson_forest
+      - nether_wastes
+      - soul_sand_valley
+      - warped_forest
+
 fish:
   Bluegill:
     Lore: Does it call me Pink Lung?
@@ -36,413 +196,285 @@ fish:
     Max Size: 15
     ModelData: 1
     Base Price: 10
+    Area: Temperate
+    Raining: false
     Min Height: 0
     Max Height: 0
-    Raining: false
-    Area: Temperate
   Brown Trout:
     Lore: Looks more beige to me.
     Min Size: 15
     Max Size: 39
     ModelData: 2
     Base Price: 10
+    Area: Temperate
+    Raining: true
     Min Height: 0
     Max Height: 0
-    Raining: true
-    Area: Temperate
   Carp:
-    Lore: ' '
+    Lore:
     Min Size: 16
     Max Size: 31
     ModelData: 3
     Base Price: 10
+    Area: Temperate
+    Raining: false
     Min Height: 0
     Max Height: 0
-    Raining: false
-    Area: Temperate
   Catfish:
     Lore: I prefer a Dogfish.
     Min Size: 45
     Max Size: 65
     ModelData: 4
     Base Price: 10
+    Area: Temperate
+    Raining: false
     Min Height: 0
     Max Height: 0
-    Raining: false
-    Area: Temperate
   Gar:
-    Lore: ' '
+    Lore:
     Min Size: 5
     Max Size: 15
     ModelData: 5
     Base Price: 10
+    Area: Temperate
+    Raining: false
     Min Height: 0
     Max Height: 0
-    Raining: false
-    Area: Temperate
   Minnow:
-    Lore: ' '
+    Lore:
     Min Size: 1
     Max Size: 8
     ModelData: 6
     Base Price: 10
+    Area: Temperate
+    Raining: false
     Min Height: 0
     Max Height: 0
-    Raining: false
-    Area: Temperate
   Muskeullunge:
     Lore: Don’t listen to them, I think you’re fin-tastic!
     Min Size: 28
     Max Size: 48
     ModelData: 7
     Base Price: 10
+    Area: Temperate
+    Raining: false
     Min Height: 0
     Max Height: 0
-    Raining: false
-    Area: Temperate
   Perch:
-    Lore: ' '
+    Lore:
     Min Size: 8
     Max Size: 20
     ModelData: 8
     Base Price: 10
+    Area: Temperate
+    Raining: false
     Min Height: 0
     Max Height: 0
-    Raining: false
-    Area: Temperate
   Smallmouth Bass:
-    Lore: ' '
+    Lore:
     Min Size: 12
     Max Size: 28
     ModelData: 9
     Base Price: 10
+    Area: Temperate
+    Raining: false
     Min Height: 0
     Max Height: 0
-    Raining: false
-    Area: Temperate
   Blackfish:
-    Lore: ' '
+    Lore:
     Min Size: 8
     Max Size: 24
     ModelData: 10
     Base Price: 10
+    Area: Cold
+    Raining: false
     Min Height: 0
     Max Height: 0
-    Raining: false
-    Area: Cold
   Cod:
     Lore: Cod you pass me the salt?
     Min Size: 24
     Max Size: 36
     ModelData: 11
     Base Price: 10
+    Area: Cold
+    Raining: false
     Min Height: 0
     Max Height: 0
-    Raining: false
-    Area: Cold
   Halibut:
     Lore: Do it for the Halibut!
     Min Size: 36
     Max Size: 96
     ModelData: 12
     Base Price: 10
+    Area: Cold
+    Raining: false
     Min Height: 0
     Max Height: 0
-    Raining: false
-    Area: Cold
   Herring:
     Lore: Now to find a red one...
     Min Size: 8
     Max Size: 15
     ModelData: 13
     Base Price: 10
+    Area: Cold
+    Raining: false
     Min Height: 0
     Max Height: 0
-    Raining: false
-    Area: Cold
   Pink Salmon:
-    Lore: ' '
+    Lore:
     Min Size: 19
     Max Size: 26
     ModelData: 14
     Base Price: 10
+    Area: Cold
+    Raining: false
     Min Height: 0
     Max Height: 0
-    Raining: false
-    Area: Cold
   Pollock:
     Lore: What a load of Pollocks.
     Min Size: 10
     Max Size: 21
     ModelData: 15
     Base Price: 10
+    Area: Cold
+    Raining: false
     Min Height: 0
     Max Height: 0
-    Raining: false
-    Area: Cold
   Rainbow Trout:
-    Lore: ' '
+    Lore:
     Min Size: 23
     Max Size: 45
     ModelData: 16
     Base Price: 10
+    Area: Cold
+    Raining: false
     Min Height: 0
     Max Height: 0
-    Raining: false
-    Area: Cold
   Red Grouper:
     Lore: I'm green with envy.
     Min Size: 26
     Max Size: 50
     ModelData: 17
     Base Price: 10
+    Area: Ocean
+    Raining: false
     Min Height: 0
     Max Height: 0
-    Raining: false
-    Area: Ocean
   Tuna:
     Lore: Hmm... Tastes like chicken!
     Min Size: 72
     Max Size: 168
     ModelData: 18
     Base Price: 10
+    Area: Ocean
+    Raining: false
     Min Height: 0
     Max Height: 0
-    Raining: false
-    Area: Ocean
   Bayad:
     Lore: I'm hooked!
     Min Size: 30
     Max Size: 44
     ModelData: 19
     Base Price: 10
+    Area: Dry
+    Raining: false
     Min Height: 0
     Max Height: 0
-    Raining: false
-    Area: Dry
   Boulti:
-    Lore: ''
+    Lore:
     Min Size: 7
     Max Size: 24
     ModelData: 20
     Base Price: 10
+    Area: Dry
+    Raining: false
     Min Height: 0
     Max Height: 0
-    Raining: false
-    Area: Dry
   Lungfish:
     Lore: Not quite up to scale.
     Min Size: 38
     Max Size: 64
     ModelData: 21
     Base Price: 10
+    Area: Dry
+    Raining: false
     Min Height: 0
     Max Height: 0
-    Raining: false
-    Area: Dry
   Synodontis:
     Lore: A bunch of Fischious Rumors.
     Min Size: 4
     Max Size: 12
     ModelData: 22
     Base Price: 10
+    Area: Dry
+    Raining: false
     Min Height: 0
     Max Height: 0
-    Raining: false
-    Area: Dry
   Anglerfish:
     Lore: Go with the Glow!
     Min Size: 9
     Max Size: 39
     ModelData: 23
     Base Price: 10
+    Area: Ocean
+    Raining: false
     Min Height: -256
     Max Height: 15
-    Raining: false
-    Area: Ocean
   Arapaima:
-    Lore: ''
+    Lore:
     Min Size: 60
     Max Size: 130
     ModelData: 24
     Base Price: 10
+    Area: Jungle
+    Raining: false
     Min Height: 0
     Max Height: 0
-    Raining: false
-    Area: Jungle
   Tambaqui:
-    Lore: ''
+    Lore:
     Min Size: 20
     Max Size: 44
     ModelData: 25
     Base Price: 10
+    Area: Jungle
+    Raining: false
     Min Height: 0
     Max Height: 0
-    Raining: false
-    Area: Jungle
   Armored Catfish:
-    Lore: ''
+    Lore:
     Min Size: 3
     Max Size: 38
     ModelData: 26
     Base Price: 10
+    Area: Jungle
+    Raining: false
     Min Height: 0
     Max Height: 0
-    Raining: false
-    Area: Jungle
   Red-bellied Piranha:
-    Lore: ''
+    Lore:
     Min Size: 7
     Max Size: 13
     ModelData: 27
     Base Price: 10
+    Area: Jungle
+    Raining: false
     Min Height: 0
     Max Height: 0
-    Raining: false
-    Area: Jungle
-  Electric Eel:
-    Lore: ''
+  Electric Eel :
+    Lore:
     Min Size: 72
     Max Size: 130
     ModelData: 28
     Base Price: 10
+    Area: Jungle
+    Raining: false
     Min Height: 0
     Max Height: 0
-    Raining: false
-    Areas:
-      - Jungle
-      - Ocean
-rarities:
-  Legendary:
-    Weight: 5
-    Color Code: '6'
-    Price Mod: 10.0
-  Epic:
-    Weight: 30
-    Color Code: d
-    Price Mod: 5.0
-  Rare:
-    Weight: 60
-    Color Code: b
-    Price Mod: 2.5
-  Common:
-    Weight: 100
-    Color Code: a
-    Price Mod: 1.0
-areas:
-  Cold:
-    Has Compass: true
-    Compass Hint: The pieces feel cold to the touch.
-    Biomes:
-    - frozen_river
-    - frozen_ocean
-    - frozen_peaks
-    - grove
-    - ice_spikes
-    - jagged_peaks
-    - mountain_edge
-    - mountains
-    - snowy_beach
-    - snowy_mountains
-    - snowy_plains
-    - snowy_slopes
-    - snowy_taiga
-    - snowy_taiga_hills
-    - snowy_taiga_mountains
-    - snowy_tundra
-  Temperate:
-    Has Compass: true
-    Compass Hint: ''
-    Biomes:
-    - birch_forest
-    - birch_forest_hills
-    - dark_forest
-    - dark_forest_hills
-    - flower_forest
-    - forest
-    - giant_spruce_taiga
-    - giant_spruce_taiga_hills
-    - giant_tree_taiga
-    - giant_tree_taiga_hills
-    - gravelly_mountains
-    - meadow
-    - modified_gravelly_mountains
-    - old_growth_birch_forest
-    - old_growth_pine_taiga
-    - old_growth_spruce_taiga
-    - plains
-    - river
-    - sunflower_plains
-    - taiga
-    - taiga_hills
-    - taiga_mountains
-    - tall_birch_forest
-    - tall_birch_hills
-    - windswept_forest
-    - windswept_hills
-    - wooded_hills
-    - wooded_mountains
-    - windswept_gravelly_hills
-    - stony_peaks
-  Jungle:
-    Has Compass: true
-    Compass Hint: ''
-    Biomes:
-    - bamboo_jungle
-    - bamboo_jungle_hills
-    - jungle
-    - jungle_edge
-    - jungle_hills
-    - modified_jungle
-    - modified_jungle_edge
-    - sparse_jungle
-    - mangrove_swamp
-    - swamp
-    - swamp_hills
-    - mushroom_field_shore
-    - mushroom_fields
-  Ocean:
-    Has Compass: true
-    Compass Hint: ''
-    Biomes:
-    - beach
-    - cold_ocean
-    - deep_cold_ocean
-    - deep_frozen_ocean
-    - deep_lukewarm_ocean
-    - deep_ocean
-    - deep_warm_ocean
-    - lukewarm_ocean
-    - ocean
-    - warm_ocean
-    - stone_shore
-    - stony_shore
-  Dry:
-    Has Compass: true
-    Compass Hint: The piece feels strangely warm and seems to almost dry out your
-      hands just touching it.
-    Biomes:
-    - badlands
-    - badlands_plateau
-    - desert
-    - desert_hills
-    - desert_lakes
-    - eroded_badlands
-    - modified_badlands_plateau
-    - modified_wooded_badlands_plateau
-    - savanna
-    - savanna_plateau
-    - shattered_savanna
-    - shattered_savanna_plateau
-    - windswept_savanna
-    - wooded_badlands
-    - wooded_badlands_plateau
 
-#For Help with the Treasure: https://github.com/Kunfury-blep/Blep-Fishing/wiki/Config-Treasure
 treasure:
   Legendary Casket:
     Weight: 5
-    Prefix: '6'
+    Color Code: 6
     Model Data: 1
     Drop Table:
       - 'CASH: 1000'
@@ -452,7 +484,7 @@ treasure:
       - 'ITEM: HEART_OF_THE_SEA 1'
   Epic Casket:
     Weight: 30
-    Prefix: d
+    Color Code: d
     Model Data: 2
     Drop Table:
       - 'CASH: 1000'
@@ -462,7 +494,7 @@ treasure:
       - 'ITEM: DIAMOND 1'
   Rare Casket:
     Weight: 60
-    Prefix: b
+    Color Code: b
     Model Data: 3
     Drop Table:
       - 'CASH: 250'
@@ -471,7 +503,7 @@ treasure:
       - 'ITEM: SCUTE 1'
   Common Casket:
     Weight: 100
-    Prefix: a
+    Color Code: a
     Model Data: 4
     Drop Table:
       - 'CASH: 10'
