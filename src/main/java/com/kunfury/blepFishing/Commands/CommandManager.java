@@ -1,11 +1,13 @@
 package com.kunfury.blepFishing.Commands;
 
 import com.kunfury.blepFishing.Commands.SubCommands.*;
+import com.kunfury.blepFishing.Miscellaneous.PlayerPanel;
 import com.kunfury.blepFishing.Miscellaneous.Variables;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -32,6 +34,7 @@ public class CommandManager implements TabExecutor {
         subCommands.add(new ConfigSubcommand());
         subCommands.add(new GetDataSubCommand());
         subCommands.add(new SpawnSubCommand());
+        subCommands.add(new DebugSubcommand());
     }
 
     @Override
@@ -70,8 +73,10 @@ public class CommandManager implements TabExecutor {
         }else if(args.length > 1){
             for(SubCommand subCommand : subCommands)
                 if(subCommand.getName().equalsIgnoreCase(args[0]))
-                    for(var a : subCommand.getArguments(sender, args)){
-                        if(a.toUpperCase().contains((args[args.length - 1].toUpperCase()))) optionList.add(a);
+                    if(subCommand.getArguments(sender, args) != null){
+                        for(var a : subCommand.getArguments(sender, args)){
+                            if(a.toUpperCase().contains((args[args.length - 1].toUpperCase()))) optionList.add(a);
+                        }
                     }
         }
 
@@ -92,6 +97,8 @@ public class CommandManager implements TabExecutor {
     }
 
     private void BaseCommand(CommandSender sender){
+        //new PlayerPanel().Show(sender);
+
         String helpMessage = ChatColor.translateAlternateColorCodes('&',
                 "                     " + Variables.getMessage("helpTitle") + "\n"
                         + Prefix + "/bf lb <fishname> - " + Variables.getMessage("leaderboardHelp") + "\n"
