@@ -47,17 +47,7 @@ public class FishSwitch{
 			if(base == null || base.Name == null) return;
 
 			//Rarity Selection
-			int randR = ThreadLocalRandom.current().nextInt(0, Variables.RarityTotalWeight);
-			RarityObject chosenRarity = Variables.RarityList.get(0);
-			for(final RarityObject rarity : Variables.RarityList) {
-				if(randR <= rarity.Weight) {
-					chosenRarity = rarity;
-					break;
-				}else
-					randR -= rarity.Weight;
-			}
-
-
+			RarityObject chosenRarity = RarityObject.GetRandom();
 
 			FishObject fish = new FishObject(base, chosenRarity, e.getPlayer().getName(), base.getSize(allBlue));
 
@@ -66,7 +56,6 @@ public class FishSwitch{
 			Bukkit.getServer().getPluginManager().callEvent(event);
 
 			if(event.isCancelled()){
-				Bukkit.broadcastMessage("Cancelling the event!");
 				return;
 			}
 

@@ -13,6 +13,7 @@ import com.kunfury.blepFishing.Crafting.Equipment.FishBag.UseFishBag;
 import com.kunfury.blepFishing.Crafting.SmithingTableHandler;
 import com.kunfury.blepFishing.FishSwitch;
 import com.kunfury.blepFishing.Miscellaneous.FishEconomy;
+import com.kunfury.blepFishing.Miscellaneous.PlayerPanel;
 import com.kunfury.blepFishing.Miscellaneous.Variables;
 import com.kunfury.blepFishing.Objects.FishObject;
 import com.kunfury.blepFishing.Plugins.McMMOListener;
@@ -33,6 +34,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.List;
+import java.util.UUID;
 
 public class EventListener implements Listener {
 
@@ -168,25 +170,60 @@ public class EventListener implements Listener {
         }
     }
 
-    //TODO: Combine this event with the one below
+
     @EventHandler
-    public void smithingTableClick(InventoryClickEvent e){
-        if(e.getClickedInventory() != null && e.getClickedInventory().getType() == InventoryType.SMITHING && e.getSlot() == 2){
-            Player p = (Player) e.getWhoClicked();
-            ItemStack item = e.getCurrentItem();
-            if(item != null)
-                switch(item.getType()){
-                    case COMPASS:
-                        if(NBTEditor.getBoolean(item, "blep", "item", "allBlueCompassComplete")) {
-                            new AllBlueGeneration().Generate(e);
-                            break;
-                        }
-                    case HEART_OF_THE_SEA:
-                        if(NBTEditor.contains(item, "blep", "item", "fishBagTier")) {
-                            new CollectionHandler().CraftedBag(p, BagInfo.GetType(item));
-                            break;
-                        }
+    public void inventoryClick(InventoryClickEvent e){
+        if(e.getClickedInventory() == null) return;
+        ItemStack item = e.getCurrentItem();
+        Player p = (Player) e.getWhoClicked();
+        ItemStack mainHand = p.getInventory().getItemInMainHand();
+
+        switch(e.getClickedInventory().getType()){
+            case SMITHING -> {
+                if(e.getSlot() == 2 && item != null){
+                    switch(item.getType()){
+                        case COMPASS:
+                            if(NBTEditor.getBoolean(item, "blep", "item", "allBlueCompassComplete")) {
+                                new AllBlueGeneration().Generate(e);
+                                break;
+                            }
+                        case HEART_OF_THE_SEA:
+                            if(NBTEditor.contains(item, "blep", "item", "fishBagTier")) {
+                                new CollectionHandler().CraftedBag(p, BagInfo.GetType(item));
+                                break;
+                            }
+                    }
                 }
+            }
+            case CHEST -> {
+                if(item != null && mainHand.getType().equals(Material.HEART_OF_THE_SEA)){
+                    if(BagInfo.IsOpen(mainHand, e.getView()) && NBTEditor.contains(mainHand, "blep", "item", "fishBagId")) {
+                        e.setCancelled(true);
+                        new UseFishBag().FishBagWithdraw(e.getClick(), item.getItemMeta().getDisplayName(), p, mainHand);
+                        return;
+                    }
+                }
+
+                switch(e.getView().getTitle()){
+                    case "Blep Panel" -> {
+                        e.setCancelled(true);
+                        new PlayerPanel().Click(p, item);
+                    }
+                }
+
+            }
+            case PLAYER -> {
+                if(BagInfo.IsOpen(mainHand, e.getView())) e.setCancelled(true);
+                if(item != null && item.getType() == Material.SALMON && BagInfo.IsBag(mainHand) && NBTEditor.contains( item,"blep", "item", "fishValue" )){
+                    new UseFishBag().AddFish(mainHand, p, item);
+                    return;
+                }
+                switch(e.getView().getTitle()){
+                    case "Blep Panel" -> {
+                        e.setCancelled(true);
+                    }
+                }
+            }
         }
     }
 
@@ -200,6 +237,11 @@ public class EventListener implements Listener {
     public void onCraftItem(CraftItemEvent e) {
         CraftingInventory inv = e.getInventory();
 
+        ItemStack item = e.getCurrentItem();
+
+        if(BagInfo.IsBag(item) && BagInfo.GetId(item) == "null")e.setCurrentItem(NBTEditor.set(item, UUID.randomUUID().toString(), "blep", "item", "fishBagId"));
+
+
         //Checks that custom items are not used in recipes
         for (ItemStack it : inv.getStorageContents()) {
             if (it != null && it.getType() != Material.AIR) {
@@ -210,62 +252,6 @@ public class EventListener implements Listener {
                     default:
                         break;
                 }
-            }
-        }
-    }
-
-
-    //TODO: Combine this event with the one above
-    @EventHandler
-    public void inventoryClick(InventoryClickEvent e) {
-        if(e.getClickedInventory() == null) return;
-
-        ClickType a = e.getClick();
-        ItemStack item = e.getCurrentItem();
-        Player p = (Player) e.getWhoClicked();
-        ItemStack bag = p.getInventory().getItemInMainHand();
-        if(item != null && bag != null){
-            ItemMeta bMeta = bag.getItemMeta();
-            if(bMeta == null || !e.getView().getTitle().equals(bMeta.getDisplayName()) || !NBTEditor.contains(bag, "blep", "item", "fishBagId")) return;
-            e.setCancelled(true);
-            String fishName = item.getItemMeta().getDisplayName();
-            String bagId = NBTEditor.getString(item,"blep", "item", "fishBagId" );
-
-
-            final BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
-            //Grabs the collection Asynchronously
-            scheduler.runTaskAsynchronously(Setup.getPlugin(), () -> {
-                final List<FishObject> tempFish = new ParseFish().RetrieveFish(bagId, fishName);
-                scheduler.runTask(Setup.getPlugin(), () -> {
-                    boolean largeChoice = true;
-                    boolean singleChoice = true;
-                    switch(a){
-                        case LEFT:
-                            largeChoice = false;
-                            singleChoice = true;
-                            break;
-                        case SHIFT_LEFT:
-                            largeChoice = false;
-                            singleChoice = false;
-                            break;
-                        case RIGHT:
-                            largeChoice = true;
-                            singleChoice = true;
-                            break;
-                        case SHIFT_RIGHT:
-                            largeChoice = true;
-                            singleChoice = false;
-                            break;
-                        default:
-                            break;
-                    }
-                    new UseFishBag().FishBagWithdraw(tempFish, largeChoice, singleChoice, p, bag);
-                });
-            });
-
-            //Inventory is the player inv
-            if(e.getClickedInventory() == p.getInventory() && item.getType() == Material.SALMON && NBTEditor.contains( item,"blep", "item", "fishValue" )){
-               new UseFishBag().AddFish(p.getInventory().getItemInMainHand(), p, item);
             }
         }
     }

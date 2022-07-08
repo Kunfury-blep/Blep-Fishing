@@ -73,6 +73,8 @@ public class AdminMenu implements Listener {
 	 * Decides which events to trigger based on the currently active INV enum
 	 * @param e event variable
 	 */
+
+	//TODO: Move this to EventHandler
 	@EventHandler()
     public void clickEvent(InventoryClickEvent e) { //Handles Interaction with the panel
 		Player p = (Player)e.getWhoClicked();

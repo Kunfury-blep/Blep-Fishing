@@ -65,7 +65,7 @@ public class TreasureHandler {
         m.setCustomModelData(MessageBottleMD);
 
         ArrayList<String> lore = new ArrayList<>();
-        lore.add(ChatColor.AQUA + "Right-Click to " + ChatColor.YELLOW + ChatColor.ITALIC + "Open");
+        lore.add(ChatColor.AQUA + "Right-Click to " + ChatColor.YELLOW + ChatColor.ITALIC + "open");
         m.setLore(lore);
         bottle.setItemMeta(m);
         bottle = NBTEditor.set(bottle, true, "blep", "item", "MessageBottle");

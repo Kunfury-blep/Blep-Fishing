@@ -101,30 +101,66 @@ public class UseFishBag {
         p.playSound(p.getLocation(), Sound.ENTITY_PUFFER_FISH_FLOP, .5f, 1f);
     }
 
-    public void FishBagWithdraw(List<FishObject> fishObjectList, boolean large, boolean single, Player p, ItemStack bag){
-        if(fishObjectList.size() > 0){
+    public void FishBagWithdraw(ClickType click, String fishName, Player p, ItemStack bag){
 
-            int freeSlots = 0;
-            for (ItemStack it : p.getInventory().getStorageContents()) {
-                if (it == null || it.getType() == Material.AIR) {
-                    freeSlots++;
+        String bagId = NBTEditor.getString(bag, "blep", "item", "fishBagId");
+        final BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
+        scheduler.runTaskAsynchronously(Setup.getPlugin(), () -> {
+            final List<FishObject> fishObjectList = new ParseFish().RetrieveFish(bagId, fishName);
+
+            boolean large = true;
+            boolean single = true;
+            switch(click){
+                case LEFT:
+                    large = false;
+                    single = true;
+                    break;
+                case SHIFT_LEFT:
+                    large = false;
+                    single = false;
+                    break;
+                case RIGHT:
+                    large = true;
+                    single = true;
+                    break;
+                case SHIFT_RIGHT:
+                    large = true;
+                    single = false;
+                    break;
+                default:
+                    break;
+            }
+
+            if(fishObjectList.size() > 0){
+
+                int freeSlots = 0;
+                for (ItemStack it : p.getInventory().getStorageContents()) {
+                    if (it == null || it.getType() == Material.AIR) {
+                        freeSlots++;
+                    }
                 }
+
+                if(single && freeSlots > 1) freeSlots = 1;
+                else if(freeSlots > fishObjectList.size()) freeSlots = fishObjectList.size();
+                if(large) Collections.reverse(fishObjectList);
+
+                for(int i = 0; i < freeSlots; i++){
+                    FishObject fish = fishObjectList.get(i);
+                    fish.BagID = null;
+                    p.getInventory().addItem(fish.GenerateItemStack());
+                }
+                p.playSound(p.getLocation(), Sound.ENTITY_SALMON_FLOP, .5f, 1f);
+                Variables.UpdateFishData();
+
+                new UpdateBag().Update(bag, p, true);
             }
 
-            if(single && freeSlots > 1) freeSlots = 1;
-            else if(freeSlots > fishObjectList.size()) freeSlots = fishObjectList.size();
-            if(large) Collections.reverse(fishObjectList);
 
-            for(int i = 0; i < freeSlots; i++){
-                FishObject fish = fishObjectList.get(i);
-                fish.BagID = null;
-                p.getInventory().addItem(fish.GenerateItemStack());
-            }
-            p.playSound(p.getLocation(), Sound.ENTITY_SALMON_FLOP, .5f, 1f);
-            Variables.UpdateFishData();
+        });
 
-            new UpdateBag().Update(bag, p, true);
-        }
+
+
+
 
     }
 }

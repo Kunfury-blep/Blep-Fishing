@@ -82,13 +82,16 @@ public class UpdateBag {
         DecimalFormat formatter = new DecimalFormat("#,###");
         double fishCount = BagInfo.GetAmount(bag);
         double maxSize = BagInfo.GetMax(bag);
-        int tier = BagInfo.GetTier(bag);
 
         ArrayList<String> lore = new ArrayList<>();
 
         lore.add("Holds a small amount of fish"); //TODO: Change to dynamic based on size of bag
         lore.add("");
 
+        if(Variables.DebugMode){
+            lore.add("ID: " + BagInfo.GetId(bag));
+            lore.add("");
+        }
 
         double barScore = 10 * (fishCount / maxSize);
 

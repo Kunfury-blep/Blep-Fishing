@@ -28,9 +28,7 @@ public class FishBagRecipe {
         bag = NBTEditor.set(bag, 0, "blep", "item", "fishBagAmount" ); //Sets the current amount of the bag to 0
         bag = NBTEditor.set(bag, true, "blep", "item", "fishBagAutoPickup" ); //Sets the auto-pickup to true
 
-
-        String bagId = UUID.randomUUID().toString();
-        bag = NBTEditor.set(bag, bagId, "blep", "item", "fishBagId" ); //The UUID of the fishBag
+        bag = NBTEditor.set(bag, "null", "blep", "item", "fishBagId" ); //The UUID of the fishBag
 
         ItemMeta m = bag.getItemMeta();
         m.setDisplayName("Small Bag o' Fish");
@@ -64,6 +62,10 @@ public class FishBagRecipe {
                 }
             }
         }, 1L); // 600L (ticks) is equal to 30 seconds (20 ticks = 1 second)
+    }
+
+    public void OnCraft(){
+
     }
 
 }

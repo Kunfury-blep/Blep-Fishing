@@ -45,11 +45,12 @@ public class StartTourney extends SubCommand {
     public List<String> getArguments(@NotNull CommandSender sender, String[] args) {
         List<String> optionList = new ArrayList<>();
         if (args.length == 2) {
+            optionList.add("<fish_name>");
+            optionList.add("All");
             for(BaseFishObject fish : Variables.BaseFishList){
                 optionList.add(fish.Name);
             }
-            optionList.add("All");
-            optionList.add("<fish name>");
+
         }
         if(args.length == 3){
             optionList.add("<duration>");

@@ -2,7 +2,11 @@ package com.kunfury.blepFishing.Crafting.Equipment.FishBag;
 
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.Objects;
 
 public class BagInfo {
 
@@ -27,6 +31,8 @@ public class BagInfo {
         return NBTEditor.getInt(bag, "blep", "item", "fishBagTier" );
     }
 
+    public static String GetId(ItemStack bag){ return NBTEditor.getString(bag, "blep", "item", "fishBagId"); }
+
     public static int GetAmount(ItemStack bag){
         return NBTEditor.getInt(bag, "blep", "item", "fishBagAmount" );
     }
@@ -45,6 +51,11 @@ public class BagInfo {
     public static ItemStack GetUpgradeComp(ItemStack bag){
         int tier = GetTier(bag);
         return new ItemStack(UpgradeItems[tier - 1], 1);
+    }
+
+    public static Boolean IsOpen(ItemStack bag, InventoryView view){
+        if(bag == null || view == null || bag.getItemMeta() == null) return false;
+        return bag.getItemMeta().getDisplayName().equals(view.getTitle());
     }
 
 }
