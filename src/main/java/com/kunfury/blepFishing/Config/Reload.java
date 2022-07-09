@@ -118,7 +118,7 @@ public class Reload {
 			EndgameVars.Permanent = Setup.config.getBoolean("Permanent All Blue");
 			EndgameVars.AvailableFish = Setup.config.getInt("All Blue Fish");
 			EndgameVars.AreaName = Setup.config.getString("All Blue Name");
-
+			EndgameVars.MobSpawnChance = Setup.config.getDouble("Endgame Mob Chance");
 
 			EndgameVars.AreaRadius = Setup.config.getInt("Endgame Radius");
 			String areaStr = Setup.config.getString("Endgame Area");
@@ -133,7 +133,7 @@ public class Reload {
 
 			LoadAllBlue();
 
-			LoadTreasure();
+			LoadCaskets();
 
 			LoadCollections();
     	}
@@ -240,7 +240,7 @@ public class Reload {
 		}
 	}
 
-	private void LoadTreasure(){
+	private void LoadCaskets(){
 		TreasureHandler.CasketList = new ArrayList<>();
 		var configSection = Setup.config.getConfigurationSection("treasure");
 		if(configSection != null){

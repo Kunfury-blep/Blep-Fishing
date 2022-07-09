@@ -110,8 +110,6 @@ public class FishSwitch{
 		List<BaseFishObject> availFish = new ArrayList<>(); //Available fish to choose from
 
 		if(!AllBlueInfo.InAllBlue(iLoc)) { //If in All Blue, skips the below testing and instead just returns whole list
-
-
 			List<AreaObject> areas = AreaObject.GetAreas(iLoc); //Available areas to pull fish from
 			int height = iLoc.getBlockY();
 			boolean isRaining = Bukkit.getWorlds().get(0).hasStorm();
@@ -123,7 +121,11 @@ public class FishSwitch{
 						if (bFish.Areas.contains(area.Name)) {
 							availFish.add(bFish); //Removes the fish if its area does not match the current area
 							break;
-			}}}}}
+						}
+					}
+				}
+			}
+		} else availFish = Variables.BaseFishList;
 
 		availFish.sort((fish1, fish2) -> {
 			Integer newWeight1 = fish1.Weight;

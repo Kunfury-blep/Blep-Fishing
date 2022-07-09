@@ -20,6 +20,7 @@ All Blue Name: All Blue
 All Blue Fish: 2000
 Endgame Radius: 32 #The size of the endgame zone. Larger sizes may make it more difficult to find an appropriate location
 Endgame Area: Ocean #The area for the endgame zone to generate in
+Endgame Mob Chance: 2
 
 Allow Wandering Traders: false
 Wandering Traders Modifier: 1.5
@@ -474,7 +475,7 @@ fish:
 treasure:
   Legendary Casket:
     Weight: 5
-    Color Code: 6
+    Prefix: 6
     Model Data: 1
     Drop Table:
       - 'CASH: 1000'
@@ -484,7 +485,7 @@ treasure:
       - 'ITEM: HEART_OF_THE_SEA 1'
   Epic Casket:
     Weight: 30
-    Color Code: d
+    Prefix: d
     Model Data: 2
     Drop Table:
       - 'CASH: 1000'
@@ -494,7 +495,7 @@ treasure:
       - 'ITEM: DIAMOND 1'
   Rare Casket:
     Weight: 60
-    Color Code: b
+    Prefix: b
     Model Data: 3
     Drop Table:
       - 'CASH: 250'
@@ -503,7 +504,7 @@ treasure:
       - 'ITEM: SCUTE 1'
   Common Casket:
     Weight: 100
-    Color Code: a
+    Prefix: a
     Model Data: 4
     Drop Table:
       - 'CASH: 10'

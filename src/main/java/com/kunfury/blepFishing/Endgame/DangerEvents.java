@@ -19,8 +19,12 @@ public class DangerEvents {
         int rnd = new Random().nextInt(waterEntities.length);
         switch(waterEntities[rnd]){
             case ELDER_GUARDIAN -> SpawnMob(iLoc, waterEntities[rnd], p);
-
+            case DROWNED -> spawnDrowned(iLoc, p);
         }
+    }
+
+    private void spawnDrowned(Location loc, Player p){
+
     }
 
     public void SpawnMob(Location loc, EntityType et, Player p){
