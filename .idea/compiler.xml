@@ -6,12 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Blep_Fishing" />
+        <module name="blep-fishing" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="Blep_Fishing" target="16" />
-      <module name="BlepFishing" target="16" />
+    <bytecodeTargetLevel target="18.0.1.1">
+      <module name="blep-fishing" target="14" />
+      <module name="Blep_Fishing" target="18.0.1.1" />
     </bytecodeTargetLevel>
   </component>
 </project>
