@@ -16,7 +16,9 @@ import net.md_5.bungee.api.ChatColor;
 
 import com.kunfury.blepFishing.Config.Variables;
 import net.md_5.bungee.api.chat.hover.content.Text;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -30,6 +32,7 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 	public final String Name;
 	public String Rarity;
 	public String PlayerName;
+	private String playerUUID;
 	public LocalDateTime DateCaught;
 	public double RealSize;
 	
@@ -45,13 +48,14 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 	 * Base Constructor
 	 * @param base = The Base Fish to be generated from
 	 * @param rarity = The rarity of the fish
-	 * @param _playerName = The name of the player who caught the fish
+	 * @param _player = The player who caught the fish
 	 * @param _size = The length of the fish
 	 */
-	public FishObject(BaseFishObject base, RarityObject rarity, String _playerName, Double _size){
+	public FishObject(BaseFishObject base, RarityObject rarity, Player _player, Double _size){
 		Name = base.Name;
 		Rarity = rarity.Name;
-		PlayerName = _playerName;
+		PlayerName = _player.getDisplayName();
+		playerUUID = _player.getUniqueId().toString();
 		DateCaught = LocalDateTime.now();
 		RealSize = _size;
 		
@@ -60,9 +64,10 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 	}
 
 
-	public FishObject(BaseFishObject base, String _playerName){
+	public FishObject(BaseFishObject base, Player _player){
 		Name = base.Name;
-		PlayerName = _playerName;
+		PlayerName = _player.getDisplayName();
+		playerUUID = _player.getUniqueId().toString();
 		DateCaught = LocalDateTime.now();
 		RealSize = base.getSize(false);
 
@@ -172,6 +177,10 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 
 
 		return colorLore;
+	}
+
+	public Player getPlayer(){
+		return Bukkit.getPlayer(UUID.fromString(playerUUID));
 	}
 
 }

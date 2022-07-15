@@ -49,7 +49,7 @@ public class FishSwitch{
 			//Rarity Selection
 			RarityObject chosenRarity = RarityObject.GetRandom();
 
-			FishObject fish = new FishObject(base, chosenRarity, e.getPlayer().getName(), base.getSize(allBlue));
+			FishObject fish = new FishObject(base, chosenRarity, e.getPlayer(), base.getSize(allBlue));
 
 			//Calls the event
 			FishCaughtEvent event = new FishCaughtEvent(item, fish, player);
