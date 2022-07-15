@@ -160,9 +160,9 @@ public class CompassHandler {
         ArrayList<String> lore = new ArrayList<>();
 
         lore.add("A small piece of something great...");
+        lore.add(ChatColor.GRAY + "Combine pieces at a " + ChatColor.DARK_GRAY + ChatColor.ITALIC + "smithing table");
         lore.add("");
-        lore.add(ChatColor.AQUA + "Combine pieces at a " + ChatColor.YELLOW + ChatColor.ITALIC + "smithing table");
-
+        lore.add(ChatColor.AQUA + "Right-Click to " + ChatColor.YELLOW + ChatColor.ITALIC + "focus");
         return lore;
     }
 
