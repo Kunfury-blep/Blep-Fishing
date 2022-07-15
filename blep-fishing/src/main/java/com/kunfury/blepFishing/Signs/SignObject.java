@@ -33,6 +33,7 @@ public class SignObject implements Serializable{
 	}
 
 	private String getFullName(String _fishName){
+		if(_fishName.equalsIgnoreCase("ALL")) return "ALL";
 		_fishName = _fishName.toUpperCase();
 		for(var f : Variables.BaseFishList){
 			if(f.Name.equalsIgnoreCase(_fishName) || f.Name.toUpperCase().contains(_fishName)){
