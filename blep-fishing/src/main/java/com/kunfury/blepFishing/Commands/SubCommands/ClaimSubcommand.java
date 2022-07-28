@@ -1,8 +1,10 @@
 package com.kunfury.blepFishing.Commands.SubCommands;
 
-import com.kunfury.blepFishing.Tournament.TournamentRewards;
+import com.kunfury.blepFishing.Tournament.Old.TournamentRewards;
 import com.kunfury.blepFishing.Commands.SubCommand;
+import com.kunfury.blepFishing.Tournament.Rewards;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -25,7 +27,8 @@ public class ClaimSubcommand extends SubCommand {
 
     @Override
     public void perform(@NotNull CommandSender sender, String[] args) {
-        new TournamentRewards().GetRewards(sender);
+        new Rewards().Claim((Player) sender);
+        //new TournamentRewards().GetRewards(sender);
     }
 
     @Override

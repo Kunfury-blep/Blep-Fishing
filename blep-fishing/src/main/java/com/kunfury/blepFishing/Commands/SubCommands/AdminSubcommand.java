@@ -1,6 +1,6 @@
 package com.kunfury.blepFishing.Commands.SubCommands;
 
-import com.kunfury.blepFishing.Admin.AdminMenu;
+import com.kunfury.blepFishing.Interfaces.Admin.AdminMenu;
 import com.kunfury.blepFishing.Commands.CommandManager;
 import com.kunfury.blepFishing.Commands.SubCommand;
 import org.bukkit.command.CommandSender;

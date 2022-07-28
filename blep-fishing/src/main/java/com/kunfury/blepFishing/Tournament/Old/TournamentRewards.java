@@ -1,4 +1,4 @@
-package com.kunfury.blepFishing.Tournament;
+package com.kunfury.blepFishing.Tournament.Old;
 
 import java.io.BufferedReader;
 import java.io.File;

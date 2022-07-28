@@ -1,6 +1,5 @@
 package com.kunfury.blepFishing.Crafting.Equipment.FishBag;
 
-import com.kunfury.blepFishing.Crafting.Equipment.Update;
 import com.kunfury.blepFishing.Setup;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Bukkit;

@@ -1,6 +1,7 @@
 package com.kunfury.blepFishing.Objects;
 
 import com.kunfury.blepFishing.Config.Variables;
+import com.kunfury.blepFishing.Miscellaneous.BiomeHandler;
 import org.bukkit.Location;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class AreaObject {
 	}
 	
 	public static List<AreaObject> GetAreas(Location loc){
-		String biomeName = loc.getBlock().getBiome().name();
+		String biomeName = new BiomeHandler().getBiomeKey(loc);
 
 		List<AreaObject> areas = new ArrayList<>();
 

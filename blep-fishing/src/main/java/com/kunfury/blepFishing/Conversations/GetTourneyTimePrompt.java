@@ -5,8 +5,8 @@ import org.bukkit.conversations.NumericPrompt;
 import org.bukkit.conversations.Prompt;
 import org.bukkit.entity.Player;
 
-import com.kunfury.blepFishing.Admin.AdminMenu;
-import com.kunfury.blepFishing.Admin.TourneyAdmin;
+import com.kunfury.blepFishing.Interfaces.Admin.AdminMenu;
+import com.kunfury.blepFishing.Interfaces.Admin.TourneyAdmin;
 
 public class GetTourneyTimePrompt {
 	

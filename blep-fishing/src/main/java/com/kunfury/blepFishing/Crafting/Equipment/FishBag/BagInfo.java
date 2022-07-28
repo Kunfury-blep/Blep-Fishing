@@ -1,16 +1,19 @@
 package com.kunfury.blepFishing.Crafting.Equipment.FishBag;
 
 import io.github.bananapuncher714.nbteditor.NBTEditor;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.InventoryView;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Objects;
+import java.util.HashMap;
 
 public class BagInfo {
 
     public static String[] bagTypes = {"Small", "Medium", "Large", "Giant"};
+
+    public static HashMap<Player, Inventory> Inventories = new HashMap<>();
 
     static Material[] UpgradeItems = new Material[]{
             Material.IRON_BLOCK,
@@ -18,44 +21,59 @@ public class BagInfo {
             Material.NETHERITE_BLOCK
     };
 
-    public static int GetMax(ItemStack bag){
-        return GetMax(GetTier(bag));
+    public static int getMax(ItemStack bag){
+        return getMax(getTier(bag));
     }
 
-    public static int GetMax(int tier){
+    public static int getMax(int tier){
         //return (10 * tier); //This is for testing purposes to be able to easily upgrade the bag
         return (int) (256 * Math.pow(tier, 4 ));
     }
 
-    public static int GetTier(ItemStack bag){
+    public static int getTier(ItemStack bag){
         return NBTEditor.getInt(bag, "blep", "item", "fishBagTier" );
     }
 
-    public static String GetId(ItemStack bag){ return NBTEditor.getString(bag, "blep", "item", "fishBagId"); }
+    public static String getId(ItemStack bag){ return NBTEditor.getString(bag, "blep", "item", "fishBagId"); }
 
-    public static int GetAmount(ItemStack bag){
+    public static int getAmount(ItemStack bag){
         return NBTEditor.getInt(bag, "blep", "item", "fishBagAmount" );
     }
     public static boolean IsFull(ItemStack bag){
-        return(GetMax(bag) <= GetAmount(bag));
+        return(getMax(bag) <= getAmount(bag));
     }
 
     public static boolean IsBag(ItemStack bag){
-        return NBTEditor.contains(bag, "blep", "item", "fishBagId");
+        return bag.getType() == Material.HEART_OF_THE_SEA && NBTEditor.contains(bag, "blep", "item", "fishBagId");
     }
 
-    public static String GetType(ItemStack bag){
+    public static String getType(ItemStack bag){
         return bagTypes[NBTEditor.getInt(bag, "blep", "item", "fishBagTier" )];
     }
 
-    public static ItemStack GetUpgradeComp(ItemStack bag){
-        int tier = GetTier(bag);
+    public static ItemStack getUpgradeComp(ItemStack bag){
+        int tier = getTier(bag);
         return new ItemStack(UpgradeItems[tier - 1], 1);
     }
 
-    public static Boolean IsOpen(ItemStack bag, InventoryView view){
-        if(bag == null || view == null || bag.getItemMeta() == null) return false;
-        return bag.getItemMeta().getDisplayName().equals(view.getTitle());
+    public static Boolean IsOpen(Player p, Inventory inv){
+        if(inv == null) return false;
+        return inv.equals(Inventories.get(p));
+    }
+
+    public static int getPage(ItemStack bag){
+        return NBTEditor.getInt(bag, "blep", "item", "fishBagPage");
+    }
+
+    public static ItemStack setPage(ItemStack bag, int page, Player p){
+        ItemStack newBag = NBTEditor.set(bag, page, "blep", "item", "fishBagPage");
+
+        if(p.getInventory().getItemInMainHand().equals(bag)){
+            p.getInventory().setItemInMainHand(newBag);
+            p.updateInventory();
+        }
+
+        return NBTEditor.set(bag, page, "blep", "item", "fishBagPage");
     }
 
 }

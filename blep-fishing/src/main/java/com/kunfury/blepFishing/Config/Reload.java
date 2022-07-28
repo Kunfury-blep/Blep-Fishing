@@ -11,7 +11,8 @@ import java.util.*;
 import com.kunfury.blepFishing.Endgame.EndgameVars;
 import com.kunfury.blepFishing.Endgame.TreasureHandler;
 import com.kunfury.blepFishing.DisplayFishInfo;
-import com.kunfury.blepFishing.Miscellaneous.ItemSerializer;
+import com.kunfury.blepFishing.Miscellaneous.Formatting;
+import com.kunfury.blepFishing.Miscellaneous.ItemHandler;
 import com.kunfury.blepFishing.Objects.*;
 import com.kunfury.blepFishing.Tournament.TournamentHandler;
 import com.kunfury.blepFishing.Tournament.TournamentObject;
@@ -22,7 +23,7 @@ import org.bukkit.command.CommandSender;
 
 import com.kunfury.blepFishing.Setup;
 
-import com.kunfury.blepFishing.Tournament.Tournament;
+import com.kunfury.blepFishing.Tournament.Old.Tournament;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -262,7 +263,7 @@ public class Reload {
 				List<ItemStack> itemStacks = new ArrayList<>();
 				try {
 					for(var i : dtList){
-						itemStacks.add(ItemSerializer.parseItem(i));
+						itemStacks.add(ItemHandler.parseItem(i));
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -362,6 +363,7 @@ public class Reload {
 
 	private void LoadTournaments(){
 		//Loads Active Tournaments from file
+		TournamentHandler.Reset();
 		try {
 			Files.createDirectories(Paths.get(Setup.dataFolder + "/Data"));
 			String tourneyPath = Setup.dataFolder + "/Data/" + "/tournaments.data";
@@ -378,23 +380,43 @@ public class Reload {
 			ex.printStackTrace();
 		}
 
-		//Checks tournament config file and ensures they are added
-		TournamentHandler.TournamentList = new ArrayList<>();
-		var tourneyFile = Setup.getPlugin().getResource("tournaments.yml");
+		for(var a : TournamentHandler.ActiveTournaments){
+			new TournamentHandler().AddTournament(a);
+			a.CreateBossbar();
+		}
 
-		FileConfiguration tourney = YamlConfiguration.loadConfiguration(new InputStreamReader(tourneyFile));
+		//Checks tournament config file and ensures they are added
+		var tourneyConfigFile = new File(Setup.setup.getDataFolder(), "tournaments.yml");
+		if (!tourneyConfigFile.exists()) {
+			Setup.getPlugin().saveResource("tournaments.yml", false);
+		}
+
+		FileConfiguration tourney = new YamlConfiguration();
+		try {
+			tourney.load(tourneyConfigFile);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return;
+		}
+
 		for(final String key : tourney.getKeys(false)) {
+			if(TournamentHandler.ActiveTournaments.stream().anyMatch(o -> o.getName().equals(key))){
+				continue;
+			}
 			TournamentMode mode = TournamentMode.valueOf(tourney.getString(key + ".Mode"));
 			TournamentType type = TournamentType.valueOf(tourney.getString(key + ".Type"));
 			double duration = tourney.getDouble(key + ".Duration");
 			String fishType = tourney.getString(key + ".Fish Type");
 
 			boolean useBossbar = tourney.getBoolean(key + ".Use Bossbar");
+			boolean bossbarTime = tourney.getBoolean(key + ".Bossbar Timer");
 			double bossbarPercent = tourney.getDouble(key + ".Bossbar Percent");
+			double bossbarTimePercent = tourney.getDouble(key + ".Bossbar Timer Percent");
 			BarColor barColor = BarColor.valueOf(tourney.getString(key + ".Bossbar Color"));
 			int maxAmount = tourney.getInt(key + ".Max Amount");
 			double startDelay = tourney.getDouble(key + ".Start Delay");
-			double delay = tourney.getDouble(key + ".Delay");
+			double delay = tourney.getDouble(key + ".Cooldown");
 			int minPlayers = tourney.getInt(key + ".Minimum Players");
 			int minFish = tourney.getInt(key + ".Minimum Fish");
 
@@ -409,12 +431,13 @@ public class Reload {
 			Map<String, Object> rewardsMap = tourney.getConfigurationSection(key + ".Rewards").getValues(false);
 			for(final String spot : rewardsMap.keySet()) {
 				List<String> items = tourney.getStringList(key + ".Rewards." + spot);
-				rewards.put(spot, items);
+				rewards.put(spot.toUpperCase(), items);
 			}
 
 			new TournamentHandler().AddTournament(new TournamentObject(
 					key, mode, duration, fishType, dayList, maxAmount, startDelay, minPlayers, useBossbar, bossbarPercent, barColor,
-					delay, rewards, minFish));
+					delay, rewards, minFish, bossbarTime, bossbarTimePercent, type));
 		}
+
 	}
 }

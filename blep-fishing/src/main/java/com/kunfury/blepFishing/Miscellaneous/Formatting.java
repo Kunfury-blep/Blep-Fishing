@@ -1,5 +1,7 @@
 package com.kunfury.blepFishing.Miscellaneous;
 
+import net.md_5.bungee.api.ChatColor;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -26,13 +28,19 @@ public class Formatting {
 		return(df.format(number));		
 	}
 	
-	public static String TimeFormat(long milli) {
-		
-		long seconds = milli / 1000;
-		long minutes = seconds / 60;
-		long hours = minutes / 60;
-		long days = hours / 24;
-		String result = days + ":" + hours % 24 + ":" + minutes % 60 + ":" + seconds % 60; 
+	public static String asTime(long milli) {
+
+		long seconds = (milli / 1000) % 60;
+		long minutes = (milli / (1000 * 60)) % 60;
+		long hours = (milli / (1000 * 60 * 60)) % 24;
+		long days = (milli / (1000 * 60 * 60 * 24));
+
+		String result = "";
+
+		if(days > 0) result += days + "d ";
+		if(hours > 0) result += hours + "h ";
+		if(minutes > 0) result += minutes + "m ";
+		if(seconds > 0) result += seconds + "s ";
 		
 		return result;
 	}
@@ -82,5 +90,9 @@ public class Formatting {
 			return false;
 		}
 		return pattern.matcher(strNum).matches();
+	}
+
+	public static String formatColor(String msg){
+		return ChatColor.translateAlternateColorCodes('&', msg);
 	}
 }

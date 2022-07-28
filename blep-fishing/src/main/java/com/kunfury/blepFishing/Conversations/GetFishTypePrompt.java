@@ -8,8 +8,8 @@ import org.bukkit.conversations.Prompt;
 import org.bukkit.conversations.ValidatingPrompt;
 import org.bukkit.entity.Player;
 
-import com.kunfury.blepFishing.Admin.AdminMenu;
-import com.kunfury.blepFishing.Admin.TourneyAdmin;
+import com.kunfury.blepFishing.Interfaces.Admin.AdminMenu;
+import com.kunfury.blepFishing.Interfaces.Admin.TourneyAdmin;
 
 import com.kunfury.blepFishing.Config.Variables;
 

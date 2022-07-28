@@ -1,8 +1,9 @@
 package com.kunfury.blepFishing.Commands;
 
 import com.kunfury.blepFishing.Commands.SubCommands.*;
+import com.kunfury.blepFishing.Commands.SubCommands.Old.StartTourney;
 import com.kunfury.blepFishing.Config.Variables;
-import com.kunfury.blepFishing.Miscellaneous.PlayerPanel;
+import com.kunfury.blepFishing.Interfaces.Player.PlayerPanel;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -12,7 +13,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import static com.kunfury.blepFishing.Config.Variables.Prefix;
 
@@ -34,6 +34,7 @@ public class CommandManager implements TabExecutor {
         subCommands.add(new GetDataSubCommand());
         subCommands.add(new SpawnSubCommand());
         subCommands.add(new DebugSubcommand());
+        subCommands.add(new HelpSubcommand());
     }
 
     @Override
@@ -42,7 +43,7 @@ public class CommandManager implements TabExecutor {
             if(args[0].equalsIgnoreCase("HELP") || args[0].equalsIgnoreCase("?")) BaseCommand(sender);
             else {
                 for(SubCommand subCommand : subCommands){
-                    if(subCommand.getName().equalsIgnoreCase(args[0]) || (subCommand.getAliases() != null && subCommand.getAliases().contains(args[0]))){
+                    if(subCommand.getName().equalsIgnoreCase(args[0]) || (subCommand.getAliases() != null && subCommand.getAliases().contains(args[0].toUpperCase()))){
                         if(CheckPermissions(sender, subCommand.getPermissions())) subCommand.perform(sender, args);
                         else NoPermission(sender);
                     }
@@ -50,9 +51,6 @@ public class CommandManager implements TabExecutor {
             }
 
         }else BaseCommand(sender);
-
-
-
 
         return true;
     }
@@ -71,7 +69,7 @@ public class CommandManager implements TabExecutor {
             return optionList;
         }else if(args.length > 1){
             for(SubCommand subCommand : subCommands)
-                if(subCommand.getName().equalsIgnoreCase(args[0]))
+                if(subCommand.getName().equalsIgnoreCase(args[0]) || (subCommand.getAliases() != null && subCommand.getAliases().contains(args[0].toUpperCase())))
                     if(subCommand.getArguments(sender, args) != null){
                         for(var a : subCommand.getArguments(sender, args)){
                             if(a.toUpperCase().contains((args[args.length - 1].toUpperCase()))) optionList.add(a);
@@ -80,11 +78,6 @@ public class CommandManager implements TabExecutor {
         }
 
         return optionList;
-    }
-
-
-    public ArrayList<SubCommand> getSubCommands(){
-        return subCommands;
     }
 
     public void NoPermission(CommandSender sender) {
@@ -96,20 +89,7 @@ public class CommandManager implements TabExecutor {
     }
 
     private void BaseCommand(CommandSender sender){
-        if(Variables.DebugMode) new PlayerPanel().Show(sender);
-
-        String helpMessage = ChatColor.translateAlternateColorCodes('&',
-                "                     " + Variables.getMessage("helpTitle") + "\n"
-                        + Prefix + "/bf lb <fishname> - " + Variables.getMessage("leaderboardHelp") + "\n"
-                        + Prefix + "/bf reload - " + Variables.getMessage("reloadHelp") + "\n"
-                        + Prefix + "/bf fish - " + Variables.getMessage("fishHelp") + "\n"
-                        + Prefix + "/bf claim - " + Variables.getMessage("claimHelp") + "\n"
-                        + Prefix + "/bf tourney - " + Variables.getMessage("tourneyHelp") + "\n"
-                        + Prefix + "/bf admin - " + Variables.getMessage("adminHelp") + "\n");
-        if(sender.hasPermission("bf.admin")) helpMessage += Prefix + "/bf config - " + Variables.getMessage("configHelp") + "\n";
-
-
-        sender.sendMessage(helpMessage);
+        new PlayerPanel().Show(sender);
     }
 
 }

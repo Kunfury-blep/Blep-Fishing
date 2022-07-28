@@ -1,7 +1,7 @@
 package com.kunfury.blepFishing.Commands.SubCommands;
 
 import com.kunfury.blepFishing.Commands.SubCommand;
-import com.kunfury.blepFishing.Miscellaneous.ItemSerializer;
+import com.kunfury.blepFishing.Miscellaneous.ItemHandler;
 import com.kunfury.blepFishing.Config.Variables;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -33,7 +33,7 @@ public class GetDataSubCommand extends SubCommand {
 
         ItemStack item = p.getInventory().getItemInMainHand();
 
-        String data = ItemSerializer.itemStackToBase64(item);
+        String data = ItemHandler.itemStackToBase64(item);
 
         StringSelection stringSelection = new StringSelection("BYTE: " + data);
         Toolkit toolkit = Toolkit.getDefaultToolkit();

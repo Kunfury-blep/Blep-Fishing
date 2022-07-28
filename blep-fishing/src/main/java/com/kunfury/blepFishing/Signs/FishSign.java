@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.kunfury.blepFishing.Crafting.Equipment.FishBag.BagInfo;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -27,6 +28,7 @@ import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Objects.MarketObject;
 
 import org.bukkit.block.Sign;
+import org.bukkit.inventory.ItemStack;
 
 
 public class FishSign implements Listener {
@@ -107,13 +109,22 @@ public class FishSign implements Listener {
 		if(e.getAction().equals(Action.RIGHT_CLICK_BLOCK) && e.getClickedBlock().getState() instanceof  Sign) {
 			Sign sign = (Sign) e.getClickedBlock().getState();
 
-			if(Setup.econEnabled && e.getItem() != null  && e.getItem().getType() == Material.SALMON){
-				for(MarketObject market : marketSigns) {
-					if(market.CheckBool(sign)){
-						FishEconomy.SellFish(e.getPlayer(), 1);
-						break;
+			if(Setup.econEnabled && e.getItem() != null){
+				ItemStack item = e.getItem();
+				if(item.getType().equals(Material.SALMON)){
+					for(MarketObject market : marketSigns) {
+						if(market.CheckBool(sign)){
+							e.setCancelled(true);
+							FishEconomy.SellFish(e.getPlayer(), 1);
+							return;
+						}
 					}
 				}
+				if(BagInfo.IsBag(item)){
+
+				}
+
+
 			}
 		}
 

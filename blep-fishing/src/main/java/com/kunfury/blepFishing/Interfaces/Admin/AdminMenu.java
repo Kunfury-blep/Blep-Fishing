@@ -1,4 +1,4 @@
-package com.kunfury.blepFishing.Admin;
+package com.kunfury.blepFishing.Interfaces.Admin;
 
 import java.util.ArrayList;
 import java.util.HashMap;

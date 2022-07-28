@@ -56,7 +56,7 @@ public class ExpandPlaceholder extends PlaceholderExpansion {
             return "That type of fish does not exist";
         }
 
-        List<FishObject> fishList = Objects.requireNonNull(Variables.GetFishList((fishName)));
+        List<FishObject> fishList = Objects.requireNonNull(Variables.getFishList((fishName)));
         if(position < 0 || fishList.size() - 1 < position) return "N/A";
         FishObject fish = fishList.get(position);
 

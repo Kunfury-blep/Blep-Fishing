@@ -14,7 +14,7 @@ import org.bukkit.inventory.ItemStack;
 
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Config.Variables;
-import com.kunfury.blepFishing.Tournament.Tournament;
+import com.kunfury.blepFishing.Tournament.Old.Tournament;
 
 public class TournamentObjectOld implements Serializable {
 
@@ -90,8 +90,8 @@ public class TournamentObjectOld implements Serializable {
 		LocalDateTime now = LocalDateTime.now();
 
 	    long diff = ChronoUnit.MILLIS.between(now, EndDate);
-		
-		return Formatting.TimeFormat(diff);		
+		//TODO: Definitely bring this over
+		return Formatting.asTime(diff);
 	}
 
 	/**
@@ -119,7 +119,7 @@ public class TournamentObjectOld implements Serializable {
 
 	public List<FishObject> GetTournamentFish(){
 		List<FishObject> tourneyFish = new ArrayList<>();
-		Objects.requireNonNull(Variables.GetFishList("ALL")).forEach(f -> { //Gets all fish from the list to check against what was caught
+		Objects.requireNonNull(Variables.getFishList("ALL")).forEach(f -> { //Gets all fish from the list to check against what was caught
 			//Checks if the fish is the correct type and was caught after the start date
 			if((FishName.equalsIgnoreCase("ALL") || f.Name.equalsIgnoreCase(FishName))
 					&& f.DateCaught.isAfter(StartDate) && f.DateCaught.isBefore(EndDate)) {

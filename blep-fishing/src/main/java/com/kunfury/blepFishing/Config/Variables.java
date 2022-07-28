@@ -4,15 +4,17 @@ import java.io.*;
 import java.util.*;
 import java.util.Map.Entry;
 
+import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Objects.*;
-import com.kunfury.blepFishing.Tournament.Tournament;
+import com.kunfury.blepFishing.Tournament.Old.Tournament;
+import org.bukkit.ChatColor;
 import org.bukkit.conversations.ConversationFactory;
 
 import com.kunfury.blepFishing.Setup;
 import com.kunfury.blepFishing.Signs.FishSign;
 
 import com.kunfury.blepFishing.Conversations.ConFactory;
-import com.kunfury.blepFishing.Tournament.SaveTournaments;
+import com.kunfury.blepFishing.Tournament.Old.SaveTournaments;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
@@ -98,7 +100,7 @@ public class Variables {
 		new FishSign().UpdateSigns();
 	}
 	
-	public static List<FishObject> GetFishList(String fishName) {
+	public static List<FishObject> getFishList(String fishName) {
 		fishName = fishName.toUpperCase();
 		boolean fishFound = false;
 
@@ -113,10 +115,10 @@ public class Variables {
 			}
 		}
 		
-		if(fishFound || fishName.equals("ALL")) { //If the fish is found, get all caught
+		if(fishFound || fishName.equalsIgnoreCase("ALL")) { //If the fish is found, get all caught
 			List<FishObject> fishList = new ArrayList<>();
 			
-			if(!fishName.equals("ALL")) {
+			if(!fishName.equalsIgnoreCase("ALL")) {
 				fishList = FishDict.get(fishName);
 			}else {
 				 for (Entry<String, List<FishObject>> entry : FishDict.entrySet()) {
@@ -203,9 +205,9 @@ public class Variables {
 	}
 
 	public static String getMessage(String key){
-		if(Messages == null) return "Not Found";
+		if(Messages == null) return ChatColor.RED + "Message Resource Not Found";
 		else{
-			return Messages.getString(key);
+			return Formatting.formatColor(Messages.getString(key));
 		}
 	}
 

@@ -1,6 +1,7 @@
 package com.kunfury.blepFishing.Crafting.Equipment.FishBag;
 
 import com.kunfury.blepFishing.Config.Variables;
+import com.kunfury.blepFishing.Miscellaneous.Utilities;
 import com.kunfury.blepFishing.Objects.FishObject;
 import com.kunfury.blepFishing.Setup;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
@@ -26,10 +27,8 @@ public class UseFishBag {
         //Grabs the collection Asynchronously
         scheduler.runTaskAsynchronously(Setup.getPlugin(), () -> {
             final List<FishObject> tempFish = new ParseFish().RetrieveFish(bagId, "ALL");
-
-
             scheduler.runTask(Setup.getPlugin(), () -> {
-                new UpdateBag().ShowBagInv(tempFish, p, bagId, bag);
+                new UpdateBag().ShowBagInv(p, bagId, bag);
                 p.playSound(p.getLocation(), Sound.ITEM_ARMOR_EQUIP_LEATHER, .3f, 1f);
             });
         });
@@ -37,7 +36,18 @@ public class UseFishBag {
 
 
     public void FillBag(ItemStack bag, Player p){
-        p.sendMessage("In Progress: Fill Bag. Pulls all fish from inventory into bag");
+        int amount = 0;
+        for(var item : p.getInventory().getStorageContents()){
+            if(item != null && item.getType() == Material.SALMON && NBTEditor.contains( item,"blep", "item", "fishValue" )){
+                AddFish(bag, p, item, false);
+                amount++;
+            }
+        }
+
+        if(amount > 0){
+            p.sendMessage(Variables.Prefix + "Added " + amount + " to the bag.");
+        }else p.sendMessage(Variables.Prefix + "No fish found in inventory.");
+
     }
 
     public void TogglePickup(ItemStack bag, Player p){
@@ -67,7 +77,7 @@ public class UseFishBag {
      * @param p
      * @param fish
      */
-    public void AddFish(ItemStack bag, Player p, ItemStack fish){
+    public void AddFish(ItemStack bag, Player p, ItemStack fish, boolean bagOpen){
         if(BagInfo.IsFull(bag)){
             p.sendMessage(Variables.Prefix + "There is no more space in that bag.");
             return;
@@ -90,7 +100,7 @@ public class UseFishBag {
         fishObj.BagID = bagId;
         fish.setAmount(0);
         Variables.UpdateFishData();
-        new UpdateBag().Update(bag, p, true);
+        new UpdateBag().Update(bag, p, bagOpen);
         p.playSound(p.getLocation(), Sound.ENTITY_PUFFER_FISH_FLOP, .5f, 1f);
     }
 
@@ -126,12 +136,7 @@ public class UseFishBag {
 
             if(fishObjectList.size() > 0){
 
-                int freeSlots = 0;
-                for (ItemStack it : p.getInventory().getStorageContents()) {
-                    if (it == null || it.getType() == Material.AIR) {
-                        freeSlots++;
-                    }
-                }
+                int freeSlots = Utilities.getFreeSlots(p.getInventory());
 
                 if(single && freeSlots > 1) freeSlots = 1;
                 else if(freeSlots > fishObjectList.size()) freeSlots = fishObjectList.size();
@@ -145,15 +150,29 @@ public class UseFishBag {
                 p.playSound(p.getLocation(), Sound.ENTITY_SALMON_FLOP, .5f, 1f);
                 Variables.UpdateFishData();
 
-                new UpdateBag().Update(bag, p, true);
+                if(fishObjectList.size() - freeSlots <= 0) new UpdateBag().Update(bag, p, true);
             }
-
-
         });
-
-
-
-
-
     }
+
+    public void ChangePage(boolean next, ItemStack bag, Player p){
+        int page = BagInfo.getPage(bag);
+
+        int newPage;
+
+        if(next) newPage = ++page;
+        else newPage = --page;
+
+        if(newPage >= Variables.BaseFishList.size() / 45)
+            newPage = 0;
+
+        if(!next && newPage <= 0)
+            newPage = Variables.BaseFishList.size() /45;
+
+        bag = BagInfo.setPage(bag, newPage, p);
+        new UpdateBag().Update(bag, p, true);
+
+        p.updateInventory();
+    }
+
 }

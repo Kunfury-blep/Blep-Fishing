@@ -12,13 +12,17 @@ import com.kunfury.blepFishing.Crafting.Equipment.FishBag.UseFishBag;
 import com.kunfury.blepFishing.Crafting.SmithingTableHandler;
 import com.kunfury.blepFishing.FishSwitch;
 import com.kunfury.blepFishing.Miscellaneous.FishEconomy;
-import com.kunfury.blepFishing.Miscellaneous.PlayerPanel;
+import com.kunfury.blepFishing.Interfaces.Player.PlayerPanel;
 import com.kunfury.blepFishing.Config.Variables;
+import com.kunfury.blepFishing.Objects.MarketObject;
 import com.kunfury.blepFishing.Plugins.McMMOListener;
 import com.kunfury.blepFishing.Setup;
+import com.kunfury.blepFishing.Signs.FishSign;
+import com.kunfury.blepFishing.Tournament.TournamentHandler;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -27,6 +31,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.CraftingInventory;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -46,12 +51,14 @@ public class EventListener implements Listener {
 
     @EventHandler
     public void PlayerInteract(PlayerInteractEvent e){
+        if(e.getHand() != EquipmentSlot.HAND) return;
+
         Player p = e.getPlayer();
         ItemStack item = p.getInventory().getItemInMainHand();
         Action a = e.getAction();
 
 
-        if(item != null && a != Action.PHYSICAL){
+        if(a != Action.PHYSICAL){
             switch(item.getType()){
                 case COMPASS:
                     if(AllBlueInfo.IsCompassComplete(item)){
@@ -76,11 +83,22 @@ public class EventListener implements Listener {
                         break;
                     }
                 case HEART_OF_THE_SEA:
-                    if(NBTEditor.contains(item, "blep", "item", "fishBagId") && !p.getOpenInventory().getType().equals(InventoryType.CHEST)){
+                    if(BagInfo.IsBag(item) && !p.getOpenInventory().getType().equals(InventoryType.CHEST)){
                         e.setCancelled(true);
                         if(a == Action.LEFT_CLICK_AIR || a == Action.LEFT_CLICK_BLOCK){
-                            new UseFishBag().TogglePickup(item, p);
+                            if(p.isSneaking()) new UseFishBag().FillBag(item, p);
+                            else new UseFishBag().TogglePickup(item, p);
                         }else if(a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK){
+                            if(Setup.hasEconomy() && a == Action.RIGHT_CLICK_BLOCK && e.getClickedBlock().getState() instanceof Sign){
+                                Sign sign = (Sign) e.getClickedBlock().getState();
+                                for(MarketObject market : FishSign.marketSigns) {
+                                    if(market.CheckBool(sign)){
+                                        FishEconomy.SellBag(e.getPlayer(), item, 1);
+                                        return;
+                                    }
+                                }
+                            }
+
                             new UseFishBag().UseBag(item, p);
                         }
                     }
@@ -113,26 +131,32 @@ public class EventListener implements Listener {
     @EventHandler
     public void EntityInteract(PlayerInteractEntityEvent e) {
         Entity entity = e.getRightClicked();
-        Player player = e.getPlayer();
-        ItemStack item = player.getInventory().getItemInMainHand();
+        Player p = e.getPlayer();
+        ItemStack item = p.getInventory().getItemInMainHand();
         if(Setup.getEconomy() != null){
             if(entity instanceof Villager) {
                 Villager villager = (Villager)entity;
-                if(villager.getProfession().equals(Villager.Profession.FISHERMAN)
-                        && item.getType() == Material.SALMON) {
-                    e.setCancelled(true);
-                    FishEconomy.SellFish(player, 1);
+                if(villager.getProfession().equals(Villager.Profession.FISHERMAN)){
+                    if(item.getType() == Material.SALMON){
+                        e.setCancelled(true);
+                        FishEconomy.SellFish(p, 1);
+                    }
+                    if(BagInfo.IsBag(item)){
+                        e.setCancelled(true);
+                        FishEconomy.SellBag(p, item, 1);
+                    }
+
                 }
 
             }
             if(Variables.AllowWanderingTraders && entity instanceof WanderingTrader){
                 if(item.getType() == Material.SALMON){
                     e.setCancelled(true);
-                    FishEconomy.SellFish(player, Variables.TraderMod);
+                    FishEconomy.SellFish(p, Variables.TraderMod);
                 }
-                //
-                if(item.getType() == Material.HEART_OF_THE_SEA && NBTEditor.contains(item,"blep", "item", "fishBagId" )){
-
+                if(BagInfo.IsBag(item)){
+                    e.setCancelled(true);
+                    FishEconomy.SellBag(p, item, Variables.TraderMod);
                 }
 
             }
@@ -174,6 +198,11 @@ public class EventListener implements Listener {
         Player p = (Player) e.getWhoClicked();
         ItemStack mainHand = p.getInventory().getItemInMainHand();
 
+        if(e.getView().getTitle().equals(Variables.getMessage("tourneyPanel"))){
+            e.setCancelled(true);
+            return;
+        }
+
         switch(e.getClickedInventory().getType()){
             case SMITHING -> {
                 if(e.getSlot() == 2 && item != null){
@@ -185,39 +214,47 @@ public class EventListener implements Listener {
                             }
                         case HEART_OF_THE_SEA:
                             if(NBTEditor.contains(item, "blep", "item", "fishBagTier")) {
-                                new CollectionHandler().CraftedBag(p, BagInfo.GetType(item));
+                                new CollectionHandler().CraftedBag(p, BagInfo.getType(item));
                                 break;
                             }
                     }
                 }
             }
             case CHEST -> {
-                if(item != null && mainHand.getType().equals(Material.HEART_OF_THE_SEA)){
-                    if(BagInfo.IsOpen(mainHand, e.getView()) && NBTEditor.contains(mainHand, "blep", "item", "fishBagId")) {
-                        e.setCancelled(true);
-                        new UseFishBag().FishBagWithdraw(e.getClick(), item.getItemMeta().getDisplayName(), p, mainHand);
+                if(BagInfo.IsOpen(p, e.getInventory())) e.setCancelled(true);
+                if(item != null && mainHand.getType().equals(Material.HEART_OF_THE_SEA) && NBTEditor.contains(mainHand, "blep", "item", "fishBagId")){
+                    e.setCancelled(true);
+
+                    if(e.getSlot() == 53 && item.getType().equals(Material.WARPED_SIGN)){
+                        new UseFishBag().ChangePage(true, mainHand, p);
                         return;
                     }
+
+                    if(e.getSlot() == 45 && item.getType().equals(Material.CRIMSON_SIGN)){
+                        new UseFishBag().ChangePage(false, mainHand, p);
+                        return;
+                    }
+
+                    new UseFishBag().FishBagWithdraw(e.getClick(), item.getItemMeta().getDisplayName(), p, mainHand);
+                    return;
                 }
 
                 switch(e.getView().getTitle()){
                     case "Blep Panel" -> {
                         e.setCancelled(true);
-                        new PlayerPanel().Click(p, item);
+                        new PlayerPanel().Click(e, p);
                     }
                 }
 
             }
             case PLAYER -> {
-                if(BagInfo.IsOpen(mainHand, e.getView())) e.setCancelled(true);
+                if(BagInfo.IsOpen(p, e.getInventory())) e.setCancelled(true);
                 if(item != null && item.getType() == Material.SALMON && BagInfo.IsBag(mainHand) && NBTEditor.contains( item,"blep", "item", "fishValue" )){
-                    new UseFishBag().AddFish(mainHand, p, item);
+                    new UseFishBag().AddFish(mainHand, p, item, true);
                     return;
                 }
-                switch(e.getView().getTitle()){
-                    case "Blep Panel" -> {
-                        e.setCancelled(true);
-                    }
+                if ("Blep Panel".equals(e.getView().getTitle())) {
+                    e.setCancelled(true);
                 }
             }
         }
@@ -227,6 +264,8 @@ public class EventListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent e)
     {
         if(Variables.EnableFishBags) e.getPlayer().discoverRecipe(CraftingManager.key);
+
+        new TournamentHandler().ShowBars(e.getPlayer());
     }
 
     @EventHandler
@@ -235,7 +274,7 @@ public class EventListener implements Listener {
 
         ItemStack item = e.getCurrentItem();
 
-        if(BagInfo.IsBag(item) && BagInfo.GetId(item) == "null")e.setCurrentItem(NBTEditor.set(item, UUID.randomUUID().toString(), "blep", "item", "fishBagId"));
+        if(BagInfo.IsBag(item) && BagInfo.getId(item) == "null")e.setCurrentItem(NBTEditor.set(item, UUID.randomUUID().toString(), "blep", "item", "fishBagId"));
 
 
         //Checks that custom items are not used in recipes
@@ -252,6 +291,10 @@ public class EventListener implements Listener {
         }
     }
 
+    @EventHandler
+    public void onCustomFish(FishCaughtEvent e){
+        new TournamentHandler().ShowBars(e.GetWhoCaught());
+    }
 
 
     private void MoveToSwap(PlayerFishEvent e){

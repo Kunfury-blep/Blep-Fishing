@@ -19,11 +19,10 @@ import org.jetbrains.annotations.NotNull;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class UpdateBag {
-
-    //TODO: Update the inventory being viewed if it is open.
 
     /**
      * @param bag : The ItemStack of the bag being updated
@@ -39,7 +38,7 @@ public class UpdateBag {
 
             scheduler.runTask(Setup.getPlugin(), () -> {
                 FinalizeUpdate(bag, p, tempFish.size());
-                if(bagOpen) ShowBagInv(tempFish, p, bagId, bag);
+                if(bagOpen) ShowBagInv(p, bagId, bag);
             });
         });
     }
@@ -78,8 +77,8 @@ public class UpdateBag {
 
     public ArrayList<String> GenerateLore(ItemStack bag) {
         DecimalFormat formatter = new DecimalFormat("#,###");
-        double fishCount = BagInfo.GetAmount(bag);
-        double maxSize = BagInfo.GetMax(bag);
+        double fishCount = BagInfo.getAmount(bag);
+        double maxSize = BagInfo.getMax(bag);
 
         ArrayList<String> lore = new ArrayList<>();
 
@@ -87,7 +86,7 @@ public class UpdateBag {
         lore.add("");
 
         if(Variables.DebugMode){
-            lore.add("ID: " + BagInfo.GetId(bag));
+            lore.add("ID: " + BagInfo.getId(bag));
             lore.add("");
         }
 
@@ -106,60 +105,101 @@ public class UpdateBag {
 
         if (BagInfo.IsFull(bag)) {
             lore.add("");
-            lore.add(ChatColor.WHITE + "Combine with a " + ChatColor.YELLOW + ChatColor.ITALIC + BagInfo.GetUpgradeComp(bag).getType().name().replace("_", " ") + ChatColor.WHITE + " at a smithing tableto upgrade!");
+            lore.add(ChatColor.WHITE + "Combine with a " + ChatColor.YELLOW + ChatColor.ITALIC + BagInfo.getUpgradeComp(bag).getType().name().replace("_", " ") + ChatColor.WHITE + " at a smithing tableto upgrade!");
         }
 
 
         lore.add("");
         lore.add(ChatColor.RED + "Left-Click While Holding to Toggle " + ChatColor.YELLOW + ChatColor.ITALIC + "Auto-Pickup");
+        lore.add(ChatColor.RED + "Shift Left-Click While Holding to " + ChatColor.YELLOW + ChatColor.ITALIC + "Deposit All");
 
         return lore;
     }
 
-    public void ShowBagInv(List<FishObject> fishObjectList, Player p, String bagId, @NotNull ItemStack bag) {
-        int fishTypes = (int) (Math.ceil(Variables.BaseFishList.size()/9.0) * 9); ; //Makes as many slots as needed for generated fish, rounded up to the nearest multiple of 9
+    public void ShowBagInv(Player p, String bagId, @NotNull ItemStack bag) {
+        //int fishTypes = (int) (Math.ceil(Variables.BaseFishList.size()/9.0) * 9); ; //Makes as many slots as needed for generated fish, rounded up to the nearest multiple of 9+
+        final List<FishObject> parsedFish = new ParseFish().RetrieveFish(bagId, "ALL");
+        List<BaseFishObject> baseFishList = Variables.BaseFishList;
 
-        Inventory BagInv = Bukkit.createInventory(null, fishTypes, bag.getItemMeta().getDisplayName());
 
-        for (int i = 0; i < Variables.BaseFishList.size(); i++) {
-            BaseFishObject bFIsh = Variables.BaseFishList.get(i);
+        int caughtAmount = 0;
 
-            List<FishObject> availFish = fishObjectList.stream()
-                    .filter(f -> f.Name.equalsIgnoreCase(bFIsh.Name))
-                    .collect(Collectors.toList());
+        if(baseFishList.size() > 45){ //If base list is larger than what can be shown, trims it down to page
+            List<BaseFishObject> caughtTypes = new ArrayList<>();
 
-            //Fills the inventory with the fish in the bag
-            if (availFish != null && availFish.size() > 0) {
-                ItemStack fish = new ItemStack(Material.SALMON, 1);
-
-                fish = NBTEditor.set(fish, bagId, "blep", "item", "fishBagId"); //Adds the current bag id to the fish objects. Likely inefficient, change in future
-                ItemMeta m = fish.getItemMeta();
-
-                //TODO: Set color of display name to the rarity of the largest one caught
-                m.setDisplayName(ChatColor.AQUA + bFIsh.Name);
-
-                ArrayList<String> lore = new ArrayList<String>();
-                if (bFIsh.Lore != null && !bFIsh.Lore.isEmpty()) lore.add(bFIsh.Lore);
-                lore.add("");
-
-                FishObject biggestFish = availFish.get(availFish.size() - 1);
-
-                lore.add(ChatColor.AQUA + "Amount Stored: " + ChatColor.WHITE + availFish.size());
-                lore.add(ChatColor.AQUA + "Largest Fish: " + ChatColor.WHITE + biggestFish.GetSize() + Variables.SizeSym);
-                lore.add("");
-                lore.add(ChatColor.RED + "Left-Click to Withdraw " + ChatColor.YELLOW + ChatColor.ITALIC + "Smallest");
-                lore.add(ChatColor.RED + "Right-Click to Withdraw " + ChatColor.YELLOW + ChatColor.ITALIC + "Largest");
-                lore.add("");
-                lore.add(ChatColor.RED + "" + ChatColor.ITALIC + "Hold Shift to Withdraw " + ChatColor.YELLOW + "All");
-                m.setLore(lore);
-
-                m.setCustomModelData(bFIsh.ModelData);
-                fish.setItemMeta(m);
-
-                BagInv.addItem(fish);
+            for(var b : baseFishList){
+                if(parsedFish.stream().anyMatch(f -> f.Name.equals(b.Name))){
+                    caughtTypes.add(b);
+                    caughtAmount++;
+                }
             }
 
-            p.openInventory(BagInv);
+            if(caughtTypes.size() > 45){
+                int page = BagInfo.getPage(bag);
+
+                if(page > caughtTypes.size() / 45){
+                    page = 0;
+                    BagInfo.setPage(bag, page, p);
+                }
+                int startPoint = page * 45;
+                int endPoint = startPoint + 45;
+
+                if(endPoint > caughtTypes.size()) endPoint = caughtTypes.size();
+
+                caughtTypes =  caughtTypes.subList(startPoint, endPoint);
+            }
+
+            baseFishList = caughtTypes;
+
+
+        } else caughtAmount = baseFishList.size();
+
+        List<ItemStack> bagItems = new ArrayList<>();
+        for (BaseFishObject bFish : baseFishList) {
+            List<FishObject> availFish = parsedFish.stream()
+                    .filter(f -> f.Name.equalsIgnoreCase(bFish.Name))
+                    .collect(Collectors.toList());
+
+            if (availFish.size() > 0) {
+                bagItems.add(new ParseFish().UpdateSlot(bagId, bFish, availFish));
+            }
         }
+
+        String bagName = Objects.requireNonNull(bag.getItemMeta()).getDisplayName() + " - " + caughtAmount + "/" + Variables.BaseFishList.size();
+        Inventory bagInv = Bukkit.createInventory(null, 54, bagName);
+
+        if(Variables.BaseFishList.size() > 45){
+            bagInv.setItem(53, nextButton());
+            bagInv.setItem(45, backButton());
+        }
+
+        for(var i : bagItems){
+            bagInv.addItem(i);
+        }
+
+        BagInfo.Inventories.put(p, bagInv);
+        p.openInventory(bagInv);
+    }
+
+    private ItemStack nextButton(){
+        ItemStack item = new ItemStack(Material.WARPED_SIGN);
+        ItemMeta m = item.getItemMeta();
+        assert m != null;
+        m.setDisplayName("Next Page");
+
+        item.setItemMeta(m);
+
+        return item;
+    }
+
+    private ItemStack backButton(){
+        ItemStack item = new ItemStack(Material.CRIMSON_SIGN);
+        ItemMeta m = item.getItemMeta();
+        assert m != null;
+        m.setDisplayName("Previous Page");
+
+        item.setItemMeta(m);
+
+        return item;
     }
 }

@@ -64,7 +64,7 @@ public class LeaderboardSubcommand extends SubCommand {
             //Makes a copy of the list of caught fish in order to not delete caught fish
             ///
             List<FishObject> caughtFishList = new ArrayList<>();
-            caughtFishList.addAll(Variables.GetFishList(fishName));
+            caughtFishList.addAll(Variables.getFishList(fishName));
             if(caughtFishList != null){
                 if( caughtFishList.size() > startVal) {
                     caughtFishList.subList(0, startVal).clear();

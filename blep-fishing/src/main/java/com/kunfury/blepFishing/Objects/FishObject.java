@@ -18,6 +18,7 @@ import com.kunfury.blepFishing.Config.Variables;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -34,7 +35,7 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 	public String PlayerName;
 	private String playerUUID;
 	public LocalDateTime DateCaught;
-	public double RealSize;
+	public Double RealSize;
 	
 	public Double Score;
 
@@ -179,8 +180,11 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 		return colorLore;
 	}
 
-	public Player getPlayer(){
-		return Bukkit.getPlayer(UUID.fromString(playerUUID));
+	public OfflinePlayer getPlayer(){
+		return Bukkit.getOfflinePlayer(UUID.fromString(playerUUID));
 	}
 
+	public UUID getPlayerUUID(){
+		return UUID.fromString(playerUUID);
+	}
 }

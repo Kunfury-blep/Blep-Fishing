@@ -1,8 +1,8 @@
-package com.kunfury.blepFishing.Commands.SubCommands;
+package com.kunfury.blepFishing.Commands.SubCommands.Old;
 
 import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Objects.BaseFishObject;
-import com.kunfury.blepFishing.Tournament.Tournament;
+import com.kunfury.blepFishing.Tournament.Old.Tournament;
 import com.kunfury.blepFishing.Commands.SubCommand;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -32,9 +32,6 @@ public class StartTourney extends SubCommand {
         try {
             new Tournament().CreateTourny(sender, args[1], Double.parseDouble(args[2]), Integer.parseInt(args[3]),
                     args[4], Integer.parseInt(args[5]));
-            //Oh boi why did I ever write it like this
-            //This is impractical as all hell
-            //Definitely need to fix this in the future.
         } catch (Exception e) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                     Prefix + "/bf StartTourney <fishName> <duration> <cash prize> <item name> <item count>"));

@@ -8,8 +8,8 @@ import com.kunfury.blepFishing.Config.Reload;
 import com.kunfury.blepFishing.Crafting.CraftingManager;
 import com.kunfury.blepFishing.Crafting.SmithingTableHandler;
 import com.kunfury.blepFishing.Events.EventListener;
-import com.kunfury.blepFishing.Tournament.TournamentClickListener;
-import com.kunfury.blepFishing.Tournament.Tournament;
+import com.kunfury.blepFishing.Tournament.Old.TournamentClickListener;
+import com.kunfury.blepFishing.Tournament.Old.Tournament;
 import com.kunfury.blepFishing.Commands.*;
 import com.kunfury.blepFishing.Plugins.PluginHandler;
 import org.bukkit.Bukkit;
@@ -19,10 +19,10 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.kunfury.blepFishing.Admin.AdminMenu;
+import com.kunfury.blepFishing.Interfaces.Admin.AdminMenu;
 import com.kunfury.blepFishing.Signs.FishSign;
 
-import com.kunfury.blepFishing.Tournament.TournamentRewards;
+import com.kunfury.blepFishing.Tournament.Old.TournamentRewards;
 import net.milkbowl.vault.economy.Economy;
 
 public class Setup extends JavaPlugin {

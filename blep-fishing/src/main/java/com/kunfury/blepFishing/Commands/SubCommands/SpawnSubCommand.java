@@ -151,22 +151,34 @@ public class SpawnSubCommand extends SubCommand {
     }
 
     private void SpawnFish(Player p, String name, int amount){
-        if(amount <= 0) p.sendMessage(Variables.Prefix + ChatColor.RED + "Please enter a valid amount.");
+        if(amount <= 0){
+            p.sendMessage(Variables.Prefix + ChatColor.RED + "Please enter a valid amount.");
+            return;
+        }
+
+        if(amount > 100){
+            amount = 100;
+            p.sendMessage(Variables.Prefix + ChatColor.YELLOW + "Amount set to 100 to prevent crashing.");
+        }
+
         List<FishObject> fish = new ArrayList<>();
 
 
         BaseFishObject base = BaseFishObject.GetBase(name);
+        boolean random = name.equalsIgnoreCase("RANDOM") || name.equalsIgnoreCase("ALL") || name.equalsIgnoreCase("<fish_name>");
+
+        if(!random && base == null){
+            p.sendMessage(Variables.Prefix + ChatColor.RED + "Please enter a valid fish type.");
+            return;
+        }
 
         Random rand = new Random();
-        for (int i = 0; i < amount; i++) {
-            if(name.equalsIgnoreCase("RANDOM") || name.equalsIgnoreCase("ALL") || name.equalsIgnoreCase("<fish_name>"))
-                base = Variables.BaseFishList.get(rand.nextInt(Variables.BaseFishList.size())); //Changes the fish for each spawn if it is random
 
-            if(base == null){
-                p.sendMessage(Variables.Prefix + ChatColor.RED + "Please enter a valid fish type.");
-                return;
-            }
-            fish.add(new FishObject(base, p.getName()));
+        for (int i = 0; i < amount; i++) {
+            if(random) //Changes the fish for each spawn if it is random
+                base = Variables.BaseFishList.get(rand.nextInt(Variables.BaseFishList.size()));
+
+            fish.add(new FishObject(base, p));
         }
 
         if(fish.size() > 0){

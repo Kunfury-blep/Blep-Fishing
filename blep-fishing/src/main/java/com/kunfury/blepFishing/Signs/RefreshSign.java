@@ -1,6 +1,5 @@
 package com.kunfury.blepFishing.Signs;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.ChatColor;
@@ -15,8 +14,7 @@ public class RefreshSign {
 		Sign sign = signObj.GetSign();
 		String fishName = signObj.FishName;
 		
-		List<FishObject> savedFishList = new ArrayList<>();
-    	savedFishList = Variables.GetFishList(fishName);
+		List<FishObject> savedFishList = Variables.getFishList(fishName);
     	if(savedFishList != null) {
     		int index = signObj.Level;
     		

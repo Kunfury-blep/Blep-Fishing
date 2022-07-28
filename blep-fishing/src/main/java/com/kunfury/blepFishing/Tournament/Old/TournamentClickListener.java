@@ -1,4 +1,4 @@
-package com.kunfury.blepFishing.Tournament;
+package com.kunfury.blepFishing.Tournament.Old;
 
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Config.Variables;
