@@ -10,6 +10,8 @@ import com.kunfury.blepFishing.Crafting.Equipment.FishBag.BagInfo;
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.UpdateBag;
 import com.kunfury.blepFishing.Events.FishCaughtEvent;
 import com.kunfury.blepFishing.Objects.*;
+import com.kunfury.blepFishing.Tournament.TournamentHandler;
+import com.kunfury.blepFishing.Tournament.TournamentObject;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -89,12 +91,25 @@ public class FishSwitch{
 			}
 			new DisplayFishInfo().InitialDisplay(player, fish);
 
-			CheckAgainstTournaments(fish);
+			//CheckAgainstTournaments(fish);
 			Variables.AddToFishDict(fish);
 
 			if(allBlue) allBlueObj.RemoveFish(1, player);
 			new CollectionHandler().CaughtFish(player, fish); //Adds the caught fish to the players collection
 		}
+
+		//TODO: Rebuild tournament annnouncements
+//		if(isTop){
+//			String lbString = net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&' ,
+//					Variables.Prefix +
+//							fish.PlayerName + " took the top spot of the tournament with a " + fish.Rarity + " " + fish.Name + "!");
+//			TextComponent mainComponent = new TextComponent (lbString);
+//			mainComponent.setHoverEvent(new HoverEvent( HoverEvent.Action.SHOW_TEXT, fish.GetHoverText()));
+//
+//			for(Player p : Bukkit.getOnlinePlayers()) {
+//				p.spigot().sendMessage(mainComponent);
+//			}
+//		}
 
 	}
 
@@ -142,35 +157,6 @@ public class FishSwitch{
 			base = availFish.get(rand);
 		}
 		return base;
-	}
-
-	private void CheckAgainstTournaments(FishObject fish){
-		boolean isTop = false;
-		if(!Variables.TournamentRunning) return;
-		for (TournamentObjectOld t : Variables.Tournaments){
-			if(!t.HasFinished
-			&& (t.FishName.equalsIgnoreCase("ALL") || t.FishName.equalsIgnoreCase(fish.Name))){
-				List<FishObject> winners = t.GetWinners();
-				if(winners != null && winners.size() > 0){
-					FishObject winner = winners.get(0);
-					if(winner != null && fish.Score > winner.Score) isTop = true;
-				}else{
-					isTop = true;
-				}
-
-				if(isTop){
-					String lbString = net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&' ,
-									Variables.Prefix +
-									fish.PlayerName + " took the top spot of the tournament with a " + fish.Rarity + " " + fish.Name + "!");
-					TextComponent mainComponent = new TextComponent (lbString);
-					mainComponent.setHoverEvent(new HoverEvent( HoverEvent.Action.SHOW_TEXT, fish.GetHoverText()));
-
-					for(Player p : Bukkit.getOnlinePlayers()) {
-						p.spigot().sendMessage(mainComponent);
-					}
-				}
-			}
-		}
 	}
 
 	private boolean CanFish(Item item, Player player, PlayerFishEvent e)

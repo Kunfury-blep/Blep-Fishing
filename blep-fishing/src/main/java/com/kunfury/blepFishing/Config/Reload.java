@@ -22,8 +22,6 @@ import org.bukkit.boss.BarColor;
 import org.bukkit.command.CommandSender;
 
 import com.kunfury.blepFishing.Setup;
-
-import com.kunfury.blepFishing.Tournament.Old.Tournament;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -135,8 +133,6 @@ public class Reload {
 
 			FixFileLocations();
 
-			LoadOldTournaments();
-
 			LoadAllBlue();
 
 			LoadCaskets();
@@ -191,42 +187,6 @@ public class Reload {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	@SuppressWarnings("unchecked")
-	private void LoadOldTournaments() {
-		List<TournamentObjectOld> tourneys = new ArrayList<>();
-		
-		//Gets Tournaments from file
-//		try {
-//			Files.createDirectories(Paths.get(Setup.dataFolder + "/Data"));
-//			String tourneyPath = Setup.dataFolder + "/Data/" + "/tournaments.data";
-//        	ObjectInputStream input = null;
-//		    File tempFile = new File(tourneyPath);
-//		    if(tempFile.exists()) {
-//    		    input = new ObjectInputStream(new FileInputStream (tourneyPath));
-//    		    tourneys = (List<TournamentObjectOld>) input.readObject();
-//		    }
-//		    if(input != null)
-//		    	input.close();
-//		} catch (IOException | ClassNotFoundException ex) {
-//			sender.sendMessage(Variables.Prefix + "Loading of tournaments Failed");
-//			ex.printStackTrace();
-//		}
-//
-		tourneys.forEach(t -> {
-			long diff = ChronoUnit.MILLIS.between(LocalDateTime.now(), t.EndDate);
-			if(!t.HasFinished) {
-				if(diff <= 0)
-					new Tournament().DelayedWinnings(t);
-				else
-					new Tournament().StartTimer(diff, t);
-			}
-		});
-
-		Variables.Tournaments = tourneys;
-		new Tournament().CheckActiveTournaments();
-		new Tournament().Initialize();
 	}
 
 	@SuppressWarnings("unchecked")

@@ -6,7 +6,6 @@ import java.util.Map.Entry;
 
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Objects.*;
-import com.kunfury.blepFishing.Tournament.Old.Tournament;
 import org.bukkit.ChatColor;
 import org.bukkit.conversations.ConversationFactory;
 
@@ -14,7 +13,6 @@ import com.kunfury.blepFishing.Setup;
 import com.kunfury.blepFishing.Signs.FishSign;
 
 import com.kunfury.blepFishing.Conversations.ConFactory;
-import com.kunfury.blepFishing.Tournament.Old.SaveTournaments;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
@@ -25,8 +23,6 @@ public class Variables {
 	public static List<BaseFishObject> BaseFishList = new ArrayList<>(); //Available fish to catch
 	public static List<RarityObject> RarityList = new ArrayList<>(); //Available rarities
 	public static List<AreaObject> AreaList = new ArrayList<>(); //Available Areas
-
-	public static List<TournamentObjectOld> Tournaments = new ArrayList<>();
 
 	public static List<String> AllowedWorlds = new ArrayList<>();
 	//endregion
@@ -145,14 +141,6 @@ public class Variables {
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
-	}
-
-	public static void AddTournament(TournamentObjectOld tourney) {
-		if(tourney != null)
-			Tournaments.add(tourney);
-		new SaveTournaments();
-
-		new Tournament().CheckActiveTournaments();
 	}
 
 	public static List<String> SerializeItemList(List<ItemStack> items){

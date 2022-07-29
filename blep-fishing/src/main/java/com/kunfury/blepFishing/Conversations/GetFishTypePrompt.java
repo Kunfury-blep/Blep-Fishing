@@ -8,9 +8,6 @@ import org.bukkit.conversations.Prompt;
 import org.bukkit.conversations.ValidatingPrompt;
 import org.bukkit.entity.Player;
 
-import com.kunfury.blepFishing.Interfaces.Admin.AdminMenu;
-import com.kunfury.blepFishing.Interfaces.Admin.TourneyAdmin;
-
 import com.kunfury.blepFishing.Config.Variables;
 
 public class GetFishTypePrompt {
@@ -61,8 +58,8 @@ public class GetFishTypePrompt {
 		public String getPromptText(ConversationContext context) {
 			Player p = (Player)context.getForWhom();
 			String fish = (String)context.getSessionData("fish");
-			new TourneyAdmin().UpdateTourney(p, null, fish, null, null);
-			new AdminMenu().CreateTourneyGUI(p);
+//			new TourneyAdmin().UpdateTourney(p, null, fish, null, null);
+//			new AdminMenu().CreateTourneyGUI(p);
 			
 			return "Fish set to: " + fish;
 		}

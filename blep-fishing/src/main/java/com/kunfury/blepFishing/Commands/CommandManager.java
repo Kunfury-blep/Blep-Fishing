@@ -1,10 +1,9 @@
 package com.kunfury.blepFishing.Commands;
 
 import com.kunfury.blepFishing.Commands.SubCommands.*;
-import com.kunfury.blepFishing.Commands.SubCommands.Old.StartTourney;
 import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Interfaces.Player.PlayerPanel;
-import net.md_5.bungee.api.ChatColor;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -20,7 +19,6 @@ public class CommandManager implements TabExecutor {
     private final ArrayList<SubCommand> subCommands = new ArrayList<>();
 
     public CommandManager(){
-        subCommands.add(new StartTourney());
         subCommands.add(new LeaderboardSubcommand());
         subCommands.add(new ReloadSubcommand());
         subCommands.add(new AdminSubcommand());
@@ -46,10 +44,11 @@ public class CommandManager implements TabExecutor {
                     if(subCommand.getName().equalsIgnoreCase(args[0]) || (subCommand.getAliases() != null && subCommand.getAliases().contains(args[0].toUpperCase()))){
                         if(CheckPermissions(sender, subCommand.getPermissions())) subCommand.perform(sender, args);
                         else NoPermission(sender);
+                        return true;
                     }
                 }
+                sender.sendMessage(Prefix + ChatColor.RED + Variables.getMessage("commandNotFound"));
             }
-
         }else BaseCommand(sender);
 
         return true;

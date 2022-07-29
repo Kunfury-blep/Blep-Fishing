@@ -1,6 +1,5 @@
 package com.kunfury.blepFishing.Commands.SubCommands;
 
-import com.kunfury.blepFishing.Tournament.Old.TournamentRewards;
 import com.kunfury.blepFishing.Commands.SubCommand;
 import com.kunfury.blepFishing.Tournament.Rewards;
 import org.bukkit.command.CommandSender;

@@ -5,9 +5,6 @@ import org.bukkit.conversations.NumericPrompt;
 import org.bukkit.conversations.Prompt;
 import org.bukkit.entity.Player;
 
-import com.kunfury.blepFishing.Interfaces.Admin.AdminMenu;
-import com.kunfury.blepFishing.Interfaces.Admin.TourneyAdmin;
-
 public class GetTourneyTimePrompt {
 	
 	public class InitialPrompt extends NumericPrompt {
@@ -50,8 +47,8 @@ public class GetTourneyTimePrompt {
 			Player p = (Player)context.getForWhom();
 			Number time = (Number)context.getSessionData("time");
 			
-			new TourneyAdmin().UpdateTourney(p, time, null, null, null);
-			new AdminMenu().CreateTourneyGUI(p);
+//			new TourneyAdmin().UpdateTourney(p, time, null, null, null);
+//			new AdminMenu().CreateTourneyGUI(p);
 			
 			return "com.kunfury.blepFishing.Tournament time updated to: " + time;
 		}

@@ -8,8 +8,6 @@ import com.kunfury.blepFishing.Config.Reload;
 import com.kunfury.blepFishing.Crafting.CraftingManager;
 import com.kunfury.blepFishing.Crafting.SmithingTableHandler;
 import com.kunfury.blepFishing.Events.EventListener;
-import com.kunfury.blepFishing.Tournament.Old.TournamentClickListener;
-import com.kunfury.blepFishing.Tournament.Old.Tournament;
 import com.kunfury.blepFishing.Commands.*;
 import com.kunfury.blepFishing.Plugins.PluginHandler;
 import org.bukkit.Bukkit;
@@ -22,7 +20,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.kunfury.blepFishing.Interfaces.Admin.AdminMenu;
 import com.kunfury.blepFishing.Signs.FishSign;
 
-import com.kunfury.blepFishing.Tournament.Old.TournamentRewards;
 import net.milkbowl.vault.economy.Economy;
 
 public class Setup extends JavaPlugin {
@@ -61,9 +58,6 @@ public class Setup extends JavaPlugin {
     	pm.registerEvents(new EventListener(), this);
 		pm.registerEvents(new FishSign(), this);
 		pm.registerEvents(new AdminMenu(), this);
-		pm.registerEvents(new TournamentRewards(), this);
-		pm.registerEvents(new Tournament(), this);
-		pm.registerEvents(new TournamentClickListener(), this);
 
 		new SmithingTableHandler().InitializeSmithRecipes();
 
