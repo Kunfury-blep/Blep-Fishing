@@ -3,22 +3,20 @@ package com.kunfury.blepFishing.Commands.SubCommands;
 import com.kunfury.blepFishing.Endgame.AllBlueGeneration;
 import com.kunfury.blepFishing.Endgame.CompassHandler;
 import com.kunfury.blepFishing.Endgame.TreasureHandler;
-import com.kunfury.blepFishing.Commands.CommandManager;
 import com.kunfury.blepFishing.Commands.SubCommand;
 import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Objects.BaseFishObject;
 import com.kunfury.blepFishing.Objects.FishObject;
 import com.kunfury.blepFishing.Setup;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.logging.Level;
 
 public class SpawnSubCommand extends SubCommand {
@@ -54,15 +52,30 @@ public class SpawnSubCommand extends SubCommand {
                 }
                 else p.sendMessage(Variables.Prefix + ChatColor.RED + "Please include the treasure type you wish to spawn.");
             case "FISH":
-                String name = "";
+                StringBuilder name;
                 if(args.length <= 2){
-                    name = "RANDOM";
-                }else name = args[2];
+                    name = new StringBuilder("RANDOM");
+                }else name = new StringBuilder(args[2]);
+
+                if(name.toString().contains("\"")){
+                    List<String> argsList = new LinkedList<>(Arrays.asList(args));
+
+                    for(int i = 3; i < args.length; i++){
+                        name.append(' ').append(args[i]);
+                        argsList.remove(args[i]);
+                        if(args[i].contains("\"")){
+                            break;
+                        }
+                    }
+                    args = argsList.toArray(new String[0]);
+
+                    name = new StringBuilder(name.toString().replace("\"", ""));
+                }
 
                 int amt = 1;
                 if(args.length >= 4 && Formatting.isNumeric(args[3]))
                     amt = Integer.parseInt(args[3]);
-                SpawnFish(p, name, amt);
+                SpawnFish(p, name.toString(), amt);
                 break;
         }
 
@@ -88,7 +101,10 @@ public class SpawnSubCommand extends SubCommand {
                     optionList.add("<fish_name>");
                     optionList.add("RANDOM");
                     for(BaseFishObject fish : Variables.BaseFishList){
-                        optionList.add(fish.Name);
+                        if(fish.Name.contains(" "))
+                            optionList.add('\"' + fish.Name + '\"');
+                        else
+                            optionList.add(fish.Name);
                     }
                     break;
                 }
@@ -189,8 +205,11 @@ public class SpawnSubCommand extends SubCommand {
                 }else p.sendMessage(Variables.Prefix + ChatColor.RED + "Error generating fish.");
             }
 
+            if(random){
+                p.sendMessage(Variables.Prefix +  "Finished spawning " + amount + " fish.");
+            }else
+                p.sendMessage(Variables.Prefix +  "Finished spawning " + amount + " " + name);
 
-            p.sendMessage(Variables.Prefix +  "Finished spawning " + amount + " fish.");
             Setup.getPlugin().getLogger().log(Level.FINE, Variables.Prefix + ChatColor.GRAY + "Spawned " + amount + " fish for " + p.getName());
         }else p.sendMessage(Variables.Prefix + ChatColor.RED + "Error generating fish.");
 
