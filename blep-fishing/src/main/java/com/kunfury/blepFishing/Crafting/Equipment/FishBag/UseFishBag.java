@@ -26,7 +26,6 @@ public class UseFishBag {
 
         //Grabs the collection Asynchronously
         scheduler.runTaskAsynchronously(Setup.getPlugin(), () -> {
-            final List<FishObject> tempFish = new ParseFish().RetrieveFish(bagId, "ALL");
             scheduler.runTask(Setup.getPlugin(), () -> {
                 new UpdateBag().ShowBagInv(p, bagId, bag);
                 p.playSound(p.getLocation(), Sound.ITEM_ARMOR_EQUIP_LEATHER, .3f, 1f);
@@ -37,16 +36,27 @@ public class UseFishBag {
 
     public void FillBag(ItemStack bag, Player p){
         int amount = 0;
+
+        int bagAmt = BagInfo.getAmount(bag);
+        int bagMax = BagInfo.getMax(bag);
+
         for(var item : p.getInventory().getStorageContents()){
+            if(bagAmt >= bagMax) break;
             if(item != null && item.getType() == Material.SALMON && NBTEditor.contains( item,"blep", "item", "fishValue" )){
                 AddFish(bag, p, item, false);
                 amount++;
+                bagAmt++;
             }
         }
 
         if(amount > 0){
             p.sendMessage(Variables.Prefix + "Added " + amount + " to the bag.");
-        }else p.sendMessage(Variables.Prefix + "No fish found in inventory.");
+        }else{
+            if(bagAmt >= bagMax)
+                p.sendMessage(Variables.Prefix + "No more space in bag.");
+            else
+                p.sendMessage(Variables.Prefix + "No fish found in inventory.");
+        }
 
     }
 
@@ -150,7 +160,7 @@ public class UseFishBag {
                 p.playSound(p.getLocation(), Sound.ENTITY_SALMON_FLOP, .5f, 1f);
                 Variables.UpdateFishData();
 
-                if(fishObjectList.size() - freeSlots <= 0) new UpdateBag().Update(bag, p, true);
+                new UpdateBag().Update(bag, p, true);
             }
         });
     }
