@@ -2,6 +2,7 @@ package com.kunfury.blepFishing.Objects;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.text.Format;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -144,7 +145,14 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 		ItemMeta m = fishItem.getItemMeta();
 		m.setLore(CreateLore(base));
 		m.setCustomModelData(base.ModelData);
-		m.setDisplayName(org.bukkit.ChatColor.translateAlternateColorCodes('&', '&' + RarityObject.GetRarity(Rarity).Prefix + base.Name));
+
+		RarityObject rarity = RarityObject.GetRarity(Rarity);
+
+		String dName = base.Name;
+		if(rarity != null)
+			dName = '&' + rarity.Prefix + dName;
+
+		m.setDisplayName(Formatting.formatColor(dName));
 		fishItem.setItemMeta(m);
 
 		fishItem = NBTEditor.set( fishItem, RealCost, "blep", "item", "fishValue" );
