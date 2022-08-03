@@ -130,35 +130,32 @@ public class UpdateBag {
 
         int caughtAmount = 0;
 
-        if(baseFishList.size() > 45){ //If base list is larger than what can be shown, trims it down to page
-            List<BaseFishObject> caughtTypes = new ArrayList<>();
+        List<BaseFishObject> caughtTypes = new ArrayList<>();
 
-            for(var b : baseFishList){
-                if(parsedFish.stream().anyMatch(f -> f.Name.equals(b.Name))){
-                    caughtTypes.add(b);
-                    caughtAmount++;
-                }
+        for(var b : baseFishList){
+            if(parsedFish.stream().anyMatch(f -> f.Name.equals(b.Name))){
+                caughtTypes.add(b);
+                caughtAmount++;
             }
+        }
 
-            if(caughtTypes.size() > 45){
+        if(baseFishList.size() > 45) { //If base list is larger than what can be shown, trims it down to page
+            if (caughtTypes.size() > 45) {
                 int page = BagInfo.getPage(bag);
 
-                if(page > caughtTypes.size() / 45){
+                if (page > caughtTypes.size() / 45) {
                     page = 0;
                     BagInfo.setPage(bag, page, p);
                 }
                 int startPoint = page * 45;
                 int endPoint = startPoint + 45;
 
-                if(endPoint > caughtTypes.size()) endPoint = caughtTypes.size();
+                if (endPoint > caughtTypes.size()) endPoint = caughtTypes.size();
 
-                caughtTypes =  caughtTypes.subList(startPoint, endPoint);
+                caughtTypes = caughtTypes.subList(startPoint, endPoint);
             }
-
             baseFishList = caughtTypes;
-
-
-        } else caughtAmount = baseFishList.size();
+        }
 
         List<ItemStack> bagItems = new ArrayList<>();
         for (BaseFishObject bFish : baseFishList) {
