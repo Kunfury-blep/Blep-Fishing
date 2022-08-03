@@ -43,7 +43,7 @@ public class CollectionHandler {
     public void CraftedBag(Player p, String bagType){
         CollectionLogObject log = GetLog(p);
 
-        Bukkit.broadcastMessage("Crafted Bag: " + bagType);
+        //Bukkit.broadcastMessage("Crafted Bag: " + bagType);
     }
 
     public void SaveLog(){

@@ -10,11 +10,7 @@ import com.kunfury.blepFishing.Crafting.Equipment.FishBag.BagInfo;
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.UpdateBag;
 import com.kunfury.blepFishing.Events.FishCaughtEvent;
 import com.kunfury.blepFishing.Objects.*;
-import com.kunfury.blepFishing.Tournament.TournamentHandler;
-import com.kunfury.blepFishing.Tournament.TournamentObject;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.player.PlayerFishEvent;
@@ -61,23 +57,24 @@ public class FishSwitch{
 				return;
 			}
 
-			item.setItemStack(fish.GenerateItemStack()); //TODO: Change the caught item to the itemstack as soon as possible to hide the transition
+			item.setItemStack(fish.GenerateItemStack());
 
-			new DangerEvents().Trigger(player, item.getLocation()); //TODO: Pass if in All Blue or not
+			new DangerEvents().Trigger(player, item.getLocation());
 			//Checks if the player has a fishing bag. Automatically adds the fish to it if so
-			for (var slot : player.getInventory())
-			{
-				if (slot != null && slot.getType().equals(Material.HEART_OF_THE_SEA)
-						&& NBTEditor.getBoolean(slot, "blep", "item", "fishBagAutoPickup" ) && !BagInfo.IsFull(slot))
+
+			if(player.getInventory().contains(Material.HEART_OF_THE_SEA)){
+				for (var slot : player.getInventory())
 				{
-					String bagId = NBTEditor.getString(slot, "blep", "item", "fishBagId" );
-					fish.BagID = bagId;
-					item.remove();
-					player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, .33f, 1f);
-					new UpdateBag().Update(slot, player, false);
-					break;
+					if(slot != null && BagInfo.IsBag(slot) && NBTEditor.getBoolean(slot, "blep", "item", "fishBagAutoPickup") && !BagInfo.IsFull(slot)){
+						fish.setBagID(BagInfo.getId(slot));
+						item.remove();
+						player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, .33f, 1f);
+						new UpdateBag().IncreaseAmount(slot, player);
+						break;
+					}
 				}
 			}
+
 
 			//Broadcasts if the player catches the rarest fish possible
 			if(chosenRarity.Weight <= Variables.RarityList.get(0).Weight) {

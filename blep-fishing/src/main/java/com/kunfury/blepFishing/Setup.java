@@ -47,10 +47,7 @@ public class Setup extends JavaPlugin {
 
     	plugin.saveDefaultConfig();
 
-		File tournamentFile = new File(plugin.getDataFolder(), "tournaments.yml");
-
-		if (!tournamentFile.exists())
-			plugin.saveResource("tournaments.yml", false);
+		GenerateFiles();
 
     	new FishSign().LoadSigns();
 
@@ -104,5 +101,14 @@ public class Setup extends JavaPlugin {
 
     private void SetupCommands(){
 		Objects.requireNonNull(this.getCommand("bf")).setExecutor(new CommandManager());
+	}
+
+	private void GenerateFiles(){
+		File tournamentFile = new File(plugin.getDataFolder(), "tournaments.yml");
+
+		if (!tournamentFile.exists())
+			plugin.saveResource("tournaments.yml", false);
+
+//		File resourceFile =
 	}
 }

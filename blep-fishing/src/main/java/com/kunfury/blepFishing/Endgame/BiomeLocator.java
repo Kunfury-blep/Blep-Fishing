@@ -18,9 +18,7 @@ public class BiomeLocator {
         int attempt = 1000;
         int i = 0;
         World world = Bukkit.getServer().getWorlds().get(0);
-
-
-        Bukkit.broadcastMessage("Radius :" + EndgameVars.AreaRadius);
+        
         //Loops through random locations in the world to find a suitable All Blue
         //Continues looping until one is found or 1,000 attempts are made
         while(i < attempt){

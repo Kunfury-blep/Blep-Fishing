@@ -3,7 +3,6 @@ package com.kunfury.blepFishing.Crafting.Equipment.FishBag;
 import com.kunfury.blepFishing.Setup;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
@@ -11,11 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import java.util.ArrayList;
-import java.util.UUID;
 
 import static com.kunfury.blepFishing.Crafting.CraftingManager.*;
 
@@ -61,10 +56,6 @@ public class FishBagRecipe {
                 p.discoverRecipe(key);
             }
         }, 1L); // 600L (ticks) is equal to 30 seconds (20 ticks = 1 second)
-    }
-
-    public void OnCraft(){
-
     }
 
 }

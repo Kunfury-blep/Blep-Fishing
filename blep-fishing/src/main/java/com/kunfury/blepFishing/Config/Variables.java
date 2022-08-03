@@ -111,7 +111,7 @@ public class Variables {
 			}
 		}
 		
-		if(fishFound || fishName.equalsIgnoreCase("ALL")) { //If the fish is found, get all caught
+		if(fishFound) { //If the fish is found, get all caught
 			List<FishObject> fishList = new ArrayList<>();
 			
 			if(!fishName.equalsIgnoreCase("ALL")) {
@@ -122,7 +122,7 @@ public class Variables {
 				 }
 			}		
 			if(fishList != null && fishList.size() > 0)
-				Collections.sort(fishList, Collections.reverseOrder());
+				fishList.sort(Collections.reverseOrder());
 			else
 				fishList = new ArrayList<>();
 			return fishList;

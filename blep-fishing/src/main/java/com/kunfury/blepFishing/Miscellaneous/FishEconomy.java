@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 import com.kunfury.blepFishing.Config.Variables;
+import com.kunfury.blepFishing.Crafting.Equipment.FishBag.BagInfo;
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.ParseFish;
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.UpdateBag;
 import com.kunfury.blepFishing.Objects.FishObject;
@@ -104,7 +105,7 @@ public class FishEconomy {
 						Variables.Prefix + "Sold " + fishList.size() + " fish"
 								+ "&f for " + ChatColor.GREEN +Variables.CurrSym + Setup.getEconomy().format(total) + "." ));
 				for(var f : fishList){
-					f.BagID = null;
+					f.setBagID(null);
 				}
 				new UpdateBag().Update(bag, p, false);
 				Variables.UpdateFishData();
@@ -126,18 +127,22 @@ public class FishEconomy {
 			return;
 		}
 
+		String bagId = BagInfo.getId(bag);
+		final List<FishObject> tempFish = new ParseFish().RetrieveFish(bagId, "ALL");
+		SellFish(tempFish, p, priceMod, bag);
+		PlayerWaitList.remove(p.toString());
 
-		final BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
-		String bagId = NBTEditor.getString(bag, "blep", "item", "fishBagId");
+		//TODO: Ensure ASYNC needed
 		//Grabs the collection Asynchronously
-		scheduler.runTaskAsynchronously(Setup.getPlugin(), () -> {
-			final List<FishObject> tempFish = new ParseFish().RetrieveFish(bagId, "ALL");
-
-			scheduler.runTask(Setup.getPlugin(), () -> {
-				SellFish(tempFish, p, priceMod, bag);
-				PlayerWaitList.remove(p.toString());
-			});
-		});
+//		final BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
+//		scheduler.runTaskAsynchronously(Setup.getPlugin(), () -> {
+//			final List<FishObject> tempFish = new ParseFish().RetrieveFish(bagId, "ALL");
+//
+//			scheduler.runTask(Setup.getPlugin(), () -> {
+//				SellFish(tempFish, p, priceMod, bag);
+//				PlayerWaitList.remove(p.toString());
+//			});
+//		});
 
 
 	}

@@ -3,6 +3,10 @@ package com.kunfury.blepFishing.Commands.SubCommands;
 import com.kunfury.blepFishing.Commands.SubCommand;
 import com.kunfury.blepFishing.Miscellaneous.ItemHandler;
 import com.kunfury.blepFishing.Config.Variables;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -29,18 +33,28 @@ public class GetDataSubCommand extends SubCommand {
 
     @Override
     public void perform(@NotNull CommandSender sender, String[] args) {
+        if(!(sender instanceof Player)){
+            sender.sendMessage(Variables.Prefix + "This command is intended to only be run by a player.");
+            return;
+        }
         Player p = (Player) sender;
 
         ItemStack item = p.getInventory().getItemInMainHand();
 
         String data = ItemHandler.itemStackToBase64(item);
 
-        StringSelection stringSelection = new StringSelection("BYTE: " + data);
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Clipboard clipboard = toolkit.getSystemClipboard();
+        String dataStr = "BYTE: " + data;
+//        Toolkit toolkit = Toolkit.getDefaultToolkit();
+//        Clipboard clipboard = toolkit.getSystemClipboard();
+//
+//        clipboard.setContents(stringSelection, null);
+        TextComponent message = new TextComponent(Variables.Prefix +  "Click me to copy data to clipboard!");
+        message.setClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, dataStr));
+        message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Use Ctrl-V to paste!").create()));
+        p.spigot().sendMessage(message);
 
-        clipboard.setContents(stringSelection, null);
-        p.sendMessage(Variables.Prefix + "Item Data has been copied to your clipboard.");
+
+        //p.sendMessage(Variables.Prefix + "Item Data has been copied to your clipboard.");
     }
 
     @Override

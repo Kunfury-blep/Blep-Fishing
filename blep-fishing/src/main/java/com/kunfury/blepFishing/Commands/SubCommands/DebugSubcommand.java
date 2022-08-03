@@ -30,6 +30,7 @@ public class DebugSubcommand extends SubCommand {
             Variables.DebugMode = !Variables.DebugMode;
             if(Variables.DebugMode) sender.sendMessage(Variables.Prefix + "Enabled Debug Mode.");
             else sender.sendMessage(Variables.Prefix + "Disabled Debug Mode.");
+            sender.sendMessage("Total Fish Count: " + Variables.getFishList("ALL").size());
         }else new CommandManager().NoPermission(sender);
     }
 

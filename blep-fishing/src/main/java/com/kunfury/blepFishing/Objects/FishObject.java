@@ -2,7 +2,6 @@ package com.kunfury.blepFishing.Objects;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.text.Format;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -40,7 +39,7 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 	
 	public Double Score;
 
-	public String BagID;
+	private String BagID;
 	public String FishID;
 
 	public double RealCost;
@@ -194,5 +193,11 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 
 	public UUID getPlayerUUID(){
 		return UUID.fromString(playerUUID);
+	}
+
+	public String getBagID(){ return BagID;}
+
+	public void setBagID(String _bagId){
+		BagID = _bagId;
 	}
 }

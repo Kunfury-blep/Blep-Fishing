@@ -29,18 +29,22 @@ public class UpdateBag {
      * @param p   : The player holding the bag with the inventory open
      */
     public void Update(ItemStack bag, Player p, boolean bagOpen) {
-        //Grabs the amount of fish caught to display on the item
-        final BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
-        String bagId = NBTEditor.getString(bag, "blep", "item", "fishBagId");
-        //Grabs the collection Asynchronously
-        scheduler.runTaskAsynchronously(Setup.getPlugin(), () -> {
-            final List<FishObject> tempFish = new ParseFish().RetrieveFish(bagId, "ALL");
+        String bagId = BagInfo.getId(bag);
+        final List<FishObject> tempFish = new ParseFish().RetrieveFish(bagId, "ALL");
+        FinalizeUpdate(bag, p, tempFish.size());
+        if(bagOpen) ShowBagInv(p, bagId, bag);
 
-            scheduler.runTask(Setup.getPlugin(), () -> {
-                FinalizeUpdate(bag, p, tempFish.size());
-                if(bagOpen) ShowBagInv(p, bagId, bag);
-            });
-        });
+        //TODO: Check if async is needed
+        //Grabs the collection Asynchronously
+//        final BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
+//        scheduler.runTaskAsynchronously(Setup.getPlugin(), () -> {
+//            final List<FishObject> tempFish = new ParseFish().RetrieveFish(bagId, "ALL");
+//
+//            scheduler.runTask(Setup.getPlugin(), () -> {
+//                FinalizeUpdate(bag, p, tempFish.size());
+//                if(bagOpen) ShowBagInv(p, bagId, bag);
+//            });
+//        });
     }
 
     private void FinalizeUpdate(ItemStack bag, Player p, int fishCount) {
@@ -103,9 +107,11 @@ public class UpdateBag {
 
         lore.add(progressBar + " " + formatter.format(fishCount) + "/" + formatter.format(maxSize));
 
+        lore.add("");
         if (BagInfo.IsFull(bag)) {
-            lore.add("");
-            lore.add(ChatColor.WHITE + "Combine with a " + ChatColor.YELLOW + ChatColor.ITALIC + BagInfo.getUpgradeComp(bag).getType().name().replace("_", " ") + ChatColor.WHITE + " at a smithing tableto upgrade!");
+            lore.add(ChatColor.WHITE + "Combine with a " + ChatColor.YELLOW + ChatColor.ITALIC + BagInfo.getUpgradeComp(bag).getType().name().replace("_", " ") + ChatColor.WHITE + " at a smithing table to upgrade!");
+        } else{
+            lore.add(ChatColor.WHITE + "Can be " + ChatColor.YELLOW + ChatColor.ITALIC + "upgraded" + ChatColor.WHITE + " once filled!");
         }
 
 
@@ -180,6 +186,11 @@ public class UpdateBag {
         BagInfo.Inventories.put(p, bagInv);
         p.openInventory(bagInv);
     }
+
+    public void IncreaseAmount(ItemStack bag, Player p){
+        FinalizeUpdate(bag, p, 1 + NBTEditor.getInt(bag, "blep", "item", "fishBagAmount"));
+    }
+
 
     private ItemStack nextButton(){
         ItemStack item = new ItemStack(Material.WARPED_SIGN);

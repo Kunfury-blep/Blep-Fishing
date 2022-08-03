@@ -20,17 +20,19 @@ import java.util.*;
 
 public class UseFishBag {
     public void UseBag(ItemStack bag, Player p){
-        String bagId = NBTEditor.getString(bag, "blep", "item", "fishBagId");
+        String bagId = BagInfo.getId(bag);
+        new UpdateBag().ShowBagInv(p, bagId, bag);
+        p.playSound(p.getLocation(), Sound.ITEM_ARMOR_EQUIP_LEATHER, .3f, 1f);
 
-        final BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
-
-        //Grabs the collection Asynchronously
-        scheduler.runTaskAsynchronously(Setup.getPlugin(), () -> {
-            scheduler.runTask(Setup.getPlugin(), () -> {
-                new UpdateBag().ShowBagInv(p, bagId, bag);
-                p.playSound(p.getLocation(), Sound.ITEM_ARMOR_EQUIP_LEATHER, .3f, 1f);
-            });
-        });
+        //TODO: Remove from async
+//        final BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
+//
+//        //Grabs the collection Asynchronously
+//        scheduler.runTaskAsynchronously(Setup.getPlugin(), () -> {
+//            scheduler.runTask(Setup.getPlugin(), () -> {
+//
+//            });
+//        });
     }
 
 
@@ -92,7 +94,7 @@ public class UseFishBag {
             p.sendMessage(Variables.Prefix + "There is no more space in that bag.");
             return;
         }
-        String bagId = NBTEditor.getString(bag, "blep", "item", "fishBagId");
+        String bagId = BagInfo.getId(bag);
         if(bagId == null || bagId.isEmpty()) return;
 
         String fishId = NBTEditor.getString(fish, "blep", "item", "fishId");
@@ -103,11 +105,11 @@ public class UseFishBag {
             return;
         }
 
-        if(fishObj.BagID != null){
-            p.sendMessage(Variables.Prefix + ChatColor.RED + "That fish is already stored in anothe bag somewhere. This shouldn't happen.");
+        if(fishObj.getBagID() != null){
+            p.sendMessage(Variables.Prefix + ChatColor.RED + "That fish is already stored in another bag somewhere. This shouldn't happen.");
             return;
         }
-        fishObj.BagID = bagId;
+        fishObj.setBagID(bagId);
         fish.setAmount(0);
         Variables.UpdateFishData();
         new UpdateBag().Update(bag, p, bagOpen);
@@ -116,53 +118,100 @@ public class UseFishBag {
 
     public void FishBagWithdraw(ClickType click, String fishName, Player p, ItemStack bag){
 
-        String bagId = NBTEditor.getString(bag, "blep", "item", "fishBagId");
-        final BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
-        scheduler.runTaskAsynchronously(Setup.getPlugin(), () -> {
-            final List<FishObject> fishObjectList = new ParseFish().RetrieveFish(bagId, fishName);
+        String bagId = BagInfo.getId(bag);
 
-            boolean large = true;
-            boolean single = true;
-            switch(click){
-                case LEFT:
-                    large = false;
-                    single = true;
-                    break;
-                case SHIFT_LEFT:
-                    large = false;
-                    single = false;
-                    break;
-                case RIGHT:
-                    large = true;
-                    single = true;
-                    break;
-                case SHIFT_RIGHT:
-                    large = true;
-                    single = false;
-                    break;
-                default:
-                    break;
+        final List<FishObject> fishObjectList = new ParseFish().RetrieveFish(bagId, fishName);
+
+        boolean large = true;
+        boolean single = true;
+        switch(click){
+            case LEFT:
+                large = false;
+                single = true;
+                break;
+            case SHIFT_LEFT:
+                large = false;
+                single = false;
+                break;
+            case RIGHT:
+                large = true;
+                single = true;
+                break;
+            case SHIFT_RIGHT:
+                large = true;
+                single = false;
+                break;
+            default:
+                break;
+        }
+
+        if(fishObjectList.size() > 0){
+
+            int freeSlots = Utilities.getFreeSlots(p.getInventory());
+
+            if(single && freeSlots > 1) freeSlots = 1;
+            else if(freeSlots > fishObjectList.size()) freeSlots = fishObjectList.size();
+            if(large)  Collections.reverse(fishObjectList);
+
+            for(int i = 0; i < freeSlots; i++){
+                FishObject fish = fishObjectList.get(i);
+                fish.setBagID(null);
+                p.getInventory().addItem(fish.GenerateItemStack());
             }
+            p.playSound(p.getLocation(), Sound.ENTITY_SALMON_FLOP, .5f, 1f);
+            Variables.UpdateFishData();
 
-            if(fishObjectList.size() > 0){
+            new UpdateBag().Update(bag, p, true);
+        }
 
-                int freeSlots = Utilities.getFreeSlots(p.getInventory());
 
-                if(single && freeSlots > 1) freeSlots = 1;
-                else if(freeSlots > fishObjectList.size()) freeSlots = fishObjectList.size();
-                if(large) Collections.reverse(fishObjectList);
-
-                for(int i = 0; i < freeSlots; i++){
-                    FishObject fish = fishObjectList.get(i);
-                    fish.BagID = null;
-                    p.getInventory().addItem(fish.GenerateItemStack());
-                }
-                p.playSound(p.getLocation(), Sound.ENTITY_SALMON_FLOP, .5f, 1f);
-                Variables.UpdateFishData();
-
-                new UpdateBag().Update(bag, p, true);
-            }
-        });
+        //TODO: Ensure async is needed
+//        final BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
+//        scheduler.runTaskAsynchronously(Setup.getPlugin(), () -> {
+//            final List<FishObject> fishObjectList = new ParseFish().RetrieveFish(bagId, fishName);
+//
+//            boolean large = true;
+//            boolean single = true;
+//            switch(click){
+//                case LEFT:
+//                    large = false;
+//                    single = true;
+//                    break;
+//                case SHIFT_LEFT:
+//                    large = false;
+//                    single = false;
+//                    break;
+//                case RIGHT:
+//                    large = true;
+//                    single = true;
+//                    break;
+//                case SHIFT_RIGHT:
+//                    large = true;
+//                    single = false;
+//                    break;
+//                default:
+//                    break;
+//            }
+//
+//            if(fishObjectList.size() > 0){
+//
+//                int freeSlots = Utilities.getFreeSlots(p.getInventory());
+//
+//                if(single && freeSlots > 1) freeSlots = 1;
+//                else if(freeSlots > fishObjectList.size()) freeSlots = fishObjectList.size();
+//                if(large)  Collections.reverse(fishObjectList);
+//
+//                for(int i = 0; i < freeSlots; i++){
+//                    FishObject fish = fishObjectList.get(i);
+//                    fish.setBagID(null);
+//                    p.getInventory().addItem(fish.GenerateItemStack());
+//                }
+//                p.playSound(p.getLocation(), Sound.ENTITY_SALMON_FLOP, .5f, 1f);
+//                Variables.UpdateFishData();
+//
+//                new UpdateBag().Update(bag, p, true);
+//            }
+//        });
     }
 
     public void ChangePage(boolean next, ItemStack bag, Player p){

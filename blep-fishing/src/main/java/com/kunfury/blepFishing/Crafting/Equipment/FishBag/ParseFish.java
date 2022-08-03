@@ -18,22 +18,21 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class ParseFish {
-
     public List<FishObject> RetrieveFish(String bagId, String fishName){
         fishName = ChatColor.stripColor(fishName);
-        if(Variables.getFishList(fishName) != null){
-            return Variables.getFishList(fishName).stream()
-                    .filter(f -> f.BagID != null && f.BagID .equals(bagId))
-                    .sorted(Comparator.comparingDouble(FishObject::GetScore))
-                    .collect(Collectors.toList());
-        }else return new ArrayList<>();
 
+        List<FishObject> fishList = new ArrayList<>();
+
+        fishList.addAll(Variables.getFishList(fishName).stream()
+                .filter(f -> f.getBagID() != null && f.getBagID().equals(bagId))
+                .sorted(Comparator.comparingDouble(FishObject::GetScore)).toList());
+
+        return fishList;
     }
 
     public FishObject FishFromId(String fishID){
         List<FishObject> fishList = Variables.getFishList("ALL").stream()
-                .filter(f -> fishID.equals(f.FishID))
-                .collect(Collectors.toList());
+                .filter(f -> fishID.equals(f.FishID)).toList();
 
 
         if(fishList.size() <= 0) return null;

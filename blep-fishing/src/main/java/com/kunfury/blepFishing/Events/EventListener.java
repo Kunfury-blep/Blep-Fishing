@@ -221,8 +221,13 @@ public class EventListener implements Listener {
                 }
             }
             case CHEST -> {
-                if(BagInfo.IsOpen(p, e.getInventory())) e.setCancelled(true);
-                if(item != null && mainHand.getType().equals(Material.HEART_OF_THE_SEA) && NBTEditor.contains(mainHand, "blep", "item", "fishBagId")){
+                boolean bagOpen = false;
+                if(BagInfo.IsOpen(p, e.getInventory())){
+                    e.setCancelled(true);
+                    bagOpen = true;
+                }
+
+                if(bagOpen && item != null && BagInfo.IsBag(mainHand)){
                     e.setCancelled(true);
 
                     if(e.getSlot() == 53 && item.getType().equals(Material.WARPED_SIGN)){
@@ -235,8 +240,10 @@ public class EventListener implements Listener {
                         return;
                     }
 
-                    new UseFishBag().FishBagWithdraw(e.getClick(), item.getItemMeta().getDisplayName(), p, mainHand);
-                    return;
+                    if(item.getType().equals(Material.SALMON)){
+                        new UseFishBag().FishBagWithdraw(e.getClick(), item.getItemMeta().getDisplayName(), p, mainHand);
+                        return;
+                    }
                 }
 
                 switch(e.getView().getTitle()){
@@ -274,7 +281,8 @@ public class EventListener implements Listener {
 
         ItemStack item = e.getCurrentItem();
 
-        if(BagInfo.IsBag(item) && BagInfo.getId(item) == "null")e.setCurrentItem(NBTEditor.set(item, UUID.randomUUID().toString(), "blep", "item", "fishBagId"));
+        if(BagInfo.IsBag(item) && BagInfo.getId(item).equals("null"))
+            e.setCurrentItem(NBTEditor.set(item, UUID.randomUUID().toString(), "blep", "item", "fishBagId"));
 
 
         //Checks that custom items are not used in recipes
