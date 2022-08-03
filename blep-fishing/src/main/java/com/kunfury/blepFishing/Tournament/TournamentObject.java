@@ -262,14 +262,16 @@ public class TournamentObject implements Serializable{
         ItemStack item = new ItemStack(Material.SALMON);
         ItemMeta m = item.getItemMeta();
         m.setDisplayName(Formatting.formatColor(getName()));
-        m.setCustomModelData(BaseFishObject.GetBase(FishType).ModelData);
 
         ArrayList<String> lore = new ArrayList<>();
 
         if(FishType.equalsIgnoreCase("ALL"))
             lore.add("All Fish");
-        else
+        else{
+            m.setCustomModelData(BaseFishObject.GetBase(FishType).ModelData);
             lore.add(FishType);
+        }
+
 
 
         var winners = getWinners();
