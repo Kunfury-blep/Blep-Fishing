@@ -29,10 +29,10 @@ public class PlayerPanel {
             inv.setItem(i, new ItemStack(Material.PINK_STAINED_GLASS_PANE));
         }
 
-        inv.setItem(8, HelpItem(sender));
         inv.setItem(10, TourneyItem());
         inv.setItem(12, QuestItem());
         inv.setItem(14, CollectionItem());
+        inv.setItem(16, HelpItem(sender));
 
         p.openInventory(inv);
     }
