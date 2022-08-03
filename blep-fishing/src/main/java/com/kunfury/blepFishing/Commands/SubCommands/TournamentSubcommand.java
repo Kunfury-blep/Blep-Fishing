@@ -62,8 +62,6 @@ public class TournamentSubcommand extends SubCommand {
             return;
         }
 
-
-        Bukkit.broadcastMessage("Reached the switch");
         switch(args[1]){
             case "CANCEL" -> {
                 if(!sender.hasPermission("bf.admin")){

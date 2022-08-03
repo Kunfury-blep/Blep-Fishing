@@ -29,7 +29,7 @@ public class TournamentPanel {
         Inventory inv = Bukkit.createInventory(null, 27, Variables.getMessage("tourneyPanel"));
 
         for(var a : TournamentHandler.ActiveTournaments){
-            inv.addItem(a.getItemStack());
+            inv.addItem(a.getItemStack(p.hasPermission("bf.admin")));
         }
 
         p.openInventory(inv);
