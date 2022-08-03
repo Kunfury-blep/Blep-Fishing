@@ -86,9 +86,6 @@ public class TournamentObject implements Serializable{
         BossbarTimePercent = _bossbarTimePercent;
         BossbarColor = _bossbarColor;
         BossbarTime = _bossbarTime;
-        if(_useBossbar){
-            CreateBossbar();
-        }
 
         //Gets the max rank available in the rewards file
         Rewards.forEach((key, value) ->{
@@ -107,12 +104,7 @@ public class TournamentObject implements Serializable{
         boolean downtimeCheck = getDowntime() >= Cooldown;
         boolean playerCheck = minimumPlayers <= Bukkit.getServer().getOnlinePlayers().size();
         boolean delayCheck = (ChronoUnit.MINUTES.between(dt.toLocalDate().atStartOfDay(), dt) / 60.0) >= DailyDelay;
-        if(!downtimeCheck || !playerCheck || !delayCheck){
-//            Bukkit.broadcastMessage(name + " - DowntimeCheck: " + downtimeCheck);
-//            Bukkit.broadcastMessage(name + " - PlayerCheck: " + playerCheck);
-//            Bukkit.broadcastMessage(name + " - DelayCheck: " + delayCheck);
-            return false;
-        }
+        if(!downtimeCheck || !playerCheck || !delayCheck){ return false; }
 
         if(Mode == TournamentMode.DAY){
             return Days.contains(dt.getDayOfWeek());
@@ -130,6 +122,10 @@ public class TournamentObject implements Serializable{
             bar = Bukkit.createBossBar(Formatting.formatColor(name), BossbarColor, BarStyle.SEGMENTED_10);
             bar.setVisible(false);
             TournamentHandler.BossBars.put(this, bar);
+        }
+
+        for(var p : TournamentHandler.FishingPlayers){
+            bar.addPlayer(p);
         }
 
         return bar;
@@ -262,28 +258,38 @@ public class TournamentObject implements Serializable{
         return participants;
     }
 
-    public ItemStack getItemStack(){
+    public ItemStack getItemStack(boolean admin){
         ItemStack item = new ItemStack(Material.SALMON);
         ItemMeta m = item.getItemMeta();
         m.setDisplayName(Formatting.formatColor(getName()));
         m.setCustomModelData(BaseFishObject.GetBase(FishType).ModelData);
 
         ArrayList<String> lore = new ArrayList<>();
-        lore.add(Formatting.asTime(getTimeRemaining()));
+
+        if(FishType.equalsIgnoreCase("ALL"))
+            lore.add("All Fish");
+        else
+            lore.add(FishType);
+
 
         var winners = getWinners();
-
         lore.add("");
 
         if(winners.size() <= 0){
-            lore.add(ChatColor.RED + "No Fish Caught");
+            lore.add(ChatColor.RED + "None Caught");
         }else{
             winners.forEach((rank, fish) -> {
                 lore.add(ChatColor.WHITE + "" + rank + ": " + fish.getPlayer().getName());
             });
         }
 
+        lore.add("");
+        lore.add(ChatColor.WHITE + Formatting.asTime(getTimeRemaining()));
 
+//        if(admin){
+//            lore.add("");
+//            lore.add(ChatColor.RED + "Right-Click to " + ChatColor.YELLOW + ChatColor.ITALIC + "Cancel");
+//        }
 
         m.setLore(lore);
         item.setItemMeta(m);

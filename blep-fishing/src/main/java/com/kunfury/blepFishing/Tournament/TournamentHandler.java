@@ -57,7 +57,7 @@ public class TournamentHandler {
                 for(var t: TournamentList){
                     //Bukkit.broadcastMessage("Checking: " + t.getName());
 
-                    if(t.canRun() && ActiveTournaments.stream().noneMatch(o -> o.getName().equals(t.getName()))){
+                    if(!ActiveTournaments.contains(t) && t.canRun()){
                         Start(t);
                     }else{
                         if(ActiveTournaments.contains(t) && t.isComplete()) Finish(t);
