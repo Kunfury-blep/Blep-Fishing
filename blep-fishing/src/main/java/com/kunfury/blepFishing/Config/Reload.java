@@ -3,10 +3,12 @@ package com.kunfury.blepFishing.Config;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.Format;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import com.kunfury.blepFishing.Endgame.EndgameVars;
 import com.kunfury.blepFishing.Endgame.TreasureHandler;
@@ -126,7 +128,7 @@ public class Reload {
 
 			EndgameVars.AreaRadius = Setup.config.getInt("Endgame Radius");
 			String areaStr = Setup.config.getString("Endgame Area");
-			EndgameVars.EndgameArea =  AreaObject.FromString(areaStr); //TODO: Add to web panel
+			EndgameVars.EndgameArea =  AreaObject.FromString(areaStr);
 
 			Variables.ParrotBonus = Setup.config.getDouble("Parrot Treasure Bonus");
 			Variables.BoatBonus = Setup.config.getDouble("Boat Treasure Bonus");
@@ -323,6 +325,9 @@ public class Reload {
 
 	private void LoadTournaments(){
 		//Loads Active Tournaments from file
+		//TODO: Store last run date of each tournament
+		List<TournamentObject> tObjs = TournamentHandler.TournamentList;
+
 		TournamentHandler.Reset();
 		try {
 			Files.createDirectories(Paths.get(Setup.dataFolder + "/Data"));
@@ -368,6 +373,7 @@ public class Reload {
 			TournamentType type = TournamentType.valueOf(tourney.getString(key + ".Type"));
 			double duration = tourney.getDouble(key + ".Duration");
 			String fishType = tourney.getString(key + ".Fish Type");
+			boolean announceWinner = tourney.getBoolean(key + ".Announce New Winner");
 
 			boolean useBossbar = tourney.getBoolean(key + ".Use Bossbar");
 			boolean bossbarTime = tourney.getBoolean(key + ".Bossbar Timer");
@@ -394,9 +400,17 @@ public class Reload {
 				rewards.put(spot.toUpperCase(), items);
 			}
 
+			List<TournamentObject> foundTourn = tObjs.stream()
+					.filter(t -> t.getName().equals(key)).toList();
+
+			LocalDateTime lastRan = LocalDateTime.MIN;
+			if(foundTourn.size() > 0){
+				lastRan = foundTourn.get(0).getLastRan();
+			}
+
 			new TournamentHandler().AddTournament(new TournamentObject(
 					key, mode, duration, fishType, dayList, maxAmount, startDelay, minPlayers, useBossbar, bossbarPercent, barColor,
-					delay, rewards, minFish, bossbarTime, bossbarTimePercent, type));
+					delay, rewards, minFish, bossbarTime, bossbarTimePercent, type, announceWinner, lastRan));
 		}
 
 	}
