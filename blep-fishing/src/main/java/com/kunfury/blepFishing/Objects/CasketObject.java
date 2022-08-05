@@ -2,6 +2,7 @@ package com.kunfury.blepFishing.Objects;
 
 import com.kunfury.blepFishing.Endgame.TreasureHandler;
 import com.kunfury.blepFishing.Config.Variables;
+import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Setup;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.ChatColor;
@@ -35,7 +36,7 @@ public class CasketObject implements Comparable<CasketObject>{
         ItemMeta m = casket.getItemMeta();
         m.setDisplayName(GetPrefix() + Name + "");
         ArrayList<String> lore = new ArrayList<>();
-        lore.add(ChatColor.AQUA + "Right-Click to " + ChatColor.YELLOW + ChatColor.ITALIC + "Open");
+        lore.add(Formatting.getMessage("Treasure.open"));
         m.setLore(lore);
         m.setCustomModelData(ModelData);
         casket.setItemMeta(m);
@@ -73,7 +74,7 @@ public class CasketObject implements Comparable<CasketObject>{
                 Setup.getEconomy().depositPlayer(p, reward.getAmount());
                 message = ChatColor.GREEN + Setup.getEconomy().format(reward.getAmount());
             } else {
-                p.sendMessage(Variables.Prefix + ChatColor.RED + "Unable to open Casket. You would have found currency but no economy was found.");
+                p.sendMessage(Variables.Prefix + ChatColor.RED + Formatting.getMessage("Treasure.noEcon"));
                 return;
             }
         } else{
@@ -90,6 +91,8 @@ public class CasketObject implements Comparable<CasketObject>{
         casket.setAmount(casket.getAmount() - 1);
         p.playSound(p.getLocation(), Sound.ITEM_BUNDLE_DROP_CONTENTS, .33f, 1f);
 
-        p.sendMessage(Variables.Prefix + "You found " + message + ChatColor.WHITE + " inside the " + GetPrefix() + Name + '!');
+        p.sendMessage(Formatting.getMessage("Treasure.result")
+                        .replace("{item}", message)
+                        .replace("{casket}", GetPrefix() + Name));
     }
 }

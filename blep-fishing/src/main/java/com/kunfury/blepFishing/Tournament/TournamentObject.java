@@ -283,35 +283,23 @@ public class TournamentObject implements Serializable{
 
         ArrayList<String> lore = new ArrayList<>();
 
-        String desc = "Catch the ";
+        //String desc = "Catch the ";
 
-        switch(Type){
-            case LARGEST -> {
-                desc += "Largest ";
-            }
-            case SMALLEST -> {
-                desc += "Smallest ";
-            }
-            case AMOUNT -> {
-                desc += "Most ";
-            }
-            case EXPENSIVE -> {
-                desc += "Most Valuable ";
-            }
-            case CHEAPEST -> {
-                desc += "Least Valuable ";
-            }
-            case SCORE -> {
-                desc += "Best ";
-            }
-        }
+        String type = Formatting.getMessage("Tournament.Type." + Type.toString().toLowerCase());
+        String fishName;
+
 
         if(FishType.equalsIgnoreCase("ALL"))
-            desc += "Fish!";
+            fishName = Formatting.getMessage("Tournament.allFish");
         else{
             m.setCustomModelData(BaseFishObject.GetBase(FishType).ModelData);
-            desc += FishType + "!";
+            fishName = FishType;
         }
+
+
+        String desc = Formatting.getMessage("Tournament.Type.description")
+                        .replace("{type}", type)
+                        .replace("{fish}", fishName);
 
         lore.add(desc);
 
@@ -319,7 +307,7 @@ public class TournamentObject implements Serializable{
         lore.add("");
 
         if(winners.size() <= 0){
-            lore.add(ChatColor.RED + "None Caught");
+            lore.add(Formatting.getMessage("Tournament.noneCaught"));
         }else{
             winners.forEach((rank, fish) -> {
                 lore.add(ChatColor.WHITE + "" + rank + ": " + fish.getPlayer().getName());

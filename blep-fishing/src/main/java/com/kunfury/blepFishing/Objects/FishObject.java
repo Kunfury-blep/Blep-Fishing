@@ -2,6 +2,7 @@ package com.kunfury.blepFishing.Objects;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class FishObject implements Serializable, Comparable<FishObject>{
 	/**
-	 * 
+	 *
 	 */
 	@Serial
 	private static final long serialVersionUID = -2959331831404886148L;
@@ -36,7 +37,7 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 	private String playerUUID;
 	public LocalDateTime DateCaught;
 	public Double RealSize;
-	
+
 	public Double Score;
 
 	private String BagID;
@@ -59,7 +60,7 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 		playerUUID = _player.getUniqueId().toString();
 		DateCaught = LocalDateTime.now();
 		RealSize = _size;
-		
+
 		Score = CalcScore(base, rarity);
 		RealCost = CalcPrice(base, rarity);
 	}
@@ -86,18 +87,18 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 	 * @return the new cost of the fish
 	 */
 	@Override
-    public int compareTo(FishObject r) {
-        return this.Score.compareTo(r.Score);
-    }
+	public int compareTo(FishObject r) {
+		return this.Score.compareTo(r.Score);
+	}
 
 	private double CalcScore(BaseFishObject base, RarityObject rarity) {
 		double adjWeight = rarity.Weight;
-        if(Variables.RarityList.get(0).Weight != 1)
-        	adjWeight = adjWeight / Variables.RarityList.get(0).Weight;
+		if(Variables.RarityList.get(0).Weight != 1)
+			adjWeight = adjWeight / Variables.RarityList.get(0).Weight;
 
 		return ((RealSize / base.MaxSize)/adjWeight) * 100;
 	}
-	
+
 	private double CalcPrice(BaseFishObject base, RarityObject rarity) {
 		double sizeMod = RealSize/base.AvgSize;
 
@@ -109,13 +110,18 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 	public Text GetHoverText(){
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-		String content = Rarity + " " + Name +
-				"&f\nFish Size: " + Formatting.DoubleFormat(RealSize) +
-				//"\nRank: " + (i) +
-				"\nCaught On: " +  formatter.format(DateCaught)  +
-				"\nScore: " + Formatting.DoubleFormat(Score);
+		String content = Rarity + " " + Name;
 
-		if(Setup.econEnabled) content += "\nValue: "  + Variables.CurrSym + Formatting.DoubleFormat(RealCost);
+		content += "\n&f" + Formatting.getMessage("Fish Object.length")
+				.replace("{size}", Formatting.DoubleFormat(RealSize));
+
+		content += "\n&f" + Formatting.getMessage("Fish Object.caught")
+				.replace("{player}", PlayerName).replace("{date}", formatter.format(DateCaught));
+
+		if(Setup.econEnabled) //Checks that an economy is installed
+			content += "\n&f" + Formatting.getMessage("Fish Object.value")
+					.replace("{curr}", Variables.CurrSym)
+					.replace("{cost}", Formatting.DoubleFormat(RealCost));
 
 		return new Text(ChatColor.translateAlternateColorCodes('&' , content));
 	}
@@ -170,11 +176,15 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 		Lore.add(base.Lore);
 
 		if(Setup.econEnabled) //Checks that an economy is installed
-			Lore.add("&2Value: " + Variables.CurrSym + Formatting.DoubleFormat(RealCost));
-		Lore.add("&8Length: " + Formatting.DoubleFormat(RealSize) + "in.");
+		Lore.add(Formatting.getMessage("Fish Object.value")
+				.replace("{curr}", Variables.CurrSym)
+				.replace("{cost}", Formatting.DoubleFormat(RealCost)));
 
-		LocalDateTime now = LocalDateTime.now();
-		String details = ("&8Caught By: " + PlayerName + " on " + now.toLocalDate());
+		Lore.add(Formatting.getMessage("Fish Object.length")
+				.replace("{size}", Formatting.DoubleFormat(RealSize)));
+
+		String details = Formatting.getMessage("Fish Object.caught")
+						.replace("{player}", PlayerName).replace("{date}", LocalDate.now().toString());
 		Lore.add(details);
 
 		List<String> colorLore = new ArrayList<>();
