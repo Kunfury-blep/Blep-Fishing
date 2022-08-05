@@ -1,4 +1,5 @@
 package com.kunfury.blepFishing.Signs;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -32,7 +33,7 @@ import org.bukkit.inventory.ItemStack;
 
 
 public class FishSign implements Listener {
-	
+
 	public static List<SignObject> rankSigns = new ArrayList<>();
 	public static List<MarketObject> marketSigns = new ArrayList<>();
 	static String signFilePath = Setup.dataFolder + "/Data" + "/signs.data";
@@ -50,7 +51,7 @@ public class FishSign implements Listener {
 		Sign sign = (Sign)e.getBlock().getState();
 		boolean fishExists = false;
 		//Beginning of new sign creation
-		if(lines[0].equals("[bf]")) { //Checks that the sign is a Blep Fishing sign			
+		if(lines[0].equals("[bf]")) { //Checks that the sign is a Blep Fishing sign
 			if(lines[1].equalsIgnoreCase("Fish Market")) {
 				if(player.hasPermission("bf.admin")) MarketCreate(sign, player.getWorld());
 				else player.sendMessage(Variables.Prefix + "You need to be an admin to do that.");
@@ -138,7 +139,7 @@ public class FishSign implements Listener {
 		for (SignObject signObj : rankSigns) {
 			if(signObj.GetSign() != null) {
 				RefreshSign.Refresh(signObj);
-			}				
+			}
 		}
 	}
 
@@ -149,49 +150,49 @@ public class FishSign implements Listener {
 	 */
 	@SuppressWarnings("unchecked")
 	public void LoadSigns() {
-        //Load Leaderboard Signs
-        try 
-        {
-        	rankSigns.clear();
-        	ObjectInputStream input = null;
-		    File tempFile = new File(signFilePath);
-		    if(tempFile.exists()) {
-    		    input = new ObjectInputStream(new FileInputStream (signFilePath));
-    		    rankSigns = (List<SignObject>)input.readObject();
-		    }
-		    if(input != null)
-		    	input.close();
+		//Load Leaderboard Signs
+		try
+		{
+			rankSigns.clear();
+			ObjectInputStream input = null;
+			File tempFile = new File(signFilePath);
+			if(tempFile.exists()) {
+				input = new ObjectInputStream(new FileInputStream (signFilePath));
+				rankSigns = (List<SignObject>)input.readObject();
+			}
+			if(input != null)
+				input.close();
 		} catch (IOException | ClassNotFoundException ex) {
 			ex.printStackTrace();
 		}
-        //
-        //Load Market Signs
-        //
-        try 
-        {
-        	marketSigns.clear();
-        	ObjectInputStream input = null;
-		    File tempFile = new File(marketFilePath);
-		    if(tempFile.exists()) {
-    		    input = new ObjectInputStream(new FileInputStream (marketFilePath));
-    		    marketSigns = (List<MarketObject>)input.readObject();
-		    }
-		    if(input != null)
-		    	input.close();
-        } catch (IOException | ClassNotFoundException ex) {
+		//
+		//Load Market Signs
+		//
+		try
+		{
+			marketSigns.clear();
+			ObjectInputStream input = null;
+			File tempFile = new File(marketFilePath);
+			if(tempFile.exists()) {
+				input = new ObjectInputStream(new FileInputStream (marketFilePath));
+				marketSigns = (List<MarketObject>)input.readObject();
+			}
+			if(input != null)
+				input.close();
+		} catch (IOException | ClassNotFoundException ex) {
 			ex.printStackTrace();
 		}
 	}
-	
+
 	private void MarketCreate(Sign sign, World world) {
-		
+
 		marketSigns.add(new MarketObject(sign, world));
-		
-		 //Save Fish
+
+		//Save Fish
 		try {
-		    ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(marketFilePath));
-		    output.writeObject(marketSigns);
-		    output.close();
+			ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(marketFilePath));
+			output.writeObject(marketSigns);
+			output.close();
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
@@ -230,5 +231,6 @@ public class FishSign implements Listener {
 		}
 		return true;
 	}
+
 
 }

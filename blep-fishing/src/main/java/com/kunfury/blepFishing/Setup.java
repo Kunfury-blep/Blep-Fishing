@@ -109,6 +109,9 @@ public class Setup extends JavaPlugin {
 		if (!tournamentFile.exists())
 			plugin.saveResource("tournaments.yml", false);
 
-//		File resourceFile =
+		File messageFile = new File(plugin.getDataFolder(), "messages.yml");
+
+		if (!messageFile.exists())
+			plugin.saveResource("messages.yml", false);
 	}
 }

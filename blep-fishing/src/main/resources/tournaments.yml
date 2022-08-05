@@ -11,6 +11,7 @@
   Cooldown: 8
   Start Delay: 0
   Fish Type: Bluegill
+  Announce New Winner: true
   Use Bossbar: true
   Bossbar Timer: true
   Bossbar Percent: 100
@@ -40,6 +41,7 @@
   Cooldown: 8
   Start Delay: 0
   Fish Type: ALL
+  Announce New Winner: true
   Use Bossbar: true
   Bossbar Timer: true
   Bossbar Percent: 80

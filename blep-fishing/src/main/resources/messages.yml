@@ -1,0 +1,4 @@
+Fish Object:
+  value: "&2Value: {curr}{cost}"
+  length: "&8Length: {size}in."
+  caught: "&8Caught By: {player} on {date}"

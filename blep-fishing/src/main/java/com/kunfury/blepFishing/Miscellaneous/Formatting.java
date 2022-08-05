@@ -1,6 +1,8 @@
 package com.kunfury.blepFishing.Miscellaneous;
 
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -8,6 +10,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 public class Formatting {
@@ -95,4 +98,11 @@ public class Formatting {
 	public static String formatColor(String msg){
 		return ChatColor.translateAlternateColorCodes('&', msg);
 	}
+
+
+	public static FileConfiguration messages = new YamlConfiguration();
+	public static String getMessage(String key){
+		return messages.getString(key);
+	}
+
 }

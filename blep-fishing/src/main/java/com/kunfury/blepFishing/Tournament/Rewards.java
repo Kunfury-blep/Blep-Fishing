@@ -1,5 +1,6 @@
 package com.kunfury.blepFishing.Tournament;
 
+import com.kunfury.blepFishing.Config.TournamentType;
 import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Miscellaneous.ItemHandler;
 import com.kunfury.blepFishing.Miscellaneous.Utilities;
@@ -7,6 +8,7 @@ import com.kunfury.blepFishing.Objects.FishObject;
 import com.kunfury.blepFishing.Setup;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Panda;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitScheduler;
@@ -14,10 +16,7 @@ import org.bukkit.scheduler.BukkitScheduler;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static com.kunfury.blepFishing.Config.Variables.Prefix;
 
@@ -27,10 +26,19 @@ public class Rewards {
     List<OfflinePlayer> rewardedPlayers = new ArrayList<>();
     public void Generate(TournamentObject t){
 
-        t.getWinners().forEach((rank, fish) -> {
-            giveRewards(t.Rewards.get(String.valueOf(rank)), fish);
-        });
-        SaveRewards();
+
+        HashMap<OfflinePlayer, List<String>> winners;
+
+        if(t.Type == TournamentType.AMOUNT)
+            winners = getAmountRewards(t);
+        else
+            winners = getRewards(t);
+
+        if(winners != null && !winners.isEmpty()){
+            winners.forEach((player, reward) -> {
+                giveRewards(reward, player);
+            });
+        }
 
         //TODO: Ensure the default winners are rewarded
         List<String> defaultRewards = t.Rewards.get("DEFAULT");
@@ -43,22 +51,61 @@ public class Rewards {
             }
         }
 
-
-//        if ("DEFAULT".equalsIgnoreCase(key)){
-//            for(var f : caughtFish){
-//                Player p = f.getPlayer();
-//                if(rewardedPlayers.contains(p)) continue;
-//                rewardedPlayers.add(p);
-//                giveRewards(t.Rewards.get(key));
-//
-//            }
-//        }
+        SaveRewards();
     }
 
-    private void giveRewards(List<String> rewardStrs, FishObject fish){
-        if(fish != null){
-            rewardedPlayers.add(fish.getPlayer());
-            UUID uuid = fish.getPlayerUUID();
+    private HashMap<OfflinePlayer, List<String>> getAmountRewards(TournamentObject t){
+        HashMap<OfflinePlayer, List<String>> rewards = new HashMap<>();
+
+        HashMap<OfflinePlayer, Integer> winners = t.getWinnersAmount();
+
+        Object[] a = winners.entrySet().toArray();
+        Arrays.sort(a, (Comparator) (o1, o2) -> ((Map.Entry<OfflinePlayer, Integer>) o2).getValue()
+                .compareTo(((Map.Entry<OfflinePlayer, Integer>) o1).getValue()));
+
+        List<OfflinePlayer> players = new ArrayList<>();
+
+        for(int i = 0; i < a.length; i++){
+            Object o = a[i];
+
+            int amount = ((Map.Entry<OfflinePlayer, Integer>) o).getValue();
+            OfflinePlayer p = ((Map.Entry<OfflinePlayer, Integer>) o).getKey();
+
+            if(players.size() <= 0) players.add(p);
+            else{
+                for(int f = 0; f < players.size(); f++){
+                    OfflinePlayer lPlayer = players.get(i);
+                    if(winners.get(lPlayer) < amount){
+                        players.add(f, p);
+                        break;
+                    }
+                    if(f == players.size() - 1) //Put at end if smaller than all others
+                        players.add(p);
+                }
+            }
+        }
+
+        for(int i = 0; i < players.size(); i++){
+            rewards.put(players.get(i), t.Rewards.get(String.valueOf(i + 1)));
+        }
+
+        return rewards;
+    }
+
+    private HashMap<OfflinePlayer, List<String>> getRewards(TournamentObject t){
+        HashMap<OfflinePlayer, List<String>> winners = new HashMap<>();
+
+        t.getWinners().forEach((rank, fish) -> {
+            winners.put(fish.getPlayer(), t.Rewards.get(String.valueOf(rank)));
+        });
+
+        return winners;
+    }
+
+    private void giveRewards(List<String> rewardStrs, OfflinePlayer p){
+        if(p != null && rewardStrs != null){
+            rewardedPlayers.add(p);
+            UUID uuid = p.getUniqueId();
             for(var r : rewardStrs){
                 ItemHandler.parseReward(r, uuid);
             }

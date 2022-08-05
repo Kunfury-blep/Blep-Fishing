@@ -1,4 +1,5 @@
 package com.kunfury.blepFishing;
+import java.text.Format;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -10,7 +11,10 @@ import com.kunfury.blepFishing.Crafting.Equipment.FishBag.BagInfo;
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.UpdateBag;
 import com.kunfury.blepFishing.Events.FishCaughtEvent;
 import com.kunfury.blepFishing.Objects.*;
+import com.kunfury.blepFishing.Tournament.TournamentHandler;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.player.PlayerFishEvent;
@@ -88,7 +92,7 @@ public class FishSwitch{
 			}
 			new DisplayFishInfo().InitialDisplay(player, fish);
 
-			//CheckAgainstTournaments(fish);
+			TournamentCheck(fish);
 			Variables.AddToFishDict(fish);
 
 			if(allBlue) allBlueObj.RemoveFish(1, player);
@@ -96,20 +100,23 @@ public class FishSwitch{
 		}
 
 		//TODO: Rebuild tournament annnouncements
-//		if(isTop){
-//			String lbString = net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&' ,
-//					Variables.Prefix +
-//							fish.PlayerName + " took the top spot of the tournament with a " + fish.Rarity + " " + fish.Name + "!");
-//			TextComponent mainComponent = new TextComponent (lbString);
-//			mainComponent.setHoverEvent(new HoverEvent( HoverEvent.Action.SHOW_TEXT, fish.GetHoverText()));
-//
-//			for(Player p : Bukkit.getOnlinePlayers()) {
-//				p.spigot().sendMessage(mainComponent);
-//			}
-//		}
+
 
 	}
 
+	private void TournamentCheck(FishObject fish){
+		for(var a : TournamentHandler.ActiveTournaments){
+			if(a.isBest(fish)){
+				String lbString = Formatting.formatColor(Variables.Prefix + fish.PlayerName + " took the top spot in the " + a.getName() + ChatColor.WHITE +  " with a " + fish.Rarity + " " + fish.Name + "!");
+				TextComponent mainComponent = new TextComponent (lbString);
+				mainComponent.setHoverEvent(new HoverEvent( HoverEvent.Action.SHOW_TEXT, fish.GetHoverText()));
+
+				for(Player p : Bukkit.getOnlinePlayers()) {
+					p.spigot().sendMessage(mainComponent);
+				}
+			}
+		}
+	}
 
 	/**
 	 * Returns the fish to be caught. Checks against the possible areas
@@ -156,8 +163,7 @@ public class FishSwitch{
 		return base;
 	}
 
-	private boolean CanFish(Item item, Player player, PlayerFishEvent e)
-	{
+	private boolean CanFish(Item item, Player player, PlayerFishEvent e) {
 		String world = e.getPlayer().getWorld().getName().toUpperCase();
 
 		//Check Area

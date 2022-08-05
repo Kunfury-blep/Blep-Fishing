@@ -26,7 +26,4 @@ public class EndgameVars {
     public static double FishSizeMod = 1.10;
 
     public static List<AllBlueObject> AllBlueList = new ArrayList<>();
-//    public static final List<String> oceanBiomes = Arrays.asList(
-//            "DEEP_LUKEWARM_OCEAN", "OCEAN", "DEEP_OCEAN", "LUKEWARM_OCEAN", "WARM_OCEAN");
-
 }

@@ -142,6 +142,8 @@ public class Reload {
 			LoadCollections();
 
 			LoadTournaments();
+
+			LoadMessages();
     	}
 		
 		return;
@@ -414,4 +416,24 @@ public class Reload {
 		}
 
 	}
+
+	private void LoadMessages(){
+		//Checks tournament config file and ensures they are added
+		var messageConfigFile = new File(Setup.setup.getDataFolder(), "messages.yml");
+		if (!messageConfigFile.exists()) {
+			Setup.getPlugin().saveResource("messages.yml", false);
+		}
+
+		FileConfiguration messages = new YamlConfiguration();
+		try {
+			messages.load(messageConfigFile);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return;
+		}
+
+		Formatting.messages = messages;
+	}
+
 }

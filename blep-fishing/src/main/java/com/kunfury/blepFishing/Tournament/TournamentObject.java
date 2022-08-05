@@ -39,7 +39,7 @@ public class TournamentObject implements Serializable{
     private final int minimumPlayers; //Minimum amount of online players required to sta
     private final int minimumFish; //Minimum amount of fish player needed to catch to compete
     public double Cooldown;
-
+    private final boolean announceNewWinner;
 
 
     public boolean UseBossbar; //Whether the tournament will show a bossbar
@@ -64,7 +64,8 @@ public class TournamentObject implements Serializable{
 
     public TournamentObject(String _name, TournamentMode _mode, double _duration, String _fishType, List<DayOfWeek> _days, int _fishAmount, double _dailyDelay,
                             int _minimumPlayers, boolean _useBossbar, double _bossbarPercent,  BarColor _bossbarColor, double _cooldown, HashMap<String,
-                            List<String>> _rewards, int _minimumFish, boolean _bossbarTime, double _bossbarTimePercent, TournamentType _type){
+                            List<String>> _rewards, int _minimumFish, boolean _bossbarTime, double _bossbarTimePercent, TournamentType _type, Boolean _announceNewWinner,
+                            LocalDateTime _lastRan){
         name = _name;
         Mode = _mode;
         Type = _type;
@@ -76,9 +77,10 @@ public class TournamentObject implements Serializable{
         minimumPlayers = _minimumPlayers;
         Cooldown = _cooldown;
         Rewards = _rewards;
+        announceNewWinner = _announceNewWinner;
 
         startDate = LocalDateTime.now();
-        lastRan = LocalDateTime.MIN;
+        lastRan = _lastRan;
         minimumFish = _minimumFish;
 
         UseBossbar = _useBossbar;
@@ -197,8 +199,6 @@ public class TournamentObject implements Serializable{
         return BossbarTime && getProgress() * 100 >= 100 - BossbarTimePercent;
     }
 
-
-
     public HashMap<Integer, FishObject> getWinners(){
         if(!needsUpdate(getFish()) && winners != null) return winners;
         winners = new HashMap<>();
@@ -220,7 +220,9 @@ public class TournamentObject implements Serializable{
                 caughtFish.sort(Comparator.comparing(o -> o.RealCost));
                 caughtFish.sort(Collections.reverseOrder());
             }
-            case SCORE -> caughtFish.sort(Comparator.comparing(o -> o.Score));
+            case SCORE -> {
+                caughtFish.sort(Comparator.comparing(o -> o.Score));
+            }
         }
 
         boolean requireAmt = minimumFish > 1; //Only runs amount checker if necessary
@@ -248,6 +250,22 @@ public class TournamentObject implements Serializable{
         return winners;
     }
 
+    public HashMap<OfflinePlayer, Integer> getWinnersAmount(){
+        HashMap<OfflinePlayer, Integer> winners = new HashMap<>();
+
+        List<FishObject> caughtFish = getFish();
+
+        for(var f : caughtFish){
+            OfflinePlayer p = f.getPlayer();
+            if(winners.containsKey(p)){
+                winners.put(p , winners.get(p) + 1);
+            }else
+                winners.put(p, 1);
+        }
+
+        return winners;
+    }
+
     private long getAmountCaught(UUID uuid, List<FishObject> caughtFish){
         long amount = caughtFish.stream().filter(f -> f.getPlayerUUID().equals(uuid)).count();
         //TOOD: Return amount of fish caught by player
@@ -265,14 +283,37 @@ public class TournamentObject implements Serializable{
 
         ArrayList<String> lore = new ArrayList<>();
 
-        if(FishType.equalsIgnoreCase("ALL"))
-            lore.add("All Fish");
-        else{
-            m.setCustomModelData(BaseFishObject.GetBase(FishType).ModelData);
-            lore.add(FishType);
+        String desc = "Catch the ";
+
+        switch(Type){
+            case LARGEST -> {
+                desc += "Largest ";
+            }
+            case SMALLEST -> {
+                desc += "Smallest ";
+            }
+            case AMOUNT -> {
+                desc += "Most ";
+            }
+            case EXPENSIVE -> {
+                desc += "Most Valuable ";
+            }
+            case CHEAPEST -> {
+                desc += "Least Valuable ";
+            }
+            case SCORE -> {
+                desc += "Best ";
+            }
         }
 
+        if(FishType.equalsIgnoreCase("ALL"))
+            desc += "Fish!";
+        else{
+            m.setCustomModelData(BaseFishObject.GetBase(FishType).ModelData);
+            desc += FishType + "!";
+        }
 
+        lore.add(desc);
 
         var winners = getWinners();
         lore.add("");
@@ -298,4 +339,51 @@ public class TournamentObject implements Serializable{
         return item;
     }
 
+    private FishObject bestFish;
+    public boolean isBest(FishObject fish){
+
+        if(!announceNewWinner || (!FishType.equalsIgnoreCase("ALL") && !fish.Name.equalsIgnoreCase(FishType))){
+            return false;
+        }
+
+        if(bestFish == null){
+            bestFish = fish;
+            return true;
+        }
+
+        if(Type == TournamentType.AMOUNT) return false;
+
+        boolean best = false;
+        switch(Type){ //Sorts the list so first place winner is ALWAYS at the top
+            case LARGEST -> {
+                if(fish.RealSize > bestFish.RealSize)
+                    best = true;
+            }
+            case SMALLEST -> {
+                if(fish.RealSize < bestFish.RealSize)
+                    best = true;
+            }
+            case EXPENSIVE -> {
+                if(fish.RealCost > bestFish.RealCost)
+                    best = true;
+            }
+            case CHEAPEST -> {
+                if(fish.RealCost < bestFish.RealCost)
+                    best = true;
+            }
+            case SCORE -> {
+                if(fish.Score > bestFish.Score)
+                    best = true;
+            }
+        }
+
+        if(best)
+            bestFish = fish;
+
+        return best;
+    }
+
+    public LocalDateTime getLastRan() {
+        return lastRan;
+    }
 }
