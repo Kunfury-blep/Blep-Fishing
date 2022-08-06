@@ -33,7 +33,7 @@ public class FishEconomy {
 				PlayerWaitList.remove(p.toString());
 			}else {
 				PlayerWaitList.add(p.toString());
-				p.sendMessage(Variables.Prefix + "Sell all fish? Sneak Right-Click again to confirm.");
+				p.sendMessage(Variables.Prefix + Formatting.getMessage("Economy.confirmSellAll"));
 			}
 		}else
 			SellFish(p, false, priceMod);
@@ -101,9 +101,9 @@ public class FishEconomy {
 		if(total > 0) {
 			EconomyResponse r = econ.depositPlayer(p, total);
 			if(r.transactionSuccess()) {
-				p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						Variables.Prefix + "Sold " + fishList.size() + " fish"
-								+ "&f for " + ChatColor.GREEN +Variables.CurrSym + Setup.getEconomy().format(total) + "." ));
+				p.sendMessage(Variables.Prefix + Formatting.getMessage("Economy.finishSale")
+						.replace("{amount}", String.valueOf(fishList.size()))
+						.replace("{total}", Setup.getEconomy().format(total)));
 				for(var f : fishList){
 					f.setBagID(null);
 				}
@@ -112,18 +112,18 @@ public class FishEconomy {
 			} else {
 				p.sendMessage(String.format("An error occured: %s", r.errorMessage));
 			}
-		}else p.sendMessage(Variables.Prefix + "Those fish aren't worth anything.");
+		}else p.sendMessage(Variables.Prefix + Formatting.getMessage("Economy.noValue"));
 	}
 
 	public static void SellBag(Player p, ItemStack bag, double priceMod){
 		if(!p.isSneaking()){
-			p.sendMessage(Variables.Prefix + "Sneak Right-Click to sell all fish in bag.");
+			p.sendMessage(Variables.Prefix + Formatting.getMessage("Economy.sellBagHint"));
 			return;
 		}
 
 		if(!PlayerWaitList.contains(p.toString())) {
 			PlayerWaitList.add(p.toString());
-			p.sendMessage(Variables.Prefix + "Sell all fish in bag? Sneak Right-Click again to confirm.");
+			p.sendMessage(Variables.Prefix + Formatting.getMessage("Economy.sellBagConfirm"));
 			return;
 		}
 

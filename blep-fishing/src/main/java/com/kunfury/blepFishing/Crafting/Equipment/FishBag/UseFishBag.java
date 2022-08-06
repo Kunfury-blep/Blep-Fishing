@@ -1,6 +1,7 @@
 package com.kunfury.blepFishing.Crafting.Equipment.FishBag;
 
 import com.kunfury.blepFishing.Config.Variables;
+import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Miscellaneous.Utilities;
 import com.kunfury.blepFishing.Objects.FishObject;
 import com.kunfury.blepFishing.Setup;
@@ -52,12 +53,13 @@ public class UseFishBag {
         }
 
         if(amount > 0){
-            p.sendMessage(Variables.Prefix + "Added " + amount + " to the bag.");
+            p.sendMessage(Variables.Prefix + Formatting.getMessage("Equipment.Fish Bag.addFish")
+                            .replace("{amount}", String.valueOf(amount)));
         }else{
             if(bagAmt >= bagMax)
-                p.sendMessage(Variables.Prefix + "No more space in bag.");
+                p.sendMessage(Variables.Prefix + Formatting.getMessage("Equipment.Fish Bag.noSpace"));
             else
-                p.sendMessage(Variables.Prefix + "No fish found in inventory.");
+                p.sendMessage(Variables.Prefix + Formatting.getMessage("Equipment.Fish Bag.noFish"));
         }
 
     }
@@ -70,11 +72,11 @@ public class UseFishBag {
         if(enabled){
             bag = NBTEditor.set(bag, false, "blep", "item", "fishBagAutoPickup" );
             bag.removeEnchantment(Enchantment.DURABILITY);
-            p.sendMessage(Variables.Prefix + "Auto Pickup Disabled.");
+            p.sendMessage(Variables.Prefix + Formatting.getMessage("Equipment.Fish Bag.disabled"));
         }else{
             bag = NBTEditor.set(bag, true, "blep", "item", "fishBagAutoPickup" );
             bag.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
-            p.sendMessage(Variables.Prefix + "Auto Pickup Enabled.");
+            p.sendMessage(Variables.Prefix + Formatting.getMessage("Equipment.Fish Bag.enabled"));
         }
 
         ItemMeta m = bag.getItemMeta();
@@ -91,7 +93,7 @@ public class UseFishBag {
      */
     public void AddFish(ItemStack bag, Player p, ItemStack fish, boolean bagOpen){
         if(BagInfo.IsFull(bag)){
-            p.sendMessage(Variables.Prefix + "There is no more space in that bag.");
+            p.sendMessage(Variables.Prefix + Formatting.getMessage("Equipment.Fish Bag.noSpace"));
             return;
         }
         String bagId = BagInfo.getId(bag);
@@ -101,7 +103,7 @@ public class UseFishBag {
         FishObject fishObj = new ParseFish().FishFromId(fishId);
 
         if(fishObj == null){
-            p.sendMessage(Variables.Prefix + ChatColor.RED + "That fish is from a previous version and cannot be stored in the bag. Sorry.");
+            p.sendMessage(Variables.Prefix + Formatting.getMessage("Equipment.Fish Bag.oldVersion"));
             return;
         }
 

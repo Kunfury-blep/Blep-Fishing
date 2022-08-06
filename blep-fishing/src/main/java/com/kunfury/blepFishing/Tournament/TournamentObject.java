@@ -307,7 +307,7 @@ public class TournamentObject implements Serializable{
         lore.add("");
 
         if(winners.size() <= 0){
-            lore.add(Formatting.getMessage("Tournament.noneCaught"));
+            lore.add(Formatting.getMessage("Tournament.noneCaughtItem"));
         }else{
             winners.forEach((rank, fish) -> {
                 lore.add(ChatColor.WHITE + "" + rank + ": " + fish.getPlayer().getName());

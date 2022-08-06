@@ -12,18 +12,14 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.kunfury.blepFishing.Config.Variables.Prefix;
 
 public class PlayerPanel {
     
     public void Show(CommandSender sender) {
         Player p = (Player)sender;
-        Inventory inv = Bukkit.createInventory(null, 27, Variables.getMessage("playerPanelTitle"));
+        Inventory inv = Bukkit.createInventory(null, 27, Formatting.getMessage("Player Panel.title"));
         
         for(int i = 0; i < 27; i++) {
             inv.setItem(i, new ItemStack(Material.PINK_STAINED_GLASS_PANE));
@@ -38,9 +34,6 @@ public class PlayerPanel {
     }
 
 
-    //TODO: When clicked, brings players to a list showing all current tournaments
-    //TODO: If only one tournament is actively running, take user directly to it
-    //TODO: When clicking tournaments, shows player menu of the rewards they can get for each place
     private ItemStack TourneyItem(){
         ItemStack item = new ItemStack(Material.FISHING_ROD);
         ItemMeta m = item.getItemMeta();
@@ -48,10 +41,13 @@ public class PlayerPanel {
 
         int size = TournamentHandler.ActiveTournaments.size();
         String title;
-        if(size <= 0) title = "No Tournaments Running";
+        if(size <= 0) title = Formatting.getMessage("Player Panel.noTournaments");
         else{
-            title = size + " Active Tournament";
-            if(size > 1) title += 's';
+            title = size + " ";
+            if(size > 1) {
+                title += Formatting.getMessage("Player Panel.multiTournaments");
+            }else
+                title += Formatting.getMessage("Player Panel.singleTournament");
             lore.add("");
 
         }
@@ -74,11 +70,11 @@ public class PlayerPanel {
     private ItemStack QuestItem(){
         ItemStack item = new ItemStack(Material.EMERALD);
         ItemMeta m = item.getItemMeta();
-        m.setDisplayName("Daily Quests");
+        m.setDisplayName(Formatting.getMessage("Player Panel.quests"));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(ChatColor.RED + "Coming Soon");
+        lore.add(ChatColor.RED + Formatting.getMessage("Player Panel.comingSoon"));
         m.setLore(lore);
 
         item.setItemMeta(m);
@@ -89,11 +85,11 @@ public class PlayerPanel {
     private ItemStack CollectionItem(){
         ItemStack item = new ItemStack(Material.WRITTEN_BOOK);
         ItemMeta m = item.getItemMeta();
-        m.setDisplayName("Collection Log");
+        m.setDisplayName(Formatting.getMessage("Player Panel.collection"));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(ChatColor.RED + "Coming Soon");
+        lore.add(ChatColor.RED + Formatting.getMessage("Player Panel.comingSoon"));
         m.setLore(lore);
 
         item.setItemMeta(m);
@@ -104,16 +100,16 @@ public class PlayerPanel {
     private ItemStack HelpItem(CommandSender sender){
         ItemStack item = new ItemStack(Material.WARPED_SIGN);
         ItemMeta m = item.getItemMeta();
-        m.setDisplayName(Variables.getMessage("helpTitle"));
+        m.setDisplayName(Formatting.getMessage("Player Panel.Help.title"));
         List<String> lore = new ArrayList<>();
-        lore.add(ChatColor.WHITE + "/bf LB <fishname> - " + ChatColor.LIGHT_PURPLE + Variables.getMessage("leaderboardHelp"));
-        lore.add(ChatColor.WHITE + "/bf Reload - " + ChatColor.LIGHT_PURPLE + Variables.getMessage("reloadHelp"));
-        lore.add(ChatColor.WHITE + "/bf Fish - " + ChatColor.LIGHT_PURPLE + Variables.getMessage("fishHelp"));
-        lore.add(ChatColor.WHITE + "/bf Claim - " + ChatColor.LIGHT_PURPLE + Variables.getMessage("claimHelp"));
+        lore.add(Formatting.getMessage("Player Panel.Help.lb"));
+        lore.add(Formatting.getMessage("Player Panel.Help.claim"));
+        lore.add(Formatting.getMessage("Player Panel.Help.fish"));
         if(sender.hasPermission("bf.admin")){
-            lore.add(ChatColor.WHITE + "/bf Admin - " + ChatColor.LIGHT_PURPLE + Variables.getMessage("adminHelp"));
-            lore.add(ChatColor.WHITE + "/bf Tourney - " + ChatColor.LIGHT_PURPLE + Variables.getMessage("tourneyHelp"));
-            lore.add(ChatColor.WHITE + "/bf GetData - " + ChatColor.LIGHT_PURPLE + Variables.getMessage("getDataHelp"));
+            lore.add(Formatting.getMessage("Player Panel.Help.admin"));
+            lore.add(Formatting.getMessage("Player Panel.Help.reload"));
+            lore.add(Formatting.getMessage("Player Panel.Help.tourney"));
+            lore.add(Formatting.getMessage("Player Panel.Help.getData"));
         }
         m.setLore(lore);
 

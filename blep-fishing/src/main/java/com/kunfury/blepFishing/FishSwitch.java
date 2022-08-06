@@ -83,9 +83,15 @@ public class FishSwitch{
 			//Broadcasts if the player catches the rarest fish possible
 			if(chosenRarity.Weight <= Variables.RarityList.get(0).Weight) {
 				if(Variables.LegendaryFishAnnounce){
-					Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&',
-							player.getDisplayName() + " just caught a " + fish.Rarity + " "
-									+ fish.Name + " &fthat was " + Formatting.DoubleFormat(fish.RealSize) + "\" long!"));
+					String message = Formatting.getMessage("System.announceCatch")
+									.replace("{player}", player.getDisplayName())
+									.replace("{rarity}", fish.Rarity)
+									.replace("{fish}", fish.Name)
+									.replace("{size}", Formatting.DoubleFormat(fish.RealSize));
+
+					for(var s : Bukkit.getOnlinePlayers()){
+						s.sendMessage(Variables.Prefix + message);
+					}
 				}
 				Firework fw = (Firework) player.getWorld().spawnEntity(player.getLocation(), EntityType.FIREWORK);
 				fw.detonate();
@@ -107,7 +113,11 @@ public class FishSwitch{
 	private void TournamentCheck(FishObject fish){
 		for(var a : TournamentHandler.ActiveTournaments){
 			if(a.isBest(fish)){
-				String lbString = Formatting.formatColor(Variables.Prefix + fish.PlayerName + " took the top spot in the " + a.getName() + ChatColor.WHITE +  " with a " + fish.Rarity + " " + fish.Name + "!");
+				String lbString = Formatting.getMessage("Tournament.newBest")
+						.replace("{player}", fish.PlayerName)
+						.replace("{tournament}", a.getName())
+						.replace("{rarity", fish.Rarity)
+						.replace("{fish}", fish.Name);
 				TextComponent mainComponent = new TextComponent (lbString);
 				mainComponent.setHoverEvent(new HoverEvent( HoverEvent.Action.SHOW_TEXT, fish.GetHoverText()));
 

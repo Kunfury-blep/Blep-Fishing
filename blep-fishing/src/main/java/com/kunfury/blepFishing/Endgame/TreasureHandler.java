@@ -29,6 +29,7 @@ public class TreasureHandler {
         new PatronObject(Patron.BOTTLE, "Tito the Deck Swabbie", "I think I\'ve started to hallucinate...", "I swear these squids are glowing.", ""),
         new PatronObject(Patron.BOTTLE, "One-Eyed Red", "It\'s been days since I\'ve seen the sun,", "I\'m starving...", ""),
         new PatronObject(Patron.BOTTLE, "Peke", "Where are all the rum?!?", "Why is all the rum gone?!", ""),
+        new PatronObject(Patron.BOTTLE, "King Birb", "If you like her, if she makes you happy,", "and if you feel like you know her.", "Then don't let her go."),
     };
     public static int CasketTotalWeight;
 

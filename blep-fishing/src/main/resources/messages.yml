@@ -2,3 +2,86 @@ Fish Object:
   value: "&2Value: {curr}{cost}"
   length: "&8Length: {size}in."
   caught: "&8Caught By: {player} on {date}"
+
+Treasure:
+  open: "&bRight-Click to &e&oOpen"
+  result: "You found {item} &finside the {casket}&f!"
+  noEcon: "Unable to open Casket. You would have found currency but no economy was found."
+
+Tournament:
+  Type:
+    description: "Catch the {type} {fish} to win!"
+    largest: "Largest"
+    smallest: "Largest"
+    expensive: "Largest"
+    cheapest: "Largest"
+    score: "Best"
+    amount: "Most"
+  noneCaughtItem: "No Fish Caught Yet"
+  newBest: "{player} just took the top spot in the {tournament}&f with a {rarity} {fish}!"
+  allFish: "Fish"
+  noneCaught: "No {fish} were caught before the tournament ended, no rewards have been given."
+  start: "The {tournament} &fFishing Contest has begun!"
+  leaderboard: "&l-- Tournament Leaderboard - Hover For Info --"
+  noRewards: "You do not have any rewards to claim."
+  claimRewards: "You have {amount} rewards left to be claimed!"
+  claimRewards2: "Type &b/bf claim &fto receive them!"
+
+
+Player Panel:
+  title: "Blep Panel"
+  noTournaments: "No Tournaments Running"
+  singleTournament: "Active Tournament"
+  multiTournaments: "Active Tournaments"
+  quests: "Daily Quests"
+  collection: "Collection Log"
+  comingSoon: "Coming Soon"
+
+  Help:
+    title: "&b[Blep Fishing Help]"
+    lb: "&f/bf LB <fishname> &dDisplays the leaderboard for the fish."
+    reload: "&f/bf Reload&d Reloads the Blep Fishing plugin."
+    claim: "&f/bf Claim&d Claims any tournament rewards you may have."
+    fish: "&f/bf Fish&d Lists all Blep Fishing fish."
+    admin: "&f/bf Admin&d Brings up the Blep Fishing admin panel."
+    tourney: "&f/bf Tournament&d Allows control of tournaments."
+    getData: "&f/bf GetData&d Gets the binary data of the item in hand. Used for setting custom rewards."
+
+Sign:
+  fish: "Fish"
+  market: "Market"
+  marketTitle: "Fish Market"
+  noRank: "Third line is not a number, defaulting to 1st place."
+  noFish: "&4Fish Doesn't Exist"
+
+System:
+  announceCatch: "{player} just caught a {rarity} {fish} &fthat was {size}\" long!"
+  adminReq: "You need to be an admin to do that."
+  inventoryFull: "Your inventory is full, please clear some space and try again."
+
+Equipment:
+  Fish Bag:
+    baseName: "Bag o' Fish"
+    autoPickup: "&cLeft-Click While Holding to Toggle &e&oAuto-Pickup"
+    pickupEnabled: "Auto Pickup Enabled."
+    pickupDisabled: "Auto Pickup Disabled."
+    depositAll: "&cShift Left-Click While Holding to Toggle &e&oDepositAll"
+    upgradeReady: "Combine with a &e&o{upgrade}&f at a smithing table to upgrade!"
+    upgradeHint: "Fill bag to &e&oUpgrade"
+    descSmall: "Holds a small amount of fish"
+    noSpace: "There is no more space in that bag."
+    noFish: "No fish found in inventory."
+    addFish: "Added {amount} to the bag."
+    oldVersion: "&cThat fish is from a previous version and is unable to be stored in the bag.."
+    stored: "&bAmount Stored: &f{amount}"
+    largest: "&bLargest Fish: &f{size}\""
+    withdrawSmall: "Left-Click to Withdraw &e&oSmallest"
+    withdrawLarge: "Right-Click to Withdraw &e&oLargest"
+    shift: "&c&oHold Shift to Withdraw &eAll"
+
+Economy:
+  noValue: "Those fish aren't worth anything."
+  confirmSellAll: "Sell all fish? Sneak Right-Click again to confirm."
+  sellBagHint: "Sneak Right-Click to sell all fish in bag."
+  sellBagConfirm: "Sell all fish in bag? Sneak Right-Click again to confirm."
+  finishSale: "Sold {amount} fish for ${total}."

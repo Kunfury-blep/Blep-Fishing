@@ -1,6 +1,7 @@
 package com.kunfury.blepFishing.Crafting.Equipment.FishBag;
 
 import com.kunfury.blepFishing.Config.Variables;
+import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Objects.BaseFishObject;
 import com.kunfury.blepFishing.Objects.FishObject;
 import com.kunfury.blepFishing.Setup;
@@ -57,13 +58,16 @@ public class ParseFish {
 
         FishObject biggestFish = availFish.get(availFish.size() - 1);
 
-        lore.add(ChatColor.AQUA + "Amount Stored: " + ChatColor.WHITE + availFish.size());
-        lore.add(ChatColor.AQUA + "Largest Fish: " + ChatColor.WHITE + biggestFish.GetSize() + Variables.SizeSym);
+        lore.add(Formatting.getMessage("Equipment.Fish Bag.stored")
+                        .replace("{amount}", String.valueOf(availFish.size())));
+        lore.add(Formatting.getMessage("Equipment.Fish Bag.largest")
+                .replace("{size}", String.valueOf(biggestFish.GetSize())));
+
         lore.add("");
-        lore.add(ChatColor.RED + "Left-Click to Withdraw " + ChatColor.YELLOW + ChatColor.ITALIC + "Smallest");
-        lore.add(ChatColor.RED + "Right-Click to Withdraw " + ChatColor.YELLOW + ChatColor.ITALIC + "Largest");
+        lore.add(Formatting.getMessage("Equipment.Fish Bag.withdrawSmall"));
+        lore.add(Formatting.getMessage("Equipment.Fish Bag.withdrawLarge"));
         lore.add("");
-        lore.add(ChatColor.RED + "" + ChatColor.ITALIC + "Hold Shift to Withdraw " + ChatColor.YELLOW + "All");
+        lore.add(Formatting.getMessage("Equipment.Fish Bag.shift"));
         m.setLore(lore);
 
         m.setCustomModelData(bFish.ModelData);

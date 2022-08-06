@@ -2,6 +2,7 @@ package com.kunfury.blepFishing.Crafting;
 
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.BagInfo;
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.UpdateBag;
+import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Setup;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Bukkit;
@@ -45,7 +46,7 @@ public class SmithingTableHandler {
 
         ItemMeta m = result.getItemMeta();
 
-        m.setDisplayName(BagInfo.bagTypes[tier + 1] + " Bag o' Fish");
+        m.setDisplayName(BagInfo.bagTypes[tier + 1] + Formatting.getMessage("Equipment.Fish Bag.baseName"));
         m.setLore(new UpdateBag().GenerateLore(result));
 
         result.setItemMeta(m);

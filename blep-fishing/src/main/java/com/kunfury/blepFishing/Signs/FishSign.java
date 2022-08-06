@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.BagInfo;
+import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -52,23 +53,23 @@ public class FishSign implements Listener {
 		boolean fishExists = false;
 		//Beginning of new sign creation
 		if(lines[0].equals("[bf]")) { //Checks that the sign is a Blep Fishing sign
-			if(lines[1].equalsIgnoreCase("Fish Market")) {
+			if(lines[1].equalsIgnoreCase(Formatting.getMessage("Sign.marketTitle"))) {
 				if(player.hasPermission("bf.admin")) MarketCreate(sign, player.getWorld());
-				else player.sendMessage(Variables.Prefix + "You need to be an admin to do that.");
+				else player.sendMessage(Variables.Prefix + Formatting.getMessage("System.adminReq"));
 			}else {
 				//Checks if fish exist in the main list in FishSwitch
 				int level = 0;
 				if(!lines[2].isEmpty() && isNumeric(lines[2])) { //Gets the provided leaderboard level
 					level = Integer.parseInt(lines[2]) - 1;
 					if(level < 0) level = 0;
-				}else player.sendMessage(Variables.Prefix + "Third line is not a number, defaulting to 1st place.");
+				}else player.sendMessage(Variables.Prefix + Formatting.getMessage("Sign.noRank"));
 
 				SignObject signObj = new SignObject((Sign)e.getBlock().getState(), lines[1], level, player.getWorld());
 
 				if(signObj.FishName != null && !signObj.FishName.isEmpty()){
 					rankSigns.add(signObj);
 					UpdateSignsFile();
-				} else e.setLine(3, ChatColor.translateAlternateColorCodes('&',"&4Fish Doesn't Exist"));
+				} else e.setLine(3, Formatting.getMessage("Sign.noFish"));
 			}
 		}
 	}
@@ -198,8 +199,8 @@ public class FishSign implements Listener {
 		}
 		Bukkit.getScheduler().runTaskLater(Setup.getPlugin(), () -> {
 			sign.setLine(0, "-------------");
-			sign.setLine(1, "Fish");
-			sign.setLine(2, "Market");
+			sign.setLine(1, Formatting.getMessage("Sign.fish"));
+			sign.setLine(2, Formatting.getMessage("Sign.market"));
 			sign.setLine(3, "-------------");
 			sign.update();
 			UpdateSigns();

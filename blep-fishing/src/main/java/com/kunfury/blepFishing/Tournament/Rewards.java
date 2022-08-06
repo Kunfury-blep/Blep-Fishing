@@ -2,6 +2,7 @@ package com.kunfury.blepFishing.Tournament;
 
 import com.kunfury.blepFishing.Config.TournamentType;
 import com.kunfury.blepFishing.Config.Variables;
+import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Miscellaneous.ItemHandler;
 import com.kunfury.blepFishing.Miscellaneous.Utilities;
 import com.kunfury.blepFishing.Objects.FishObject;
@@ -34,7 +35,7 @@ public class Rewards {
         else
             winners = getRewards(t);
 
-        if(winners != null && !winners.isEmpty()){
+        if(!winners.isEmpty()){
             winners.forEach((player, reward) -> {
                 giveRewards(reward, player);
             });
@@ -162,8 +163,9 @@ public class Rewards {
                 UnsavedRewards.forEach((uuid, rewards) -> {
                     Player p = Bukkit.getPlayer(uuid);
                     if(p != null){
-                        p.sendMessage(Prefix + String.format(Variables.getMessage("claimRewards"), rewards.size()));
-                        p.sendMessage(Variables.Prefix + Variables.getMessage("claimRewards2"));
+                        p.sendMessage(Formatting.getMessage("Tournament.claimRewards")
+                                .replace("{amount}", String.valueOf(rewards.size())));
+                        p.sendMessage(Variables.Prefix + Formatting.getMessage("Tournament.claimRewards2"));
                     }
                 });
                 UnsavedRewards.clear();
@@ -209,7 +211,7 @@ public class Rewards {
         List<ItemStack> rewards = LoadRewards(uuid);
 
         if(Utilities.getFreeSlots(p.getInventory()) <= 0){
-            p.sendMessage(Prefix + Variables.getMessage("inventoryFull"));
+            p.sendMessage(Prefix + Formatting.getMessage("System.inventoryFull"));
             AddRewards(uuid, rewards);
             SaveRewards();
             return;
@@ -222,7 +224,7 @@ public class Rewards {
 
             SaveRewards();
         }
-        else p.sendMessage(Prefix + Variables.getMessage("noRewards"));
+        else p.sendMessage(Prefix + Formatting.getMessage("Tournament.noRewards"));
 
 
 

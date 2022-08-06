@@ -1,6 +1,7 @@
 package com.kunfury.blepFishing.Crafting.Equipment.FishBag;
 
 import com.kunfury.blepFishing.Config.Variables;
+import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Objects.BaseFishObject;
 import com.kunfury.blepFishing.Objects.FishObject;
 import com.kunfury.blepFishing.Setup;
@@ -86,7 +87,7 @@ public class UpdateBag {
 
         ArrayList<String> lore = new ArrayList<>();
 
-        lore.add("Holds a small amount of fish"); //TODO: Change to dynamic based on size of bag
+        lore.add(Formatting.getMessage("Equipment.Fish Bag.descSmall")); //TODO: Change to dynamic based on size of bag
         lore.add("");
 
         if(Variables.DebugMode){
@@ -109,15 +110,16 @@ public class UpdateBag {
 
         lore.add("");
         if (BagInfo.IsFull(bag)) {
-            lore.add(ChatColor.WHITE + "Combine with a " + ChatColor.YELLOW + ChatColor.ITALIC + BagInfo.getUpgradeComp(bag).getType().name().replace("_", " ") + ChatColor.WHITE + " at a smithing table to upgrade!");
+            lore.add(Formatting.getMessage("Equipment.Fish Bag.upgradeReady")
+                            .replace("{upgrade}", BagInfo.getUpgradeComp(bag).getType().name().replace("_", " ")));
         } else{
-            lore.add(ChatColor.WHITE + "Can be " + ChatColor.YELLOW + ChatColor.ITALIC + "upgraded" + ChatColor.WHITE + " once filled!");
+            lore.add(Formatting.getMessage("Equipment.Fish Bag.upgradeHint"));
         }
 
 
         lore.add("");
-        lore.add(ChatColor.RED + "Left-Click While Holding to Toggle " + ChatColor.YELLOW + ChatColor.ITALIC + "Auto-Pickup");
-        lore.add(ChatColor.RED + "Shift Left-Click While Holding to " + ChatColor.YELLOW + ChatColor.ITALIC + "Deposit All");
+        lore.add(Formatting.getMessage("Equipment.Fish Bag.autoPickup"));
+        lore.add(Formatting.getMessage("Equipment.Fish Bag.depositAll"));
 
         return lore;
     }
