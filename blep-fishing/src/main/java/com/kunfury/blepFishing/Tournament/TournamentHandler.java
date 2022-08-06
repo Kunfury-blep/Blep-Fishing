@@ -1,26 +1,20 @@
 package com.kunfury.blepFishing.Tournament;
 
-import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
-import com.kunfury.blepFishing.Objects.FishObject;
 import com.kunfury.blepFishing.Setup;
-import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BossBar;
-import org.bukkit.entity.Boss;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.text.Format;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 import static com.kunfury.blepFishing.Config.Variables.Prefix;
 
@@ -74,7 +68,9 @@ public class TournamentHandler {
             return;
         }
         ActiveTournaments.add(t);
-        String announcement = Prefix + String.format(Variables.getMessage("tournamentStart"), t.getName(), "");
+        String announcement = Prefix + Formatting.getMessage("Tournament.start")
+                .replace("{tournament}", t.getName());
+
         announcement = Formatting.formatColor(announcement);
 
         for (Player p : Bukkit.getOnlinePlayers()) {
@@ -134,7 +130,8 @@ public class TournamentHandler {
         if(t.getFish().size() <= 0){
             String tempName = t.FishType.toLowerCase();
             if(tempName.equalsIgnoreCase("ALL")) tempName = "fish";
-            Bukkit.broadcastMessage(Prefix + String.format(Variables.getMessage("tournamentNoCaught"), tempName));
+            Bukkit.broadcastMessage(Prefix + Formatting.getMessage("Tournament.noneCaught")
+                    .replace("{fish}", tempName));
             return;
         }
 
@@ -149,7 +146,7 @@ public class TournamentHandler {
             textComponents.add(mainComponent);
         });
 
-        String banner = ChatColor.BOLD + (Variables.getMessage("tournamentLeaderboard"));
+        String banner =  Formatting.getMessage("Tournament.noneCaught");
         for(Player p : Bukkit.getOnlinePlayers()) {
             p.sendMessage(" ");
             p.sendMessage(banner);
