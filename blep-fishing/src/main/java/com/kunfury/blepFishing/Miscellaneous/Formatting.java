@@ -10,7 +10,6 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 public class Formatting {
@@ -58,24 +57,18 @@ public class Formatting {
     */
     public static String FixFontSize (String s, int size) {
      
-	    String ret = s;
+	    StringBuilder ret = new StringBuilder(s);
+		for (int i=0; i < s.length(); i++) {
+			if ( s.charAt(i) == 'I' || s.charAt(i) == ' ') {
+				ret.append(" ");
+			}
+		}
+
+		int availLength = size - s.length();
+
+		ret.append(" ".repeat(Math.max(0, availLength)));
 	     
-	    if ( s != null ) {
-	     
-		    for (int i=0; i < s.length(); i++) {
-			    if ( s.charAt(i) == 'I' || s.charAt(i) == ' ') {
-			    	ret += " ";
-			    }
-		    }
-		     
-		    int availLength = size - s.length();
-		     
-		    for (int i=0; i < availLength; i++) {
-		    	ret += " ";
-		    	}
-	    }
-	     
-	    return (ret);
+	    return (ret.toString());
     }
 
 	public static double round(double value, int places) {
@@ -86,7 +79,7 @@ public class Formatting {
 		return bd.doubleValue();
 	}
 
-	private static Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
+	private static final Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
 
 	public static boolean isNumeric(String strNum) {
 		if (strNum == null) {
@@ -105,7 +98,7 @@ public class Formatting {
 		String message = messages.getString(key);
 
 		if(message == null || message.isEmpty()){
-			message = ChatColor.RED + "Message Not Found";
+			message = ChatColor.RED + "Message Not Found - " + key;
 		}
 		return formatColor(message);
 	}
