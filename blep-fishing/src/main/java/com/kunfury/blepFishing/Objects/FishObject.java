@@ -116,14 +116,17 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 				.replace("{size}", Formatting.DoubleFormat(RealSize));
 
 		content += "\n&f" + Formatting.getMessage("Fish Object.caught")
-				.replace("{player}", PlayerName).replace("{date}", formatter.format(DateCaught));
+				.replace("{player}", PlayerName)
+				.replace("{date}", formatter.format(DateCaught));
 
 		if(Setup.econEnabled) //Checks that an economy is installed
 			content += "\n&f" + Formatting.getMessage("Fish Object.value")
 					.replace("{curr}", Variables.CurrSym)
 					.replace("{cost}", Formatting.DoubleFormat(RealCost));
 
-		return new Text(ChatColor.translateAlternateColorCodes('&' , content));
+		return new Text(Formatting.formatColor(content));
+
+
 	}
 
 

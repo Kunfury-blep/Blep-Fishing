@@ -1,6 +1,7 @@
 package com.kunfury.blepFishing.Endgame;
 
 import com.kunfury.blepFishing.Config.Variables;
+import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Objects.AreaObject;
 import com.kunfury.blepFishing.Setup;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
@@ -85,7 +86,7 @@ public class CompassHandler {
 //        else if(distance >= 2500) distanceStr = "There is still a long journey in front of you.";
         else if(distance >= 1000) distanceStr = "You feel there is still a long journey in front of you.";
         else if(distance > EndgameVars.AreaRadius) distanceStr = "You feel you are very close.";
-        else distanceStr = "You are in the " + EndgameVars.AreaName + ".";
+        else distanceStr = "You are in the " + Formatting.getMessage("Endgame.areaName") + ".";
 
         //if(Variables.DebugMode) p.teleport(cLoc);
 
@@ -102,7 +103,7 @@ public class CompassHandler {
                 if(!ActivePlayers.contains(p)) ActivePlayers.add(p);
                 double dist = pLoc.distance(cLoc);
                 if(dist <= EndgameVars.AreaRadius){
-                    p.sendMessage(ChatColor.GRAY + "You have reached the " + EndgameVars.AreaName + "!");
+                    p.sendMessage(ChatColor.GRAY + "You have reached the " + Formatting.getMessage("Endgame.areaName") + "!");
                     if(ActivePlayers.contains(p)) ActivePlayers.remove(p);
                     cancel();
                 }
@@ -189,7 +190,7 @@ public class CompassHandler {
         compass = NBTEditor.set(compass, true,"blep", "item", "allBlueCompassComplete");
 
         ItemMeta m = compass.getItemMeta();
-        m.setDisplayName(ChatColor.ITALIC + "" + ChatColor.AQUA + "Compass to the " + EndgameVars.AreaName);
+        m.setDisplayName(Formatting.getMessage("Endgame.Compass.name"));
         m.setCustomModelData(1);
         ArrayList<String> lore = new ArrayList<String>();
         lore.add("");

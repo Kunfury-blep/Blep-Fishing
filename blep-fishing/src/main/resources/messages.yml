@@ -1,3 +1,5 @@
+version: 1.0
+
 Fish Object:
   value: "&2Value: {curr}{cost}"
   length: "&8Length: {size}in."
@@ -7,6 +9,8 @@ Treasure:
   open: "&bRight-Click to &e&oOpen"
   result: "You found {item} &finside the {casket}&f!"
   noEcon: "Unable to open Casket. You would have found currency but no economy was found."
+  bottle: "&dMessage in a Bottle"
+  letter: "&fCrumpled Letter"
 
 Tournament:
   Type:
@@ -26,6 +30,8 @@ Tournament:
   noRewards: "You do not have any rewards to claim."
   claimRewards: "You have {amount} rewards left to be claimed!"
   claimRewards2: "Type &b/bf claim &fto receive them!"
+  panelName: "Fishing Tournaments"
+  empty: "No Fishing Tournaments are currently running."
 
 
 Player Panel:
@@ -42,10 +48,10 @@ Player Panel:
     lb: "&f/bf LB <fishname> &dDisplays the leaderboard for the fish."
     reload: "&f/bf Reload&d Reloads the Blep Fishing plugin."
     claim: "&f/bf Claim&d Claims any tournament rewards you may have."
-    fish: "&f/bf Fish&d Lists all Blep Fishing fish."
     admin: "&f/bf Admin&d Brings up the Blep Fishing admin panel."
     tourney: "&f/bf Tournament&d Allows control of tournaments."
     getData: "&f/bf GetData&d Gets the binary data of the item in hand. Used for setting custom rewards."
+    config: "&f/bf Config&d Gives link to the Configuration Web Panel."
 
 Sign:
   fish: "Fish"
@@ -58,6 +64,14 @@ System:
   announceCatch: "{player} just caught a {rarity} {fish} &fthat was {size}\" long!"
   adminReq: "You need to be an admin to do that."
   inventoryFull: "Your inventory is full, please clear some space and try again."
+  prefix: "&b[BF]&f "
+  noPerm: "Sorry, you don't have permission to do that."
+  noComm: "&4Command not recognized."
+  reload: "Blep Fishing reloaded successfully."
+  itemReceive: "You received {amount} {item}!"
+
+Admin:
+  panelTitle: "---Blep Fishing Admin Panel---"
 
 Equipment:
   Fish Bag:
@@ -85,3 +99,11 @@ Economy:
   sellBagHint: "Sneak Right-Click to sell all fish in bag."
   sellBagConfirm: "Sell all fish in bag? Sneak Right-Click again to confirm."
   finishSale: "Sold {amount} fish for ${total}."
+
+Endgame:
+  areaName: "All Blue"
+  Compass:
+    name: "&o&bCompass to the All Blue"
+    lore: "It really does exist..."
+    hint: "&bRight-Click to &o&eFocus"
+    announce: "&7You feel a warm breeze in the air and hear Seagulls in the distant {direction}."

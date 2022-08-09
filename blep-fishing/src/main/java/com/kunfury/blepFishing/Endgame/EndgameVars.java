@@ -10,9 +10,7 @@ public class EndgameVars {
 
     public static boolean TreasureEnabled = true;
     public static int TreasureChance = 50;
-
     public static int AreaRadius = 32; //The size of the 'All Blue'. Larger sizes may make it more difficult to find an appropriate location
-    public static String AreaName = "All Blue"; //Name of the All Blue. Easy to change for those who don't like the reference
     public static double MobSpawnChance = 1; //Chance of fishing up a mob while in the All Blue
     public static boolean Permanent = true;
     public static boolean Enabled = true;

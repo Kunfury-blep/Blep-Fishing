@@ -13,8 +13,6 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
-import org.bukkit.entity.Fish;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -32,7 +30,9 @@ public class TournamentObject implements Serializable{
     private final String name; //The name of the tournament
     public final TournamentMode Mode; //Which mode the tournament will operate in, HOUR or DAY
     public final TournamentType Type;
-    public final String FishType; //The type of fish being caught. RANDOM + ALL as options
+
+    private final String FishType; //The type of fish being caught. RANDOM + ALL as options
+    private String ActiveFishType;
     public final List<DayOfWeek> Days; //Days of the week the tournament will run on
     public double DailyDelay; //How long to delay before starting daily tournaments
     public int FishAmount; //The amount of fish that can be caught
@@ -151,14 +151,13 @@ public class TournamentObject implements Serializable{
     }
 
     public List<FishObject> getFish(){
-        List<FishObject> fishList = Variables.getFishList(FishType);
+        List<FishObject> fishList = Variables.getFishList(getFishType());
         if(needsUpdate(fishList) || caughtFish == null){
             caughtFish = Objects.requireNonNull(fishList).stream().filter(f -> f.DateCaught.isAfter(startDate)).collect(Collectors.toList());
         }
         return caughtFish;
     }
 
-    //TODO: Improve this, make it not parse through the entire of the fish list
     private boolean needsUpdate(List<FishObject> fishList){
         if(trackedFish == fishList.size()) return false;
         trackedFish = fishList.size();
@@ -166,6 +165,11 @@ public class TournamentObject implements Serializable{
     }
 
     public void StartEvent(){
+        if(FishType.equalsIgnoreCase("RANDOM")){
+            Random rand = new Random();
+            ActiveFishType = Variables.BaseFishList.get(rand.nextInt(Variables.BaseFishList.size())).Name;
+        }else
+            ActiveFishType = FishType;
         startDate = LocalDateTime.now();
         winners = null;
         caughtFish = null;
@@ -267,9 +271,8 @@ public class TournamentObject implements Serializable{
     }
 
     private long getAmountCaught(UUID uuid, List<FishObject> caughtFish){
-        long amount = caughtFish.stream().filter(f -> f.getPlayerUUID().equals(uuid)).count();
         //TOOD: Return amount of fish caught by player
-        return amount;
+        return caughtFish.stream().filter(f -> f.getPlayerUUID().equals(uuid)).count();
     }
 
     public List<OfflinePlayer> getParticipants(){
@@ -289,11 +292,14 @@ public class TournamentObject implements Serializable{
         String fishName;
 
 
-        if(FishType.equalsIgnoreCase("ALL"))
+        if(getFishType().equalsIgnoreCase("ALL"))
             fishName = Formatting.getMessage("Tournament.allFish");
         else{
-            m.setCustomModelData(BaseFishObject.GetBase(FishType).ModelData);
-            fishName = FishType;
+            BaseFishObject base = BaseFishObject.GetBase(getFishType());
+            if(base != null)
+                m.setCustomModelData(base.ModelData);
+
+            fishName = getFishType();
         }
 
 
@@ -330,7 +336,7 @@ public class TournamentObject implements Serializable{
     private FishObject bestFish;
     public boolean isBest(FishObject fish){
 
-        if(!announceNewWinner || (!FishType.equalsIgnoreCase("ALL") && !fish.Name.equalsIgnoreCase(FishType))){
+        if(!announceNewWinner || (!getFishType().equalsIgnoreCase("ALL") && !fish.Name.equalsIgnoreCase(FishType))){
             return false;
         }
 
@@ -373,5 +379,17 @@ public class TournamentObject implements Serializable{
 
     public LocalDateTime getLastRan() {
         return lastRan;
+    }
+
+    public String getFishType(){
+        if(ActiveFishType == null){
+            if(FishType.equalsIgnoreCase("RANDOM")){
+                Random rand = new Random();
+                ActiveFishType = Variables.BaseFishList.get(rand.nextInt(Variables.BaseFishList.size())).Name;
+            }else
+                ActiveFishType = FishType;
+        }
+
+        return ActiveFishType;
     }
 }

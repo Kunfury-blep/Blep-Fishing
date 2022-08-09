@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.kunfury.blepFishing.Commands.SubCommands.ConfigSubcommand;
 import com.kunfury.blepFishing.Commands.SubCommands.ReloadSubcommand;
+import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -50,7 +51,7 @@ public class AdminMenu implements Listener {
 	 */
 	public void ShowInventory(CommandSender sender) {		
 		Player p = (Player)sender;
-		Inventory inv = Bukkit.createInventory(null, 27, Variables.getMessage("adminInvTitle"));
+		Inventory inv = Bukkit.createInventory(null, 27, Formatting.getMessage("Admin.panelTitle"));
 		invMap.put(p, inv);
 		winMap.put(p, Window.BASE);
 		

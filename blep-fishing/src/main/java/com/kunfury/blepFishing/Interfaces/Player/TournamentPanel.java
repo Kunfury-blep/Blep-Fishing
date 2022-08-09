@@ -22,11 +22,11 @@ public class TournamentPanel {
     }
 
     private void NoTournamentsFound(Player p){
-        p.sendMessage(Variables.Prefix + Formatting.formatColor(Variables.getMessage("tournamentEmpty")));
+        p.sendMessage(Variables.Prefix + Formatting.getMessage("Tournament.empty"));
     }
 
     private void ShowTournaments(Player p){
-        Inventory inv = Bukkit.createInventory(null, 27, Variables.getMessage("tourneyPanel"));
+        Inventory inv = Bukkit.createInventory(null, 27, Formatting.getMessage("Tournament.panelName"));
 
         for(var a : TournamentHandler.ActiveTournaments){
             inv.addItem(a.getItemStack(p.hasPermission("bf.admin")));

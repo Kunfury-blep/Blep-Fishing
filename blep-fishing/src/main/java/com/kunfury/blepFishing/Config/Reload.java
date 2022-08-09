@@ -19,7 +19,6 @@ import com.kunfury.blepFishing.Objects.*;
 import com.kunfury.blepFishing.Tournament.TournamentHandler;
 import com.kunfury.blepFishing.Tournament.TournamentObject;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.boss.BarColor;
 import org.bukkit.command.CommandSender;
 
@@ -31,15 +30,23 @@ import org.bukkit.inventory.ItemStack;
 public class Reload {
 
 	CommandSender sender;
+	public static boolean success;
 
 	public void ReloadPlugin(CommandSender s) {
 		sender = s;
+		success = false;
 		Setup.setup.reloadConfig();
     	Setup.config = Setup.setup.getConfig();
 
     	if(Setup.config.getKeys(false).size() == 0){
-			Bukkit.getLogger().warning("No/Empty Config for Blep Fishing! Blep Fishing has been disabled.");
-			Setup.getPlugin().getServer().getPluginManager().disablePlugin(Setup.getPlugin());
+			SendError("No/Empty Config for Blep Fishing! Blep Fishing has been disabled.", null);
+			return;
+		}
+
+
+		if(!LoadMessages()){
+			SendError("Out of date messages.yml file! Blep Fishing has been disabled.",
+						"Please delete your messages.yml file and restart server to generate.");
 			return;
 		}
 
@@ -52,8 +59,6 @@ public class Reload {
         	Variables.AreaList.clear();
         	Variables.RarityTotalWeight = 0;
         	Variables.FishTotalWeight = 0;
-
-        	LoadResourceBundle();
         	
         	LoadFish();
 
@@ -93,7 +98,6 @@ public class Reload {
         	if(t != null)
         		Variables.CurrSym = t;
 
-
         	Variables.HighPriority = Setup.config.getBoolean("High Priority");
         	Variables.TournamentOnly = Setup.config.getBoolean("Tournament Only");
         	Variables.RequireAreaPerm = Setup.config.getBoolean("Area Permissions");
@@ -107,13 +111,6 @@ public class Reload {
         	Variables.AllowWanderingTraders = Setup.config.getBoolean("Allow Wandering Traders");
         	if(Variables.AllowWanderingTraders) Variables.TraderMod = Setup.config.getDouble("Wandering Traders Modifier");
 
-        	String chatPrefix = Setup.config.getString("Chat Prefix");
-        	if(chatPrefix == null) chatPrefix = "&b[BF]&f ";
-        	Variables.Prefix = ChatColor.translateAlternateColorCodes('&', chatPrefix);
-
-
-        	sender.sendMessage(Variables.Prefix + Variables.getMessage("reloaded"));
-        	//FixOld();
 
 			EndgameVars.TreasureEnabled = Setup.config.getBoolean("Enable Treasure");
 			if(EndgameVars.TreasureEnabled) EndgameVars.TreasureChance = Setup.config.getInt("Treasure Chance");
@@ -123,7 +120,6 @@ public class Reload {
 			EndgameVars.Enabled = Setup.config.getBoolean("Enable All Blue");
 			EndgameVars.Permanent = Setup.config.getBoolean("Permanent All Blue");
 			EndgameVars.AvailableFish = Setup.config.getInt("All Blue Fish");
-			EndgameVars.AreaName = Setup.config.getString("All Blue Name");
 			EndgameVars.MobSpawnChance = Setup.config.getDouble("Endgame Mob Chance");
 
 			EndgameVars.AreaRadius = Setup.config.getInt("Endgame Radius");
@@ -143,7 +139,9 @@ public class Reload {
 
 			LoadTournaments();
 
-			LoadMessages();
+			success = true;
+			Variables.Prefix = Formatting.getMessage("System.prefix");
+			sender.sendMessage(Formatting.getMessage("System.reload"));
     	}
 		
 		return;
@@ -264,21 +262,6 @@ public class Reload {
 			sender.sendMessage(Variables.Prefix + "Loading of Collection Logs Failed");
 			ex.printStackTrace();
 		}
-	}
-
-	private void LoadResourceBundle(){
-		String langSymbol = Setup.config.getString("Language Symbol");
-		Locale locale = Locale.ENGLISH;
-		if(langSymbol != null && !langSymbol.trim().isEmpty())
-			locale = new Locale(langSymbol);
-
-		ResourceBundle bundle = ResourceBundle.getBundle("resource", locale);
-
-		if(bundle == null){
-			Bukkit.getLogger().warning("[BF] Failed to load Resource Bundle.");
-		}
-
-		Variables.setMessagesBundle(bundle);
 	}
 
 	private void LoadFish(){
@@ -417,23 +400,39 @@ public class Reload {
 
 	}
 
-	private void LoadMessages(){
+	private boolean LoadMessages(){
 		//Checks tournament config file and ensures they are added
+		double version = 1.0;
+
 		var messageConfigFile = new File(Setup.setup.getDataFolder(), "messages.yml");
 		if (!messageConfigFile.exists()) {
 			Setup.getPlugin().saveResource("messages.yml", false);
 		}
-
 		FileConfiguration messages = new YamlConfiguration();
 		try {
 			messages.load(messageConfigFile);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			return;
+			return false;
+		}
+
+		if(version != messages.getDouble("version")){
+			return false;
 		}
 
 		Formatting.messages = messages;
+		return true;
+	}
+
+	private void SendError(String error, String error2){
+		Bukkit.getLogger().warning("------------------------------------");
+		Bukkit.getLogger().warning(" ");
+		Bukkit.getLogger().warning(error);
+		if(error2 != null) Bukkit.getLogger().warning(error2);
+		Bukkit.getLogger().warning(" ");
+		Bukkit.getLogger().warning("------------------------------------");
+		Setup.getPlugin().getServer().getPluginManager().disablePlugin(Setup.getPlugin());
 	}
 
 }

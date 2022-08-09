@@ -1,6 +1,7 @@
 package com.kunfury.blepFishing.Endgame;
 
 import com.kunfury.blepFishing.Config.Variables;
+import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Objects.Patron;
 import com.kunfury.blepFishing.Objects.PatronObject;
 import com.kunfury.blepFishing.Objects.CasketObject;
@@ -63,11 +64,11 @@ public class TreasureHandler {
     public ItemStack GetMessageBottle(){
         ItemStack bottle = new ItemStack(Material.GLASS_BOTTLE, 1);
         ItemMeta m = bottle.getItemMeta();
-        m.setDisplayName(ChatColor.LIGHT_PURPLE + "Message in a Bottle");
+        m.setDisplayName(Formatting.getMessage("Treasure.bottle"));
         m.setCustomModelData(MessageBottleMD);
 
         ArrayList<String> lore = new ArrayList<>();
-        lore.add(ChatColor.AQUA + "Right-Click to " + ChatColor.YELLOW + ChatColor.ITALIC + "open");
+        lore.add(Formatting.getMessage("Treasure.open"));
         m.setLore(lore);
         bottle.setItemMeta(m);
         bottle = NBTEditor.set(bottle, true, "blep", "item", "MessageBottle");
@@ -81,7 +82,7 @@ public class TreasureHandler {
 
         ItemStack message = new ItemStack(Material.PAPER,1);
         ItemMeta m = message.getItemMeta();
-        m.setDisplayName(ChatColor.WHITE + "Crumpled Letter");
+        m.setDisplayName(Formatting.getMessage("Treasure.letter"));
         m.setLore(pObj.GetLore());
         message.setItemMeta(m);
         p.getWorld().dropItem(p.getLocation(), message);
@@ -108,7 +109,7 @@ public class TreasureHandler {
             if(tObj != null){
                 tObj.Open(p, casket);
             }else p.sendMessage(Variables.Prefix + ChatColor.RED + "Unable to open Casket. Something is wrong with the config.");
-        } else p.sendMessage(Variables.Prefix + ChatColor.RED + "Unable to open Casket. No space in inventory.");
+        } else p.sendMessage(Variables.Prefix + Formatting.getMessage("System.inventoryFull"));
 
     }
 

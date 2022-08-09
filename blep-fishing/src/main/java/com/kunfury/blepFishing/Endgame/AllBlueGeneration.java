@@ -1,6 +1,7 @@
 package com.kunfury.blepFishing.Endgame;
 
 import com.kunfury.blepFishing.Config.Variables;
+import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Objects.AllBlueObject;
 import com.kunfury.blepFishing.Setup;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
@@ -22,8 +23,7 @@ import java.util.logging.Logger;
 public class AllBlueGeneration {
 
     public void Generate(InventoryClickEvent e){
-        if(!(e.getWhoClicked() instanceof Player)) return;
-        Player player = (Player) e.getWhoClicked();
+        if(!(e.getWhoClicked() instanceof Player player)) return;
         e.setCancelled(true);
 
         ItemStack comp = CreateCompass(player);
@@ -61,13 +61,13 @@ public class AllBlueGeneration {
         cMeta.setLodestoneTracked(true);
         cMeta.setLodestone(lodeLoc);
 
-        cMeta.setDisplayName(ChatColor.ITALIC + "" + ChatColor.AQUA + "Compass to the " + EndgameVars.AreaName);
+        cMeta.setDisplayName(Formatting.getMessage("Endgame.Compass.name"));
         cMeta.setCustomModelData(1);
         ArrayList<String> lore = new ArrayList<String>();
         lore.add("");
-        lore.add("It really does exist...");
+        lore.add(Formatting.getMessage("Endgame.Compass.lore"));
         lore.add("");
-        lore.add(ChatColor.AQUA + "Right-Click to " + ChatColor.YELLOW + ChatColor.ITALIC + "focus");
+        lore.add(Formatting.getMessage("Endgame.Compass.hint"));
         cMeta.setLore(lore);
         comp.setItemMeta(cMeta);
 
@@ -79,11 +79,12 @@ public class AllBlueGeneration {
 
                 String direction = " seas."; //Just in case the calc comes out to 0 for one of them
 
-                if(finalX > 0 && finalZ > 0) direction = " west.";
-                if(finalX < 0 && finalZ < 0) direction = " east.";
-                if(finalX < 0 && finalZ > 0) direction = " north.";
-                if(finalX > 0 && finalZ < 0) direction = " south.";
-                p.sendMessage(ChatColor.GRAY + "You feel a warm breeze in the air and hear Seagulls in the distant" + direction);
+                if(finalX > 0 && finalZ > 0) direction = " west";
+                if(finalX < 0 && finalZ < 0) direction = " east";
+                if(finalX < 0 && finalZ > 0) direction = " north";
+                if(finalX > 0 && finalZ < 0) direction = " south";
+                p.sendMessage(Formatting.getMessage("Endgame.Compass.announce")
+                        .replace("{direction}", direction));
             }
         }
         return comp;

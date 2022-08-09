@@ -127,8 +127,8 @@ public class TournamentHandler {
         SaveActive();
         t.FinishEvent();
 
-        if(t.getFish().size() <= 0){
-            String tempName = t.FishType.toLowerCase();
+        if(t.getFish().size() == 0){
+            String tempName = t.getFishType().toLowerCase();
             if(tempName.equalsIgnoreCase("ALL")) tempName = "fish";
             Bukkit.broadcastMessage(Prefix + Formatting.getMessage("Tournament.noneCaught")
                     .replace("{fish}", tempName));

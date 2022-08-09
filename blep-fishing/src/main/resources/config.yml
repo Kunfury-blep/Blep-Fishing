@@ -10,13 +10,11 @@ Announce Legendary: true
 Use Economy: true
 Enable Fish Bags: true
 
-Chat Prefix: '&b[BF]&f '
 Currency Symbol: $
 Language Symbol: en
 
 Enable All Blue: true
 Permanent All Blue: true
-All Blue Name: All Blue
 All Blue Fish: 2000
 Endgame Radius: 32 #The size of the endgame zone. Larger sizes may make it more difficult to find an appropriate location
 Endgame Area: Ocean #The area for the endgame zone to generate in

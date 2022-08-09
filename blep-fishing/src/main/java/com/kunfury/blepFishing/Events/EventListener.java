@@ -14,6 +14,7 @@ import com.kunfury.blepFishing.FishSwitch;
 import com.kunfury.blepFishing.Miscellaneous.FishEconomy;
 import com.kunfury.blepFishing.Interfaces.Player.PlayerPanel;
 import com.kunfury.blepFishing.Config.Variables;
+import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Objects.MarketObject;
 import com.kunfury.blepFishing.Plugins.McMMOListener;
 import com.kunfury.blepFishing.Setup;
@@ -198,7 +199,7 @@ public class EventListener implements Listener {
         Player p = (Player) e.getWhoClicked();
         ItemStack mainHand = p.getInventory().getItemInMainHand();
 
-        if(e.getView().getTitle().equals(Variables.getMessage("tourneyPanel"))){
+        if(e.getView().getTitle().equals(Formatting.getMessage("Tournament.panelName"))){
             e.setCancelled(true);
             return;
         }
@@ -246,11 +247,9 @@ public class EventListener implements Listener {
                     }
                 }
 
-                switch(e.getView().getTitle()){
-                    case "Blep Panel" -> {
-                        e.setCancelled(true);
-                        new PlayerPanel().Click(e, p);
-                    }
+                if(e.getView().getTitle().equals(Formatting.getMessage("Player Panel.title"))){
+                    e.setCancelled(true);
+                    new PlayerPanel().Click(e, p);
                 }
 
             }
@@ -260,7 +259,7 @@ public class EventListener implements Listener {
                     new UseFishBag().AddFish(mainHand, p, item, true);
                     return;
                 }
-                if ("Blep Panel".equals(e.getView().getTitle())) {
+                if (Formatting.getMessage("Player Panel.title").equals(e.getView().getTitle())) {
                     e.setCancelled(true);
                 }
             }

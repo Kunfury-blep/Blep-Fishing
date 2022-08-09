@@ -72,11 +72,11 @@ public class UseFishBag {
         if(enabled){
             bag = NBTEditor.set(bag, false, "blep", "item", "fishBagAutoPickup" );
             bag.removeEnchantment(Enchantment.DURABILITY);
-            p.sendMessage(Variables.Prefix + Formatting.getMessage("Equipment.Fish Bag.disabled"));
+            p.sendMessage(Variables.Prefix + Formatting.getMessage("Equipment.Fish Bag.pickupDisabled"));
         }else{
             bag = NBTEditor.set(bag, true, "blep", "item", "fishBagAutoPickup" );
             bag.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
-            p.sendMessage(Variables.Prefix + Formatting.getMessage("Equipment.Fish Bag.enabled"));
+            p.sendMessage(Variables.Prefix + Formatting.getMessage("Equipment.Fish Bag.pickupEnabled"));
         }
 
         ItemMeta m = bag.getItemMeta();

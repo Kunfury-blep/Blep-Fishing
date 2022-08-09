@@ -3,6 +3,7 @@ package com.kunfury.blepFishing.Commands;
 import com.kunfury.blepFishing.Commands.SubCommands.*;
 import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Interfaces.Player.PlayerPanel;
+import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -27,7 +28,6 @@ public class CommandManager implements TabExecutor {
         subCommands.add(new SellAllSubcommand());
         subCommands.add(new TournamentSubcommand());
         subCommands.add(new ClaimSubcommand());
-        subCommands.add(new ListFishSubcommand());
         subCommands.add(new ConfigSubcommand());
         subCommands.add(new GetDataSubCommand());
         subCommands.add(new SpawnSubCommand());
@@ -47,7 +47,7 @@ public class CommandManager implements TabExecutor {
                         return true;
                     }
                 }
-                sender.sendMessage(Prefix + ChatColor.RED + Variables.getMessage("commandNotFound"));
+                sender.sendMessage(Prefix + Formatting.getMessage("System.noComm"));
             }
         }else BaseCommand(sender);
 
@@ -80,7 +80,7 @@ public class CommandManager implements TabExecutor {
     }
 
     public void NoPermission(CommandSender sender) {
-        sender.sendMessage(Prefix + Variables.getMessage("noPermissions"));
+        sender.sendMessage(Prefix + Formatting.getMessage("System.noPerm"));
     }
 
     private boolean CheckPermissions(CommandSender sender, String permission){

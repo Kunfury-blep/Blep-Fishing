@@ -45,7 +45,6 @@ public class Variables {
 		//String =
 	public static HashMap<String, List<FishObject>> FishDict = new HashMap<>();
 	public static List<CollectionLogObject> CollectionLogs = new ArrayList<>();
-	public static ConversationFactory ConFactory = new ConFactory().GetFactory();
 	private static ResourceBundle Messages;
 	public static double TraderMod = 1;
 	//endregion
@@ -68,7 +67,6 @@ public class Variables {
 	public static String Prefix;
 	
 	public static String CurrSym = "$"; //The global currency symbol
-	public static String SizeSym = "\""; //The global size symbol
 
 
 	/**
@@ -100,6 +98,8 @@ public class Variables {
 		fishName = fishName.toUpperCase();
 		boolean fishFound = false;
 
+		List<FishObject> fishList = new ArrayList<>();
+
 		if(fishName.equalsIgnoreCase("ALL")) fishFound = true;
 		else{
 			//Ensures the fish exists, else returns null
@@ -112,8 +112,6 @@ public class Variables {
 		}
 		
 		if(fishFound) { //If the fish is found, get all caught
-			List<FishObject> fishList = new ArrayList<>();
-			
 			if(!fishName.equalsIgnoreCase("ALL")) {
 				fishList = FishDict.get(fishName);
 			}else {
@@ -125,10 +123,9 @@ public class Variables {
 				fishList.sort(Collections.reverseOrder());
 			else
 				fishList = new ArrayList<>();
-			return fishList;
-		}else
-			return null;
-		
+		}
+		return fishList;
+
 	}
 
 	public static void UpdateFishData(){
@@ -190,13 +187,6 @@ public class Variables {
 
 
 		return FishNameList;
-	}
-
-	public static String getMessage(String key){
-		if(Messages == null) return ChatColor.RED + "Message Resource Not Found";
-		else{
-			return Formatting.formatColor(Messages.getString(key));
-		}
 	}
 
 	public static void setMessagesBundle(ResourceBundle resource){

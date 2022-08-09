@@ -9,6 +9,7 @@ import com.kunfury.blepFishing.Crafting.CraftingManager;
 import com.kunfury.blepFishing.Crafting.SmithingTableHandler;
 import com.kunfury.blepFishing.Events.EventListener;
 import com.kunfury.blepFishing.Commands.*;
+import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Plugins.PluginHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -65,11 +66,12 @@ public class Setup extends JavaPlugin {
     	saveConfig();
 
     	new Reload().ReloadPlugin(Bukkit.getConsoleSender());
-    	
-    	
-    	new AdminMenu().CreateStacks(); //Creates the icons for the admin panel
 
-		new CraftingManager().InitItems();
+		if(Reload.success){
+			new AdminMenu().CreateStacks(); //Creates the icons for the admin panel
+
+			new CraftingManager().InitItems();
+		}
 
 
     }

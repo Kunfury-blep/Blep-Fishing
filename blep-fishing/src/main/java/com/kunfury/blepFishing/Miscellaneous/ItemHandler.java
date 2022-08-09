@@ -120,7 +120,9 @@ public class ItemHandler {
             assert player != null;
             if(Utilities.getFreeSlots(player.getInventory()) > 0){
                 player.getInventory().addItem(item);
-                player.sendMessage(Prefix + String.format(Variables.getMessage("itemClaimed"), item.getAmount(), item.getType()));
+                player.sendMessage(Prefix + Formatting.getMessage("System.itemReceive")
+                                .replace("{amount}", String.valueOf(item.getAmount()))
+                                .replace("{item}", item.getType().toString()));
             }else Rewards.AddReward(uuid, item);
         }else{
             Rewards.AddReward(uuid, item);

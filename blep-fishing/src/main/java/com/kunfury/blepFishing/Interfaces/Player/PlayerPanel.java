@@ -104,7 +104,6 @@ public class PlayerPanel {
         List<String> lore = new ArrayList<>();
         lore.add(Formatting.getMessage("Player Panel.Help.lb"));
         lore.add(Formatting.getMessage("Player Panel.Help.claim"));
-        lore.add(Formatting.getMessage("Player Panel.Help.fish"));
         if(sender.hasPermission("bf.admin")){
             lore.add(Formatting.getMessage("Player Panel.Help.admin"));
             lore.add(Formatting.getMessage("Player Panel.Help.reload"));

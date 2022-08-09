@@ -116,9 +116,9 @@ public class FishSwitch{
 				String lbString = Formatting.getMessage("Tournament.newBest")
 						.replace("{player}", fish.PlayerName)
 						.replace("{tournament}", a.getName())
-						.replace("{rarity", fish.Rarity)
+						.replace("{rarity}", fish.Rarity)
 						.replace("{fish}", fish.Name);
-				TextComponent mainComponent = new TextComponent (lbString);
+				TextComponent mainComponent = new TextComponent (Formatting.formatColor(lbString));
 				mainComponent.setHoverEvent(new HoverEvent( HoverEvent.Action.SHOW_TEXT, fish.GetHoverText()));
 
 				for(Player p : Bukkit.getOnlinePlayers()) {

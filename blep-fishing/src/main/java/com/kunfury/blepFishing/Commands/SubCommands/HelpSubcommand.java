@@ -3,6 +3,7 @@ package com.kunfury.blepFishing.Commands.SubCommands;
 import com.kunfury.blepFishing.Commands.CommandManager;
 import com.kunfury.blepFishing.Commands.SubCommand;
 import com.kunfury.blepFishing.Config.Variables;
+import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -10,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,16 +35,15 @@ public class HelpSubcommand extends SubCommand {
 
     @Override
     public void perform(@NotNull CommandSender sender, String[] args) {
-        String helpMessage = ChatColor.translateAlternateColorCodes('&',
-                "                     " + Variables.getMessage("helpTitle") + "\n"
-                        + Prefix + "/bf lb <fishname> - " + Variables.getMessage("leaderboardHelp") + "\n"
-                        + Prefix + "/bf reload - " + Variables.getMessage("reloadHelp") + "\n"
-                        + Prefix + "/bf fish - " + Variables.getMessage("fishHelp") + "\n"
-                        + Prefix + "/bf claim - " + Variables.getMessage("claimHelp") + "\n"
-                        + Prefix + "/bf tourney - " + Variables.getMessage("tourneyHelp") + "\n"
-                        + Prefix + "/bf admin - " + Variables.getMessage("adminHelp") + "\n");
-        if(sender.hasPermission("bf.admin")) helpMessage += Prefix + "/bf config - " + Variables.getMessage("configHelp") + "\n";
-
+        String helpMessage = Formatting.getMessage("Player Panel.Help.title") + "\n"
+                        + Prefix + Formatting.getMessage("Player Panel.Help.lb") + "\n"
+                        + Prefix + Formatting.getMessage("Player Panel.Help.claim") + "\n";
+        if(sender.hasPermission("bf.admin")) {
+            helpMessage += Prefix + Formatting.getMessage("Player Panel.Help.config") + "\n";
+            helpMessage += Prefix + Formatting.getMessage("Player Panel.Help.reload") + "\n";
+            helpMessage += Prefix + Formatting.getMessage("Player Panel.Help.getData") + "\n";
+            helpMessage += Prefix + Formatting.getMessage("Player Panel.Help.tourney") + "\n";
+        }
         sender.sendMessage(helpMessage);
     }
 
