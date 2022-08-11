@@ -20,7 +20,7 @@ public class Formatting {
 	//Parses through a locale formatter in order to ensure no incompatibilities
 	public static String DoubleFormat(Double d) {
 		if(d == null) d = 0.0;
-		NumberFormat format = NumberFormat.getInstance(Locale.getDefault());
+		NumberFormat format = NumberFormat.getInstance(Locale.ENGLISH);
 		Number number = 0;
 		try {
 			number = format.parse(d.toString());
