@@ -25,13 +25,6 @@ import static com.kunfury.blepFishing.Endgame.EndgameVars.MessageBottleMD;
 public class TreasureHandler {
 
     public static List<CasketObject> CasketList = new ArrayList<>();
-    PatronObject[] patrons = {
-        new PatronObject(Patron.BOTTLE, "Captain Jake", "If there's one thing I've learned on these seas, ", "it's the only reason to look in your crews bowl", "is to make sure they have enough."),
-        new PatronObject(Patron.BOTTLE, "Tito the Deck Swabbie", "I think I\'ve started to hallucinate...", "I swear these squids are glowing.", ""),
-        new PatronObject(Patron.BOTTLE, "One-Eyed Red", "It\'s been days since I\'ve seen the sun,", "I\'m starving...", ""),
-        new PatronObject(Patron.BOTTLE, "Peke", "Where are all the rum?!?", "Why is all the rum gone?!", ""),
-        new PatronObject(Patron.BOTTLE, "King Birb", "If you like her, if she makes you happy,", "and if you feel like you know her.", "Then don't let her go."),
-    };
     public static int CasketTotalWeight;
 
     public ItemStack Perform(Player p, Location loc){
@@ -123,4 +116,15 @@ public class TreasureHandler {
             }
         return 36 - i;
     }
+
+    PatronObject[] patrons = {
+            new PatronObject(Patron.BOTTLE, "Captain Jake", "If there's one thing I've learned on these seas, ", "it's the only reason to look in your crews bowl", "is to make sure they have enough."),
+            new PatronObject(Patron.BOTTLE, "Tito the Deck Swabbie", "I think I\'ve started to hallucinate...", "I swear these squids are glowing.", ""),
+            new PatronObject(Patron.BOTTLE, "One-Eyed Red", "It\'s been days since I\'ve seen the sun,", "I\'m starving...", ""),
+            new PatronObject(Patron.BOTTLE, "Peke", "Where are all the rum?!?", "Why is all the rum gone?!", ""),
+            new PatronObject(Patron.BOTTLE, "King Birb", "If you like her, if she makes you happy,", "and if you feel like you know her.", "Then don't let her go."),
+            new PatronObject(Patron.BOTTLE, "Nibrock", "I stayed up all night", "trying to figure out where the sun went,", "Then it dawned on me."),
+    };
+
 }
+
