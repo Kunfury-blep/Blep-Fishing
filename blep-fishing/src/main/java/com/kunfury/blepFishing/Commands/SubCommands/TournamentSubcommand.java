@@ -32,6 +32,11 @@ public class TournamentSubcommand extends SubCommand {
     @Override
     public void perform(@NotNull CommandSender sender, String[] args) {
 
+        if(!TournamentHandler.isActive){
+            sender.sendMessage(Variables.Prefix +  Formatting.getMessage("Tournament.inactive"));
+            return;
+        }
+
         if(args.length == 1){
             sender.sendMessage(Variables.Prefix + "Please provide the type of tournament action you would like to perform.");
             return;
@@ -57,7 +62,7 @@ public class TournamentSubcommand extends SubCommand {
             }
         }
 
-        if(t == null){
+        if(!args[2].equalsIgnoreCase("ALL") && t == null){
             sender.sendMessage(Variables.Prefix + "Please provide a valid tournament name.");
             return;
         }
@@ -68,6 +73,16 @@ public class TournamentSubcommand extends SubCommand {
                     new CommandManager().NoPermission(sender);
                     return;
                 }
+
+                if(args[2].equalsIgnoreCase("ALL")){
+                    if(TournamentHandler.ActiveTournaments.size() > 0){
+                        for(var a : TournamentHandler.ActiveTournaments){
+                            new TournamentHandler().Cancel(a);
+                        }
+                    } else sender.sendMessage(Variables.Prefix + Formatting.getMessage("Tournament.empty"));
+                    return;
+                }
+
                 if(TournamentHandler.ActiveTournaments.contains(t))
                     new TournamentHandler().Cancel(t);
                 else sender.sendMessage(Variables.Prefix + Formatting.formatColor(t.getName()) + ChatColor.WHITE + " is not currently running.");
@@ -101,6 +116,8 @@ public class TournamentSubcommand extends SubCommand {
         }
 
         if (args.length == 3) {
+            if(args[1].equalsIgnoreCase("CANCEL"))
+                optionList.add("ALL");
             for(var t : TournamentHandler.TournamentList){
                 optionList.add(t.getName());
             }

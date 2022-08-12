@@ -1,33 +1,29 @@
 #
-#This config was created using the Config Web Panel. Use /BF Config in game to generate your own!
+# This config was created using the Config Web Panel. Use /BF Config in game to generate your own!
 #
 Show ScoreBoard: true
 Show Chat: false
 High Priority: false
+Enable Tournaments: false
 Tournament Only: false
 Area Permissions: false
 Announce Legendary: true
 Use Economy: true
 Enable Fish Bags: true
-
 Currency Symbol: $
-Language Symbol: en
-
 Enable All Blue: true
-Permanent All Blue: true
-All Blue Fish: 2000
-Endgame Radius: 32 #The size of the endgame zone. Larger sizes may make it more difficult to find an appropriate location
-Endgame Area: Ocean #The area for the endgame zone to generate in
-Endgame Mob Chance: 2
+Permanent All Blue: true # If disabled, a zone with limited fish will spawn for each compass crafted
+All Blue Fish: 2000 # The amount of fish available in the Endgame Zone. Not needed if permanent
+Endgame Radius: 32 # The size of the endgame zone. Larger sizes may make it more difficult to find an appropriate location
+Endgame Area: Ocean # The area for the endgame zone to generate in
+Endgame Mob Chance: 2 # The chance of fishing up monsters in the endgame zone
 
 Allow Wandering Traders: false
 Wandering Traders Modifier: 1.5
-
 Enable Treasure: true
 Treasure Chance: 5
 Parrot Treasure Bonus: 5
 Boat Treasure Bonus: 5
-
 World Whitelist: false
 Allowed Worlds:
   - WORLD
@@ -79,7 +75,7 @@ areas:
 
   Temperate:
     Has Compass: true
-    Compass Hint:
+    Compass Hint: You can faintly hear leaves rustling and birds chirping.
     Biomes:
       - birch_forest
       - birch_forest_hills
@@ -114,7 +110,6 @@ areas:
 
   Jungle:
     Has Compass: true
-    Compass Hint:
     Biomes:
       - bamboo_jungle
       - bamboo_jungle_hills
@@ -132,7 +127,7 @@ areas:
 
   Ocean:
     Has Compass: true
-    Compass Hint:
+    Compass Hint: You hear distant seagulls and feel a cool ocean breeze.
     Biomes:
       - beach
       - cold_ocean
@@ -149,7 +144,8 @@ areas:
 
   Dry:
     Has Compass: true
-    Compass Hint: The piece feels strangely warm and seems to almost dry out your hands just touching it.
+    Compass Hint: The piece feels strangely warm and seems to almost dry out your
+      hands just touching it.
     Biomes:
       - badlands
       - badlands_plateau
@@ -169,7 +165,6 @@ areas:
 
   End:
     Has Compass: false
-    Compass Hint:
     Biomes:
       - end_barrens
       - end_highlands
@@ -180,7 +175,6 @@ areas:
 
   Nether:
     Has Compass: false
-    Compass Hint:
     Biomes:
       - basalt_deltas
       - crimson_forest
@@ -200,7 +194,7 @@ fish:
     Min Height: 0
     Max Height: 0
   Brown Trout:
-    Lore: Looks more beige to me.
+    Lore: Looks more beige to me
     Min Size: 15
     Max Size: 39
     ModelData: 2
@@ -210,7 +204,7 @@ fish:
     Min Height: 0
     Max Height: 0
   Carp:
-    Lore:
+    Lore: This is a load of Carp
     Min Size: 16
     Max Size: 31
     ModelData: 3
@@ -220,7 +214,7 @@ fish:
     Min Height: 0
     Max Height: 0
   Catfish:
-    Lore: I prefer a Dogfish.
+    Lore: I prefer a Dogfish
     Min Size: 45
     Max Size: 65
     ModelData: 4
@@ -230,7 +224,7 @@ fish:
     Min Height: 0
     Max Height: 0
   Gar:
-    Lore:
+    Lore: Would make some great Gar-B-Q
     Min Size: 5
     Max Size: 15
     ModelData: 5
@@ -240,7 +234,7 @@ fish:
     Min Height: 0
     Max Height: 0
   Minnow:
-    Lore:
+    Lore: Can you let Minnow where I am?
     Min Size: 1
     Max Size: 8
     ModelData: 6
@@ -260,7 +254,7 @@ fish:
     Min Height: 0
     Max Height: 0
   Perch:
-    Lore:
+    Lore: Perch-ance, would you let me go?
     Min Size: 8
     Max Size: 20
     ModelData: 8
@@ -270,7 +264,7 @@ fish:
     Min Height: 0
     Max Height: 0
   Smallmouth Bass:
-    Lore:
+    Lore: Never the Guitar
     Min Size: 12
     Max Size: 28
     ModelData: 9
@@ -279,8 +273,8 @@ fish:
     Raining: false
     Min Height: 0
     Max Height: 0
-  Blackfish:
-    Lore:
+  Knifefish:
+    Lore: Looking Sharp!
     Min Size: 8
     Max Size: 24
     ModelData: 10
@@ -320,7 +314,7 @@ fish:
     Min Height: 0
     Max Height: 0
   Pink Salmon:
-    Lore:
+    Lore: Always Against the Current
     Min Size: 19
     Max Size: 26
     ModelData: 14
@@ -330,7 +324,7 @@ fish:
     Min Height: 0
     Max Height: 0
   Pollock:
-    Lore: What a load of Pollocks.
+    Lore: What a load of Pollocks
     Min Size: 10
     Max Size: 21
     ModelData: 15
@@ -340,7 +334,7 @@ fish:
     Min Height: 0
     Max Height: 0
   Rainbow Trout:
-    Lore:
+    Lore: Sharing is Caring
     Min Size: 23
     Max Size: 45
     ModelData: 16
@@ -350,7 +344,7 @@ fish:
     Min Height: 0
     Max Height: 0
   Red Grouper:
-    Lore: I'm green with envy.
+    Lore: I'm green with envy
     Min Size: 26
     Max Size: 50
     ModelData: 17
@@ -380,7 +374,7 @@ fish:
     Min Height: 0
     Max Height: 0
   Boulti:
-    Lore:
+    Lore: Boulti Different
     Min Size: 7
     Max Size: 24
     ModelData: 20
@@ -390,7 +384,7 @@ fish:
     Min Height: 0
     Max Height: 0
   Lungfish:
-    Lore: Not quite up to scale.
+    Lore: Not quite up to scale
     Min Size: 38
     Max Size: 64
     ModelData: 21
@@ -400,7 +394,7 @@ fish:
     Min Height: 0
     Max Height: 0
   Synodontis:
-    Lore: A bunch of Fischious Rumors.
+    Lore: A bunch of Fischious Rumors
     Min Size: 4
     Max Size: 12
     ModelData: 22
@@ -420,7 +414,7 @@ fish:
     Min Height: -256
     Max Height: 15
   Arapaima:
-    Lore:
+    Lore: Large and In Charge
     Min Size: 60
     Max Size: 130
     ModelData: 24
@@ -430,7 +424,7 @@ fish:
     Min Height: 0
     Max Height: 0
   Tambaqui:
-    Lore:
+    Lore: A Breath of Fresh Air
     Min Size: 20
     Max Size: 44
     ModelData: 25
@@ -440,7 +434,7 @@ fish:
     Min Height: 0
     Max Height: 0
   Armored Catfish:
-    Lore:
+    Lore: Quite the tough attacker
     Min Size: 3
     Max Size: 38
     ModelData: 26
@@ -450,7 +444,7 @@ fish:
     Min Height: 0
     Max Height: 0
   Red-bellied Piranha:
-    Lore:
+    Lore: It's got a nice smile
     Min Size: 7
     Max Size: 13
     ModelData: 27
@@ -459,8 +453,8 @@ fish:
     Raining: false
     Min Height: 0
     Max Height: 0
-  Electric Eel :
-    Lore:
+  Electric Eel:
+    Lore: A Shocking Discovery
     Min Size: 72
     Max Size: 130
     ModelData: 28

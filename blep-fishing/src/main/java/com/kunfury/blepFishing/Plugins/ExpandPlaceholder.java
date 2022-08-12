@@ -29,18 +29,15 @@ public class ExpandPlaceholder extends PlaceholderExpansion {
     public String onPlaceholderRequest(Player p, String params){
         if(p == null) return "";
 
-        if(params.length() <= 0) return "";
+        if(params.length() == 0) return "";
 
         String[] args = params.split(" ");
 
-        switch(args[0].toUpperCase()){
-            case "INFO":
-                return "Blep Fishing was made by Kunfury!";
-            case "TOP":
-                return GetTopFish(args);
-            default:
-                return Variables.Prefix + "The input of: " + params + " is not recognized";
-        }
+        return switch (args[0].toUpperCase()) {
+            case "INFO" -> "Blep Fishing was made by Kunfury!";
+            case "TOP" -> GetTopFish(args);
+            default -> Variables.Prefix + "The input of: " + params + " is not recognized";
+        };
     }
 
     private String GetTopFish(String[] args){
