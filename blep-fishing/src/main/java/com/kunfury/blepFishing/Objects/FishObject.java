@@ -190,6 +190,11 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 						.replace("{player}", PlayerName).replace("{date}", LocalDate.now().toString());
 		Lore.add(details);
 
+		if (Variables.DebugMode) {
+			Lore.add("");
+			Lore.add(FishID);
+		}
+
 		List<String> colorLore = new ArrayList<>();
 		for (String line : Lore){
 			if(line != null)colorLore.add(org.bukkit.ChatColor.translateAlternateColorCodes('&', line));
