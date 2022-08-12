@@ -24,6 +24,7 @@ public class TournamentHandler {
     public static List<TournamentObject> ActiveTournaments = new ArrayList<>();
     public static HashMap<TournamentObject, BossBar> BossBars = new HashMap<>();
     public static List<Player> FishingPlayers = new ArrayList<>();
+    public static boolean isActive;
 
     public static void Reset(){
         ActiveTournaments = new ArrayList<>();

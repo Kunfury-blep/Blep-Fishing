@@ -22,7 +22,11 @@ public class TournamentPanel {
     }
 
     private void NoTournamentsFound(Player p){
-        p.sendMessage(Variables.Prefix + Formatting.getMessage("Tournament.empty"));
+        if(TournamentHandler.isActive)
+            p.sendMessage(Variables.Prefix + Formatting.getMessage("Tournament.empty"));
+        else
+            p.sendMessage(Variables.Prefix + Formatting.getMessage("Tournament.inactive"));
+
     }
 
     private void ShowTournaments(Player p){

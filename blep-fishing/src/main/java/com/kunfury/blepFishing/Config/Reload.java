@@ -309,6 +309,12 @@ public class Reload {
 	}
 
 	private void LoadTournaments(){
+		if(!Setup.config.getBoolean("Enable Tournaments")){
+			TournamentHandler.isActive = false;
+			return;
+		} else
+			TournamentHandler.isActive = true;
+
 		//Loads Active Tournaments from file
 		//TODO: Store last run date of each tournament
 		List<TournamentObject> tObjs = TournamentHandler.TournamentList;

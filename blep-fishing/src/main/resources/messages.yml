@@ -32,6 +32,7 @@ Tournament:
   claimRewards2: "Type &b/bf claim &fto receive them!"
   panelName: "Fishing Tournaments"
   empty: "No Fishing Tournaments are currently running."
+  inactive: "Tournaments are not enabled on this server."
 
 
 Player Panel:
