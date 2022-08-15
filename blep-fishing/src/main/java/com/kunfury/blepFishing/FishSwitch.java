@@ -1,5 +1,4 @@
 package com.kunfury.blepFishing;
-import java.text.Format;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -45,7 +44,7 @@ public class FishSwitch{
 				return;
 			}
 
-			BaseFishObject base = GetCaughtFish(item);
+			BaseFishObject base = GetCaughtFish(item, allBlue);
 			if(base == null || base.Name == null) return;
 
 			//Rarity Selection
@@ -66,7 +65,7 @@ public class FishSwitch{
 			new DangerEvents().Trigger(player, item.getLocation());
 			//Checks if the player has a fishing bag. Automatically adds the fish to it if so
 
-			if(player.getInventory().contains(Material.HEART_OF_THE_SEA)){
+			if(Variables.EnableFishBags && player.getInventory().contains(Material.HEART_OF_THE_SEA)){
 				for (var slot : player.getInventory())
 				{
 					if(slot != null && BagInfo.IsBag(slot) && NBTEditor.getBoolean(slot, "blep", "item", "fishBagAutoPickup") && !BagInfo.IsFull(slot)){
@@ -90,7 +89,7 @@ public class FishSwitch{
 									.replace("{size}", Formatting.DoubleFormat(fish.RealSize));
 
 					for(var s : Bukkit.getOnlinePlayers()){
-						s.sendMessage(Variables.Prefix + message);
+						s.sendMessage(Variables.Prefix + Formatting.formatColor(message));
 					}
 				}
 				Firework fw = (Firework) player.getWorld().spawnEntity(player.getLocation(), EntityType.FIREWORK);
@@ -104,10 +103,6 @@ public class FishSwitch{
 			if(allBlue) allBlueObj.RemoveFish(1, player);
 			new CollectionHandler().CaughtFish(player, fish); //Adds the caught fish to the players collection
 		}
-
-		//TODO: Rebuild tournament annnouncements
-
-
 	}
 
 	private void TournamentCheck(FishObject fish){
@@ -119,7 +114,7 @@ public class FishSwitch{
 						.replace("{rarity}", fish.Rarity)
 						.replace("{fish}", fish.Name);
 				TextComponent mainComponent = new TextComponent (Formatting.formatColor(lbString));
-				mainComponent.setHoverEvent(new HoverEvent( HoverEvent.Action.SHOW_TEXT, fish.GetHoverText()));
+				mainComponent.setHoverEvent(new HoverEvent( HoverEvent.Action.SHOW_TEXT, fish.getHoverText()));
 
 				for(Player p : Bukkit.getOnlinePlayers()) {
 					p.spigot().sendMessage(mainComponent);
@@ -133,19 +128,19 @@ public class FishSwitch{
 	 * @param item The item that was fished up
 	 * @return
 	 */
-	private BaseFishObject GetCaughtFish(Item item) {
+	private BaseFishObject GetCaughtFish(Item item, boolean allBlue) {
 		Location iLoc = item.getLocation();
 
 		List<BaseFishObject> availFish = new ArrayList<>(); //Available fish to choose from
 
-		if(!AllBlueInfo.InAllBlue(iLoc)) { //If in All Blue, skips the below testing and instead just returns whole list
+		if(allBlue) { //If in All Blue, skips the below testing and instead just returns whole list
 			List<AreaObject> areas = AreaObject.GetAreas(iLoc); //Available areas to pull fish from
 			int height = iLoc.getBlockY();
 			boolean isRaining = Bukkit.getWorlds().get(0).hasStorm();
 
 			for (var bFish : Variables.BaseFishList)
 			{
-				if((!bFish.RequiresRain || (bFish.RequiresRain && isRaining)) && bFish.MinHeight <= height && bFish.MaxHeight >= height){
+				if((!bFish.RequiresRain || isRaining) && bFish.MinHeight <= height && bFish.MaxHeight >= height){
 					for (var area : areas) {
 						if (bFish.Areas.contains(area.Name)) {
 							availFish.add(bFish); //Removes the fish if its area does not match the current area
