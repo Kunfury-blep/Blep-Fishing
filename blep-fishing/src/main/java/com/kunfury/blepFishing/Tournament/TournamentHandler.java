@@ -143,7 +143,7 @@ public class TournamentHandler {
             String pString = Formatting.FixFontSize(fish.PlayerName, pLength);
             String lbString = Formatting.FixFontSize(rank + ".", 4)+ pString + fish.Rarity + " " + fish.Name;
             TextComponent mainComponent = new TextComponent (Formatting.formatColor(lbString));
-            mainComponent.setHoverEvent(new HoverEvent( HoverEvent.Action.SHOW_TEXT, fish.GetHoverText()));
+            mainComponent.setHoverEvent(new HoverEvent( HoverEvent.Action.SHOW_TEXT, fish.getHoverText()));
             textComponents.add(mainComponent);
         });
 

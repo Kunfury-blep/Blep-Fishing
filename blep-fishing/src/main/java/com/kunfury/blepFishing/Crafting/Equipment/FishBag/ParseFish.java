@@ -4,19 +4,13 @@ import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Objects.BaseFishObject;
 import com.kunfury.blepFishing.Objects.FishObject;
-import com.kunfury.blepFishing.Setup;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class ParseFish {
     public List<FishObject> RetrieveFish(String bagId, String fishName){
@@ -26,7 +20,7 @@ public class ParseFish {
 
         fishList.addAll(Variables.getFishList(fishName).stream()
                 .filter(f -> f.getBagID() != null && f.getBagID().equals(bagId))
-                .sorted(Comparator.comparingDouble(FishObject::GetScore)).toList());
+                .sorted(Comparator.comparingDouble(FishObject::getScore)).toList());
 
         return fishList;
     }
@@ -61,7 +55,7 @@ public class ParseFish {
         lore.add(Formatting.getMessage("Equipment.Fish Bag.stored")
                         .replace("{amount}", String.valueOf(availFish.size())));
         lore.add(Formatting.getMessage("Equipment.Fish Bag.largest")
-                .replace("{size}", String.valueOf(biggestFish.GetSize())));
+                .replace("{size}", String.valueOf(biggestFish.getSize())));
 
         lore.add("");
         lore.add(Formatting.getMessage("Equipment.Fish Bag.withdrawSmall"));

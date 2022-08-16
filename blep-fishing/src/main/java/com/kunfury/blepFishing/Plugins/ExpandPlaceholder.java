@@ -1,11 +1,17 @@
 package com.kunfury.blepFishing.Plugins;
 
 import com.kunfury.blepFishing.Config.Variables;
+import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Objects.FishObject;
+import com.kunfury.blepFishing.Tournament.TournamentHandler;
+import com.kunfury.blepFishing.Tournament.TournamentObject;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.text.Format;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,12 +41,14 @@ public class ExpandPlaceholder extends PlaceholderExpansion {
 
         return switch (args[0].toUpperCase()) {
             case "INFO" -> "Blep Fishing was made by Kunfury!";
-            case "TOP" -> GetTopFish(args);
+            case "TOP" -> getTopFish(args);
+            case "TOURNAMENT" -> getTournament(args);
+            case "FISH" -> getFish(args);
             default -> Variables.Prefix + "The input of: " + params + " is not recognized";
         };
     }
 
-    private String GetTopFish(String[] args){
+    private String getTopFish(String[] args){
         String fishName = "";
         int position = 0;
         String returnString = "";
@@ -62,36 +70,116 @@ public class ExpandPlaceholder extends PlaceholderExpansion {
             String type = "";
             if(args.length >= 4) type = args[3];
 
-            switch(type.toUpperCase()){
-                case "PLAYER":
-                    returnString = fish.PlayerName;
-                    break;
-                case "FISH":
-                    returnString = fish.Name;
-                    break;
-                case "SIZE":
-                    returnString = fish.RealSize + "";
-                    break;
-                case "COST":
-                    returnString = fish.RealCost + "";
-                    break;
-                case "RARITY":
-                    returnString = fish.Rarity;
-                    break;
-                case "DATE":
-                    returnString = fish.DateCaught.toString();
-                    break;
-                case "SCORE":
-                    returnString = fish.Score + "";
-                    break;
-                default:
-                    returnString = fish.PlayerName + " : " + fish.Name + " : " + fish.RealSize;
-                    break;
-            }
+            returnString = switch (type.toUpperCase()) {
+                case "PLAYER" -> fish.PlayerName;
+                case "FISH" -> fish.Name;
+                case "SIZE" -> fish.RealSize + "";
+                case "COST" -> fish.RealCost + "";
+                case "RARITY" -> fish.Rarity;
+                case "DATE" -> fish.DateCaught.toString();
+                case "SCORE" -> fish.Score + "";
+                default -> fish.PlayerName + " : " + fish.Name + " : " + fish.RealSize;
+            };
 
+        }
+        return returnString;
+    }
+
+    private String getTournament(String[] args){
+        if(!TournamentHandler.isActive){
+            return Formatting.getMessage("Tournament.inactive");
+        }
+
+        if(args.length < 2) return "You need to provide the name of the tournament.";
+
+        StringBuilder tourneyName = new StringBuilder();
+        for(int i = 2; i < args.length; i++){
+            if(tourneyName.length() > 0)
+                tourneyName.append(" ");
+            tourneyName.append(args[i]);
+        }
+        //Color Formatting required for compatibility with plugins using placeholderAPI that automatically color translate
+        tourneyName = new StringBuilder(Formatting.formatColor(tourneyName.toString()));
+        TournamentObject t = null;
+
+        for(var f : TournamentHandler.TournamentList){
+            if (Formatting.formatColor(f.getName()).equalsIgnoreCase(tourneyName.toString())){
+                t = f;
+                break;
+            }
+        }
+
+        if(t == null)
+            return "No tournament found with that name.";
+
+        String response = "";
+
+        String type = "";
+        if(args.length >= 4) type = args[1];
+
+        switch (type.toUpperCase()) {
+            case "NAME" -> response = Formatting.formatColor(t.getName());
+            case "TIME" ->{
+                if(t.isRunning())
+                    response = Formatting.asTime(t.getTimeRemaining());
+                else
+                    response = Formatting.getMessage("PAPI.Tournament.notRunning");
+
+
+            }
+            case "FISH_TYPE" -> response = t.getFishType();
+            case "PROGRESS" -> response = String.valueOf(t.getProgress());
+            case "WINNER" -> {
+                if(t.isRunning()){
+                    if(t.getBestFish() != null){
+                        response = t.getBestFish().getPlayer().getName();
+                    }else
+                        response = Formatting.getMessage("PAPI.Tournament.noneCaught");
+                }
+            }
+            default -> {
+                if(t.isRunning())
+                    response = Formatting.getMessage("PAPI.Tournament.default")
+                            .replace("{time}", Formatting.asTime(t.getTimeRemaining()));
+                else
+                    response = Formatting.getMessage("PAPI.Tournament.notRunning");
+            }
         }
 
 
-        return returnString;
+        response = response.replace("{tournament}", tourneyName.toString())
+                            .replace("{fish}", t.getFishType());
+
+
+        return Formatting.formatColor(response);
     }
+
+    private String getFish(String[] args){
+        if(args.length < 3){
+            return "Invalid Arguments";
+        }
+
+        String response = "";
+
+        FishObject fish = FishObject.getById(args[2]);
+
+        if(fish == null){
+            return Formatting.getMessage("PAPI.Fish.notFound");
+        }
+
+        String type = args[1];
+
+        response = switch (type.toUpperCase()) {
+            case "NAME" -> fish.getName();
+            case "RARITY" -> fish.getRarity();
+            case "SIZE" -> fish.getSize();
+            case "VALUE" -> fish.getValue();
+            case "DATE" -> fish.DateCaught.toString();
+            case "PLAYER" -> fish.getPlayer().getName();
+            default -> "Invalid Type";
+        };
+
+        return Formatting.formatColor(response);
+    }
+
 }

@@ -86,7 +86,7 @@ public class DisplayFishInfo {
 		String lbString = Variables.Prefix + "You just caught a " +
 				net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&' , fish.Rarity + " " + fish.Name) + ChatColor.WHITE +  "!";
 		TextComponent mainComponent = new TextComponent (lbString);
-		mainComponent.setHoverEvent(new HoverEvent( HoverEvent.Action.SHOW_TEXT, fish.GetHoverText()));
+		mainComponent.setHoverEvent(new HoverEvent( HoverEvent.Action.SHOW_TEXT, fish.getHoverText()));
 		p.spigot().sendMessage(mainComponent);
 	}
 }

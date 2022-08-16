@@ -108,3 +108,11 @@ Endgame:
     lore: "It really does exist..."
     hint: "&bRight-Click to &o&eFocus"
     announce: "&7You feel a warm breeze in the air and hear Seagulls in the distant {direction}."
+
+PAPI:
+  Tournament:
+    default: "{tournament}&f - {fish} - {time}"
+    notRunning: "Not Running"
+    noneCaught: "None Caught"
+  Fish:
+    notFound: "Fish Not Found"

@@ -13,7 +13,6 @@ import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Setup;
 //import com.mysql.fabric.xmlrpc.base.Value;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
-import net.md_5.bungee.api.ChatColor;
 
 import com.kunfury.blepFishing.Config.Variables;
 import net.md_5.bungee.api.chat.hover.content.Text;
@@ -37,9 +36,7 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 	private String playerUUID;
 	public LocalDateTime DateCaught;
 	public Double RealSize;
-
 	public Double Score;
-
 	private String BagID;
 	public String FishID;
 
@@ -107,7 +104,7 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 		return Formatting.round(realCost, 2);
 	}
 
-	public Text GetHoverText(){
+	public Text getHoverText(){
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 		String content = Rarity + " " + Name;
@@ -131,9 +128,9 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 
 
 
-	public double GetScore(){return Score;}
+	public double getScore(){return Score;}
 
-	public String GetFishId(){
+	public String getFishId(){
 		if(FishID == null || FishID.isEmpty()){ //Needed to make previously caught fish compatible
 			FishID = UUID.randomUUID().toString();
 			Variables.UpdateFishData();
@@ -142,7 +139,7 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 		return FishID;
 	}
 
-	public String GetSize(){
+	public String getSize(){
 		return String.valueOf(Formatting.round(RealSize, 2));
 	}
 
@@ -164,7 +161,7 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 		fishItem.setItemMeta(m);
 
 		fishItem = NBTEditor.set( fishItem, RealCost, "blep", "item", "fishValue" );
-		fishItem = NBTEditor.set( fishItem, GetFishId(), "blep", "item", "fishId" );
+		fishItem = NBTEditor.set( fishItem, getFishId(), "blep", "item", "fishId" );
 
 		return fishItem;
 	}
@@ -178,10 +175,12 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 		List<String> Lore = new ArrayList<>();
 		Lore.add(base.Lore);
 
-		if(Setup.econEnabled) //Checks that an economy is installed
-		Lore.add(Formatting.getMessage("Fish Object.value")
-				.replace("{curr}", Variables.CurrSym)
-				.replace("{cost}", Formatting.DoubleFormat(RealCost)));
+		if(Setup.econEnabled) { //Checks that an economy is installed
+			Lore.add(Formatting.getMessage("Fish Object.value")
+					.replace("{curr}", Variables.CurrSym)
+					.replace("{cost}", Formatting.DoubleFormat(RealCost)));
+
+		}
 
 		Lore.add(Formatting.getMessage("Fish Object.length")
 				.replace("{size}", Formatting.DoubleFormat(RealSize)));
@@ -215,7 +214,25 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 
 	public String getBagID(){ return BagID;}
 
+	public String getRarity(){
+		return Rarity;
+	}
+
+	public String getName(){
+		return Name;
+	}
+
+	public String getValue(){
+		return String.valueOf(RealCost);
+	}
+
 	public void setBagID(String _bagId){
 		BagID = _bagId;
+	}
+
+	public static FishObject getById(String id){
+		return Variables.getFishList("ALL").stream()
+				.filter(f -> f.getFishId().equals(id))
+				.findFirst().orElse(null);
 	}
 }

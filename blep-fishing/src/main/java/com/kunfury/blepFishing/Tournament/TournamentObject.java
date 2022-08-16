@@ -55,6 +55,7 @@ public class TournamentObject implements Serializable{
     private LocalDateTime startDate;
     private LocalDateTime lastRan;
     private LocalDateTime endDate;
+    private FishObject bestFish;
     private int maxRank; //The max rank available in the Rewards map
 
     private transient HashMap<Integer, FishObject> winners;
@@ -121,7 +122,7 @@ public class TournamentObject implements Serializable{
     public BossBar CreateBossbar(){
         BossBar bar = TournamentHandler.BossBars.get(this);
         if(bar == null){
-            bar = Bukkit.createBossBar(Formatting.formatColor(name), BossbarColor, BarStyle.SEGMENTED_10);
+            bar = Bukkit.createBossBar(Formatting.formatColor(getName()), BossbarColor, BarStyle.SEGMENTED_10);
             bar.setVisible(false);
             TournamentHandler.BossBars.put(this, bar);
         }
@@ -333,7 +334,7 @@ public class TournamentObject implements Serializable{
         return item;
     }
 
-    private FishObject bestFish;
+
     public boolean isBest(FishObject fish){
 
         if(!announceNewWinner || (!getFishType().equalsIgnoreCase("ALL") && !fish.Name.equalsIgnoreCase(FishType))){
@@ -377,6 +378,10 @@ public class TournamentObject implements Serializable{
         return best;
     }
 
+    public FishObject getBestFish(){
+        return bestFish;
+    }
+
     public LocalDateTime getLastRan() {
         return lastRan;
     }
@@ -391,5 +396,9 @@ public class TournamentObject implements Serializable{
         }
 
         return ActiveFishType;
+    }
+
+    public boolean isRunning(){
+        return(TournamentHandler.ActiveTournaments.contains(this));
     }
 }

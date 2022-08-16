@@ -32,6 +32,11 @@ public class TournamentSubcommand extends SubCommand {
     @Override
     public void perform(@NotNull CommandSender sender, String[] args) {
 
+        if(!sender.hasPermission("bf.admin")){
+            new CommandManager().NoPermission(sender);
+            return;
+        }
+
         if(!TournamentHandler.isActive){
             sender.sendMessage(Variables.Prefix +  Formatting.getMessage("Tournament.inactive"));
             return;
