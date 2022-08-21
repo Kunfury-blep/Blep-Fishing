@@ -83,9 +83,10 @@ public class DisplayFishInfo {
 	}
 
 	private void ShowChat(Player p, FishObject fish){
-		String lbString = Variables.Prefix + "You just caught a " +
-				net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&' , fish.Rarity + " " + fish.Name) + ChatColor.WHITE +  "!";
-		TextComponent mainComponent = new TextComponent (lbString);
+		String lbString = Variables.Prefix + Formatting.getMessage("Fish Object.announce")
+												.replace("{rarity}", fish.Rarity)
+												.replace("{fish}", fish.Name);
+		TextComponent mainComponent = new TextComponent (Formatting.formatColor(lbString));
 		mainComponent.setHoverEvent(new HoverEvent( HoverEvent.Action.SHOW_TEXT, fish.getHoverText()));
 		p.spigot().sendMessage(mainComponent);
 	}

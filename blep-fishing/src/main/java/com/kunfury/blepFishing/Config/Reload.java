@@ -408,7 +408,7 @@ public class Reload {
 
 	private boolean LoadMessages(){
 		//Checks tournament config file and ensures they are added
-		double version = 1.0;
+		double version = 1.1;
 
 		var messageConfigFile = new File(Setup.setup.getDataFolder(), "messages.yml");
 		if (!messageConfigFile.exists()) {

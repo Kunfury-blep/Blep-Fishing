@@ -2,12 +2,13 @@
 #This Message File was created using the Config Web Panel. Use /BF Config in game to generate your own!
 #
 
-version: 1.0
+version: 1.1
 
 Fish Object:
   value: "&2Value: {curr}{cost}"
   length: "&8Length: {size}in."
   caught: "&8Caught By: {player} on {date}"
+  announce: "You just caught a {rarity} {fish}&f!"
 
 Treasure:
   open: "&bRight-Click to &e&oOpen"
