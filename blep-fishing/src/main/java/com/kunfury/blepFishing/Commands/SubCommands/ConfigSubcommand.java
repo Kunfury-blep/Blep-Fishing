@@ -33,11 +33,10 @@ public class ConfigSubcommand extends SubCommand {
             TextComponent message = new TextComponent(Variables.Prefix + "Click here to open the configuration web panel." );
             message.setClickEvent( new ClickEvent( ClickEvent.Action.OPEN_URL, "https://kunfury-blep.github.io/Config.html" ) );
 
-            if(sender instanceof Player){
-                Player player = ((Player) sender).getPlayer();
-
+            if(sender instanceof Player player){
                 player.spigot().sendMessage(message);
-            }
+            }else
+                sender.sendMessage(Variables.Prefix + "https://kunfury-blep.github.io/Config.html");
             //sender.sendMessage(Variables.Prefix + component);
         }else new CommandManager().NoPermission(sender);
     }
