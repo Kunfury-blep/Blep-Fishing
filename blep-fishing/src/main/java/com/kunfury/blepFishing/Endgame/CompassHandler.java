@@ -88,7 +88,7 @@ public class CompassHandler {
         else if(distance > EndgameVars.AreaRadius) distanceStr = "You feel you are very close.";
         else distanceStr = "You are in the " + Formatting.getMessage("Endgame.areaName") + ".";
 
-        //if(Variables.DebugMode) p.teleport(cLoc);
+        if(Variables.DebugMode) p.teleport(cLoc);
 
         p.sendMessage(ChatColor.GRAY + distanceStr);
 

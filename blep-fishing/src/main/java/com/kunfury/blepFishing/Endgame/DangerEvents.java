@@ -12,28 +12,41 @@ public class DangerEvents {
 
     public void Trigger(Player p, Location iLoc){
         if(!AllBlueInfo.InAllBlue(iLoc) || !SpawnCheck()) return;
-
-        //TODO: Roll table for monster chance
-
-
         int rnd = new Random().nextInt(waterEntities.length);
-        switch(waterEntities[rnd]){
-            case ELDER_GUARDIAN -> SpawnMob(iLoc, waterEntities[rnd], p);
-            case DROWNED -> spawnDrowned(iLoc, p);
-        }
-    }
 
-    private void spawnDrowned(Location loc, Player p){
-
+        SpawnMob(iLoc, waterEntities[rnd], p);
     }
 
     public void SpawnMob(Location loc, EntityType et, Player p){
         World w = loc.getWorld();
 
-        Entity e = w.spawnEntity(loc, et); //TODO: Continue testing once minecraft servers return
+        if(w == null) return;
 
-        if(e instanceof Drowned){
-            ((Drowned) e).setTarget(p);
+        int amt = 1;
+        boolean drowned = false;
+
+        switch(et){
+            case ELDER_GUARDIAN -> {
+                amt = new Random().nextInt(2) + 1;
+            }
+            case DROWNED -> {
+                drowned = true;
+                amt = new Random().nextInt(5) + 1;
+            }
+            case DOLPHIN -> {
+                amt = 1;
+            }
+            case GUARDIAN -> {
+                amt = new Random().nextInt(4) + 1;
+            }
+        }
+
+        for(int i = 0; i < amt; i++){
+            Entity e = w.spawnEntity(loc, et);
+            if(drowned){
+                ((Drowned) e).setTarget(p);
+            }
+
         }
     }
 

@@ -176,6 +176,7 @@ public class ExpandPlaceholder extends PlaceholderExpansion {
             case "VALUE" -> fish.getValue();
             case "DATE" -> fish.DateCaught.toString();
             case "PLAYER" -> fish.getPlayer().getName();
+            case "SCORE" -> Formatting.DoubleFormat(fish.getScore());
             default -> "Invalid Type";
         };
 
