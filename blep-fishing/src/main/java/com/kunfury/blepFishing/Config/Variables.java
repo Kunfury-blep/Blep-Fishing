@@ -4,15 +4,9 @@ import java.io.*;
 import java.util.*;
 import java.util.Map.Entry;
 
-import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Objects.*;
-import org.bukkit.ChatColor;
-import org.bukkit.conversations.ConversationFactory;
-
 import com.kunfury.blepFishing.Setup;
 import com.kunfury.blepFishing.Signs.FishSign;
-
-import com.kunfury.blepFishing.Conversations.ConFactory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
@@ -38,6 +32,7 @@ public class Variables {
 	//public static boolean UseEconomy = true;
 	public static boolean EnableFishBags = true;
 	public static boolean DebugMode = false;
+	public static boolean Teasers = true;
 	//endregion
 
 	//region Unique Static

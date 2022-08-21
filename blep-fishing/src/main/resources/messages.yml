@@ -1,3 +1,7 @@
+# 
+#This Message File was created using the Config Web Panel. Use /BF Config in game to generate your own!
+#
+
 version: 1.0
 
 Fish Object:
@@ -16,9 +20,9 @@ Tournament:
   Type:
     description: "Catch the {type} {fish} to win!"
     largest: "Largest"
-    smallest: "Largest"
-    expensive: "Largest"
-    cheapest: "Largest"
+    smallest: "Smallest"
+    expensive: "Most Expensive"
+    cheapest: "Cheapest"
     score: "Best"
     amount: "Most"
   noneCaughtItem: "No Fish Caught Yet"
@@ -33,7 +37,6 @@ Tournament:
   panelName: "Fishing Tournaments"
   empty: "No Fishing Tournaments are currently running."
   inactive: "Tournaments are not enabled on this server."
-
 
 Player Panel:
   title: "Blep Panel"
@@ -54,7 +57,7 @@ Player Panel:
     getData: "&f/bf GetData&d Gets the binary data of the item in hand. Used for setting custom rewards."
     config: "&f/bf Config&d Gives link to the Configuration Web Panel."
 
-Sign:
+Signs:
   fish: "Fish"
   market: "Market"
   marketTitle: "Fish Market"
@@ -87,7 +90,7 @@ Equipment:
     noSpace: "There is no more space in that bag."
     noFish: "No fish found in inventory."
     addFish: "Added {amount} to the bag."
-    oldVersion: "&cThat fish is from a previous version and is unable to be stored in the bag.."
+    oldVersion: "&cThat fish is from a previous version and is unable to be stored in the bag."
     stored: "&bAmount Stored: &f{amount}"
     largest: "&bLargest Fish: &f{size}\""
     withdrawSmall: "Left-Click to Withdraw &e&oSmallest"

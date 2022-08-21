@@ -126,6 +126,9 @@ public class Reload {
 			Variables.ParrotBonus = Setup.config.getDouble("Parrot Treasure Bonus");
 			Variables.BoatBonus = Setup.config.getDouble("Boat Treasure Bonus");
 
+			Variables.Teasers = Setup.config.getBoolean("Enable Teasers");
+
+
 			FixFileLocations();
 
 			LoadAllBlue();

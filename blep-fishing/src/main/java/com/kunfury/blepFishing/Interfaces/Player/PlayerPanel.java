@@ -26,8 +26,11 @@ public class PlayerPanel {
         }
 
         inv.setItem(10, TourneyItem());
-        inv.setItem(12, QuestItem());
-        inv.setItem(14, CollectionItem());
+
+        if(Variables.Teasers){
+            inv.setItem(12, QuestItem());
+            inv.setItem(14, CollectionItem());
+        }
         inv.setItem(16, HelpItem(sender));
 
         p.openInventory(inv);
