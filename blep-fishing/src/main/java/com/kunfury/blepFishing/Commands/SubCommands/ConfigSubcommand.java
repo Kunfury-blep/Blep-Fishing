@@ -31,7 +31,7 @@ public class ConfigSubcommand extends SubCommand {
     public void perform(@NotNull CommandSender sender, String[] args) {
         if(sender.hasPermission("bf.admin")) {
             TextComponent message = new TextComponent(Variables.Prefix + "Click here to open the configuration web panel." );
-            message.setClickEvent( new ClickEvent( ClickEvent.Action.OPEN_URL, "https://kunfury-blep.github.io/Blep%20Fishing.html" ) );
+            message.setClickEvent( new ClickEvent( ClickEvent.Action.OPEN_URL, "https://kunfury-blep.github.io/Config.html" ) );
 
             if(sender instanceof Player){
                 Player player = ((Player) sender).getPlayer();

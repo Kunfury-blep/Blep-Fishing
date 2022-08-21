@@ -3,12 +3,9 @@ package com.kunfury.blepFishing.Config;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.text.Format;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import com.kunfury.blepFishing.Endgame.EndgameVars;
 import com.kunfury.blepFishing.Endgame.TreasureHandler;
@@ -46,7 +43,7 @@ public class Reload {
 
 		if(!LoadMessages()){
 			SendError("Out of date messages.yml file! Blep Fishing has been disabled.",
-						"Please delete your messages.yml file and restart server to generate.");
+						"Update yours at https://kunfury-blep.github.io/Messages.html");
 			return;
 		}
 
