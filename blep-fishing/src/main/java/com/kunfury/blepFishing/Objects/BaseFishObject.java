@@ -1,5 +1,6 @@
 package com.kunfury.blepFishing.Objects;
 
+import com.kunfury.blepFishing.Config.FishTime;
 import com.kunfury.blepFishing.Endgame.EndgameVars;
 import com.kunfury.blepFishing.Config.Variables;
 import org.bukkit.ChatColor;
@@ -25,8 +26,10 @@ public class BaseFishObject implements Serializable{
 	public int MaxHeight = 1000;
 	public int MinHeight = -1000;
 
+	private final FishTime time;
+
 	public BaseFishObject(String name, String lore, double minSize, double maxSize, 
-			int modelData, boolean _requiresRain, double baseCost, List<String> areas, int _minHeight, int _maxHeight){
+			int modelData, boolean _requiresRain, double baseCost, List<String> areas, int _minHeight, int _maxHeight, FishTime _time){
 		Name = name;
 		Lore = lore;
 		MinSize = minSize;
@@ -36,6 +39,7 @@ public class BaseFishObject implements Serializable{
 		RequiresRain = _requiresRain;
 		BaseCost = baseCost;
 		Areas = areas;
+		time = _time;
 
 		if(_minHeight != 0 && _maxHeight != 0){
 			MinHeight = _minHeight;
@@ -72,5 +76,24 @@ public class BaseFishObject implements Serializable{
 		double size = ThreadLocalRandom.current().nextDouble(MinSize, realMax);
 
 		return size;
+	}
+
+	public boolean canCatch(boolean isRaining, int height, boolean isNight, List<AreaObject> areas){
+		boolean rainCheck = !RequiresRain || isRaining;
+		if(!rainCheck) return false;
+		boolean heightCheck = MinHeight <= height && MaxHeight >= height;
+		if(!heightCheck) return false;
+		boolean timeCheck = time == FishTime.ALL || (time == FishTime.NIGHT && isNight) ||(time == FishTime.DAY && !isNight);
+		if(!timeCheck) return false;
+
+		boolean areaCheck = false;
+		for (var area : areas) {
+			if (Areas.contains(area.Name)) {
+				areaCheck = true;
+				break;
+			}
+		}
+
+		return areaCheck;
 	}
 }

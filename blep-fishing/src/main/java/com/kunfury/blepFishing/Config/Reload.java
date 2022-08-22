@@ -48,7 +48,7 @@ public class Reload {
 		}
 
     	Set<String> existCheck = Setup.config.getConfigurationSection("").getKeys(false); //Gets all the config-
-		
+
     	if(existCheck.contains("fish") && existCheck.contains("rarities") ) {
     		//Reset all variables to reduce crashing
     		Variables.BaseFishList.clear();
@@ -56,22 +56,22 @@ public class Reload {
         	Variables.AreaList.clear();
         	Variables.RarityTotalWeight = 0;
         	Variables.FishTotalWeight = 0;
-        	
+
         	LoadFish();
 
-    		
+
     		//Reloading Rarities
         	Map<String, Object> rarityMap = Setup.config.getConfigurationSection("rarities").getValues(false);
     		for(final String key : rarityMap.keySet()) {
 				int weight = Setup.config.getInt("rarities." + key + ".Weight");
     			String prefix = Setup.config.getString("rarities." + key + ".Color Code");
     			double priceMod = Setup.config.getDouble("rarities." + key + ".Price Mod");
-    			
+
     			RarityObject rarity = new RarityObject(key, weight, prefix, priceMod);
     			Variables.RarityList.add(rarity);
     		}
     		Collections.sort(Variables.RarityList);
-        	
+
     		//Reloading Areas
     		Map<String, Object> areaMap = Setup.config.getConfigurationSection("areas").getValues(false);
     		for(final String key : areaMap.keySet()) {
@@ -88,9 +88,9 @@ public class Reload {
     		for(final RarityObject rarity : Variables.RarityList)
         		Variables.RarityTotalWeight += rarity.Weight;
 
-        	for(final BaseFishObject fish : Variables.BaseFishList) 
+        	for(final BaseFishObject fish : Variables.BaseFishList)
         		Variables.FishTotalWeight += fish.Weight;
-        	
+
         	String t = Setup.config.getString("Currency Symbol");
         	if(t != null)
         		Variables.CurrSym = t;
@@ -143,7 +143,7 @@ public class Reload {
 			Variables.Prefix = Formatting.getMessage("System.prefix");
 			sender.sendMessage(Formatting.getMessage("System.reload"));
     	}
-		
+
 		return;
 	}
 
@@ -278,15 +278,25 @@ public class Reload {
 			int minHeight = Setup.config.getInt("fish." + key + ".Min Height");
 			int maxHeight = Setup.config.getInt("fish." + key + ".Max Height");
 
+			String timeStr = Setup.config.getString("fish." + key + ".Time");
+
+			FishTime time = FishTime.ALL;
+
+			if(timeStr != null)
+				time = FishTime.valueOf(timeStr);
+
+			Bukkit.broadcastMessage("Time: " + time);
+
+
 			String area = Setup.config.getString("fish." + key + ".Area");
 			List<String> areas = Setup.config.getStringList("fish." + key + ".Areas");
-			if(areas == null || areas.size() <= 0){
+			if(areas.size() == 0){
 				areas = new ArrayList<>();
 				areas.add(area);
 			}
 
 
-			BaseFishObject base = new BaseFishObject(key, lore, minSize, maxSize, modelData, raining, baseCost, areas, minHeight, maxHeight)
+			BaseFishObject base = new BaseFishObject(key, lore, minSize, maxSize, modelData, raining, baseCost, areas, minHeight, maxHeight, time)
 					.weight(weight);
 			Variables.BaseFishList.add(base);
 		}

@@ -133,21 +133,21 @@ public class FishSwitch{
 
 		List<BaseFishObject> availFish = new ArrayList<>(); //Available fish to choose from
 
-		if(allBlue) { //If in All Blue, skips the below testing and instead just returns whole list
+		Bukkit.broadcastMessage("All Blue: " + allBlue);
+
+		if(!allBlue) { //If in All Blue, skips the below testing and instead just returns whole list
 			List<AreaObject> areas = AreaObject.GetAreas(iLoc); //Available areas to pull fish from
 			int height = iLoc.getBlockY();
 			boolean isRaining = Bukkit.getWorlds().get(0).hasStorm();
+			long time = iLoc.getWorld().getTime();
+			boolean isNight = !(time < 12300 || time > 23850);
+
+			Bukkit.broadcastMessage("Night: " + isNight);
 
 			for (var bFish : Variables.BaseFishList)
 			{
-				if((!bFish.RequiresRain || isRaining) && bFish.MinHeight <= height && bFish.MaxHeight >= height){
-					for (var area : areas) {
-						if (bFish.Areas.contains(area.Name)) {
-							availFish.add(bFish); //Removes the fish if its area does not match the current area
-							break;
-						}
-					}
-				}
+				if(bFish.canCatch(isRaining, height, isNight, areas))
+					availFish.add(bFish);
 			}
 		} else availFish = Variables.BaseFishList;
 

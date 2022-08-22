@@ -1,5 +1,5 @@
 #
-# This config was created using the Config Web Panel. Use /BF Config in game to generate your own!
+#This config was created using the Config Web Panel. Use /BF Config in game to generate your own!
 #
 Show ScoreBoard: true
 Show Chat: false
@@ -10,20 +10,25 @@ Area Permissions: false
 Announce Legendary: true
 Use Economy: true
 Enable Fish Bags: true
+Enable Teasers: true
+
 Currency Symbol: $
+
 Enable All Blue: true
-Permanent All Blue: true # If disabled, a zone with limited fish will spawn for each compass crafted
-All Blue Fish: 2000 # The amount of fish available in the Endgame Zone. Not needed if permanent
-Endgame Radius: 32 # The size of the endgame zone. Larger sizes may make it more difficult to find an appropriate location
-Endgame Area: Ocean # The area for the endgame zone to generate in
-Endgame Mob Chance: 2 # The chance of fishing up monsters in the endgame zone
+Permanent All Blue: true #If disabled, a zone with limited fish will spawn for each compass crafted
+All Blue Fish: 2000 #The amount of fish available in the Endgame Zone. Not needed if permanent
+Endgame Radius: 32 #The size of the endgame zone. Larger sizes may make it more difficult to find an appropriate location
+Endgame Area: Ocean #The area for the endgame zone to generate in
+Endgame Mob Chance: 2 #The chance of fishing up monsters in the endgame zone
 
 Allow Wandering Traders: false
 Wandering Traders Modifier: 1.5
+
 Enable Treasure: true
 Treasure Chance: 5
 Parrot Treasure Bonus: 5
 Boat Treasure Bonus: 5
+
 World Whitelist: false
 Allowed Worlds:
   - WORLD
@@ -110,6 +115,7 @@ areas:
 
   Jungle:
     Has Compass: true
+    Compass Hint:
     Biomes:
       - bamboo_jungle
       - bamboo_jungle_hills
@@ -144,8 +150,7 @@ areas:
 
   Dry:
     Has Compass: true
-    Compass Hint: The piece feels strangely warm and seems to almost dry out your
-      hands just touching it.
+    Compass Hint: The piece feels strangely warm and seems to almost dry out your hands just touching it.
     Biomes:
       - badlands
       - badlands_plateau
@@ -165,6 +170,7 @@ areas:
 
   End:
     Has Compass: false
+    Compass Hint:
     Biomes:
       - end_barrens
       - end_highlands
@@ -175,6 +181,7 @@ areas:
 
   Nether:
     Has Compass: false
+    Compass Hint:
     Biomes:
       - basalt_deltas
       - crimson_forest
@@ -193,6 +200,7 @@ fish:
     Raining: false
     Min Height: 0
     Max Height: 0
+    Time: ALL
   Brown Trout:
     Lore: Looks more beige to me
     Min Size: 15
@@ -203,6 +211,7 @@ fish:
     Raining: true
     Min Height: 0
     Max Height: 0
+    Time: ALL
   Carp:
     Lore: This is a load of Carp
     Min Size: 16
@@ -213,6 +222,7 @@ fish:
     Raining: false
     Min Height: 0
     Max Height: 0
+    Time: ALL
   Catfish:
     Lore: I prefer a Dogfish
     Min Size: 45
@@ -223,6 +233,7 @@ fish:
     Raining: false
     Min Height: 0
     Max Height: 0
+    Time: ALL
   Gar:
     Lore: Would make some great Gar-B-Q
     Min Size: 5
@@ -233,6 +244,7 @@ fish:
     Raining: false
     Min Height: 0
     Max Height: 0
+    Time: ALL
   Minnow:
     Lore: Can you let Minnow where I am?
     Min Size: 1
@@ -243,6 +255,7 @@ fish:
     Raining: false
     Min Height: 0
     Max Height: 0
+    Time: ALL
   Muskeullunge:
     Lore: Don’t listen to them, I think you’re fin-tastic!
     Min Size: 28
@@ -253,6 +266,7 @@ fish:
     Raining: false
     Min Height: 0
     Max Height: 0
+    Time: ALL
   Perch:
     Lore: Perch-ance, would you let me go?
     Min Size: 8
@@ -263,6 +277,7 @@ fish:
     Raining: false
     Min Height: 0
     Max Height: 0
+    Time: ALL
   Smallmouth Bass:
     Lore: Never the Guitar
     Min Size: 12
@@ -273,6 +288,7 @@ fish:
     Raining: false
     Min Height: 0
     Max Height: 0
+    Time: ALL
   Knifefish:
     Lore: Looking Sharp!
     Min Size: 8
@@ -283,6 +299,7 @@ fish:
     Raining: false
     Min Height: 0
     Max Height: 0
+    Time: ALL
   Cod:
     Lore: Cod you pass me the salt?
     Min Size: 24
@@ -293,6 +310,7 @@ fish:
     Raining: false
     Min Height: 0
     Max Height: 0
+    Time: ALL
   Halibut:
     Lore: Do it for the Halibut!
     Min Size: 36
@@ -303,6 +321,7 @@ fish:
     Raining: false
     Min Height: 0
     Max Height: 0
+    Time: ALL
   Herring:
     Lore: Now to find a red one...
     Min Size: 8
@@ -313,6 +332,7 @@ fish:
     Raining: false
     Min Height: 0
     Max Height: 0
+    Time: ALL
   Pink Salmon:
     Lore: Always Against the Current
     Min Size: 19
@@ -323,6 +343,7 @@ fish:
     Raining: false
     Min Height: 0
     Max Height: 0
+    Time: ALL
   Pollock:
     Lore: What a load of Pollocks
     Min Size: 10
@@ -333,6 +354,7 @@ fish:
     Raining: false
     Min Height: 0
     Max Height: 0
+    Time: ALL
   Rainbow Trout:
     Lore: Sharing is Caring
     Min Size: 23
@@ -343,6 +365,7 @@ fish:
     Raining: false
     Min Height: 0
     Max Height: 0
+    Time: ALL
   Red Grouper:
     Lore: I'm green with envy
     Min Size: 26
@@ -353,6 +376,7 @@ fish:
     Raining: false
     Min Height: 0
     Max Height: 0
+    Time: ALL
   Tuna:
     Lore: Hmm... Tastes like chicken!
     Min Size: 72
@@ -363,6 +387,7 @@ fish:
     Raining: false
     Min Height: 0
     Max Height: 0
+    Time: ALL
   Bayad:
     Lore: I'm hooked!
     Min Size: 30
@@ -373,6 +398,7 @@ fish:
     Raining: false
     Min Height: 0
     Max Height: 0
+    Time: ALL
   Boulti:
     Lore: Boulti Different
     Min Size: 7
@@ -383,6 +409,7 @@ fish:
     Raining: false
     Min Height: 0
     Max Height: 0
+    Time: ALL
   Lungfish:
     Lore: Not quite up to scale
     Min Size: 38
@@ -393,6 +420,7 @@ fish:
     Raining: false
     Min Height: 0
     Max Height: 0
+    Time: ALL
   Synodontis:
     Lore: A bunch of Fischious Rumors
     Min Size: 4
@@ -403,6 +431,7 @@ fish:
     Raining: false
     Min Height: 0
     Max Height: 0
+    Time: ALL
   Anglerfish:
     Lore: Go with the Glow!
     Min Size: 9
@@ -413,6 +442,7 @@ fish:
     Raining: false
     Min Height: -256
     Max Height: 15
+    Time: ALL
   Arapaima:
     Lore: Large and In Charge
     Min Size: 60
@@ -423,6 +453,7 @@ fish:
     Raining: false
     Min Height: 0
     Max Height: 0
+    Time: ALL
   Tambaqui:
     Lore: A Breath of Fresh Air
     Min Size: 20
@@ -433,6 +464,7 @@ fish:
     Raining: false
     Min Height: 0
     Max Height: 0
+    Time: ALL
   Armored Catfish:
     Lore: Quite the tough attacker
     Min Size: 3
@@ -443,6 +475,7 @@ fish:
     Raining: false
     Min Height: 0
     Max Height: 0
+    Time: ALL
   Red-bellied Piranha:
     Lore: It's got a nice smile
     Min Size: 7
@@ -453,7 +486,8 @@ fish:
     Raining: false
     Min Height: 0
     Max Height: 0
-  Electric Eel:
+    Time: ALL
+  Electric Eel :
     Lore: A Shocking Discovery
     Min Size: 72
     Max Size: 130
@@ -463,6 +497,7 @@ fish:
     Raining: false
     Min Height: 0
     Max Height: 0
+    Time: ALL
 
 treasure:
   Legendary Casket:
