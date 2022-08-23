@@ -53,7 +53,7 @@ public class FishSign implements Listener {
 		boolean fishExists = false;
 		//Beginning of new sign creation
 		if(lines[0].equals("[bf]")) { //Checks that the sign is a Blep Fishing sign
-			if(lines[1].equalsIgnoreCase(Formatting.getMessage("Sign.marketTitle"))) {
+			if(lines[1].equalsIgnoreCase(Formatting.getMessage("Signs.marketTitle"))) {
 				if(player.hasPermission("bf.admin")) MarketCreate(sign, player.getWorld());
 				else player.sendMessage(Variables.Prefix + Formatting.getMessage("System.adminReq"));
 			}else {
@@ -62,14 +62,14 @@ public class FishSign implements Listener {
 				if(!lines[2].isEmpty() && isNumeric(lines[2])) { //Gets the provided leaderboard level
 					level = Integer.parseInt(lines[2]) - 1;
 					if(level < 0) level = 0;
-				}else player.sendMessage(Variables.Prefix + Formatting.getMessage("Sign.noRank"));
+				}else player.sendMessage(Variables.Prefix + Formatting.getMessage("Signs.noRank"));
 
 				SignObject signObj = new SignObject((Sign)e.getBlock().getState(), lines[1], level, player.getWorld());
 
 				if(signObj.FishName != null && !signObj.FishName.isEmpty()){
 					rankSigns.add(signObj);
 					UpdateSignsFile();
-				} else e.setLine(3, Formatting.getMessage("Sign.noFish"));
+				} else e.setLine(3, Formatting.getMessage("Signs.noFish"));
 			}
 		}
 	}
@@ -199,8 +199,8 @@ public class FishSign implements Listener {
 		}
 		Bukkit.getScheduler().runTaskLater(Setup.getPlugin(), () -> {
 			sign.setLine(0, "-------------");
-			sign.setLine(1, Formatting.getMessage("Sign.fish"));
-			sign.setLine(2, Formatting.getMessage("Sign.market"));
+			sign.setLine(1, Formatting.getMessage("Signs.fish"));
+			sign.setLine(2, Formatting.getMessage("Signs.market"));
 			sign.setLine(3, "-------------");
 			sign.update();
 			UpdateSigns();
