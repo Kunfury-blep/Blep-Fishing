@@ -38,7 +38,7 @@ public class SpawnSubCommand extends SubCommand {
         Player p = (Player) sender;
 
         if(args.length <= 1){
-            p.sendMessage(Variables.Prefix + ChatColor.RED + "Please include what you wish to spawn");
+            p.sendMessage(Variables.Prefix + Formatting.getMessage("System.spawnInvalid"));
             return;
         }
 
@@ -53,7 +53,7 @@ public class SpawnSubCommand extends SubCommand {
                 else p.sendMessage(Variables.Prefix + ChatColor.RED + "Please include the treasure type you wish to spawn.");
             case "FISH":
                 StringBuilder name;
-                if(args.length <= 2){
+                if(args.length == 2){
                     name = new StringBuilder("RANDOM");
                 }else name = new StringBuilder(args[2]);
 
@@ -77,6 +77,9 @@ public class SpawnSubCommand extends SubCommand {
                     amt = Integer.parseInt(args[3]);
                 SpawnFish(p, name.toString(), amt);
                 break;
+
+            default:
+                sender.sendMessage(Variables.Prefix + Formatting.getMessage("System.spawnInvalid"));
         }
 
     }
@@ -128,7 +131,18 @@ public class SpawnSubCommand extends SubCommand {
     }
 
     private void SpawnTreasure(Player p, String type, int amount){
-        if(amount <= 0) p.sendMessage(Variables.Prefix + ChatColor.RED + "Please enter a valid amount.");
+        if(amount <= 0){
+            p.sendMessage(Variables.Prefix + ChatColor.RED + "Please enter a valid amount.");
+            return;
+        }
+
+
+        if(amount > 100){
+            amount = 100;
+            p.sendMessage(Variables.Prefix + ChatColor.YELLOW + "Amount set to 100 to prevent crashing.");
+        }
+
+
         List<ItemStack> items = new ArrayList<>();
 
         switch(type.toUpperCase()){
