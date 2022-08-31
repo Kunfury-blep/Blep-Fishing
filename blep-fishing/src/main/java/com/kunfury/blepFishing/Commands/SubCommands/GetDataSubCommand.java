@@ -1,6 +1,7 @@
 package com.kunfury.blepFishing.Commands.SubCommands;
 
 import com.kunfury.blepFishing.Commands.SubCommand;
+import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Miscellaneous.ItemHandler;
 import com.kunfury.blepFishing.Config.Variables;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -34,7 +35,7 @@ public class GetDataSubCommand extends SubCommand {
     @Override
     public void perform(@NotNull CommandSender sender, String[] args) {
         if(!(sender instanceof Player)){
-            sender.sendMessage(Variables.Prefix + "This command is intended to only be run by a player.");
+            sender.sendMessage(Variables.Prefix + Formatting.getMessage("System.playerOnly"));
             return;
         }
         Player p = (Player) sender;
@@ -44,11 +45,7 @@ public class GetDataSubCommand extends SubCommand {
         String data = ItemHandler.itemStackToBase64(item);
 
         String dataStr = "BYTE: " + data;
-//        Toolkit toolkit = Toolkit.getDefaultToolkit();
-//        Clipboard clipboard = toolkit.getSystemClipboard();
-//
-//        clipboard.setContents(stringSelection, null);
-        TextComponent message = new TextComponent(Variables.Prefix +  "Click me to copy data to clipboard!");
+        TextComponent message = new TextComponent(Variables.Prefix +  Formatting.getMessage("Admin.getDataClick"));
         message.setClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, dataStr));
         message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Use Ctrl-V to paste!").create()));
         p.spigot().sendMessage(message);
