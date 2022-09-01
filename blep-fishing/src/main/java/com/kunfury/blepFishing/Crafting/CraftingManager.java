@@ -7,12 +7,18 @@ import net.md_5.bungee.api.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ShapedRecipe;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CraftingManager {
 
     public static NamespacedKey key;
+    public static List<ShapedRecipe> ShapedRecipes;
 
     public void InitItems(){
+        ShapedRecipes = new ArrayList<>();
         if(Variables.EnableFishBags) new FishBagRecipe().SmallBag();
     }
 

@@ -12,7 +12,9 @@ import com.kunfury.blepFishing.Commands.*;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Plugins.PluginHandler;
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -74,6 +76,19 @@ public class Setup extends JavaPlugin {
 
 
     }
+
+	@Override
+	public void onDisable(){
+		for(var r : SmithingTableHandler.SmithingKeys){
+			Bukkit.removeRecipe(r.getKey());
+		}
+
+		for(var r : CraftingManager.ShapedRecipes){
+			Bukkit.removeRecipe(r.getKey());
+		}
+
+
+	}
 
     public static boolean hasEconomy(){
 		return econEnabled && Setup.setup.getServer().getPluginManager().getPlugin("Vault") != null && econ != null;

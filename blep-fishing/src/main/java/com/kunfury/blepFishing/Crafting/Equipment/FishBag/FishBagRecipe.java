@@ -1,6 +1,7 @@
 package com.kunfury.blepFishing.Crafting.Equipment.FishBag;
 
 import com.kunfury.blepFishing.Config.ItemsConfig;
+import com.kunfury.blepFishing.Crafting.CraftingManager;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Setup;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
@@ -39,18 +40,19 @@ public class FishBagRecipe {
         bag.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
         //Recipe Creation
         key = new NamespacedKey(Setup.getPlugin(), "FishBag");
-        ShapedRecipe tokenRecipe = new ShapedRecipe(key, bag);
-        tokenRecipe.shape("123","456","789");
-        tokenRecipe.setIngredient('1', Material.AIR);
-        tokenRecipe.setIngredient('2', Material.AIR);
-        tokenRecipe.setIngredient('3', Material.AIR);
-        tokenRecipe.setIngredient('4', Material.STRING);
-        tokenRecipe.setIngredient('5', ItemsConfig.FishMat);
-        tokenRecipe.setIngredient('6', Material.STRING);
-        tokenRecipe.setIngredient('7', Material.LEATHER);
-        tokenRecipe.setIngredient('8', Material.STRING);
-        tokenRecipe.setIngredient('9', Material.LEATHER);
-        Bukkit.addRecipe(tokenRecipe);
+        ShapedRecipe bagRecipe = new ShapedRecipe(key, bag);
+        bagRecipe.shape("123","456","789");
+        bagRecipe.setIngredient('1', Material.AIR);
+        bagRecipe.setIngredient('2', Material.AIR);
+        bagRecipe.setIngredient('3', Material.AIR);
+        bagRecipe.setIngredient('4', Material.STRING);
+        bagRecipe.setIngredient('5', ItemsConfig.FishMat);
+        bagRecipe.setIngredient('6', Material.STRING);
+        bagRecipe.setIngredient('7', Material.LEATHER);
+        bagRecipe.setIngredient('8', Material.STRING);
+        bagRecipe.setIngredient('9', Material.LEATHER);
+        Bukkit.addRecipe(bagRecipe);
+        ShapedRecipes.add(bagRecipe);
 
         //This doesn't work for some reason
         Bukkit.getScheduler().scheduleSyncDelayedTask(Setup.getPlugin(), () -> {

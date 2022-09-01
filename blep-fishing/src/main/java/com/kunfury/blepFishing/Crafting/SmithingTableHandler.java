@@ -15,6 +15,9 @@ import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.SmithingRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SmithingTableHandler {
 
     public void UpgradeBag(ItemStack oldBag, ItemStack upgradeItem, PrepareSmithingEvent e){
@@ -47,8 +50,6 @@ public class SmithingTableHandler {
 
         ItemMeta m = result.getItemMeta();
 
-       Bukkit.broadcastMessage("Fishbag Tier: " + tier);
-
         String bagName = switch(tier){
             case 1 -> Formatting.getMessage("Equipment.Fish Bag.medBag");
             case 2 -> Formatting.getMessage("Equipment.Fish Bag.largeBag");
@@ -66,12 +67,15 @@ public class SmithingTableHandler {
 
 
 
+    public static List<SmithingRecipe> SmithingKeys;
     public void InitializeSmithRecipes(){
+        SmithingKeys = new ArrayList<>();
         SmithingRecipe medBag = new SmithingRecipe(new NamespacedKey(Setup.getPlugin(), "FishBagMed"),
                 new ItemStack(Material.AIR), // any material seems fine
                 new RecipeChoice.MaterialChoice(ItemsConfig.BagMat),
                 new RecipeChoice.MaterialChoice(Material.IRON_BLOCK)
         );
+        SmithingKeys.add(medBag);
         Bukkit.addRecipe(medBag);
 
         SmithingRecipe largeBag = new SmithingRecipe(new NamespacedKey(Setup.getPlugin(), "FishBagLarge"),
@@ -79,6 +83,7 @@ public class SmithingTableHandler {
                 new RecipeChoice.MaterialChoice(ItemsConfig.BagMat),
                 new RecipeChoice.MaterialChoice(Material.DIAMOND_BLOCK)
         );
+        SmithingKeys.add(largeBag);
         Bukkit.addRecipe(largeBag);
 
         SmithingRecipe giantBag = new SmithingRecipe(new NamespacedKey(Setup.getPlugin(), "FishBagGiant"),
@@ -86,6 +91,7 @@ public class SmithingTableHandler {
                 new RecipeChoice.MaterialChoice(ItemsConfig.BagMat),
                 new RecipeChoice.MaterialChoice(Material.NETHERITE_BLOCK)
         );
+        SmithingKeys.add(giantBag);
         Bukkit.addRecipe(giantBag);
 
         SmithingRecipe allBlueCompass = new SmithingRecipe(new NamespacedKey(Setup.getPlugin(), "AllBlueCompass"),
@@ -93,6 +99,7 @@ public class SmithingTableHandler {
                 new RecipeChoice.MaterialChoice(Material.PRISMARINE_CRYSTALS),
                 new RecipeChoice.MaterialChoice(Material.PRISMARINE_CRYSTALS)
         );
+        SmithingKeys.add(allBlueCompass);
         Bukkit.addRecipe(allBlueCompass);
     }
 
