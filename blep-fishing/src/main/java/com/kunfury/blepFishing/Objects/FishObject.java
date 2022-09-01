@@ -18,7 +18,6 @@ import io.github.bananapuncher714.nbteditor.NBTEditor;
 import com.kunfury.blepFishing.Config.Variables;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

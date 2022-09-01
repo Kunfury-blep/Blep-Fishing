@@ -9,12 +9,10 @@ import com.kunfury.blepFishing.Crafting.CraftingManager;
 import com.kunfury.blepFishing.Crafting.SmithingTableHandler;
 import com.kunfury.blepFishing.Events.EventListener;
 import com.kunfury.blepFishing.Commands.*;
-import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Plugins.PluginHandler;
+import com.kunfury.blepFishing.Tournament.TournamentHandler;
 import org.bukkit.Bukkit;
-import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -79,14 +77,18 @@ public class Setup extends JavaPlugin {
 
 	@Override
 	public void onDisable(){
-		for(var r : SmithingTableHandler.SmithingKeys){
-			Bukkit.removeRecipe(r.getKey());
+		if(SmithingTableHandler.SmithingKeys != null){
+			for(var r : SmithingTableHandler.SmithingKeys){
+				Bukkit.removeRecipe(r.getKey());
+			}
+		}
+		if(CraftingManager.ShapedRecipes != null){
+			for(var r : CraftingManager.ShapedRecipes){
+				Bukkit.removeRecipe(r.getKey());
+			}
 		}
 
-		for(var r : CraftingManager.ShapedRecipes){
-			Bukkit.removeRecipe(r.getKey());
-		}
-
+		TournamentHandler.Reset(true);
 
 	}
 

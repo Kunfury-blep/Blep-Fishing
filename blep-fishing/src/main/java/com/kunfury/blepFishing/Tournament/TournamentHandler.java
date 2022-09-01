@@ -26,7 +26,7 @@ public class TournamentHandler {
     public static List<Player> FishingPlayers = new ArrayList<>();
     public static boolean isActive;
 
-    public static void Reset(){
+    public static void Reset(boolean disable){
         ActiveTournaments = new ArrayList<>();
         TournamentList = new ArrayList<>();
         BossBars.forEach((key, value) -> {
@@ -34,7 +34,8 @@ public class TournamentHandler {
             value.setVisible(false);
         });
         BossBars.clear();
-        new TournamentHandler().UpdateBossbars();
+        if(!disable) new TournamentHandler().UpdateBossbars();
+
     }
 
     public void AddTournament(TournamentObject tournament){

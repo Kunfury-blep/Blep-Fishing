@@ -6,12 +6,9 @@ import com.kunfury.blepFishing.Objects.FishObject;
 import com.kunfury.blepFishing.Tournament.TournamentHandler;
 import com.kunfury.blepFishing.Tournament.TournamentObject;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.text.Format;
 import java.util.List;
 import java.util.Objects;
 

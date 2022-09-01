@@ -1,6 +1,5 @@
 package com.kunfury.blepFishing.Miscellaneous;
 
-import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Setup;
 import com.kunfury.blepFishing.Tournament.Rewards;
 import org.bukkit.Bukkit;

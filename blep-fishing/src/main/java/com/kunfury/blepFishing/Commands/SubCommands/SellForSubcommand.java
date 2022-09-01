@@ -30,11 +30,15 @@ public class SellForSubcommand extends SubCommand {
 
     @Override
     public void perform(@NotNull CommandSender sender, String[] args) {
-        Player p = Bukkit.getPlayer(args[1]);
-        if(p != null && p.isOnline())
-            FishEconomy.SellFish(p, 1);
-        else
+        if(args.length > 1){
+            Player p = Bukkit.getPlayer(args[1]);
+            if(p != null && p.isOnline())
+                FishEconomy.SellFish(p, 1);
+            else
+                sender.sendMessage(Variables.Prefix + Formatting.getMessage("Economy.noPlayer"));
+        }else
             sender.sendMessage(Variables.Prefix + Formatting.getMessage("Economy.noPlayer"));
+
     }
 
     @Override

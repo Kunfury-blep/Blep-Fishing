@@ -7,7 +7,6 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import com.kunfury.blepFishing.Crafting.CraftingManager;
 import com.kunfury.blepFishing.Endgame.EndgameVars;
 import com.kunfury.blepFishing.Endgame.TreasureHandler;
 import com.kunfury.blepFishing.DisplayFishInfo;
@@ -330,7 +329,7 @@ public class Reload {
 		//TODO: Store last run date of each tournament
 		List<TournamentObject> tObjs = TournamentHandler.TournamentList;
 
-		TournamentHandler.Reset();
+		TournamentHandler.Reset(false);
 		try {
 			Files.createDirectories(Paths.get(Setup.dataFolder + "/Data"));
 			String tourneyPath = Setup.dataFolder + "/Data/" + "/tournaments.data";
@@ -424,6 +423,7 @@ public class Reload {
 		if (!messageConfigFile.exists()) {
 			Setup.getPlugin().saveResource("messages.yml", false);
 		}
+
 		FileConfiguration messages = new YamlConfiguration();
 		try {
 			messages.load(messageConfigFile);
@@ -433,9 +433,10 @@ public class Reload {
 			return false;
 		}
 
-		if(version != messages.getDouble("version")){
+		if(messages.getDouble("version") < version){
 			return false;
 		}
+
 
 		Formatting.messages = messages;
 		return true;
@@ -465,7 +466,11 @@ public class Reload {
 		if(error2 != null) Bukkit.getLogger().warning(error2);
 		Bukkit.getLogger().warning(" ");
 		Bukkit.getLogger().warning("------------------------------------");
-		Setup.getPlugin().getServer().getPluginManager().disablePlugin(Setup.getPlugin());
+
+		Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(Setup.getPlugin(), () -> {
+			Bukkit.broadcastMessage("Blep Fishing Disabled. Please Check Server Console for Error.");
+			Setup.getPlugin().getServer().getPluginManager().disablePlugin(Setup.getPlugin());
+		}, 0, 100);
 	}
 
 }
