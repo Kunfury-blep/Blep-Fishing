@@ -43,12 +43,13 @@ public class TournamentSubcommand extends SubCommand {
         }
 
         if(args.length == 1){
-            sender.sendMessage(Variables.Prefix + "Please provide the type of tournament action you would like to perform.");
+            sender.sendMessage(Variables.Prefix + Formatting.getMessage("Tournament.noAction"));
             return;
         }
 
         if(args.length == 2){
-            sender.sendMessage(Variables.Prefix + "Please provide the name of the tournament you would like to " + args[1].toLowerCase());
+            sender.sendMessage(Variables.Prefix + Formatting.getMessage("Tournament.noName")
+                    .replace("{action}", args[1].toLowerCase()));
             return;
         }
 
@@ -68,7 +69,7 @@ public class TournamentSubcommand extends SubCommand {
         }
 
         if(!args[2].equalsIgnoreCase("ALL") && t == null){
-            sender.sendMessage(Variables.Prefix + "Please provide a valid tournament name.");
+            sender.sendMessage(Variables.Prefix + Formatting.getMessage("Tournament.noTournament"));
             return;
         }
 
@@ -81,23 +82,30 @@ public class TournamentSubcommand extends SubCommand {
 
                 if(args[2].equalsIgnoreCase("ALL")){
                     if(TournamentHandler.ActiveTournaments.size() > 0){
-                        for(var a : TournamentHandler.ActiveTournaments){
+                        for(var a : new ArrayList<>(TournamentHandler.ActiveTournaments)){
                             new TournamentHandler().Cancel(a);
+                            sender.sendMessage(Variables.Prefix + Formatting.formatColor(Formatting.getMessage("Tournament.cancel")
+                                    .replace("{tournament}", a.getName())));
                         }
                     } else sender.sendMessage(Variables.Prefix + Formatting.getMessage("Tournament.empty"));
                     return;
                 }
 
-                if(TournamentHandler.ActiveTournaments.contains(t))
+                if(TournamentHandler.ActiveTournaments.contains(t)){
                     new TournamentHandler().Cancel(t);
-                else sender.sendMessage(Variables.Prefix + Formatting.formatColor(t.getName()) + ChatColor.WHITE + " is not currently running.");
+                    sender.sendMessage(Variables.Prefix + Formatting.formatColor(Formatting.getMessage("Tournament.cancel")
+                            .replace("{tournament}", t.getName())));
+                }
+
+                else sender.sendMessage(Variables.Prefix + Formatting.formatColor(Formatting.getMessage("Tournament.notRunning")
+                        .replace("{tournament}", t.getName())));
             }
             case "START" -> {
                 if(!sender.hasPermission("bf.admin")){
                     new CommandManager().NoPermission(sender);
                     return;
                 }
-                sender.sendMessage(Variables.Prefix + "Starting " + Formatting.formatColor(t.getName()));
+                assert t != null;
                 new TournamentHandler().Start(t);
             }
             case "FINISH" -> {
@@ -117,6 +125,7 @@ public class TournamentSubcommand extends SubCommand {
             if(sender.hasPermission("bf.admin")){
                 optionList.add("CANCEL");
                 optionList.add("START");
+                optionList.add("FINISH");
             }
         }
 
