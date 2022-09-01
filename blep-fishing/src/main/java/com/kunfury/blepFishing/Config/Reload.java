@@ -7,6 +7,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import com.kunfury.blepFishing.Crafting.CraftingManager;
 import com.kunfury.blepFishing.Endgame.EndgameVars;
 import com.kunfury.blepFishing.Endgame.TreasureHandler;
 import com.kunfury.blepFishing.DisplayFishInfo;
@@ -139,9 +140,11 @@ public class Reload {
 
 			LoadTournaments();
 
+			LoadItems();
+
 			success = true;
 			Variables.Prefix = Formatting.getMessage("System.prefix");
-			sender.sendMessage(Formatting.getMessage("System.reload"));
+			sender.sendMessage(Variables.Prefix +  Formatting.getMessage("System.reload"));
     	}
 
 		return;
@@ -285,8 +288,6 @@ public class Reload {
 			if(timeStr != null)
 				time = FishTime.valueOf(timeStr);
 
-			Bukkit.broadcastMessage("Time: " + time);
-
 
 			String area = Setup.config.getString("fish." + key + ".Area");
 			List<String> areas = Setup.config.getStringList("fish." + key + ".Areas");
@@ -417,8 +418,7 @@ public class Reload {
 	}
 
 	private boolean LoadMessages(){
-		//Checks tournament config file and ensures they are added
-		double version = 1.1;
+		double version = 1.2;
 
 		var messageConfigFile = new File(Setup.setup.getDataFolder(), "messages.yml");
 		if (!messageConfigFile.exists()) {
@@ -439,6 +439,23 @@ public class Reload {
 
 		Formatting.messages = messages;
 		return true;
+	}
+
+	private void LoadItems(){
+		var itemsConfigFile = new File(Setup.setup.getDataFolder(), "items.yml");
+		if (!itemsConfigFile.exists()) {
+			Setup.getPlugin().saveResource("items.yml", false);
+		}
+		FileConfiguration items = new YamlConfiguration();
+		try {
+			items.load(itemsConfigFile);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return;
+		}
+
+		ItemsConfig.Initialize(items);
 	}
 
 	private void SendError(String error, String error2){

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.kunfury.blepFishing.Config.ItemsConfig;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Setup;
 //import com.mysql.fabric.xmlrpc.base.Value;
@@ -145,7 +146,7 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 
 	public ItemStack GenerateItemStack(){
 		BaseFishObject base = BaseFishObject.GetBase(Name);
-		ItemStack fishItem = new ItemStack(Material.SALMON, 1);
+		ItemStack fishItem = new ItemStack(ItemsConfig.FishMat, 1);
 
 		ItemMeta m = fishItem.getItemMeta();
 		m.setLore(CreateLore(base));

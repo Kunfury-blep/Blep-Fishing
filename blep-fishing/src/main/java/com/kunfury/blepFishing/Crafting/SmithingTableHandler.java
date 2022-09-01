@@ -1,5 +1,6 @@
 package com.kunfury.blepFishing.Crafting;
 
+import com.kunfury.blepFishing.Config.ItemsConfig;
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.BagInfo;
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.UpdateBag;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
@@ -46,7 +47,16 @@ public class SmithingTableHandler {
 
         ItemMeta m = result.getItemMeta();
 
-        m.setDisplayName(BagInfo.bagTypes[tier + 1] + Formatting.getMessage("Equipment.Fish Bag.baseName"));
+       Bukkit.broadcastMessage("Fishbag Tier: " + tier);
+
+        String bagName = switch(tier){
+            case 1 -> Formatting.getMessage("Equipment.Fish Bag.medBag");
+            case 2 -> Formatting.getMessage("Equipment.Fish Bag.largeBag");
+            case 3 -> Formatting.getMessage("Equipment.Fish Bag.giantBag");
+            default -> Formatting.getMessage("Equipment.Fish Bag.baseName");
+        };
+
+        m.setDisplayName(bagName);
         m.setLore(new UpdateBag().GenerateLore(result));
 
         result.setItemMeta(m);
@@ -59,21 +69,21 @@ public class SmithingTableHandler {
     public void InitializeSmithRecipes(){
         SmithingRecipe medBag = new SmithingRecipe(new NamespacedKey(Setup.getPlugin(), "FishBagMed"),
                 new ItemStack(Material.AIR), // any material seems fine
-                new RecipeChoice.MaterialChoice(Material.HEART_OF_THE_SEA),
+                new RecipeChoice.MaterialChoice(ItemsConfig.BagMat),
                 new RecipeChoice.MaterialChoice(Material.IRON_BLOCK)
         );
         Bukkit.addRecipe(medBag);
 
         SmithingRecipe largeBag = new SmithingRecipe(new NamespacedKey(Setup.getPlugin(), "FishBagLarge"),
                 new ItemStack(Material.AIR), // any material seems fine
-                new RecipeChoice.MaterialChoice(Material.HEART_OF_THE_SEA),
+                new RecipeChoice.MaterialChoice(ItemsConfig.BagMat),
                 new RecipeChoice.MaterialChoice(Material.DIAMOND_BLOCK)
         );
         Bukkit.addRecipe(largeBag);
 
         SmithingRecipe giantBag = new SmithingRecipe(new NamespacedKey(Setup.getPlugin(), "FishBagGiant"),
                 new ItemStack(Material.AIR), // any material seems fine
-                new RecipeChoice.MaterialChoice(Material.HEART_OF_THE_SEA),
+                new RecipeChoice.MaterialChoice(ItemsConfig.BagMat),
                 new RecipeChoice.MaterialChoice(Material.NETHERITE_BLOCK)
         );
         Bukkit.addRecipe(giantBag);

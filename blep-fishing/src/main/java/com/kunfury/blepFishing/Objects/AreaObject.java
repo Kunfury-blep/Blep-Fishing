@@ -32,7 +32,7 @@ public class AreaObject {
 	}
 	
 	public static List<AreaObject> GetAreas(Location loc){
-		String biomeName = new BiomeHandler().getBiomeKey(loc);
+		String biomeName = new BiomeHandler().getBiomeName(loc);
 
 		List<AreaObject> areas = new ArrayList<>();
 

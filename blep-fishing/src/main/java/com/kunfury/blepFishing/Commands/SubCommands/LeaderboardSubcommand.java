@@ -133,6 +133,6 @@ public class LeaderboardSubcommand extends SubCommand {
 
     @Override
     public List<String> getAliases() {
-        return Arrays.asList( "lb");
+        return Arrays.asList( "LB", "LEADER");
     }
 }

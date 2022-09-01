@@ -1,5 +1,6 @@
 package com.kunfury.blepFishing.Crafting.Equipment.FishBag;
 
+import com.kunfury.blepFishing.Config.ItemsConfig;
 import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Objects.BaseFishObject;
@@ -35,9 +36,7 @@ public class ParseFish {
     }
 
     public ItemStack UpdateSlot(String bagId, BaseFishObject bFish, List<FishObject> availFish){
-
-
-        ItemStack fish = new ItemStack(Material.SALMON, 1);
+        ItemStack fish = new ItemStack(ItemsConfig.FishMat, 1);
 
         fish = NBTEditor.set(fish, bagId, "blep", "item", "fishBagId"); //Adds the current bag id to the fish objects. Likely inefficient, change in future
         ItemMeta m = fish.getItemMeta();

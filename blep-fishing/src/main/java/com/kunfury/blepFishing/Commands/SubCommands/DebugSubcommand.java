@@ -3,6 +3,7 @@ package com.kunfury.blepFishing.Commands.SubCommands;
 import com.kunfury.blepFishing.Commands.CommandManager;
 import com.kunfury.blepFishing.Commands.SubCommand;
 import com.kunfury.blepFishing.Config.Variables;
+import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -28,9 +29,10 @@ public class DebugSubcommand extends SubCommand {
     public void perform(@NotNull CommandSender sender, String[] args) {
         if(sender.hasPermission("bf.admin")) {
             Variables.DebugMode = !Variables.DebugMode;
-            if(Variables.DebugMode) sender.sendMessage(Variables.Prefix + "Enabled Debug Mode.");
-            else sender.sendMessage(Variables.Prefix + "Disabled Debug Mode.");
-            sender.sendMessage("Total Fish Count: " + Variables.getFishList("ALL").size());
+            if(Variables.DebugMode) sender.sendMessage(Variables.Prefix + Formatting.getMessage("System.debugEnabled"));
+            else sender.sendMessage(Variables.Prefix + Formatting.getMessage("System.debugDisabled"));
+            sender.sendMessage(Variables.Prefix + Formatting.getMessage("System.debugFish")
+                            .replace("{amount}", String.valueOf(Variables.getFishList("ALL").size())));
         }else new CommandManager().NoPermission(sender);
     }
 

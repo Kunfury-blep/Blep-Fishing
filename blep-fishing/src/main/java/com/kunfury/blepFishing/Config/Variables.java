@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import com.kunfury.blepFishing.Objects.*;
 import com.kunfury.blepFishing.Setup;
 import com.kunfury.blepFishing.Signs.FishSign;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
@@ -184,12 +185,6 @@ public class Variables {
 		return FishNameList;
 	}
 
-	public static void setMessagesBundle(ResourceBundle resource){
-		if(resource != null)Messages = resource;
-		else{
-			Messages = ResourceBundle.getBundle("resource");
-		}
 
-	}
 }
 

@@ -1,7 +1,9 @@
 package com.kunfury.blepFishing.Commands.SubCommands;
 
+import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Miscellaneous.FishEconomy;
 import com.kunfury.blepFishing.Commands.SubCommand;
+import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -32,7 +34,7 @@ public class SellForSubcommand extends SubCommand {
         if(p != null && p.isOnline())
             FishEconomy.SellFish(p, 1);
         else
-            sender.sendMessage("That player could not be found.");
+            sender.sendMessage(Variables.Prefix + Formatting.getMessage("Economy.noPlayer"));
     }
 
     @Override

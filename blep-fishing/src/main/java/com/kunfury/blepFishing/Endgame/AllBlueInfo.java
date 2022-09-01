@@ -2,8 +2,11 @@ package com.kunfury.blepFishing.Endgame;
 
 import com.kunfury.blepFishing.Objects.AllBlueObject;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.Objects;
 
 import static com.kunfury.blepFishing.Endgame.EndgameVars.AllBlueList;
 
@@ -28,15 +31,18 @@ public class AllBlueInfo {
 
     public static AllBlueObject GetAllBlue(Location loc){
         for(int i = 0; i < AllBlueList.size(); i++){
-            if(AllBlueList.get(i).getLocation().distance(loc) < 32){
+            AllBlueObject obj = AllBlueList.get(i);
+
+//            if(Objects.equals(obj.getLocation().getWorld(), loc.getWorld())){
+//                Bukkit.broadcastMessage("Matching Worlds - " + loc.getWorld());
+//                Bukkit.broadcastMessage("OBJ - " + obj.getLocation().getWorld());
+//            }
+
+            if(Objects.equals(obj.getLocation().getWorld(), loc.getWorld()) && obj.getLocation().distance(loc) < 32){
                 return AllBlueList.get(i);
             }
         }
         return null;
     }
-
-    //TODO: Chance to summon monsters while fishing in the all blue
-    //Monsters include: Drowned, Guardians, Elder Guardians
-
-
 }
+//

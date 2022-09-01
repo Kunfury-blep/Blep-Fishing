@@ -5,6 +5,7 @@ import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Objects.AreaObject;
 import com.kunfury.blepFishing.Setup;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -18,6 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public class CompassHandler {
@@ -75,6 +77,12 @@ public class CompassHandler {
         Location pLoc = p.getLocation();
         cLoc.setY(pLoc.getY());
 
+        if(!Objects.equals(cLoc.getWorld(), pLoc.getWorld())){
+            Bukkit.broadcastMessage("Mismatched worlds found");
+            return;
+        }
+
+
         double distance = pLoc.distance(cLoc);
         String distanceStr;
 
@@ -101,12 +109,17 @@ public class CompassHandler {
                     cancel();
                 }
                 if(!ActivePlayers.contains(p)) ActivePlayers.add(p);
-                double dist = pLoc.distance(cLoc);
-                if(dist <= EndgameVars.AreaRadius){
-                    p.sendMessage(ChatColor.GRAY + "You have reached the " + Formatting.getMessage("Endgame.areaName") + "!");
-                    if(ActivePlayers.contains(p)) ActivePlayers.remove(p);
-                    cancel();
+
+                if(!Objects.equals(cLoc.getWorld(), pLoc.getWorld())){
+                    double dist = pLoc.distance(cLoc);
+                    if(dist <= EndgameVars.AreaRadius){
+                        p.sendMessage(ChatColor.GRAY + "You have reached the " + Formatting.getMessage("Endgame.areaName") + "!");
+                        if(ActivePlayers.contains(p)) ActivePlayers.remove(p);
+                        cancel();
+                    }
                 }
+
+
             }
 
         }.runTaskTimer(Setup.getPlugin(), 0, 60);

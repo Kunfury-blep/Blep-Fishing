@@ -1,5 +1,7 @@
 package com.kunfury.blepFishing.Crafting.Equipment.FishBag;
 
+import com.kunfury.blepFishing.Config.ItemsConfig;
+import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Setup;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Bukkit;
@@ -17,7 +19,7 @@ import static com.kunfury.blepFishing.Crafting.CraftingManager.*;
 public class FishBagRecipe {
 
     public void SmallBag(){
-        ItemStack bag = new ItemStack(Material.HEART_OF_THE_SEA, 1);
+        ItemStack bag = new ItemStack(ItemsConfig.BagMat, 1);
         bag = NBTEditor.set(bag, 1, "blep", "item", "fishBagTier" ); //Sets the tier of the bag to 1
         bag = NBTEditor.set(bag, 0, "blep", "item", "fishBagAmount" ); //Sets the current amount of the bag to 0
         bag = NBTEditor.set(bag, true, "blep", "item", "fishBagAutoPickup" ); //Sets the auto-pickup to true
@@ -26,11 +28,11 @@ public class FishBagRecipe {
 
         ItemMeta m = bag.getItemMeta();
         assert m != null;
-        m.setDisplayName("Small Bag o' Fish");
+        m.setDisplayName(Formatting.getMessage("Equipment.Fish Bag.smallBag"));
 
         m.setLore(new UpdateBag().GenerateLore(bag));
 
-        m.setCustomModelData(1);
+        m.setCustomModelData(ItemsConfig.BagModel);
         m.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         bag.setItemMeta(m);
 
@@ -43,7 +45,7 @@ public class FishBagRecipe {
         tokenRecipe.setIngredient('2', Material.AIR);
         tokenRecipe.setIngredient('3', Material.AIR);
         tokenRecipe.setIngredient('4', Material.STRING);
-        tokenRecipe.setIngredient('5', Material.SALMON);
+        tokenRecipe.setIngredient('5', ItemsConfig.FishMat);
         tokenRecipe.setIngredient('6', Material.STRING);
         tokenRecipe.setIngredient('7', Material.LEATHER);
         tokenRecipe.setIngredient('8', Material.STRING);

@@ -1,5 +1,6 @@
 package com.kunfury.blepFishing.Events;
 
+import com.kunfury.blepFishing.Config.ItemsConfig;
 import com.kunfury.blepFishing.Endgame.AllBlueGeneration;
 import com.kunfury.blepFishing.Endgame.AllBlueInfo;
 import com.kunfury.blepFishing.Endgame.CompassHandler;
@@ -83,26 +84,6 @@ public class EventListener implements Listener {
                         new TreasureHandler().OpenCasket(p, item);
                         break;
                     }
-                case HEART_OF_THE_SEA:
-                    if(BagInfo.IsBag(item) && !p.getOpenInventory().getType().equals(InventoryType.CHEST)){
-                        e.setCancelled(true);
-                        if(a == Action.LEFT_CLICK_AIR || a == Action.LEFT_CLICK_BLOCK){
-                            if(p.isSneaking()) new UseFishBag().FillBag(item, p);
-                            else new UseFishBag().TogglePickup(item, p);
-                        }else if(a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK){
-                            if(Setup.hasEconomy() && a == Action.RIGHT_CLICK_BLOCK && e.getClickedBlock().getState() instanceof Sign){
-                                Sign sign = (Sign) e.getClickedBlock().getState();
-                                for(MarketObject market : FishSign.marketSigns) {
-                                    if(market.CheckBool(sign)){
-                                        FishEconomy.SellBag(e.getPlayer(), item, 1);
-                                        return;
-                                    }
-                                }
-                            }
-
-                            new UseFishBag().UseBag(item, p);
-                        }
-                    }
                 case WRITTEN_BOOK:
                     if(NBTEditor.contains(item, "blep", "item", "JournalID")){
                         if(a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK){
@@ -111,6 +92,28 @@ public class EventListener implements Listener {
                         }
                     }
             }
+
+            if(item.getType().equals(ItemsConfig.BagMat) && BagInfo.IsBag(item) && !p.getOpenInventory().getType().equals(InventoryType.CHEST)){
+                e.setCancelled(true);
+                if(a == Action.LEFT_CLICK_AIR || a == Action.LEFT_CLICK_BLOCK){
+                    if(p.isSneaking()) new UseFishBag().FillBag(item, p);
+                    else new UseFishBag().TogglePickup(item, p);
+                }else if(a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK){
+                    if(Setup.hasEconomy() && a == Action.RIGHT_CLICK_BLOCK && e.getClickedBlock().getState() instanceof Sign){
+                        Sign sign = (Sign) e.getClickedBlock().getState();
+                        for(MarketObject market : FishSign.marketSigns) {
+                            if(market.CheckBool(sign)){
+                                FishEconomy.SellBag(e.getPlayer(), item, 1);
+                                return;
+                            }
+                        }
+                    }
+
+                    new UseFishBag().UseBag(item, p);
+                }
+            }
+
+
         }
 
 
@@ -138,7 +141,7 @@ public class EventListener implements Listener {
             if(entity instanceof Villager) {
                 Villager villager = (Villager)entity;
                 if(villager.getProfession().equals(Villager.Profession.FISHERMAN)){
-                    if(item.getType() == Material.SALMON){
+                    if(item.getType() == ItemsConfig.FishMat){
                         e.setCancelled(true);
                         FishEconomy.SellFish(p, 1);
                     }
@@ -151,7 +154,7 @@ public class EventListener implements Listener {
 
             }
             if(Variables.AllowWanderingTraders && entity instanceof WanderingTrader){
-                if(item.getType() == Material.SALMON){
+                if(item.getType() == ItemsConfig.FishMat){
                     e.setCancelled(true);
                     FishEconomy.SellFish(p, Variables.TraderMod);
                 }
@@ -172,18 +175,11 @@ public class EventListener implements Listener {
         ItemStack upItem = inv[1];
 
         if(origItem != null && upItem != null){
-            switch(origItem.getType()){
-                case HEART_OF_THE_SEA:
-                    new SmithingTableHandler().UpgradeBag(origItem, upItem, e);
-                    break;
-//                case FISHING_ROD:
-//                    UpgradeRod(origItem, upItem, e);
-//                    break;
-                case PRISMARINE_CRYSTALS:
-                    new CompassHandler().CombinePieces(origItem, upItem, e);
-                    break;
-                default:
-                    break;
+            if(origItem.getType().equals(Material.PRISMARINE_CRYSTALS))
+                new CompassHandler().CombinePieces(origItem, upItem, e);
+
+            if(origItem.getType().equals(ItemsConfig.BagMat)){
+                new SmithingTableHandler().UpgradeBag(origItem, upItem, e);
             }
 
             List<HumanEntity> viewers = e.getViewers();
@@ -213,12 +209,14 @@ public class EventListener implements Listener {
                                 new AllBlueGeneration().Generate(e);
                                 break;
                             }
-                        case HEART_OF_THE_SEA:
-                            if(NBTEditor.contains(item, "blep", "item", "fishBagTier")) {
-                                new CollectionHandler().CraftedBag(p, BagInfo.getType(item));
-                                break;
-                            }
                     }
+
+                    if(item.getType().equals(ItemsConfig.FishMat)){
+                        if(NBTEditor.contains(item, "blep", "item", "fishBagTier")) {
+                            new CollectionHandler().CraftedBag(p, BagInfo.getType(item));
+                        }
+                    }
+
                 }
             }
             case CHEST -> {
@@ -241,7 +239,7 @@ public class EventListener implements Listener {
                         return;
                     }
 
-                    if(item.getType().equals(Material.SALMON)){
+                    if(item.getType().equals(ItemsConfig.FishMat)){
                         new UseFishBag().FishBagWithdraw(e.getClick(), item.getItemMeta().getDisplayName(), p, mainHand);
                         return;
                     }
@@ -255,7 +253,7 @@ public class EventListener implements Listener {
             }
             case PLAYER -> {
                 if(BagInfo.IsOpen(p, e.getInventory())) e.setCancelled(true);
-                if(item != null && item.getType() == Material.SALMON && BagInfo.IsBag(mainHand) && NBTEditor.contains( item,"blep", "item", "fishValue" )){
+                if(item != null && item.getType() == ItemsConfig.FishMat && BagInfo.IsBag(mainHand) && NBTEditor.contains( item,"blep", "item", "fishValue" )){
                     new UseFishBag().AddFish(mainHand, p, item, true);
                     return;
                 }
@@ -287,12 +285,8 @@ public class EventListener implements Listener {
         //Checks that custom items are not used in recipes
         for (ItemStack it : inv.getStorageContents()) {
             if (it != null && it.getType() != Material.AIR) {
-                switch(it.getType()){
-                    case HEART_OF_THE_SEA:
-                        CraftingManager.CheckBagCraft(e, it);
-                        break;
-                    default:
-                        break;
+                if(it.getType().equals(ItemsConfig.BagMat)){
+                    CraftingManager.CheckBagCraft(e, it);
                 }
             }
         }

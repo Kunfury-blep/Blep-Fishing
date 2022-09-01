@@ -1,0 +1,10 @@
+Fish:
+  material: COD
+
+Fish Bag:
+  material: HEART_OF_THE_SEA
+  modelData: 1
+
+Message Bottle:
+  material: GLASS_BOTTLE
+  modelData: 1

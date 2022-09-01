@@ -38,7 +38,7 @@ public class SpawnSubCommand extends SubCommand {
         Player p = (Player) sender;
 
         if(args.length <= 1){
-            p.sendMessage(Variables.Prefix + Formatting.getMessage("System.spawnInvalid"));
+            p.sendMessage(Variables.Prefix + Formatting.getMessage("Admin.Spawn.noName"));
             return;
         }
 
@@ -50,7 +50,8 @@ public class SpawnSubCommand extends SubCommand {
                     SpawnTreasure(p, args[2], amt);
                     break;
                 }
-                else p.sendMessage(Variables.Prefix + ChatColor.RED + "Please include the treasure type you wish to spawn.");
+                else p.sendMessage(Variables.Prefix + Formatting.getMessage("Admin.Spawn.validTreasure"));
+                break;
             case "FISH":
                 StringBuilder name;
                 if(args.length == 2){
@@ -79,7 +80,7 @@ public class SpawnSubCommand extends SubCommand {
                 break;
 
             default:
-                sender.sendMessage(Variables.Prefix + Formatting.getMessage("System.spawnInvalid"));
+                sender.sendMessage(Variables.Prefix + Formatting.getMessage("Admin.Spawn.noName"));
         }
 
     }
@@ -132,14 +133,14 @@ public class SpawnSubCommand extends SubCommand {
 
     private void SpawnTreasure(Player p, String type, int amount){
         if(amount <= 0){
-            p.sendMessage(Variables.Prefix + ChatColor.RED + "Please enter a valid amount.");
+            p.sendMessage(Variables.Prefix + Formatting.getMessage("Admin.Spawn.validAmount"));
             return;
         }
 
 
         if(amount > 100){
             amount = 100;
-            p.sendMessage(Variables.Prefix + ChatColor.YELLOW + "Amount set to 100 to prevent crashing.");
+            p.sendMessage(Variables.Prefix + Formatting.getMessage("Admin.Spawn.limit"));
         }
 
 
@@ -175,20 +176,22 @@ public class SpawnSubCommand extends SubCommand {
                     p.getWorld().dropItem(p.getLocation(), i);
                 }else p.sendMessage(Variables.Prefix + ChatColor.RED + "Error generating treasure: " + ChatColor.YELLOW + type.toUpperCase());
             }
-            p.sendMessage(Variables.Prefix +  "Finished spawning " + amount + " " + type);
+            p.sendMessage(Variables.Prefix +  Formatting.getMessage("Admin.Spawn.success")
+                            .replace("{amount}", String.valueOf(amount))
+                            .replace("{type}", type));
             Setup.getPlugin().getLogger().log(Level.FINE, Variables.Prefix + ChatColor.GRAY + "Spawned " + amount + " " + type + " for " + p.getName());
         }else p.sendMessage(Variables.Prefix + ChatColor.RED + "Error generating treasure: " + ChatColor.YELLOW + type.toUpperCase());
     }
 
     private void SpawnFish(Player p, String name, int amount){
         if(amount <= 0){
-            p.sendMessage(Variables.Prefix + ChatColor.RED + "Please enter a valid amount.");
+            p.sendMessage(Variables.Prefix + Formatting.getMessage("Admin.Spawn.validAmount"));
             return;
         }
 
         if(amount > 100){
             amount = 100;
-            p.sendMessage(Variables.Prefix + ChatColor.YELLOW + "Amount set to 100 to prevent crashing.");
+            p.sendMessage(Variables.Prefix + Formatting.getMessage("Admin.Spawn.limit"));
         }
 
         List<FishObject> fish = new ArrayList<>();
@@ -198,7 +201,7 @@ public class SpawnSubCommand extends SubCommand {
         boolean random = name.equalsIgnoreCase("RANDOM") || name.equalsIgnoreCase("ALL") || name.equalsIgnoreCase("<fish_name>");
 
         if(!random && base == null){
-            p.sendMessage(Variables.Prefix + ChatColor.RED + "Please enter a valid fish type.");
+            p.sendMessage(Variables.Prefix + Formatting.getMessage("Admin.Spawn.validFish"));
             return;
         }
 
@@ -220,11 +223,13 @@ public class SpawnSubCommand extends SubCommand {
             }
 
             if(random){
-                p.sendMessage(Variables.Prefix +  "Finished spawning " + amount + " fish.");
+                p.sendMessage(Variables.Prefix +  Formatting.getMessage("Admin.Spawn.success")
+                        .replace("{amount}", String.valueOf(amount))
+                        .replace("{type}", "fish"));
             }else
-                p.sendMessage(Variables.Prefix +  "Finished spawning " + amount + " " + name);
-
-            Setup.getPlugin().getLogger().log(Level.FINE, Variables.Prefix + ChatColor.GRAY + "Spawned " + amount + " fish for " + p.getName());
+                p.sendMessage(Variables.Prefix +  Formatting.getMessage("Admin.Spawn.success")
+                        .replace("{amount}", String.valueOf(amount))
+                        .replace("{type}", name));
         }else p.sendMessage(Variables.Prefix + ChatColor.RED + "Error generating fish.");
 
 

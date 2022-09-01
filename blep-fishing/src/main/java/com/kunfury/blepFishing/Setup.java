@@ -69,7 +69,6 @@ public class Setup extends JavaPlugin {
 
 		if(Reload.success){
 			new AdminMenu().CreateStacks(); //Creates the icons for the admin panel
-
 			new CraftingManager().InitItems();
 		}
 
@@ -107,13 +106,15 @@ public class Setup extends JavaPlugin {
 
 	private void GenerateFiles(){
 		File tournamentFile = new File(plugin.getDataFolder(), "tournaments.yml");
-
 		if (!tournamentFile.exists())
 			plugin.saveResource("tournaments.yml", false);
 
 		File messageFile = new File(plugin.getDataFolder(), "messages.yml");
-
 		if (!messageFile.exists())
 			plugin.saveResource("messages.yml", false);
+
+		File itemsFile = new File(plugin.getDataFolder(), "items.yml");
+		if (!itemsFile.exists())
+			plugin.saveResource("items.yml", false);
 	}
 }

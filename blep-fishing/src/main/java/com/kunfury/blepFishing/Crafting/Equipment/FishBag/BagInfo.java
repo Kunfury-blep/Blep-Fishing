@@ -1,5 +1,6 @@
 package com.kunfury.blepFishing.Crafting.Equipment.FishBag;
 
+import com.kunfury.blepFishing.Config.ItemsConfig;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -15,7 +16,7 @@ public class BagInfo {
 
     public static HashMap<Player, Inventory> Inventories = new HashMap<>();
 
-    static Material[] UpgradeItems = new Material[]{
+    public static Material[] UpgradeItems = new Material[]{
             Material.IRON_BLOCK,
             Material.DIAMOND_BLOCK,
             Material.NETHERITE_BLOCK
@@ -26,8 +27,8 @@ public class BagInfo {
     }
 
     public static int getMax(int tier){
-        //return (10 * tier); //This is for testing purposes to be able to easily upgrade the bag
-        return (int) (256 * Math.pow(tier, 4 ));
+        return (10 * tier); //This is for testing purposes to be able to easily upgrade the bag
+        //return (int) (256 * Math.pow(tier, 4 ));
     }
 
     public static int getTier(ItemStack bag){
@@ -44,7 +45,7 @@ public class BagInfo {
     }
 
     public static boolean IsBag(ItemStack bag){
-        return bag.getType() == Material.HEART_OF_THE_SEA && NBTEditor.contains(bag, "blep", "item", "fishBagId");
+        return bag.getType() == ItemsConfig.BagMat && NBTEditor.contains(bag, "blep", "item", "fishBagId");
     }
 
     public static String getType(ItemStack bag){
@@ -53,7 +54,12 @@ public class BagInfo {
 
     public static ItemStack getUpgradeComp(ItemStack bag){
         int tier = getTier(bag);
-        return new ItemStack(UpgradeItems[tier - 1], 1);
+
+        if(UpgradeItems.length >= tier)
+            return new ItemStack(UpgradeItems[tier - 1], 1);
+        else
+            return null;
+
     }
 
     public static Boolean IsOpen(Player p, Inventory inv){

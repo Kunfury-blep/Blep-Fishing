@@ -2,6 +2,7 @@ package com.kunfury.blepFishing;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
+import com.kunfury.blepFishing.Config.ItemsConfig;
 import com.kunfury.blepFishing.Endgame.AllBlueInfo;
 import com.kunfury.blepFishing.Endgame.DangerEvents;
 import com.kunfury.blepFishing.Endgame.TreasureHandler;
@@ -65,7 +66,7 @@ public class FishSwitch{
 			new DangerEvents().Trigger(player, item.getLocation());
 			//Checks if the player has a fishing bag. Automatically adds the fish to it if so
 
-			if(Variables.EnableFishBags && player.getInventory().contains(Material.HEART_OF_THE_SEA)){
+			if(Variables.EnableFishBags && player.getInventory().contains(ItemsConfig.BagMat)){
 				for (var slot : player.getInventory())
 				{
 					if(slot != null && BagInfo.IsBag(slot) && NBTEditor.getBoolean(slot, "blep", "item", "fishBagAutoPickup") && !BagInfo.IsFull(slot)){

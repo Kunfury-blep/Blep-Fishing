@@ -84,6 +84,8 @@ public class UpdateBag {
         DecimalFormat formatter = new DecimalFormat("#,###");
         double fishCount = BagInfo.getAmount(bag);
         double maxSize = BagInfo.getMax(bag);
+        int tier = BagInfo.getTier(bag);
+
 
         ArrayList<String> lore = new ArrayList<>();
 
@@ -108,14 +110,15 @@ public class UpdateBag {
 
         lore.add(progressBar + " " + formatter.format(fishCount) + "/" + formatter.format(maxSize));
 
-        lore.add("");
-        if (BagInfo.IsFull(bag)) {
-            lore.add(Formatting.getMessage("Equipment.Fish Bag.upgradeReady")
-                            .replace("{upgrade}", BagInfo.getUpgradeComp(bag).getType().name().replace("_", " ")));
-        } else{
-            lore.add(Formatting.getMessage("Equipment.Fish Bag.upgradeHint"));
+        if(tier < BagInfo.UpgradeItems.length){
+            lore.add("");
+            if (BagInfo.IsFull(bag)) {
+                lore.add(Formatting.getMessage("Equipment.Fish Bag.upgradeReady")
+                        .replace("{upgrade}", BagInfo.getUpgradeComp(bag).getType().name().replace("_", " ")));
+            } else{
+                lore.add(Formatting.getMessage("Equipment.Fish Bag.upgradeHint"));
+            }
         }
-
 
         lore.add("");
         lore.add(Formatting.getMessage("Equipment.Fish Bag.autoPickup"));

@@ -1,5 +1,6 @@
 package com.kunfury.blepFishing.Crafting.Equipment.FishBag;
 
+import com.kunfury.blepFishing.Config.ItemsConfig;
 import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Miscellaneous.Utilities;
@@ -45,7 +46,7 @@ public class UseFishBag {
 
         for(var item : p.getInventory().getStorageContents()){
             if(bagAmt >= bagMax) break;
-            if(item != null && item.getType() == Material.SALMON && NBTEditor.contains( item,"blep", "item", "fishValue" )){
+            if(item != null && item.getType() == ItemsConfig.FishMat && NBTEditor.contains( item,"blep", "item", "fishValue" )){
                 AddFish(bag, p, item, false);
                 amount++;
                 bagAmt++;
@@ -165,55 +166,6 @@ public class UseFishBag {
 
             new UpdateBag().Update(bag, p, true);
         }
-
-
-        //TODO: Ensure async is needed
-//        final BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
-//        scheduler.runTaskAsynchronously(Setup.getPlugin(), () -> {
-//            final List<FishObject> fishObjectList = new ParseFish().RetrieveFish(bagId, fishName);
-//
-//            boolean large = true;
-//            boolean single = true;
-//            switch(click){
-//                case LEFT:
-//                    large = false;
-//                    single = true;
-//                    break;
-//                case SHIFT_LEFT:
-//                    large = false;
-//                    single = false;
-//                    break;
-//                case RIGHT:
-//                    large = true;
-//                    single = true;
-//                    break;
-//                case SHIFT_RIGHT:
-//                    large = true;
-//                    single = false;
-//                    break;
-//                default:
-//                    break;
-//            }
-//
-//            if(fishObjectList.size() > 0){
-//
-//                int freeSlots = Utilities.getFreeSlots(p.getInventory());
-//
-//                if(single && freeSlots > 1) freeSlots = 1;
-//                else if(freeSlots > fishObjectList.size()) freeSlots = fishObjectList.size();
-//                if(large)  Collections.reverse(fishObjectList);
-//
-//                for(int i = 0; i < freeSlots; i++){
-//                    FishObject fish = fishObjectList.get(i);
-//                    fish.setBagID(null);
-//                    p.getInventory().addItem(fish.GenerateItemStack());
-//                }
-//                p.playSound(p.getLocation(), Sound.ENTITY_SALMON_FLOP, .5f, 1f);
-//                Variables.UpdateFishData();
-//
-//                new UpdateBag().Update(bag, p, true);
-//            }
-//        });
     }
 
     public void ChangePage(boolean next, ItemStack bag, Player p){
