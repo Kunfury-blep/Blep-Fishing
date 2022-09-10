@@ -97,12 +97,11 @@ public class Formatting {
 
 	public static FileConfiguration messages = new YamlConfiguration();
 	public static String getMessage(String key){
-		String message = messages.getString(key);
-
-		if(message == null || message.isEmpty()){
-			message = ChatColor.RED + "Message Not Found - " + key;
+		if(messages.contains(key)){
+			return formatColor(messages.getString(key));
+		}else{
+			return ChatColor.RED + "Message Not Found - " + key;
 		}
-		return formatColor(message);
 	}
 
 	public static FileConfiguration items = new YamlConfiguration();
