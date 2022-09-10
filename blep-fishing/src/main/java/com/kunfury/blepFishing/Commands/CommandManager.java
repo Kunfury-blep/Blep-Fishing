@@ -5,6 +5,7 @@ import com.kunfury.blepFishing.Interfaces.Player.PlayerPanel;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.TabExecutor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -36,17 +37,14 @@ public class CommandManager implements TabExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         if(args.length > 0){
-            if(args[0].equalsIgnoreCase("HELP") || args[0].equalsIgnoreCase("?")) BaseCommand(sender);
-            else {
-                for(SubCommand subCommand : subCommands){
-                    if(subCommand.getName().equalsIgnoreCase(args[0]) || (subCommand.getAliases() != null && subCommand.getAliases().contains(args[0].toUpperCase()))){
-                        if(CheckPermissions(sender, subCommand.getPermissions())) subCommand.perform(sender, args);
-                        else NoPermission(sender);
-                        return true;
-                    }
+            for(SubCommand subCommand : subCommands){
+                if(subCommand.getName().equalsIgnoreCase(args[0]) || (subCommand.getAliases() != null && subCommand.getAliases().contains(args[0].toUpperCase()))){
+                    if(CheckPermissions(sender, subCommand.getPermissions())) subCommand.perform(sender, args);
+                    else NoPermission(sender);
+                    return true;
                 }
-                sender.sendMessage(Prefix + Formatting.getMessage("System.noComm"));
             }
+            sender.sendMessage(Prefix + Formatting.getMessage("System.noComm"));
         }else BaseCommand(sender);
 
         return true;
@@ -86,7 +84,10 @@ public class CommandManager implements TabExecutor {
     }
 
     private void BaseCommand(CommandSender sender){
-        new PlayerPanel().Show(sender);
+        if(sender instanceof ConsoleCommandSender)
+            new HelpSubcommand().perform(sender, null);
+        else
+            new PlayerPanel().Show(sender);
     }
 
 }
