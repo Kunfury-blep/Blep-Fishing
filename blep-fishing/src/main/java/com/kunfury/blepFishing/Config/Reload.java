@@ -75,8 +75,14 @@ public class Reload {
     		//Reloading Areas
     		Map<String, Object> areaMap = Setup.config.getConfigurationSection("areas").getValues(false);
     		for(final String key : areaMap.keySet()) {
-				List<String> biomes = Setup.config.getStringList("areas." + key + ".Biomes");
-				biomes.replaceAll(String::toUpperCase);
+				List<String> origBiomes = Setup.config.getStringList("areas." + key + ".Biomes");
+
+				List<String> biomes = new ArrayList<>();
+				for(var b : origBiomes){
+					if(b.startsWith("minecraft:"))
+						b = b.replace("minecraft:", "");
+					biomes.add(b.toUpperCase());
+				}
     			String compassHint = Setup.config.getString("areas." + key + ".Compass Hint");
     			boolean hasCompass = Setup.config.getBoolean("areas." + key + ".Has Compass");
 

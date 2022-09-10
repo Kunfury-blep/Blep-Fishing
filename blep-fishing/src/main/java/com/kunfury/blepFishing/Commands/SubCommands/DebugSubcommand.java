@@ -3,8 +3,12 @@ package com.kunfury.blepFishing.Commands.SubCommands;
 import com.kunfury.blepFishing.Commands.CommandManager;
 import com.kunfury.blepFishing.Commands.SubCommand;
 import com.kunfury.blepFishing.Config.Variables;
+import com.kunfury.blepFishing.Miscellaneous.BiomeHandler;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
+import org.bukkit.Bukkit;
+import org.bukkit.block.Biome;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -33,6 +37,7 @@ public class DebugSubcommand extends SubCommand {
             else sender.sendMessage(Variables.Prefix + Formatting.getMessage("System.debugDisabled"));
             sender.sendMessage(Variables.Prefix + Formatting.getMessage("System.debugFish")
                             .replace("{amount}", String.valueOf(Variables.getFishList("ALL").size())));
+
         }else new CommandManager().NoPermission(sender);
     }
 

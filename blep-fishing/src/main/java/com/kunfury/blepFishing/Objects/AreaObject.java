@@ -2,6 +2,7 @@ package com.kunfury.blepFishing.Objects;
 
 import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Miscellaneous.BiomeHandler;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 import java.util.ArrayList;
@@ -16,7 +17,6 @@ public class AreaObject {
 
 	
 	public AreaObject(String _name, List<String> _biomes, String _compassHint, boolean _hasCompass) {
-		
 		Name = _name;
 		Biomes = _biomes;
 		CompassHint = _compassHint;

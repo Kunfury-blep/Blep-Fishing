@@ -1,32 +1,63 @@
 package com.kunfury.blepFishing.Miscellaneous;
 
-import net.minecraft.core.Registry;
+import net.minecraft.core.BlockPosition;
+import net.minecraft.core.Holder;
+import net.minecraft.core.IRegistry;
 import net.minecraft.resources.MinecraftKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.dedicated.DedicatedServer;
+import net.minecraft.server.level.WorldServer;
+import net.minecraft.world.level.biome.BiomeBase;
+import net.minecraft.world.level.chunk.Chunk;
+import net.minecraft.world.level.chunk.ChunkSection;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.block.Biome;
 import org.bukkit.craftbukkit.v1_19_R1.CraftServer;
+import org.bukkit.craftbukkit.v1_19_R1.CraftWorld;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 import net.minecraft.core.IRegistryWritable;
 
+import java.util.Objects;
+
 public class BiomeHandler {
 
     public String getBiomeName(Location loc) {
-        return loc.getBlock().getBiome().name();
+        String biomeName = null;
+
+        String version = Bukkit.getBukkitVersion();
+
+        if(version.contains("1.19"))
+            biomeName = get1_19(loc).toString();
+
+
+        if(biomeName == null)
+            biomeName = loc.getBlock().getBiome().toString();
+
+        if(biomeName.startsWith("minecraft:")){
+            biomeName = biomeName.replace("minecraft:", "");
+        }
+
+        return biomeName;
     }
 
+    //Version 1.19
+    private MinecraftKey get1_19(Location loc){
+        World world = loc.getWorld();
+        DedicatedServer dedicatedServer = ((CraftServer) Bukkit.getServer()).getServer();
+        WorldServer nmsWorld = ((CraftWorld) world).getHandle();
 
-    public MinecraftKey getBiomeKey(Location location) {
-        DedicatedServer dServer = ((CraftServer) Bukkit.getServer()).getServer();
+        int x = loc.getBlockX();
+        int y = loc.getBlockY();
+        int z = loc.getBlockZ();
 
-        MinecraftServer ms = dServer.server.getServer();
+        BiomeBase biomeBase = nmsWorld.getNoiseBiome(x >> 2, y >> 2, z >> 2).a();
 
+        IRegistry<BiomeBase> registry = dedicatedServer.aX().b(IRegistry.aR);
 
-
-        return null;
+        return registry.b(biomeBase);
     }
 
 

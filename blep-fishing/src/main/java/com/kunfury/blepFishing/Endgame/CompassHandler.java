@@ -77,8 +77,8 @@ public class CompassHandler {
         Location pLoc = p.getLocation();
         cLoc.setY(pLoc.getY());
 
-        if(!Objects.equals(cLoc.getWorld(), pLoc.getWorld())){
-            Bukkit.broadcastMessage("Mismatched worlds found");
+        if(!Objects.equals(cLoc.getWorld(), pLoc.getWorld())){ //Checks to make sure the player is in the world
+            p.sendMessage(ChatColor.GRAY + "You feel as if you are worlds apart from your destination.");
             return;
         }
 

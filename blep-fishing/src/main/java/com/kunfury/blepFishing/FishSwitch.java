@@ -10,6 +10,7 @@ import com.kunfury.blepFishing.CollectionLog.CollectionHandler;
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.BagInfo;
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.UpdateBag;
 import com.kunfury.blepFishing.Events.FishCaughtEvent;
+import com.kunfury.blepFishing.Miscellaneous.BiomeHandler;
 import com.kunfury.blepFishing.Objects.*;
 import com.kunfury.blepFishing.Tournament.TournamentHandler;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
@@ -166,22 +167,25 @@ public class FishSwitch{
 	}
 
 	private boolean CanFish(Item item, Player player, PlayerFishEvent e) {
-		String world = e.getPlayer().getWorld().getName().toUpperCase();
 
-		//Check Area
-		String biomeName = item.getLocation().getBlock().getBiome().name(); //change to location of hook
-		List<AreaObject> areas = new ArrayList<>();
-		for(AreaObject a : Variables.AreaList) {
-			if (a.Biomes.contains(biomeName)) areas.add(a);
-		}
+		if(Variables.RequireAreaPerm){//Check Area
+			String biomeName = new BiomeHandler().getBiomeName(e.getHook().getLocation());
+			List<AreaObject> areas = new ArrayList<>();
+			for(AreaObject a : Variables.AreaList) {
+				if (a.Biomes.contains(biomeName)) areas.add(a);
+			}
 
-		if(areas.size() <= 0) return false; //Makes sure the area exists
-		else if(Variables.RequireAreaPerm){ //Checks for area permissions
+			if(areas.size() == 0) return false; //Makes sure the area exists
+
 			for(AreaObject a : areas){
 				if(!(player.hasPermission("bf.area.*") || player.hasPermission("bf.area." + a.Name)))
 					return false;
 			}
 		}
+
+
+
+
 
 		//&& (player.hasPermission("bf.area.*") || player.hasPermission("bf.area." + biomeName)))
 
@@ -192,6 +196,7 @@ public class FishSwitch{
 		if(Variables.TournamentOnly && !Variables.TournamentRunning) return false;
 
 		//Check for world permissions
+		String world = e.getPlayer().getWorld().getName().toUpperCase();
 		if(Variables.WorldsWhitelist && !Variables.AllowedWorlds.contains(world)) return false;
 
 		var l = item.getLocation();

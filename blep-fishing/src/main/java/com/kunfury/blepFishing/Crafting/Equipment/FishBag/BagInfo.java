@@ -27,8 +27,8 @@ public class BagInfo {
     }
 
     public static int getMax(int tier){
-        return (10 * tier); //This is for testing purposes to be able to easily upgrade the bag
-        //return (int) (256 * Math.pow(tier, 4 ));
+        //return (10 * tier); //This is for testing purposes to be able to easily upgrade the bag
+        return (int) (256 * Math.pow(tier, 4 ));
     }
 
     public static int getTier(ItemStack bag){
