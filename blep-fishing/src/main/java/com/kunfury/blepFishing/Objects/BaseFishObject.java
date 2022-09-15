@@ -7,6 +7,7 @@ import org.bukkit.ChatColor;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class BaseFishObject implements Serializable{
@@ -67,15 +68,17 @@ public class BaseFishObject implements Serializable{
 		return null;
 	}
 
+	public static BaseFishObject getRandom(){
+		Random rand = new Random();
+		return Variables.BaseFishList.get(rand.nextInt(Variables.BaseFishList.size()));
+	}
+
 	public double getSize(boolean allBlue){
 		double realMax = MaxSize;
 
 		if(allBlue) realMax *= EndgameVars.FishSizeMod;
-		//TODO: Increase fish stats based on config
 
-		double size = ThreadLocalRandom.current().nextDouble(MinSize, realMax);
-
-		return size;
+		return ThreadLocalRandom.current().nextDouble(MinSize, realMax);
 	}
 
 	public boolean canCatch(boolean isRaining, int height, boolean isNight, List<AreaObject> areas){
