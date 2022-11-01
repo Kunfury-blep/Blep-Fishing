@@ -1,0 +1,122 @@
+###
+# Looking to customize more?
+# Check out Touranment Wiki Page
+# https://github.com/Kunfury-blep/Blep-Fishing/wiki/Fishing-Tournaments
+###
+
+'&bFishing Frenzy':
+  Fish Type: ALL
+  Min Size: 0
+  Max Size: 0
+  Amount: 25
+  Cooldown: 24
+  Announce Progress: true
+  Rewards:
+    - 'CASH: 1000'
+    - 'ITEM: DIAMOND 1'
+
+
+'&eHelluva Halibut':
+  Fish Type: Halibut
+  Min Size: 0
+  Max Size: 0
+  Amount: 5
+  Cooldown: 24
+  Announce Progress: true
+  Rewards:
+    - 'CASH: 1000'
+    - 'ITEM: DIAMOND 1'
+
+'&aCareful Carp':
+  Fish Type: Carp
+  Min Size: 0
+  Max Size: 0
+  Amount: 10
+  Cooldown: 24
+  Announce Progress: true
+  Rewards:
+    - 'CASH: 1000'
+    - 'ITEM: DIAMOND 1'
+
+'&9Angry Anglers':
+  Fish Type: Anglerfish
+  Min Size: 0
+  Max Size: 0
+  Amount: 3
+  Cooldown: 24
+  Announce Progress: true
+  Rewards:
+    - 'CASH: 1000'
+    - 'ITEM: DIAMOND 1'
+
+'&cGreat Gars':
+  Fish Type: Gar
+  Min Size: 10
+  Max Size: 0
+  Amount: 3
+  Duration: 24
+  Cooldown: 24
+  Announce Progress: true
+  Rewards:
+    - 'CASH: 1000'
+    - 'ITEM: DIAMOND 1'
+
+'&bMighty Minnow':
+  Fish Type: Minnow
+  Min Size: 6
+  Max Size: 0
+  Amount: 1
+  Duration: 36
+  Cooldown: 24
+  Announce Progress: true
+  Rewards:
+    - 'CASH: 1000'
+    - 'ITEM: DIAMOND 1'
+
+'&6Precise Perch':
+  Fish Type: Perch
+  Min Size: 10
+  Max Size: 12
+  Amount: 1
+  Cooldown: 6
+  Duration: 24
+  Announce Progress: true
+  Rewards:
+    - 'CASH: 1000'
+    - 'ITEM: DIAMOND 1'
+
+'&aCool Cod':
+  Fish Type: Cod
+  Min Size: 0
+  Max Size: 0
+  Amount: 10
+  Cooldown: 12
+  Duration: 24
+  Announce Progress: true
+  Rewards:
+    - 'CASH: 1000'
+    - 'ITEM: DIAMOND 1'
+
+'&2Terrifying Tambaqui':
+  Fish Type: Tambqui
+  Min Size: 40
+  Max Size: 0
+  Amount: 1
+  Cooldown: 12
+  Duration: 24
+  Announce Progress: true
+  Rewards:
+    - 'CASH: 1000'
+    - 'ITEM: DIAMOND 1'
+
+'&3Perilous Piranhas':
+  Fish Type: Red-bellied Piranha
+  Min Size: 0
+  Max Size: 0
+  Amount: 5
+  Cooldown: 18
+  Duration: 24
+  Announce Progress: true
+  Rewards:
+    - 'CASH: 1000'
+    - 'ITEM: DIAMOND 1'

@@ -3,10 +3,12 @@ package com.kunfury.blepFishing.Commands.SubCommands;
 import com.kunfury.blepFishing.Commands.CommandManager;
 import com.kunfury.blepFishing.Commands.SubCommand;
 import com.kunfury.blepFishing.Config.Variables;
+import com.kunfury.blepFishing.Interfaces.Player.TournamentPanel;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Tournament.TournamentHandler;
 import com.kunfury.blepFishing.Tournament.TournamentObject;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -30,6 +32,16 @@ public class TournamentSubcommand extends SubCommand {
     @Override
     public void perform(@NotNull CommandSender sender, String[] args) {
 
+        if(args.length == 1){
+            if(sender instanceof Player){
+                new TournamentPanel().ClickBase((Player) sender);
+            }else{
+                sender.sendMessage(Variables.Prefix + Formatting.getMessage("Tournament.noAction"));
+            }
+
+            return;
+        }
+
         if(!sender.hasPermission("bf.admin")){
             new CommandManager().NoPermission(sender);
             return;
@@ -37,11 +49,6 @@ public class TournamentSubcommand extends SubCommand {
 
         if(!TournamentHandler.isActive){
             sender.sendMessage(Variables.Prefix +  Formatting.getMessage("Tournament.inactive"));
-            return;
-        }
-
-        if(args.length == 1){
-            sender.sendMessage(Variables.Prefix + Formatting.getMessage("Tournament.noAction"));
             return;
         }
 

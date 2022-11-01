@@ -22,11 +22,11 @@ import static com.kunfury.blepFishing.Config.Variables.Prefix;
 public class Rewards {
 
     public static HashMap<UUID, List<ItemStack>> UnsavedRewards = new HashMap<>();
-    List<OfflinePlayer> rewardedPlayers = new ArrayList<>();
+    List<UUID> rewardedPlayers = new ArrayList<>();
     public void Generate(TournamentObject t){
 
 
-        HashMap<OfflinePlayer, List<String>> winners;
+        HashMap<UUID, List<String>> winners;
 
         if(t.Type == TournamentType.AMOUNT)
             winners = getAmountRewards(t);
@@ -34,12 +34,11 @@ public class Rewards {
             winners = getRewards(t);
 
         if(!winners.isEmpty()){
-            winners.forEach((player, reward) -> {
-                giveRewards(reward, player);
+            winners.forEach((uuid, reward) -> {
+                giveRewards(reward, uuid);
             });
         }
 
-        //TODO: Ensure the default winners are rewarded
         List<String> defaultRewards = t.Rewards.get("DEFAULT");
         if(defaultRewards != null && defaultRewards.size() > 0){
             for(var p : t.getParticipants()){
@@ -53,64 +52,49 @@ public class Rewards {
         SaveRewards();
     }
 
-    private HashMap<OfflinePlayer, List<String>> getAmountRewards(TournamentObject t){
-        HashMap<OfflinePlayer, List<String>> rewards = new HashMap<>();
+    private HashMap<UUID, List<String>> getAmountRewards(TournamentObject t){
+        HashMap<UUID, List<String>> rewards = new HashMap<>();
 
-        HashMap<OfflinePlayer, Integer> winners = t.getWinnersAmount();
+        HashMap<String, Integer> winners = t.CaughtMap;
+
 
         Object[] a = winners.entrySet().toArray();
+
         Arrays.sort(a, (Comparator) (o1, o2) -> ((Map.Entry<OfflinePlayer, Integer>) o2).getValue()
                 .compareTo(((Map.Entry<OfflinePlayer, Integer>) o1).getValue()));
 
-        List<OfflinePlayer> players = new ArrayList<>();
-
         for(int i = 0; i < a.length; i++){
-            Object o = a[i];
+            Map.Entry<String, Integer> winnerEntry = (Map.Entry<String, Integer>) a[i];
 
-            int amount = ((Map.Entry<OfflinePlayer, Integer>) o).getValue();
-            OfflinePlayer p = ((Map.Entry<OfflinePlayer, Integer>) o).getKey();
-
-            if(players.size() <= 0) players.add(p);
-            else{
-                for(int f = 0; f < players.size(); f++){
-                    OfflinePlayer lPlayer = players.get(i);
-                    if(winners.get(lPlayer) < amount){
-                        players.add(f, p);
-                        break;
-                    }
-                    if(f == players.size() - 1) //Put at end if smaller than all others
-                        players.add(p);
-                }
+            if(t.Rewards.containsKey(String.valueOf(i + 1))){
+                List<String> reward = t.Rewards.get(String.valueOf(i + 1));
+                UUID uuid = UUID.fromString(winnerEntry.getKey());
+                rewards.put(uuid, reward);
             }
-        }
 
-        for(int i = 0; i < players.size(); i++){
-            rewards.put(players.get(i), t.Rewards.get(String.valueOf(i + 1)));
+
         }
 
         return rewards;
     }
 
-    private HashMap<OfflinePlayer, List<String>> getRewards(TournamentObject t){
-        HashMap<OfflinePlayer, List<String>> winners = new HashMap<>();
+    private HashMap<UUID, List<String>> getRewards(TournamentObject t){
+        HashMap<UUID, List<String>> winners = new HashMap<>();
 
         t.getWinners().forEach((rank, fish) -> {
-            winners.put(fish.getPlayer(), t.Rewards.get(String.valueOf(rank)));
+            winners.put(fish.getPlayerUUID(), t.Rewards.get(String.valueOf(rank)));
         });
 
         return winners;
     }
 
-    private void giveRewards(List<String> rewardStrs, OfflinePlayer p){
-        if(p != null && rewardStrs != null){
-            rewardedPlayers.add(p);
-            UUID uuid = p.getUniqueId();
+    private void giveRewards(List<String> rewardStrs, UUID uuid){
+        if(uuid != null && rewardStrs != null){
+            rewardedPlayers.add(uuid);
             for(var r : rewardStrs){
                 ItemHandler.parseReward(r, uuid);
             }
         }
-
-
     }
 
     public static void AddReward(UUID uuid, ItemStack item){

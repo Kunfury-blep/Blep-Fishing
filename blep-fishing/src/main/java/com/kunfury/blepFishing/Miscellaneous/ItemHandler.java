@@ -42,8 +42,18 @@ public class ItemHandler {
                 case "ITEM: ":
                     String[] infoArray = itemStr.split(" ");
                     if(infoArray.length >= 2){
-                        item.setType(Material.valueOf(infoArray[0]));
-                        item.setAmount(Integer.parseInt(infoArray[1]));
+                        Material type = Material.getMaterial(infoArray[0]);
+
+                        if(type != null){
+                            item.setType(Material.valueOf(infoArray[0]));
+                            item.setAmount(Integer.parseInt(infoArray[1]));
+                        }else{
+                            Bukkit.getLogger().warning("Error creating Blep Fishing casket reward from " + infoArray[0] + ". Defaulting to air.");
+                            item.setType(Material.AIR);
+                            item.setAmount(0);
+                        }
+
+
                     }
                     return item;
                 case "CASH: ":
@@ -89,7 +99,9 @@ public class ItemHandler {
                         OfflinePlayer p = Bukkit.getOfflinePlayer(uuid);
                         int amount = Integer.parseInt(itemStr);
                         Setup.getEconomy().depositPlayer(p, amount);
-                        if(p.isOnline()) p.getPlayer().sendMessage(ChatColor.GREEN + Setup.getEconomy().format(amount));
+                        if(p.isOnline())
+                            p.getPlayer().sendMessage(Prefix + Formatting.getMessage("Economy.received")
+                                                        .replace("{value}", Setup.getEconomy().format(amount)));
                     } else {
                         Bukkit.getLogger().warning("A player would have received currency but no economy was found. Please update the Blep Fishing config files.");
                     }
@@ -114,7 +126,18 @@ public class ItemHandler {
      */
     public static void GivePlayer(UUID uuid, ItemStack item){
         OfflinePlayer p = Bukkit.getOfflinePlayer(uuid);
-        if(p.isOnline()){
+
+        boolean isOnline = false;
+
+        for(var s : Bukkit.getOnlinePlayers()){
+            if(s.getUniqueId().equals(uuid)){
+                p = s;
+                isOnline = true;
+                break;
+            }
+        }
+
+        if(isOnline){
             Player player = p.getPlayer();
             assert player != null;
             if(Utilities.getFreeSlots(player.getInventory()) > 0){

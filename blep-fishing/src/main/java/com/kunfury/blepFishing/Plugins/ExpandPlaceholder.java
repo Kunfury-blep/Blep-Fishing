@@ -70,11 +70,11 @@ public class ExpandPlaceholder extends PlaceholderExpansion {
             returnString = switch (type.toUpperCase()) {
                 case "PLAYER" -> fish.PlayerName;
                 case "FISH" -> fish.Name;
-                case "SIZE" -> fish.RealSize + "";
+                case "SIZE" -> Formatting.DoubleFormat(fish.RealSize) + "";
                 case "COST" -> fish.RealCost + "";
                 case "RARITY" -> fish.Rarity;
                 case "DATE" -> fish.DateCaught.toString();
-                case "SCORE" -> fish.Score + "";
+                case "SCORE" -> Formatting.DoubleFormat(fish.Score) + "";
                 default -> fish.PlayerName + " : " + fish.Name + " : " + fish.RealSize;
             };
 
@@ -169,7 +169,7 @@ public class ExpandPlaceholder extends PlaceholderExpansion {
         response = switch (type.toUpperCase()) {
             case "NAME" -> fish.getName();
             case "RARITY" -> fish.getRarity();
-            case "SIZE" -> fish.getSize();
+            case "SIZE" -> fish.getFormattedSize();
             case "VALUE" -> fish.getValue();
             case "DATE" -> fish.DateCaught.toString();
             case "PLAYER" -> fish.getPlayer().getName();

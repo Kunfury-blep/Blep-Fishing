@@ -2,12 +2,14 @@ package com.kunfury.blepFishing.Interfaces.Player;
 
 import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
+import com.kunfury.blepFishing.Quests.QuestHandler;
 import com.kunfury.blepFishing.Tournament.TournamentHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -26,9 +28,9 @@ public class PlayerPanel {
         }
 
         inv.setItem(10, TourneyItem());
+        inv.setItem(12, QuestItem(p));
 
         if(Variables.Teasers){
-            inv.setItem(12, QuestItem());
             inv.setItem(14, CollectionItem());
         }
         inv.setItem(16, HelpItem(sender));
@@ -70,14 +72,44 @@ public class PlayerPanel {
         return item;
     }
 
-    private ItemStack QuestItem(){
+    private ItemStack QuestItem(Player p){
         ItemStack item = new ItemStack(Material.EMERALD);
         ItemMeta m = item.getItemMeta();
         m.setDisplayName(Formatting.getMessage("Player Panel.quests"));
 
         List<String> lore = new ArrayList<>();
-        lore.add("");
-        lore.add(ChatColor.RED + Formatting.getMessage("Player Panel.comingSoon"));
+
+        if(QuestHandler.ActiveQuests != null && QuestHandler.ActiveQuests.size() > 0){
+            lore.add(ChatColor.BLUE + " ~ " + QuestHandler.getActiveCount() + " Active ~ ");
+            lore.add("");
+
+            for(var q : QuestHandler.ActiveQuests){
+                int caughtAmt = 0;
+                String uuid = p.getUniqueId().toString();
+
+                if(q.getCatchMap().containsKey(uuid)){
+                    caughtAmt = q.getCatchMap().get(uuid);
+                }
+
+                String qDesc = Formatting.formatColor(q.getName()) + " - " + caughtAmt + "/" + q.getCatchAmount() + " " + q.getFishTypeName();
+
+
+                if(q.isCompleted()){
+
+                    for (ChatColor color : ChatColor.values()) {
+                        qDesc = qDesc.replace(color.toString(), color + "" + ChatColor.STRIKETHROUGH);
+                    }
+                }
+
+                lore.add(qDesc);
+            }
+        }else{
+            lore.add("");
+            lore.add(Formatting.getMessage("Quests.noneActive"));
+        }
+
+
+
         m.setLore(lore);
 
         item.setItemMeta(m);
@@ -124,6 +156,9 @@ public class PlayerPanel {
         switch(e.getSlot()){
             case 10 -> {
                 new TournamentPanel().ClickBase(p);
+            }
+            case 12 -> {
+                new QuestPanel().ClickBase(p);
             }
         }
     }

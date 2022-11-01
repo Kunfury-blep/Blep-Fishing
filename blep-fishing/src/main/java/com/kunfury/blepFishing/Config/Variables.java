@@ -1,6 +1,7 @@
 package com.kunfury.blepFishing.Config;
 
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -43,6 +44,7 @@ public class Variables {
 	public static List<CollectionLogObject> CollectionLogs = new ArrayList<>();
 	private static ResourceBundle Messages;
 	public static double TraderMod = 1;
+	public static LocalDateTime RecordedDay;
 	//endregion
 
 
@@ -63,6 +65,7 @@ public class Variables {
 	public static String Prefix;
 	
 	public static String CurrSym = "$"; //The global currency symbol
+	public static String DayReset = "00:01";
 
 
 	/**

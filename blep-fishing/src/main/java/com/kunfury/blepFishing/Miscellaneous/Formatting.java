@@ -103,21 +103,4 @@ public class Formatting {
 			return ChatColor.RED + "Message Not Found - " + key;
 		}
 	}
-
-	public static FileConfiguration items = new YamlConfiguration();
-	public static Material getMaterial(String key){
-
-		String matStr =  items.getString(key + ".material");
-		Material material;
-
-		Bukkit.broadcastMessage("Key: " + matStr);
-
-		if(matStr == null || matStr.isEmpty()){
-			material = Material.SALMON;
-		}else
-			material = Material.getMaterial(matStr);
-
-		return material;
-	}
-
 }

@@ -53,7 +53,7 @@ public class ParseFish {
         lore.add(Formatting.getMessage("Equipment.Fish Bag.stored")
                         .replace("{amount}", String.valueOf(availFish.size())));
         lore.add(Formatting.getMessage("Equipment.Fish Bag.largest")
-                .replace("{size}", String.valueOf(biggestFish.getSize())));
+                .replace("{size}", String.valueOf(biggestFish.getFormattedSize())));
 
         lore.add("");
         lore.add(Formatting.getMessage("Equipment.Fish Bag.withdrawSmall"));

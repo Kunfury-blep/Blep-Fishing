@@ -126,7 +126,9 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 
 	}
 
-
+	public BaseFishObject getBase(){
+		return BaseFishObject.getBase(Name);
+	}
 
 	public double getScore(){return Score;}
 
@@ -139,12 +141,16 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 		return FishID;
 	}
 
-	public String getSize(){
+	public double getSize(){
+		return RealSize;
+	}
+
+	public String getFormattedSize(){
 		return String.valueOf(Formatting.round(RealSize, 2));
 	}
 
 	public ItemStack GenerateItemStack(){
-		BaseFishObject base = BaseFishObject.GetBase(Name);
+		BaseFishObject base = BaseFishObject.getBase(Name);
 		ItemStack fishItem = new ItemStack(ItemsConfig.FishMat, 1);
 
 		ItemMeta m = fishItem.getItemMeta();

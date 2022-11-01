@@ -1,6 +1,8 @@
 package com.kunfury.blepFishing.Tournament;
 
+import com.kunfury.blepFishing.Config.CacheHandler;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
+import com.kunfury.blepFishing.Objects.FishObject;
 import com.kunfury.blepFishing.Setup;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -40,29 +42,20 @@ public class TournamentHandler {
 
     public void AddTournament(TournamentObject tournament){
         TournamentList.add(tournament);
-        RunChecker();
     }
 
-    private static boolean running;
-    private void RunChecker(){
-        if(running) return;
-        running = true;
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                for(var t: TournamentList){
-                    //Bukkit.broadcastMessage("Checking: " + t.getName());
+    //
+    public void TournamentTimer(){
+        for(var t: TournamentList){
+            //Bukkit.broadcastMessage("Checking: " + t.getName());
 
-                    if(!ActiveTournaments.contains(t) && t.canRun()){
-                        Start(t);
-                    }else{
-                        if(ActiveTournaments.contains(t) && t.isComplete()) Finish(t);
-                    }
-
-                }
+            if(!ActiveTournaments.contains(t) && t.canRun()){
+                Start(t);
+            }else{
+                if(ActiveTournaments.contains(t) && t.isComplete()) Finish(t);
             }
 
-        }.runTaskTimer(Setup.getPlugin(), 0, 60);
+        }
     }
 
     public void Start(TournamentObject t){
@@ -129,6 +122,8 @@ public class TournamentHandler {
         SaveActive();
         t.FinishEvent();
 
+        new CacheHandler().SaveCache();
+
         if(t.getFish().size() == 0){
             String tempName = t.getFishType().toLowerCase();
             if(tempName.equalsIgnoreCase("ALL")) tempName = "fish";
@@ -148,17 +143,15 @@ public class TournamentHandler {
             textComponents.add(mainComponent);
         });
 
-        String banner =  Formatting.getMessage("Tournament.noneCaught");
-        for(Player p : Bukkit.getOnlinePlayers()) {
-            p.sendMessage(" ");
-            p.sendMessage(banner);
-            for(var c : textComponents){
-                p.spigot().sendMessage(c);
-            }
-            p.sendMessage(" ");
-        }
-
-
+//        String banner =  Formatting.getMessage("Tournament.noneCaught");
+//        for(Player p : Bukkit.getOnlinePlayers()) {
+//            p.sendMessage(" ");
+//            p.sendMessage(banner);
+//            for(var c : textComponents){
+//                p.spigot().sendMessage(c);
+//            }
+//            p.sendMessage(" ");
+//        }
 
         new Rewards().Generate(t);
 
@@ -182,6 +175,20 @@ public class TournamentHandler {
             BossBars.forEach((key, bar) -> {
                 bar.addPlayer(p);
             });
+        }
+    }
+
+    public void AnnounceBest(TournamentObject t, FishObject fish){
+        String lbString = Formatting.getMessage("Tournament.newBest")
+                .replace("{player}", fish.PlayerName)
+                .replace("{tournament}", t.getName())
+                .replace("{rarity}", fish.Rarity)
+                .replace("{fish}", fish.Name);
+        TextComponent mainComponent = new TextComponent (Formatting.formatColor(lbString));
+        mainComponent.setHoverEvent(new HoverEvent( HoverEvent.Action.SHOW_TEXT, fish.getHoverText()));
+
+        for(Player p : Bukkit.getOnlinePlayers()) {
+            p.spigot().sendMessage(mainComponent);
         }
     }
 }

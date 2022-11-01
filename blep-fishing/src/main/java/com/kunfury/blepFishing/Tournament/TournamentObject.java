@@ -13,6 +13,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -50,6 +51,7 @@ public class TournamentObject implements Serializable{
 
 
     public final HashMap<String, List<String>> Rewards; //The rewards given to players. The integer is place and the List is serialized items
+    public HashMap<String, Integer> CaughtMap = new HashMap<>(); //Amount of fish caught by each player
 
     private final double duration; //Hours the tournament will run
     private LocalDateTime startDate;
@@ -175,6 +177,7 @@ public class TournamentObject implements Serializable{
         winners = null;
         caughtFish = null;
         participants = null;
+        CaughtMap = new HashMap<>();
         setEndDate();
     }
 
@@ -296,7 +299,7 @@ public class TournamentObject implements Serializable{
         if(getFishType().equalsIgnoreCase("ALL"))
             fishName = Formatting.getMessage("Tournament.allFish");
         else{
-            BaseFishObject base = BaseFishObject.GetBase(getFishType());
+            BaseFishObject base = BaseFishObject.getBase(getFishType());
             if(base != null)
                 m.setCustomModelData(base.ModelData);
 
@@ -334,10 +337,8 @@ public class TournamentObject implements Serializable{
         return item;
     }
 
-
     public boolean isBest(FishObject fish){
-
-        if(!announceNewWinner || (!getFishType().equalsIgnoreCase("ALL") && !fish.Name.equalsIgnoreCase(FishType))){
+        if(!announceNewWinner || Type.equals(TournamentType.AMOUNT)){
             return false;
         }
 
@@ -345,8 +346,6 @@ public class TournamentObject implements Serializable{
             bestFish = fish;
             return true;
         }
-
-        if(Type == TournamentType.AMOUNT) return false;
 
         boolean best = false;
         switch(Type){ //Sorts the list so first place winner is ALWAYS at the top
@@ -386,6 +385,10 @@ public class TournamentObject implements Serializable{
         return lastRan;
     }
 
+    public void setLastRan(LocalDateTime _lastRan) {
+        lastRan = _lastRan;
+    }
+
     public String getFishType(){
         if(ActiveFishType == null){
             if(FishType.equalsIgnoreCase("RANDOM")){
@@ -401,4 +404,22 @@ public class TournamentObject implements Serializable{
     public boolean isRunning(){
         return(TournamentHandler.ActiveTournaments.contains(this));
     }
+
+    public void newCatch(FishObject fish, Player p){
+        if(!getFishType().equalsIgnoreCase("ALL") && !fish.Name.equalsIgnoreCase(FishType)){
+            return;
+        }
+
+        String uuid = p.getUniqueId().toString();
+
+        if(CaughtMap.containsKey(uuid)){
+            int caughtAmt = CaughtMap.get(uuid) + 1;
+            CaughtMap.put(uuid, caughtAmt);
+        }else
+            CaughtMap.put(uuid, 1);
+
+        if(isBest(fish))
+            new TournamentHandler().AnnounceBest(this, fish);
+    }
+
 }

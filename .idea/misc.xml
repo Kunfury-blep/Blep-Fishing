@@ -5,6 +5,9 @@
       <item index="0" class="java.lang.String" itemvalue="org.bukkit.event.EventHandler" />
     </list>
   </component>
+  <component name="ExcludeFromValidation">
+    <file url="file://$PROJECT_DIR$/blep-fishing/src/main/java/com/kunfury/blepFishing/Miscellaneous/Biomes/v1_18.java" />
+  </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
@@ -13,9 +16,6 @@
         <option value="$PROJECT_DIR$/blep-fishing/pom.xml" />
       </list>
     </option>
-  </component>
-  <component name="ProjectPlainTextFileTypeManager">
-    <file url="file://$PROJECT_DIR$/blep-fishing/src/main/resources/resource.properties" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_18" default="true" project-jdk-name="openjdk-18" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/classes" />

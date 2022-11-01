@@ -128,22 +128,25 @@ public class CompassHandler {
 
     public ItemStack GenerateCompassPiece(Player p, Location loc, boolean spawned){
         List<AreaObject> availAreas = AreaObject.GetAreas(loc);
-        List<AreaObject> trimmedAreas = availAreas;
+        List<AreaObject> trimmedAreas = new ArrayList<>();
+
+        for(var a : availAreas){
+            if(a.HasCompass)
+                trimmedAreas.add(a);
+        }
 
         if(!spawned && p.getInventory().contains(Material.PRISMARINE_CRYSTALS)){
             for (var slot : p.getInventory())
             {
                 if (slot != null && slot.getType().equals(Material.PRISMARINE_CRYSTALS) && AllBlueInfo.IsCompass(slot) && availAreas != null && availAreas.size() > 0)
                 {
-                    for(int i = 0; i < availAreas.size(); i++){
-                        if(!availAreas.get(i).HasCompass || NBTEditor.contains(slot,"blep", "item", "allBlueCompass_" + availAreas.get(i).Name)) //Makes sure the player doesn't get duplicate drops
-                            trimmedAreas.remove(availAreas.get(i));
-                    }
+                    //Makes sure the player doesn't get duplicate drops
+                    trimmedAreas.removeIf(availArea -> NBTEditor.contains(slot, "blep", "item", "allBlueCompass_" + availArea.Name));
                 }
             }
         }
 
-        if(trimmedAreas == null || trimmedAreas.size() <= 0) return null;
+        if(trimmedAreas.size() == 0) return null;
 
         int compRoll = new Random().nextInt(trimmedAreas.size());
         String area = trimmedAreas.get(compRoll).Name;

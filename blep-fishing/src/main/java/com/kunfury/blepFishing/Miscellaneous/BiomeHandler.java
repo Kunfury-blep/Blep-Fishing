@@ -14,6 +14,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
+//import org.bukkit.craftbukkit.v1_18_R2.CraftServer;
+//import org.bukkit.craftbukkit.v1_18_R2.CraftWorld;
 import org.bukkit.craftbukkit.v1_19_R1.CraftServer;
 import org.bukkit.craftbukkit.v1_19_R1.CraftWorld;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -29,8 +31,8 @@ public class BiomeHandler {
 
         String version = Bukkit.getBukkitVersion();
 
-        if(version.contains("1.19"))
-            biomeName = get1_19(loc).toString();
+        if(version.contains("1.18"))
+            biomeName = getKey(loc).toString();
 
 
         if(biomeName == null)
@@ -43,8 +45,10 @@ public class BiomeHandler {
         return biomeName;
     }
 
-    //Version 1.19
-    private MinecraftKey get1_19(Location loc){
+    ///
+    //NMS For v1.19
+    ///
+    private MinecraftKey getKey(Location loc){
         World world = loc.getWorld();
         DedicatedServer dedicatedServer = ((CraftServer) Bukkit.getServer()).getServer();
         WorldServer nmsWorld = ((CraftWorld) world).getHandle();
@@ -59,6 +63,25 @@ public class BiomeHandler {
 
         return registry.b(biomeBase);
     }
+
+    ///
+    //NMS For v1.18
+    ///
+//    public MinecraftKey getKey(Location loc){
+//        World world = loc.getWorld();
+//        DedicatedServer dedicatedServer = ((CraftServer) Bukkit.getServer()).getServer();
+//        WorldServer nmsWorld = ((CraftWorld) world).getHandle();
+//
+//        int x = loc.getBlockX();
+//        int y = loc.getBlockY();
+//        int z = loc.getBlockZ();
+//
+//        BiomeBase biomeBase = nmsWorld.getNoiseBiome(x >> 2, y >> 2, z >> 2).a();
+//
+//        IRegistry<BiomeBase> registry = dedicatedServer.aU().b(IRegistry.aP);
+//
+//        return registry.b(biomeBase);
+//    }
 
 
 }

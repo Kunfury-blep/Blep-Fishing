@@ -196,7 +196,7 @@ public class SpawnSubCommand extends SubCommand {
         List<FishObject> fish = new ArrayList<>();
 
 
-        BaseFishObject base = BaseFishObject.GetBase(name);
+        BaseFishObject base = BaseFishObject.getBase(name);
         boolean random = name.equalsIgnoreCase("RANDOM") || name.equalsIgnoreCase("ALL") || name.equalsIgnoreCase("<fish_name>");
 
         if(!random && base == null){

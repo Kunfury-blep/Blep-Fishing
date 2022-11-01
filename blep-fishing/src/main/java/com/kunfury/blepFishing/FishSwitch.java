@@ -12,6 +12,7 @@ import com.kunfury.blepFishing.Crafting.Equipment.FishBag.UpdateBag;
 import com.kunfury.blepFishing.Events.FishCaughtEvent;
 import com.kunfury.blepFishing.Miscellaneous.BiomeHandler;
 import com.kunfury.blepFishing.Objects.*;
+import com.kunfury.blepFishing.Quests.QuestHandler;
 import com.kunfury.blepFishing.Tournament.TournamentHandler;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -99,29 +100,14 @@ public class FishSwitch{
 			}
 			new DisplayFishInfo().InitialDisplay(player, fish);
 
-			TournamentCheck(fish);
+			for(var a : TournamentHandler.ActiveTournaments){
+				a.newCatch(fish, player);
+			}
+			new QuestHandler().UpdateFishQuest(player, fish);
 			Variables.AddToFishDict(fish);
 
 			if(allBlue) allBlueObj.RemoveFish(1, player);
 			new CollectionHandler().CaughtFish(player, fish); //Adds the caught fish to the players collection
-		}
-	}
-
-	private void TournamentCheck(FishObject fish){
-		for(var a : TournamentHandler.ActiveTournaments){
-			if(a.isBest(fish)){
-				String lbString = Formatting.getMessage("Tournament.newBest")
-						.replace("{player}", fish.PlayerName)
-						.replace("{tournament}", a.getName())
-						.replace("{rarity}", fish.Rarity)
-						.replace("{fish}", fish.Name);
-				TextComponent mainComponent = new TextComponent (Formatting.formatColor(lbString));
-				mainComponent.setHoverEvent(new HoverEvent( HoverEvent.Action.SHOW_TEXT, fish.getHoverText()));
-
-				for(Player p : Bukkit.getOnlinePlayers()) {
-					p.spigot().sendMessage(mainComponent);
-				}
-			}
 		}
 	}
 

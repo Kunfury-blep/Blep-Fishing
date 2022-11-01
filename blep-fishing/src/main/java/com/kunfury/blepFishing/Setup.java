@@ -4,11 +4,13 @@ import java.io.File;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+import com.kunfury.blepFishing.Config.CacheHandler;
 import com.kunfury.blepFishing.Config.Reload;
 import com.kunfury.blepFishing.Crafting.CraftingManager;
 import com.kunfury.blepFishing.Crafting.SmithingTableHandler;
 import com.kunfury.blepFishing.Events.EventListener;
 import com.kunfury.blepFishing.Commands.*;
+import com.kunfury.blepFishing.Miscellaneous.Utilities;
 import com.kunfury.blepFishing.Plugins.PluginHandler;
 import com.kunfury.blepFishing.Tournament.TournamentHandler;
 import org.bukkit.Bukkit;
@@ -62,7 +64,6 @@ public class Setup extends JavaPlugin {
 		new PluginHandler().InitializePlugins();
 
     	SetupCommands();
-    	this.saveConfig();
     	saveConfig();
 
     	new Reload().ReloadPlugin(Bukkit.getConsoleSender());
@@ -72,11 +73,13 @@ public class Setup extends JavaPlugin {
 			new CraftingManager().InitItems();
 		}
 
-
+		Utilities.RunTimers();
     }
 
 	@Override
 	public void onDisable(){
+		new CacheHandler().SaveCache();
+
 		if(SmithingTableHandler.SmithingKeys != null){
 			for(var r : SmithingTableHandler.SmithingKeys){
 				Bukkit.removeRecipe(r.getKey());
@@ -133,5 +136,9 @@ public class Setup extends JavaPlugin {
 		File itemsFile = new File(plugin.getDataFolder(), "items.yml");
 		if (!itemsFile.exists())
 			plugin.saveResource("items.yml", false);
+
+		File questFile = new File(plugin.getDataFolder(), "quests.yml");
+		if (!questFile.exists())
+			plugin.saveResource("quests.yml", false);
 	}
 }

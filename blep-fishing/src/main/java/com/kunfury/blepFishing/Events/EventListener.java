@@ -12,6 +12,7 @@ import com.kunfury.blepFishing.Crafting.Equipment.FishBag.BagInfo;
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.UseFishBag;
 import com.kunfury.blepFishing.Crafting.SmithingTableHandler;
 import com.kunfury.blepFishing.FishSwitch;
+import com.kunfury.blepFishing.Interfaces.Player.QuestPanel;
 import com.kunfury.blepFishing.Miscellaneous.FishEconomy;
 import com.kunfury.blepFishing.Interfaces.Player.PlayerPanel;
 import com.kunfury.blepFishing.Config.Variables;
@@ -248,6 +249,11 @@ public class EventListener implements Listener {
                 if(e.getView().getTitle().equals(Formatting.getMessage("Player Panel.title"))){
                     e.setCancelled(true);
                     new PlayerPanel().Click(e, p);
+                }
+
+                if(e.getView().getTitle().equals(Formatting.getMessage("Player Panel.quests"))){
+                    e.setCancelled(true);
+                    new QuestPanel().Click(e, p);
                 }
 
             }
