@@ -18,12 +18,13 @@ public class BiomeLocator {
         int attempt = 1000;
         int i = 0;
         World world = Bukkit.getServer().getWorlds().get(0);
+        assert world != null;
         
         //Loops through random locations in the world to find a suitable All Blue
         //Continues looping until one is found or 1,000 attempts are made
         while(i < attempt){
-            assert world != null;
             Location tempLoc = getRandomLoc(world);
+
 
             if(ConfirmArea(tempLoc, 0, 0, 0)){
                 int d = EndgameVars.AreaRadius;
@@ -50,6 +51,7 @@ public class BiomeLocator {
         Location loc = new Location(origLoc.getWorld(), origLoc.getX() + x, origLoc.getY() + y, origLoc.getZ() + z); //Gets new location offset from original
 
         List<AreaObject> areaList = AreaObject.GetAreas(loc);
+
         return areaList.contains(EndgameVars.EndgameArea);
     }
 

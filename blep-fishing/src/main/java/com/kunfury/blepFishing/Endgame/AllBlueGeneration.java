@@ -39,7 +39,10 @@ public class AllBlueGeneration {
         Location allBlue;
 
         if(EndgameVars.Permanent && EndgameVars.AllBlueList != null && EndgameVars.AllBlueList.size() > 0) allBlue = EndgameVars.AllBlueList.get(0).getLocation();
-        else allBlue = new BiomeLocator().FindViableOcean();
+        else{
+            Bukkit.broadcastMessage("Trying to generate new All Blue");
+            allBlue = new BiomeLocator().FindViableOcean();
+        }
 
         if(allBlue == null){
             player.sendMessage(Variables.Prefix + ChatColor.RED + "No suitable ocean found. Please attempt again.");
@@ -50,7 +53,7 @@ public class AllBlueGeneration {
             return null;
         }
 
-        SaveAllBlue(allBlue);
+        Create(allBlue);
 
         Location lodeLoc = allBlue;
         lodeLoc.setY(0);
@@ -90,7 +93,7 @@ public class AllBlueGeneration {
         return comp;
     }
 
-    private void SaveAllBlue(Location allBlue){
+    public void Create(Location allBlue){
         EndgameVars.AllBlueList.add(new AllBlueObject(allBlue));
 
         try {

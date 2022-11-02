@@ -84,8 +84,6 @@ public class Reload {
 		EndgameVars.MobSpawnChance = Setup.config.getDouble("Endgame Mob Chance");
 
 		EndgameVars.AreaRadius = Setup.config.getInt("Endgame Radius");
-		String areaStr = Setup.config.getString("Endgame Area");
-		EndgameVars.EndgameArea = AreaObject.FromString(areaStr);
 
 		Variables.ParrotBonus = Setup.config.getDouble("Parrot Treasure Bonus");
 		Variables.BoatBonus = Setup.config.getDouble("Boat Treasure Bonus");
@@ -102,6 +100,9 @@ public class Reload {
 		LoadTournaments();
 		LoadItems();
 		LoadQuests();
+
+		String areaStr = Setup.config.getString("Endgame Area");
+		EndgameVars.EndgameArea = AreaObject.FromString(areaStr);
 
 		success = true;
 		Variables.Prefix = Formatting.getMessage("System.prefix");

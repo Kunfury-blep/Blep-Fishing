@@ -24,13 +24,18 @@ public class AreaObject {
 	}
 
 	public static AreaObject FromString(String areaName){
-		AreaObject area = null;
 		for(var a : Variables.AreaList){
-			if(a.Name.equalsIgnoreCase(areaName)) area = a;
+			if(a.Name.equalsIgnoreCase(areaName)){
+				Bukkit.broadcastMessage("Area set to: " + a.Name);
+				return a;
+			}
+			else{
+				Bukkit.broadcastMessage("Area NOT set to: " + a.Name);
+			}
 		}
-		return area;
+		return null;
 	}
-	
+
 	public static List<AreaObject> GetAreas(Location loc){
 		String biomeName = new BiomeHandler().getBiomeName(loc);
 
