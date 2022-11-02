@@ -10,6 +10,7 @@ import com.kunfury.blepFishing.Objects.BaseFishObject;
 import com.kunfury.blepFishing.Objects.FishObject;
 import com.kunfury.blepFishing.Setup;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -78,6 +79,10 @@ public class SpawnSubCommand extends SubCommand {
                 SpawnFish(p, name.toString(), amt);
                 break;
 
+            case "ALL_BLUE":
+                SpawnAllBlue(p);
+                break;
+
             default:
                 sender.sendMessage(Variables.Prefix + Formatting.getMessage("Admin.Spawn.noName"));
         }
@@ -91,6 +96,7 @@ public class SpawnSubCommand extends SubCommand {
             case 2:
                 optionList.add("FISH");
                 optionList.add("TREASURE");
+                optionList.add("ALL_BLUE");
                 break;
             case 3:
                 if(args[1].equalsIgnoreCase("TREASURE")){
@@ -234,8 +240,14 @@ public class SpawnSubCommand extends SubCommand {
 
     }
 
-    private void SpawnCompass(Player p){
+    private void SpawnAllBlue(Player p){
+        Location loc = p.getLocation();
+        new AllBlueGeneration().Create(loc);
 
+        p.sendMessage(Formatting.getMessage("Admin.Spawn.endgame")
+                .replace("{x}", Formatting.DoubleFormat(loc.getX()))
+                .replace("{y}", Formatting.DoubleFormat(loc.getY()))
+                .replace("{z}", Formatting.DoubleFormat(loc.getZ())));
     }
 
 
