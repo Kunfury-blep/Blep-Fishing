@@ -7,6 +7,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import com.kunfury.blepFishing.Objects.CollectionLogObject;
 import com.kunfury.blepFishing.Endgame.EndgameVars;
 import com.kunfury.blepFishing.Endgame.TreasureHandler;
 import com.kunfury.blepFishing.DisplayFishInfo;
@@ -25,7 +26,6 @@ import com.kunfury.blepFishing.Setup;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public class Reload {
@@ -90,6 +90,7 @@ public class Reload {
 
 		QuestHandler.MaxQuests = Setup.config.getInt("Max Quests");
 		QuestHandler.isActive = Setup.config.getBoolean("Enable Quests");
+		QuestHandler.announceQuests = Setup.config.getBoolean("Announce Quests");
 
 		LoadFish();
 		LoadRarities();

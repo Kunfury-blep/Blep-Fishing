@@ -1,6 +1,6 @@
 name: BlepFishing
 main: com.kunfury.blepFishing.Setup
-version: 1.11.12 [Patreon]v2
+version: 1.12
 api-version: 1.13
 author: Kunfury
 softdepend: [Vault, mcMMO, PlaceholderAPI, WorldGuard]

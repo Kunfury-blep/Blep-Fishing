@@ -3,8 +3,8 @@ package com.kunfury.blepFishing.CollectionLog;
 import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Objects.CollectionLogObject;
 import com.kunfury.blepFishing.Objects.FishObject;
+import com.kunfury.blepFishing.Quests.QuestObject;
 import com.kunfury.blepFishing.Setup;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.io.FileOutputStream;
@@ -44,6 +44,12 @@ public class CollectionHandler {
         CollectionLogObject log = GetLog(p);
 
         //Bukkit.broadcastMessage("Crafted Bag: " + bagType);
+    }
+
+    public void CompletedQuest(Player p, QuestObject q){
+        CollectionLogObject log = GetLog(p);
+        log.FinishQuest(q);
+
     }
 
     public void SaveLog(){

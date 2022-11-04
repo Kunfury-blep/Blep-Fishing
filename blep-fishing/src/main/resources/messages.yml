@@ -94,6 +94,7 @@ Admin:
     validAmount: "&4Please enter a valid amount."
     validFish: "&4Please enter a valid fish Type."
     validTreasure: "&4Please include the treasure type you wish to spawn."
+    endgame: "All Blue successfully created at {x}x {y}y {z}z"
 
 Equipment:
   Fish Bag:

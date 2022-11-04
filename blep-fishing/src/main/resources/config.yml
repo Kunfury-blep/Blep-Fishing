@@ -11,9 +11,12 @@ Announce Legendary: true
 Use Economy: true
 Enable Fish Bags: true
 Enable Teasers: true
+
 New Day Time: "00:01"
 Enable Quests: true
+Announce Quests: true
 Max Quests: 3
+
 
 Currency Symbol: $
 

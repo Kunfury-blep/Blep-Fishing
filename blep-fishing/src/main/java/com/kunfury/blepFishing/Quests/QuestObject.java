@@ -1,5 +1,6 @@
 package com.kunfury.blepFishing.Quests;
 
+import com.kunfury.blepFishing.CollectionLog.CollectionHandler;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Miscellaneous.ItemHandler;
 import com.kunfury.blepFishing.Objects.BaseFishObject;
@@ -81,35 +82,6 @@ public class QuestObject implements Serializable {
         return catchMap;
     }
 
-    private transient BaseFishObject fishType;
-    public BaseFishObject getFishType() {
-        if(fishTypeName.equalsIgnoreCase("ALL")){
-            return null;
-        }
-
-        if(fishType == null){
-            fishType = BaseFishObject.getBase(fishTypeName);
-        }
-
-        return fishType;
-    }
-
-    public double getMaxSize() {
-        return maxSize;
-    }
-
-    public double getMinSize() {
-        return minSize;
-    }
-
-    public void setEndDate(LocalDateTime date){
-        if(date.isAfter(LocalDateTime.now())){
-            endDate = date;
-        }else{
-            Bukkit.getLogger().warning("Tried to set fishing quest end date after current time. Cancelling.");
-        }
-    }
-
     public LocalDateTime getLastRan(){
         if(lastRan == null){
             lastRan = LocalDateTime.MIN;
@@ -139,6 +111,16 @@ public class QuestObject implements Serializable {
         winners = new ArrayList<>();
         catchMap = new HashMap<>();
         setEndDate();
+
+        if(QuestHandler.announceQuests){
+            for(var p : Bukkit.getOnlinePlayers()){
+                p.sendMessage(Formatting.formatColor(
+                        Formatting.getMessage("Quests.progress")
+                                .replace("{quest}", getName())
+                                .replace("{caught}", String.valueOf(0))
+                                .replace("{required}", String.valueOf(getCatchAmount()))));
+            }
+        }
     }
 
     public boolean canStart(){
@@ -163,7 +145,6 @@ public class QuestObject implements Serializable {
         }else{
             int caughtAmt = catchMap.get(uuid) + 1;
             catchMap.put(uuid, caughtAmt);
-            catchMap.put(uuid, caughtAmt);
         }
 
         int catchAmount = catchMap.get(uuid);
@@ -183,6 +164,9 @@ public class QuestObject implements Serializable {
                     Formatting.getMessage("Quests.completed")
                             .replace("{quest}", getName())
             ));
+
+            new CollectionHandler().CompletedQuest(p, this);
+
             GiveRewards(uuid);
         }
     }

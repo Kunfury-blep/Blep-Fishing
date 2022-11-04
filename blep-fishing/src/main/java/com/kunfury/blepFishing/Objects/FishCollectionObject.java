@@ -1,6 +1,7 @@
 package com.kunfury.blepFishing.Objects;
 
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
+import com.kunfury.blepFishing.Objects.FishObject;
 
 import java.io.Serial;
 import java.io.Serializable;

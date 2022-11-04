@@ -21,6 +21,7 @@ public class QuestHandler {
     public static List<QuestObject> QuestList;
     public static List<QuestObject> ActiveQuests;
     public static boolean isActive;
+    public static boolean announceQuests;
 
     public static int MaxQuests = 3;
 

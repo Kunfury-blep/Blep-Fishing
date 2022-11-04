@@ -3,6 +3,7 @@ package com.kunfury.blepFishing.Objects;
 import com.kunfury.blepFishing.CollectionLog.CollectionHandler;
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.BagInfo;
 import com.kunfury.blepFishing.Config.Variables;
+import com.kunfury.blepFishing.Quests.QuestObject;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -26,6 +27,9 @@ public class CollectionLogObject implements Serializable {
 
     private HashMap<String, Boolean> BagMap = new HashMap<>();
     public boolean EndgameCompass = false;
+
+    private HashMap<String, Integer> QuestMap = new HashMap<>();
+
     private String PlayerId; //UUID of owning player
 
     public CollectionLogObject(Player p){
@@ -64,6 +68,16 @@ public class CollectionLogObject implements Serializable {
         else fishCol.Caught(fish);
 
         new CollectionHandler().SaveLog();
+    }
+
+    public void FinishQuest(QuestObject q){
+        String qName = q.getName();
+        if(!QuestMap.containsKey(qName)){
+            QuestMap.put(qName, 1);
+        }else{
+            int amt = QuestMap.get(qName) + 1;
+            QuestMap.put(qName, amt);
+        }
     }
 
     private FishCollectionObject FindFish(String fishName){
