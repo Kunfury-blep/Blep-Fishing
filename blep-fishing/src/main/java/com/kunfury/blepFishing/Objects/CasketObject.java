@@ -90,11 +90,13 @@ public class CasketObject implements Comparable<CasketObject>{
         }
         casket.setAmount(casket.getAmount() - 1);
 
-        try{
-            p.playSound(p.getLocation(), Sound.ITEM_BUNDLE_DROP_CONTENTS, .33f, 1f);
-        }catch (Exception e){
-            p.playSound(p.getLocation(), Sound.BLOCK_CHEST_OPEN, .33f, 1f);
-        }
+        p.playSound(p.getLocation(), Sound.BLOCK_CHEST_OPEN, .33f, 1f);
+
+//        try{
+//            p.playSound(p.getLocation(), Sound.ITEM_BUNDLE_DROP_CONTENTS, .33f, 1f);
+//        }catch (Exception e){
+//            p.playSound(p.getLocation(), Sound.BLOCK_CHEST_OPEN, .33f, 1f);
+//        }
 
 
 
