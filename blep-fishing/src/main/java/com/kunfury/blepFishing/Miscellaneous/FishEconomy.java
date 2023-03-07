@@ -38,18 +38,18 @@ public class FishEconomy {
 	}
 
 
-	public static void SellFish(Player player, boolean sellAll, double priceMod) {
+	public static void SellFish(Player p, boolean sellAll, double priceMod) {
 		Economy econ = Setup.getEconomy();
 		if(econ != null){
 			List<ItemStack> itemList = new ArrayList<>();
 			if(sellAll) { //Runs if the player is wanting to sell all fish
-				for (ItemStack item : player.getInventory().getContents()) {
+				for (ItemStack item : p.getInventory().getContents()) {
 					if(item != null && item.getType() == Material.SALMON) {
 						itemList.add(item);
 					}
 				}
 			}else
-				itemList.add(player.getInventory().getItemInMainHand());
+				itemList.add(p.getInventory().getItemInMainHand());
 
 			double total = 0;
 
@@ -63,25 +63,27 @@ public class FishEconomy {
 			}
 
 			if(total > 0) {
-				EconomyResponse r = econ.depositPlayer(player, total);
+				EconomyResponse r = econ.depositPlayer(p, total);
 				if(r.transactionSuccess()) {
 					if(itemList.size() == 1){
 						ItemStack item = itemList.get(0);
-						player.sendMessage(Formatting.formatColor("Sold " + Objects.requireNonNull(item.getItemMeta()).getDisplayName()
-										+ String.format("&f for &a%s", econ.format(r.amount))));
+
+						p.sendMessage(Variables.Prefix + Formatting.getMessage("Economy.singleSale")
+								.replace("{fish}", Objects.requireNonNull(item.getItemMeta()).getDisplayName())
+								.replace("{total}", Setup.getEconomy().format(total)));
 						item.setAmount(item.getAmount() - 1);
 					}else{
-						player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-								Variables.Prefix + "Sold " + itemList.size() + " fish"
-										+ "&f for " + ChatColor.GREEN +Variables.CurrSym + Setup.getEconomy().format(total) + "." ));
+						p.sendMessage(Variables.Prefix + Formatting.getMessage("Economy.finishSale")
+								.replace("{amount}", String.valueOf(itemList.size()))
+								.replace("{total}", Setup.getEconomy().format(total)));
 						for(var i : itemList){
 							i.setAmount(0);
 						}
 					}
 				} else {
-					player.sendMessage(String.format("An error occured: %s", r.errorMessage));
+					p.sendMessage(String.format("An error occured: %s", r.errorMessage));
 				}
-			}else player.sendMessage(Variables.Prefix + "Those fish aren't worth anything.");
+			}else p.sendMessage(Variables.Prefix + Formatting.getMessage("Economy.noValue"));
 		}
 	}
 
@@ -129,20 +131,6 @@ public class FishEconomy {
 		final List<FishObject> tempFish = new ParseFish().RetrieveFish(bagId, "ALL");
 		SellFish(tempFish, p, priceMod, bag);
 		PlayerWaitList.remove(p.toString());
-
-		//TODO: Ensure ASYNC needed
-		//Grabs the collection Asynchronously
-//		final BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
-//		scheduler.runTaskAsynchronously(Setup.getPlugin(), () -> {
-//			final List<FishObject> tempFish = new ParseFish().RetrieveFish(bagId, "ALL");
-//
-//			scheduler.runTask(Setup.getPlugin(), () -> {
-//				SellFish(tempFish, p, priceMod, bag);
-//				PlayerWaitList.remove(p.toString());
-//			});
-//		});
-
-
 	}
 
 }

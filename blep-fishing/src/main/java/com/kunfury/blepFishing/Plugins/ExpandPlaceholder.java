@@ -125,7 +125,7 @@ public class ExpandPlaceholder extends PlaceholderExpansion {
 
             }
             case "FISH_TYPE" -> response = t.getFishType();
-            case "PROGRESS" -> response = String.valueOf(t.getProgress());
+            case "PROGRESS" -> response = Formatting.DoubleFormat(t.getProgress() * 100);
             case "WINNER" -> {
                 if(t.isRunning()){
                     if(t.getBestFish() != null){

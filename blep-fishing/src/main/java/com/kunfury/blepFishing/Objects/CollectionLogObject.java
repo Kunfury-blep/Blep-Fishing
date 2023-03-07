@@ -71,6 +71,8 @@ public class CollectionLogObject implements Serializable {
     }
 
     public void FinishQuest(QuestObject q){
+        if(QuestMap == null)
+            QuestMap = new HashMap<>();
         String qName = q.getName();
         if(!QuestMap.containsKey(qName)){
             QuestMap.put(qName, 1);

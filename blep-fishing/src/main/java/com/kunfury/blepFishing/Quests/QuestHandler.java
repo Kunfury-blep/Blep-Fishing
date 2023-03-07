@@ -18,7 +18,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class QuestHandler {
-    public static List<QuestObject> QuestList;
+    private static List<QuestObject> QuestList;
     public static List<QuestObject> ActiveQuests;
     public static boolean isActive;
     public static boolean announceQuests;
@@ -106,6 +106,30 @@ public class QuestHandler {
 
             q.AddFish(f, p);
             SaveActive();
+        }
+    }
+
+    public static List<QuestObject> getQuestList(){
+        if(QuestList == null){
+            QuestList = new ArrayList<>();
+        }
+
+        return QuestList;
+    }
+
+    public static void resetQuestList(){
+        QuestList = new ArrayList<>();
+    }
+
+    public static void AddQuests(List<QuestObject> questList){
+        if(questList != null){
+            QuestList.addAll(questList);
+        }
+    }
+
+    public static void AddQuest(QuestObject quest){
+        if(quest != null){
+            QuestList.add(quest);
         }
     }
 

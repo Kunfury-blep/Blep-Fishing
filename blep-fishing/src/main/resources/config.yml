@@ -121,7 +121,7 @@ areas:
 
   Jungle:
     Has Compass: true
-    Compass Hint:
+    Compass Hint: You hear distant sounds of breaking vines and singing birds.
     Biomes:
       - bamboo_jungle
       - bamboo_jungle_hills
@@ -139,7 +139,7 @@ areas:
 
   Ocean:
     Has Compass: true
-    Compass Hint: You hear distant seagulls and feel a cool ocean breeze.
+    Compass Hint: You hear the sounds of dolphins and feel a cool ocean breeze.
     Biomes:
       - beach
       - cold_ocean

@@ -73,7 +73,7 @@ public class QuestSubcommand extends SubCommand {
         if (args.length == 3) {
             if(args[1].equalsIgnoreCase("CANCEL"))
                 optionList.add("ALL");
-            for(var q : QuestHandler.QuestList){
+            for(var q : QuestHandler.getQuestList()){
                 optionList.add(q.getName());
             }
 

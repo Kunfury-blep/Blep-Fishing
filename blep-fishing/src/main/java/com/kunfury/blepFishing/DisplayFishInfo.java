@@ -55,18 +55,21 @@ public class DisplayFishInfo {
                 Score score2 = objective.getScore(ChatColor.translateAlternateColorCodes('&', fish.Rarity));
                 score2.setScore(4);  
                 
-                Score score = objective.getScore(ChatColor.AQUA + "" + Formatting.DoubleFormat(fish.RealSize) + "\"" );
+                Score score = objective.getScore(Formatting.getMessage("Fish Object.Scoreboard.size")
+						.replace("{size}", Formatting.DoubleFormat(fish.RealSize)));
                 score.setScore(3);            
                 
                 if(Setup.econEnabled) { //Checks that an economy is installed
-                	Score score1 = objective.getScore(ChatColor.GREEN + Variables.CurrSym + Formatting.DoubleFormat(fish.RealCost));
+                	Score score1 = objective.getScore(Formatting.getMessage("Fish Object.Scoreboard.value")
+							.replace("{value}", Formatting.DoubleFormat(fish.RealCost)));
                 	score1.setScore(2);  
                 }      
                 
                 List<FishObject> caughtFishList = Variables.FishDict.get(fishName);
         		caughtFishList.sort(Collections.reverseOrder());
         		
-        		Score score3 = objective.getScore(ChatColor.AQUA + "Rank #" + (caughtFishList.indexOf(fish) + 1));
+        		Score score3 = objective.getScore(Formatting.getMessage("Fish Object.Scoreboard.rank")
+						.replace("{rank}", String.valueOf (caughtFishList.indexOf(fish) + 1)));
                 score3.setScore(3);
                 
         		

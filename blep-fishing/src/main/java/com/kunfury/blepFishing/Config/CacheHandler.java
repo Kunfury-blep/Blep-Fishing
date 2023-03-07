@@ -25,7 +25,7 @@ public class CacheHandler {
         }
 
         JSONObject questObj = new JSONObject();
-        for(var q : QuestHandler.QuestList){
+        for(var q : QuestHandler.getQuestList()){
 
             JSONObject qObj = new JSONObject();
             qObj.put("Last Ran", q.getLastRan().toString());

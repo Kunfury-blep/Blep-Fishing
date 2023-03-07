@@ -9,6 +9,10 @@ Fish Object:
   length: "&8Length: {size}in."
   caught: "&8Caught By: {player} on {date}"
   announce: "You just caught a {rarity} {fish}&f!"
+  Scoreboard:
+    rank: "&bRank #{rank}"
+    value: "&a${value}"
+    size: "&b{size}\""
 
 Treasure:
   open: "&bRight-Click to &e&oOpen"
@@ -126,6 +130,7 @@ Economy:
   sellBagHint: "Sneak Right-Click to sell all fish in bag."
   sellBagConfirm: "Sell all fish in bag? Sneak Right-Click again to confirm."
   finishSale: "Sold {amount} fish for ${total}."
+  singleSale: "Sold {fish} for ${total}."
   noEconomy: "No economy plugin found."
   noPlayer: "That player could not be found."
   received: "You received &a{value}!"
@@ -137,6 +142,16 @@ Endgame:
     lore: "It really does exist..."
     hint: "&bRight-Click to &o&eFocus"
     announce: "&7You feel a warm breeze in the air and hear Seagulls in the distant {direction}."
+    pieces: "&3Compass Pieces {amount}"
+    pieceLore: "A small piece of something great..."
+    combine: "&7Combine pieces at a &e&oSmithing Table&7."
+    noPieceHint: "&7You could not gleam any further information from the pieces."
+    Distance:
+      world: "&7You feel as if you are worlds apart from your destination."
+      inside: "You feel you have reached the All Blue."
+      near: "You feel you are very close."
+      far: "You feel there is still a long journey in front of you."
+      veryFar: "You feel an incredible distance seperates you and your target."
 
 PAPI:
   Tournament:

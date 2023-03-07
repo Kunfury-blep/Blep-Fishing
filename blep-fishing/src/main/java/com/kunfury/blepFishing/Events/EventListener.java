@@ -304,6 +304,14 @@ public class EventListener implements Listener {
     }
 
 
+    @EventHandler
+    public void a(InventoryClickEvent e) {
+
+        if (e.getClickedInventory() != null && e.getClickedInventory().getType() == InventoryType.GRINDSTONE && e.getSlotType() == InventoryType.SlotType.RESULT && BagInfo.IsBag(e.getCurrentItem())) {
+            e.setCancelled(true);
+        }
+    }
+
     private void MoveToSwap(PlayerFishEvent e){
         //Delays the check by 1 tick to ensure the MCMMO event has run.
         Bukkit.getScheduler ().runTaskLater (Setup.getPlugin(), () ->{

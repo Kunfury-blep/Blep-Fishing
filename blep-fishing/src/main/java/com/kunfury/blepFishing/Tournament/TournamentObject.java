@@ -412,6 +412,10 @@ public class TournamentObject implements Serializable{
 
         String uuid = p.getUniqueId().toString();
 
+        if(CaughtMap == null){
+            CaughtMap = new HashMap<>();
+        }
+
         if(CaughtMap.containsKey(uuid)){
             int caughtAmt = CaughtMap.get(uuid) + 1;
             CaughtMap.put(uuid, caughtAmt);

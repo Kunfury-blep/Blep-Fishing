@@ -31,7 +31,7 @@ public class BiomeHandler {
 
         String version = Bukkit.getBukkitVersion();
 
-        if(version.contains("1.19"))
+        if(version.contains("1.19") && !version.contains("1.19.3"))
             biomeName = getKey(loc).toString();
 
 

@@ -293,7 +293,6 @@ public class Reload {
 			TournamentHandler.isActive = true;
 
 		//Loads Active Tournaments from file
-		//TODO: Store last run date of each tournament
 		List<TournamentObject> tObjs = TournamentHandler.TournamentList;
 
 		TournamentHandler.Reset(false);
@@ -316,7 +315,7 @@ public class Reload {
 
 		for(var a : TournamentHandler.ActiveTournaments){
 			new TournamentHandler().AddTournament(a);
-			a.CreateBossbar();
+			if(a.UseBossbar) a.CreateBossbar();
 		}
 
 		//Checks tournament config file and ensures they are added
@@ -466,7 +465,7 @@ public class Reload {
 			return;
 		}
 
-		QuestHandler.QuestList = new ArrayList<>();
+		QuestHandler.resetQuestList();
 		QuestHandler.ActiveQuests = new ArrayList<>();
 		try {
 			Files.createDirectories(Paths.get(Setup.dataFolder + "/Data"));
@@ -485,7 +484,7 @@ public class Reload {
 			ex.printStackTrace();
 		}
 
-		QuestHandler.QuestList.addAll(QuestHandler.ActiveQuests);
+		QuestHandler.AddQuests(QuestHandler.ActiveQuests);
 
 
 		for(final String key : questFile.getKeys(false)) {
@@ -504,14 +503,15 @@ public class Reload {
 			boolean announceProgress = questFile.getBoolean(key + ".Announce Progress");
 
 			QuestObject quest = new QuestObject(key, amount, fishName, maxSize, minSize, duration, cooldown, rewards, announceProgress);
-			QuestHandler.QuestList.add(quest);
+			QuestHandler.AddQuest(quest);
 		}
 
 		File cacheFile = new File(Setup.getPlugin().getDataFolder(), "cache.json");
 		if (cacheFile.exists()){
 			JSONObject json = new CacheHandler().getQuestCache();
-			for(var q : QuestHandler.QuestList){
-				if(QuestHandler.QuestList.contains(q)){ //Skips loading cache if tournament is actively running
+			for(var q : QuestHandler.getQuestList()){
+				//TODO: Is this really needed? Seems completely unecessary
+				if(QuestHandler.getQuestList().contains(q)){ //Skips loading cache if tournament is actively running
 					continue;
 				}
 

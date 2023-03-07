@@ -26,7 +26,6 @@ public class Variables {
 	//region Static Booleans
 	public static boolean HighPriority = false;
 	public static boolean TournamentOnly = false;
-	public static boolean TournamentRunning;
 	public static boolean WorldsWhitelist = false;
 	public static boolean RequireAreaPerm = false;
 	public static boolean AllowWanderingTraders = false;

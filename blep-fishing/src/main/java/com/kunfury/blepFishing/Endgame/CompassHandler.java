@@ -50,13 +50,33 @@ public class CompassHandler {
         ItemMeta m = combination.getItemMeta();
         //TODO: Rename pieces to dynamic name based on percantage completed
         if (m != null) {
-            m.setDisplayName("Compass Pieces - " + AchieveAreas.size());
+
+            String sizeColor = "" + ChatColor.YELLOW;
+
+            double sizeMod = AchieveAreas.size() / validAreas.size();
+
+            if(sizeMod > .25){
+                sizeColor += ChatColor.GOLD;
+            }
+
+            if(sizeMod > .5){
+                sizeColor += ChatColor.GREEN;
+            }
+
+            if(sizeMod >= 1){
+                sizeColor += ChatColor.DARK_GREEN;
+            }
+
+            m.setDisplayName(Formatting.getMessage("Endgame.Compass.piece")
+                    .replace("{amount}", sizeColor + AchieveAreas.size() + ChatColor.WHITE + "/" + ChatColor.DARK_GREEN + validAreas.size()));
             ArrayList<String> lore = new ArrayList<>();
-            lore.add("A piece of something great...");
+            lore.add(Formatting.getMessage("Endgame.Compass.pieceLore"));
+            lore.add("");
+            lore.add(Formatting.getMessage("Endgame.Compass.hint"));
             lore.add("");
 
             for(var area : AchieveAreas){
-                lore.add(ChatColor.AQUA + area);
+                lore.add(ChatColor.DARK_AQUA + area);
             }
 
             m.setLore(lore);
@@ -78,7 +98,7 @@ public class CompassHandler {
         cLoc.setY(pLoc.getY());
 
         if(!Objects.equals(cLoc.getWorld(), pLoc.getWorld())){ //Checks to make sure the player is in the world
-            p.sendMessage(ChatColor.GRAY + "You feel as if you are worlds apart from your destination.");
+            p.sendMessage(Formatting.getMessage("Endgame.Compass.Distance.world"));
             return;
         }
 
@@ -88,13 +108,10 @@ public class CompassHandler {
 
         if(Variables.DebugMode) p.sendMessage("Radius: "+ EndgameVars.AreaRadius);
 
-        if(distance >= 10000) distanceStr = "You feel an incredible distance seperates you and your target.";
-//        else if(distance >= 7500) distanceStr = "There is still a long journey in front of you.";
-//        else if(distance >= 5000) distanceStr = "There is still a long journey in front of you.";
-//        else if(distance >= 2500) distanceStr = "There is still a long journey in front of you.";
-        else if(distance >= 1000) distanceStr = "You feel there is still a long journey in front of you.";
-        else if(distance > EndgameVars.AreaRadius) distanceStr = "You feel you are very close.";
-        else distanceStr = "You are in the " + Formatting.getMessage("Endgame.areaName") + ".";
+        if(distance >= 10000) distanceStr = Formatting.getMessage("Endgame.Compass.Distance.veryFar");
+        else if(distance >= 1000) distanceStr = Formatting.getMessage("Endgame.Compass.Distance.far");
+        else if(distance > EndgameVars.AreaRadius) distanceStr = Formatting.getMessage("Endgame.Compass.Distance.near");
+        else distanceStr = Formatting.getMessage("Endgame.Compass.Distance.inside");
 
         if(Variables.DebugMode) p.teleport(cLoc);
 
@@ -113,7 +130,7 @@ public class CompassHandler {
                 if(!Objects.equals(cLoc.getWorld(), pLoc.getWorld())){
                     double dist = pLoc.distance(cLoc);
                     if(dist <= EndgameVars.AreaRadius){
-                        p.sendMessage(ChatColor.GRAY + "You have reached the " + Formatting.getMessage("Endgame.areaName") + "!");
+                        p.sendMessage(ChatColor.GRAY + Formatting.getMessage("Endgame.Compass.Distance.inside"));
                         if(ActivePlayers.contains(p)) ActivePlayers.remove(p);
                         cancel();
                     }
@@ -156,7 +173,7 @@ public class CompassHandler {
         compass = NBTEditor.set(compass, false, "blep", "item", "allBlueCompassComplete");
 
         ItemMeta m = compass.getItemMeta();
-        m.setDisplayName(area + " Compass Piece");
+        m.setDisplayName(ChatColor.DARK_AQUA + area + " Compass Piece");
         m.setLore(GenerateLore(compass));
         m.setCustomModelData(Variables.AreaList.indexOf(area) + 1);
         compass.setItemMeta(m);
@@ -176,10 +193,10 @@ public class CompassHandler {
 
         ArrayList<String> lore = new ArrayList<>();
 
-        lore.add("A small piece of something great...");
-        lore.add(ChatColor.GRAY + "Combine pieces at a " + ChatColor.DARK_GRAY + ChatColor.ITALIC + "smithing table");
+        lore.add(Formatting.getMessage("Endgame.Compass.pieceLore"));
+        lore.add(Formatting.getMessage("Endgame.Compass.combine"));
         lore.add("");
-        lore.add(ChatColor.AQUA + "Right-Click to " + ChatColor.YELLOW + ChatColor.ITALIC + "focus");
+        lore.add(Formatting.getMessage("Endgame.Compass.hint"));
         return lore;
     }
 
@@ -197,7 +214,7 @@ public class CompassHandler {
 
         if(area != null && area.CompassHint != null && !area.CompassHint.isEmpty()){
             p.sendMessage(ChatColor.GRAY + area.CompassHint);
-        }else p.sendMessage(ChatColor.GRAY + "You could not gleam any further information from the pieces.");
+        }else p.sendMessage(Formatting.getMessage("Endgame.Compass.noPieceHint"));
 
     }
 
@@ -210,7 +227,7 @@ public class CompassHandler {
         m.setCustomModelData(1);
         ArrayList<String> lore = new ArrayList<String>();
         lore.add("");
-        lore.add("It really does exist...");
+        lore.add(Formatting.getMessage("Endgame.Compass.lore"));
 
         m.setLore(lore);
         compass.setItemMeta(m);

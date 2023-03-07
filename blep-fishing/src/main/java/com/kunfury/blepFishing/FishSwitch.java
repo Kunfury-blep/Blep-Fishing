@@ -179,7 +179,7 @@ public class FishSwitch{
 		if (!itemList.contains(item.getItemStack().getType()) || Objects.requireNonNull(item.getItemStack().getItemMeta()).hasCustomModelData()) return false;
 
 		//Checks if the server is tournament only
-		if(Variables.TournamentOnly && !Variables.TournamentRunning) return false;
+		if(Variables.TournamentOnly && (TournamentHandler.ActiveTournaments == null || TournamentHandler.ActiveTournaments.size() == 0)) return false;
 
 		//Check for world permissions
 		String world = e.getPlayer().getWorld().getName().toUpperCase();
