@@ -11,14 +11,13 @@ Announce Legendary: true
 Use Economy: true
 Enable Fish Bags: true
 Enable Teasers: true
-
-New Day Time: "00:01"
-Enable Quests: true
+Enable Patrons: true
+Enable Quests: false
 Announce Quests: true
 Max Quests: 3
 
-
 Currency Symbol: $
+New Day Time: 00:00
 
 Enable All Blue: true
 Permanent All Blue: true #If disabled, a zone with limited fish will spawn for each compass crafted
@@ -30,7 +29,7 @@ Endgame Mob Chance: 2 #The chance of fishing up monsters in the endgame zone
 Allow Wandering Traders: false
 Wandering Traders Modifier: 1.5
 
-Enable Treasure: true
+Enable Treasure: false
 Treasure Chance: 5
 Parrot Treasure Bonus: 5
 Boat Treasure Bonus: 5
@@ -86,7 +85,7 @@ areas:
 
   Temperate:
     Has Compass: true
-    Compass Hint: You can faintly hear leaves rustling and birds chirping.
+    Compass Hint: You can faintly hear leaves rustling and a howling wolf.
     Biomes:
       - birch_forest
       - birch_forest_hills

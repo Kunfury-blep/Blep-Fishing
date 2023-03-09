@@ -34,6 +34,7 @@ public class Variables {
 	public static boolean EnableFishBags = true;
 	public static boolean DebugMode = false;
 	public static boolean Teasers = true;
+	public static boolean Patrons = true;
 	//endregion
 
 	//region Unique Static
@@ -41,7 +42,6 @@ public class Variables {
 		//String =
 	public static HashMap<String, List<FishObject>> FishDict = new HashMap<>();
 	public static List<CollectionLogObject> CollectionLogs = new ArrayList<>();
-	private static ResourceBundle Messages;
 	public static double TraderMod = 1;
 	public static LocalDateTime RecordedDay;
 	//endregion

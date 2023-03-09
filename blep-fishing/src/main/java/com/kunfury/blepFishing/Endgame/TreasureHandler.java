@@ -55,6 +55,9 @@ public class TreasureHandler {
     }
 
     public ItemStack GetMessageBottle(){
+        if(!Variables.Patrons)
+            return GetTreasureCasket();
+
         ItemStack bottle = new ItemStack(Material.GLASS_BOTTLE, 1);
         ItemMeta m = bottle.getItemMeta();
         m.setDisplayName(Formatting.getMessage("Treasure.bottle"));

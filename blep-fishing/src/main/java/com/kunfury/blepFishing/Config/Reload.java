@@ -61,6 +61,7 @@ public class Reload {
 		Variables.AllowWanderingTraders = Setup.config.getBoolean("Allow Wandering Traders");
 		Variables.EnableFishBags = Setup.config.getBoolean("Enable Fish Bags");
 		Variables.Teasers = Setup.config.getBoolean("Enable Teasers");
+		Variables.Patrons = Setup.config.getBoolean("Enable Patrons");
 
 		DisplayFishInfo.InfoScoreboard = Setup.config.getBoolean("Show ScoreBoard");
 		DisplayFishInfo.InfoChat = Setup.config.getBoolean("Show Chat");
@@ -407,7 +408,7 @@ public class Reload {
 	}
 
 	private boolean LoadMessages(){
-		double version = 1.2;
+		double version = 1.4;
 
 		var messageConfigFile = new File(Setup.setup.getDataFolder(), "messages.yml");
 		if (!messageConfigFile.exists()) {
