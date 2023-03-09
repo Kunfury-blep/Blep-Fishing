@@ -2,7 +2,7 @@
 #This Message File was created using the Config Web Panel. Use /BF Config in game to generate your own!
 #
 
-version: 1.3
+version: 1.4
 
 Fish Object:
   value: "&2Value: {curr}{cost}"
@@ -142,16 +142,6 @@ Endgame:
     lore: "It really does exist..."
     hint: "&bRight-Click to &o&eFocus"
     announce: "&7You feel a warm breeze in the air and hear Seagulls in the distant {direction}."
-    pieces: "&3Compass Pieces {amount}"
-    pieceLore: "A small piece of something great..."
-    combine: "&7Combine pieces at a &e&oSmithing Table&7."
-    noPieceHint: "&7You could not gleam any further information from the pieces."
-    Distance:
-      world: "&7You feel as if you are worlds apart from your destination."
-      inside: "You feel you have reached the All Blue."
-      near: "You feel you are very close."
-      far: "You feel there is still a long journey in front of you."
-      veryFar: "You feel an incredible distance seperates you and your target."
 
 PAPI:
   Tournament:
