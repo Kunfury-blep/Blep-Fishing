@@ -26,11 +26,7 @@ public class AreaObject {
 	public static AreaObject FromString(String areaName){
 		for(var a : Variables.AreaList){
 			if(a.Name.equalsIgnoreCase(areaName)){
-				Bukkit.broadcastMessage("Area set to: " + a.Name);
 				return a;
-			}
-			else{
-				Bukkit.broadcastMessage("Area NOT set to: " + a.Name);
 			}
 		}
 		return null;
