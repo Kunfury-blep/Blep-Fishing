@@ -8,7 +8,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.util.Collection;
 
 public class FileHandler {
 
