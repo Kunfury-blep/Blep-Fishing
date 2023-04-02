@@ -1,5 +1,6 @@
 package com.kunfury.blepFishing.Plugins;
 
+import com.kunfury.blepFishing.BlepFishing;
 import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Objects.FishObject;
@@ -83,7 +84,7 @@ public class ExpandPlaceholder extends PlaceholderExpansion {
     }
 
     private String getTournament(String[] args){
-        if(!TournamentHandler.isActive){
+        if(!BlepFishing.configBase.getEnableTournaments()){
             return Formatting.getMessage("Tournament.inactive");
         }
 

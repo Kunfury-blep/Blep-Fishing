@@ -3,7 +3,7 @@ package com.kunfury.blepFishing.Endgame;
 import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Objects.AllBlueObject;
-import com.kunfury.blepFishing.Setup;
+import com.kunfury.blepFishing.BlepFishing;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -38,7 +38,7 @@ public class AllBlueGeneration {
 
         Location allBlue;
 
-        if(EndgameVars.Permanent && EndgameVars.AllBlueList != null && EndgameVars.AllBlueList.size() > 0) allBlue = EndgameVars.AllBlueList.get(0).getLocation();
+        if(BlepFishing.configBase.getPermanentAllBlue() && EndgameVars.AllBlueList != null && EndgameVars.AllBlueList.size() > 0) allBlue = EndgameVars.AllBlueList.get(0).getLocation();
         else{
             Bukkit.broadcastMessage("Trying to generate new All Blue");
             allBlue = new BiomeLocator().FindViableOcean();
@@ -97,7 +97,7 @@ public class AllBlueGeneration {
         EndgameVars.AllBlueList.add(new AllBlueObject(allBlue));
 
         try {
-            String path = Setup.dataFolder + "/Data" + "/endgameArea.data";
+            String path = BlepFishing.dataFolder + "/Data" + "/endgameArea.data";
             ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(path));
 
             output.writeObject(EndgameVars.AllBlueList);

@@ -1,11 +1,11 @@
 package com.kunfury.blepFishing.Endgame;
 
+import com.kunfury.blepFishing.Config.ConfigBase;
 import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Objects.AreaObject;
-import com.kunfury.blepFishing.Setup;
+import com.kunfury.blepFishing.BlepFishing;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -106,18 +106,18 @@ public class CompassHandler {
         double distance = pLoc.distance(cLoc);
         String distanceStr;
 
-        if(Variables.DebugMode) p.sendMessage("Radius: "+ EndgameVars.AreaRadius);
+        if(Variables.DebugMode) p.sendMessage("Radius: "+ BlepFishing.configBase.getEndgameRadius());
 
         if(distance >= 10000) distanceStr = Formatting.getMessage("Endgame.Compass.Distance.veryFar");
         else if(distance >= 1000) distanceStr = Formatting.getMessage("Endgame.Compass.Distance.far");
-        else if(distance > EndgameVars.AreaRadius) distanceStr = Formatting.getMessage("Endgame.Compass.Distance.near");
+        else if(distance > BlepFishing.configBase.getEndgameRadius()) distanceStr = Formatting.getMessage("Endgame.Compass.Distance.near");
         else distanceStr = Formatting.getMessage("Endgame.Compass.Distance.inside");
 
         if(Variables.DebugMode) p.teleport(cLoc);
 
         p.sendMessage(ChatColor.GRAY + distanceStr);
 
-        if(ActivePlayers.contains(p) || distance < EndgameVars.AreaRadius) return;
+        if(ActivePlayers.contains(p) || distance < BlepFishing.configBase.getEndgameRadius()) return;
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -129,7 +129,7 @@ public class CompassHandler {
 
                 if(!Objects.equals(cLoc.getWorld(), pLoc.getWorld())){
                     double dist = pLoc.distance(cLoc);
-                    if(dist <= EndgameVars.AreaRadius){
+                    if(dist <= BlepFishing.configBase.getEndgameRadius()){
                         p.sendMessage(ChatColor.GRAY + Formatting.getMessage("Endgame.Compass.Distance.inside"));
                         if(ActivePlayers.contains(p)) ActivePlayers.remove(p);
                         cancel();
@@ -139,11 +139,13 @@ public class CompassHandler {
 
             }
 
-        }.runTaskTimer(Setup.getPlugin(), 0, 60);
+        }.runTaskTimer(BlepFishing.getPlugin(), 0, 60);
     }
 
 
     public ItemStack GenerateCompassPiece(Player p, Location loc, boolean spawned){
+        if(!BlepFishing.configBase.getEnableAllBlue()) return null;
+
         List<AreaObject> availAreas = AreaObject.GetAreas(loc);
         List<AreaObject> trimmedAreas = new ArrayList<>();
 

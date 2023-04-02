@@ -1,9 +1,11 @@
 package com.kunfury.blepFishing.Miscellaneous;
 
+import com.kunfury.blepFishing.Config.FileHandler;
 import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Quests.QuestHandler;
-import com.kunfury.blepFishing.Setup;
+import com.kunfury.blepFishing.BlepFishing;
 import com.kunfury.blepFishing.Tournament.TournamentHandler;
+import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -29,15 +31,23 @@ public class Utilities {
                 @Override
                 public void run() {
                     LocalDateTime dt = LocalDateTime.now();
-                    int hour = dt.getHour();     // gets the current month
-                    int minute = dt.getMinute(); // gets hour of day
+                    int hour = dt.getHour();
+                    int minute = dt.getMinute();
+                    int seconds = dt.getSecond();
 
-                    if((hour + ":" + minute).equals(Variables.DayReset)){
+//                    Bukkit.broadcastMessage("Time: " + hour + ":" + minute + ":" + seconds);
+//                    Bukkit.broadcastMessage("Original: " + Variables.DayReset);
+//                    Bukkit.broadcastMessage("Variable Test: " + BlepFishing.configBase.getShowScoreboard());
+
+                    if((hour + ":" + minute).equals(BlepFishing.configBase.getDayReset())){
                         new QuestHandler().NewDay();
                     }
+
+                    FileHandler.SaveData();
+
                 }
 
-            }.runTaskTimer(Setup.getPlugin(), 0, 1200);
+            }.runTaskTimer(BlepFishing.getPlugin(), 0, 1200);
 
 
             new BukkitRunnable() { //Each Second
@@ -49,7 +59,7 @@ public class Utilities {
                     qHandler.QuestTimer();
                 }
 
-            }.runTaskTimer(Setup.getPlugin(), 0, 60);
+            }.runTaskTimer(BlepFishing.getPlugin(), 0, 60);
 
         }
 

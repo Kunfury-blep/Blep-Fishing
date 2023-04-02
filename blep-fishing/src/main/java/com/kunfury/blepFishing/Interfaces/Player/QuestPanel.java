@@ -1,5 +1,6 @@
 package com.kunfury.blepFishing.Interfaces.Player;
 
+import com.kunfury.blepFishing.BlepFishing;
 import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Quests.QuestHandler;
@@ -22,7 +23,7 @@ public class QuestPanel {
     }
 
     private void NoQuestsFound(Player p){
-        if(QuestHandler.isActive)
+        if(BlepFishing.configBase.getEnableQuests())
             p.sendMessage(Variables.Prefix + Formatting.getMessage("Quests.noneActive"));
         else
             p.sendMessage(Variables.Prefix + Formatting.getMessage("Quests.disabled"));

@@ -1,5 +1,6 @@
 package com.kunfury.blepFishing.Endgame;
 
+import com.kunfury.blepFishing.BlepFishing;
 import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Objects.Patron;
@@ -28,9 +29,9 @@ public class TreasureHandler {
     public static int CasketTotalWeight;
 
     public ItemStack Perform(Player p, Location loc){
-        if(!EndgameVars.TreasureEnabled) return null;
+        if(!BlepFishing.configBase.getEnableTreasure()) return null;
 
-        if(GetTreasureChance(p) <= EndgameVars.TreasureChance){
+        if(GetTreasureChance(p) <= BlepFishing.configBase.getTreasureChance()){
             switch(new Random().nextInt(3)){
                 case 0: return new CompassHandler().GenerateCompassPiece(p, loc, false);
                 case 1: return GetMessageBottle();
@@ -49,13 +50,13 @@ public class TreasureHandler {
         boolean hasParrot =  (pL != null && pL.getType().equals(EntityType.PARROT)) || (pR != null && pR.getType().equals(EntityType.PARROT));
         boolean inBoat = p.isInsideVehicle() && p.getVehicle() instanceof Boat;
 
-        if(hasParrot) rolledAmt -= Variables.ParrotBonus;
-        if(inBoat) rolledAmt -= Variables.BoatBonus;
+        if(hasParrot) rolledAmt -= BlepFishing.configBase.getParrotBonus();
+        if(inBoat) rolledAmt -= BlepFishing.configBase.getBoatBonus();
         return rolledAmt;
     }
 
     public ItemStack GetMessageBottle(){
-        if(!Variables.Patrons)
+        if(!BlepFishing.configBase.getEnablePatrons())
             return GetTreasureCasket();
 
         ItemStack bottle = new ItemStack(Material.GLASS_BOTTLE, 1);

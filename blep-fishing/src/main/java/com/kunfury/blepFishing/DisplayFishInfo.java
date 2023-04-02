@@ -20,17 +20,9 @@ import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Objects.FishObject;
 
 public class DisplayFishInfo {
-
-
-	public static boolean InfoScoreboard, InfoChat;
-
-
-
-
-
 	public void InitialDisplay(Player p, FishObject fish){
-		if(InfoScoreboard) ShowScoreboard(p, fish);
-		if(InfoChat) ShowChat(p, fish);
+		if(BlepFishing.configBase.getShowScoreboard()) ShowScoreboard(p, fish);
+		if(BlepFishing.configBase.getShowChat()) ShowChat(p, fish);
 	}
 
 	/**
@@ -40,7 +32,7 @@ public class DisplayFishInfo {
 	 */
 	private void ShowScoreboard(Player p, FishObject fish) {
 		
-		Bukkit.getServer().getScheduler().runTaskLater(Setup.getPlugin(), new Runnable() {
+		Bukkit.getServer().getScheduler().runTaskLater(BlepFishing.getPlugin(), new Runnable() {
         	@Override
         	  public void run() {
         		String formattedName = fish.Name;
@@ -59,7 +51,7 @@ public class DisplayFishInfo {
 						.replace("{size}", Formatting.DoubleFormat(fish.RealSize)));
                 score.setScore(3);            
                 
-                if(Setup.econEnabled) { //Checks that an economy is installed
+                if(BlepFishing.econEnabled) { //Checks that an economy is installed
                 	Score score1 = objective.getScore(Formatting.getMessage("Fish Object.Scoreboard.value")
 							.replace("{value}", Formatting.DoubleFormat(fish.RealCost)));
                 	score1.setScore(2);  
@@ -74,7 +66,7 @@ public class DisplayFishInfo {
                 
         		
         		p.setScoreboard(board);
-                Bukkit.getServer().getScheduler().runTaskLater(Setup.getPlugin(), () -> {
+                Bukkit.getServer().getScheduler().runTaskLater(BlepFishing.getPlugin(), () -> {
 					for (String s : board.getEntries()) {
 						board.resetScores(s);
 					}

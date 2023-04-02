@@ -4,7 +4,7 @@ import com.kunfury.blepFishing.Config.ItemsConfig;
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.BagInfo;
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.UpdateBag;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
-import com.kunfury.blepFishing.Setup;
+import com.kunfury.blepFishing.BlepFishing;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -70,7 +70,7 @@ public class SmithingTableHandler {
     public static List<SmithingRecipe> SmithingKeys;
     public void InitializeSmithRecipes(){
         SmithingKeys = new ArrayList<>();
-        SmithingRecipe medBag = new SmithingRecipe(new NamespacedKey(Setup.getPlugin(), "FishBagMed"),
+        SmithingRecipe medBag = new SmithingRecipe(new NamespacedKey(BlepFishing.getPlugin(), "FishBagMed"),
                 new ItemStack(Material.AIR), // any material seems fine
                 new RecipeChoice.MaterialChoice(ItemsConfig.BagMat),
                 new RecipeChoice.MaterialChoice(Material.IRON_BLOCK)
@@ -78,7 +78,7 @@ public class SmithingTableHandler {
         SmithingKeys.add(medBag);
         Bukkit.addRecipe(medBag);
 
-        SmithingRecipe largeBag = new SmithingRecipe(new NamespacedKey(Setup.getPlugin(), "FishBagLarge"),
+        SmithingRecipe largeBag = new SmithingRecipe(new NamespacedKey(BlepFishing.getPlugin(), "FishBagLarge"),
                 new ItemStack(Material.AIR), // any material seems fine
                 new RecipeChoice.MaterialChoice(ItemsConfig.BagMat),
                 new RecipeChoice.MaterialChoice(Material.DIAMOND_BLOCK)
@@ -86,7 +86,7 @@ public class SmithingTableHandler {
         SmithingKeys.add(largeBag);
         Bukkit.addRecipe(largeBag);
 
-        SmithingRecipe giantBag = new SmithingRecipe(new NamespacedKey(Setup.getPlugin(), "FishBagGiant"),
+        SmithingRecipe giantBag = new SmithingRecipe(new NamespacedKey(BlepFishing.getPlugin(), "FishBagGiant"),
                 new ItemStack(Material.AIR), // any material seems fine
                 new RecipeChoice.MaterialChoice(ItemsConfig.BagMat),
                 new RecipeChoice.MaterialChoice(Material.NETHERITE_BLOCK)
@@ -94,7 +94,7 @@ public class SmithingTableHandler {
         SmithingKeys.add(giantBag);
         Bukkit.addRecipe(giantBag);
 
-        SmithingRecipe allBlueCompass = new SmithingRecipe(new NamespacedKey(Setup.getPlugin(), "AllBlueCompass"),
+        SmithingRecipe allBlueCompass = new SmithingRecipe(new NamespacedKey(BlepFishing.getPlugin(), "AllBlueCompass"),
                 new ItemStack(Material.AIR), // any material seems fine
                 new RecipeChoice.MaterialChoice(Material.PRISMARINE_CRYSTALS),
                 new RecipeChoice.MaterialChoice(Material.PRISMARINE_CRYSTALS)

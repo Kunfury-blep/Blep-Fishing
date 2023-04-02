@@ -8,7 +8,7 @@ import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Objects.BaseFishObject;
 import com.kunfury.blepFishing.Objects.FishObject;
-import com.kunfury.blepFishing.Setup;
+import com.kunfury.blepFishing.BlepFishing;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -184,7 +184,7 @@ public class SpawnSubCommand extends SubCommand {
             p.sendMessage(Variables.Prefix +  Formatting.getMessage("Admin.Spawn.success")
                             .replace("{amount}", String.valueOf(amount))
                             .replace("{type}", type));
-            Setup.getPlugin().getLogger().log(Level.FINE, Variables.Prefix + ChatColor.GRAY + "Spawned " + amount + " " + type + " for " + p.getName());
+            BlepFishing.getPlugin().getLogger().log(Level.FINE, Variables.Prefix + ChatColor.GRAY + "Spawned " + amount + " " + type + " for " + p.getName());
         }else p.sendMessage(Variables.Prefix + ChatColor.RED + "Error generating treasure: " + ChatColor.YELLOW + type.toUpperCase());
     }
 

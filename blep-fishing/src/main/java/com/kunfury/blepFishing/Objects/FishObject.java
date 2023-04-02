@@ -9,9 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.kunfury.blepFishing.Config.FileHandler;
 import com.kunfury.blepFishing.Config.ItemsConfig;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
-import com.kunfury.blepFishing.Setup;
+import com.kunfury.blepFishing.BlepFishing;
 //import com.mysql.fabric.xmlrpc.base.Value;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 
@@ -116,7 +117,7 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 				.replace("{player}", PlayerName)
 				.replace("{date}", formatter.format(DateCaught));
 
-		if(Setup.econEnabled) //Checks that an economy is installed
+		if(BlepFishing.econEnabled) //Checks that an economy is installed
 			content += "\n&f" + Formatting.getMessage("Fish Object.value")
 					.replace("{curr}", Variables.CurrSym)
 					.replace("{cost}", Formatting.DoubleFormat(RealCost));
@@ -135,7 +136,8 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 	public String getFishId(){
 		if(FishID == null || FishID.isEmpty()){ //Needed to make previously caught fish compatible
 			FishID = UUID.randomUUID().toString();
-			Variables.UpdateFishData();
+			//Variables.UpdateFishData();
+			FileHandler.FishData = true;
 		}
 
 		return FishID;
@@ -151,12 +153,14 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 
 	public ItemStack GenerateItemStack(){
 		BaseFishObject base = BaseFishObject.getBase(Name);
+
+
 		ItemStack fishItem = new ItemStack(ItemsConfig.FishMat, 1);
+
 
 		ItemMeta m = fishItem.getItemMeta();
 		m.setLore(CreateLore(base));
 		m.setCustomModelData(base.ModelData);
-
 		RarityObject rarity = RarityObject.GetRarity(Rarity);
 
 		String dName = base.Name;
@@ -167,9 +171,11 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 		fishItem.setItemMeta(m);
 
 		fishItem = NBTEditor.set( fishItem, RealCost, "blep", "item", "fishValue" );
+
 		fishItem = NBTEditor.set( fishItem, getFishId(), "blep", "item", "fishId" );
 
 		return fishItem;
+
 	}
 
 	/**
@@ -181,7 +187,7 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 		List<String> Lore = new ArrayList<>();
 		Lore.add(base.Lore);
 
-		if(Setup.econEnabled) { //Checks that an economy is installed
+		if(BlepFishing.econEnabled) { //Checks that an economy is installed
 			Lore.add(Formatting.getMessage("Fish Object.value")
 					.replace("{curr}", Variables.CurrSym)
 					.replace("{cost}", Formatting.DoubleFormat(RealCost)));
@@ -241,4 +247,6 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 				.filter(f -> f.getFishId().equals(id))
 				.findFirst().orElse(null);
 	}
+
+
 }

@@ -1,9 +1,13 @@
 package com.kunfury.blepFishing.Interfaces.Player;
 
+import com.kunfury.blepFishing.BlepFishing;
 import com.kunfury.blepFishing.Config.Variables;
+import com.kunfury.blepFishing.Interfaces.MenuButton;
+import com.kunfury.blepFishing.Interfaces.MenuButtons.AdminMenuButton;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Quests.QuestHandler;
 import com.kunfury.blepFishing.Tournament.TournamentHandler;
+import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -27,10 +31,15 @@ public class PlayerPanel {
             inv.setItem(i, new ItemStack(Material.PINK_STAINED_GLASS_PANE));
         }
 
+        MenuButton adminButton = new AdminMenuButton();
+        if(p.hasPermission(adminButton.getPermission())){
+            inv.setItem(0, adminButton.getItemStack());
+        }
+
         inv.setItem(10, TourneyItem());
         inv.setItem(12, QuestItem(p));
 
-        if(Variables.Teasers){
+        if(BlepFishing.configBase.getEnableTeasers()){
             inv.setItem(14, CollectionItem());
         }
         inv.setItem(16, HelpItem(sender));

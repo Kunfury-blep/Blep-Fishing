@@ -1,11 +1,10 @@
 package com.kunfury.blepFishing.Tournament;
 
-import com.kunfury.blepFishing.Config.TournamentType;
 import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Miscellaneous.ItemHandler;
 import com.kunfury.blepFishing.Miscellaneous.Utilities;
-import com.kunfury.blepFishing.Setup;
+import com.kunfury.blepFishing.BlepFishing;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -118,11 +117,11 @@ public class Rewards {
 
         final BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
         //Grabs the collection Asynchronously
-        scheduler.runTaskAsynchronously(Setup.getPlugin(), () -> {
+        scheduler.runTaskAsynchronously(BlepFishing.getPlugin(), () -> {
             UnsavedRewards.forEach((uuid, rewards) -> {
                 try {
-                Files.createDirectories(Paths.get(Setup.dataFolder + "/Rewards"));
-                String fileName = Setup.dataFolder + "/Rewards/" + uuid + ".json";
+                Files.createDirectories(Paths.get(BlepFishing.dataFolder + "/Rewards"));
+                String fileName = BlepFishing.dataFolder + "/Rewards/" + uuid + ".json";
                 File myObj = new File(fileName);
                 myObj.createNewFile();
                 FileWriter myWriter = new FileWriter(fileName, true);
@@ -141,7 +140,7 @@ public class Rewards {
                 }
 
             });
-            scheduler.runTask(Setup.getPlugin(), () -> {
+            scheduler.runTask(BlepFishing.getPlugin(), () -> {
                 UnsavedRewards.forEach((uuid, rewards) -> {
                     Player p = Bukkit.getPlayer(uuid);
                     if(p != null){
@@ -158,7 +157,7 @@ public class Rewards {
     public List<ItemStack> LoadRewards(UUID uuid){
         List<ItemStack> items = new ArrayList<>();
 
-        String fileName = Setup.dataFolder + "/Rewards/" + uuid + ".json";
+        String fileName = BlepFishing.dataFolder + "/Rewards/" + uuid + ".json";
         File file = new File(fileName);
 
         if(file.exists()) {

@@ -1,12 +1,12 @@
 package com.kunfury.blepFishing.Quests;
 
 import com.kunfury.blepFishing.Config.CacheHandler;
+import com.kunfury.blepFishing.Config.FileHandler;
 import com.kunfury.blepFishing.Config.Variables;
-import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Objects.FishObject;
-import com.kunfury.blepFishing.Setup;
+import com.kunfury.blepFishing.BlepFishing;
+import net.minecraft.core.BlockPosition;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.io.FileOutputStream;
@@ -20,11 +20,8 @@ import java.util.List;
 public class QuestHandler {
     private static List<QuestObject> QuestList;
     public static List<QuestObject> ActiveQuests;
-    public static boolean isActive;
-    public static boolean announceQuests;
 
-    public static int MaxQuests = 3;
-
+//    public static int MaxQuests = 3;
 
 
     public void Start(QuestObject quest){
@@ -34,11 +31,12 @@ public class QuestHandler {
 
         quest.Start();
         ActiveQuests.add(quest);
-        SaveActive();
+        FileHandler.QuestData = true;
     }
 
     public void NewDay(){
 
+        Bukkit.broadcastMessage(Variables.Prefix + "A new day has begun, new quests are available!");
 //        ActiveQuests.removeIf(QuestObject::isComplete);
 
         for(var q : new ArrayList<>(ActiveQuests)){
@@ -50,7 +48,7 @@ public class QuestHandler {
         Collections.shuffle(QuestList); //Shuffles the list to ensure diversity in quests
 
         for(var q : QuestList){
-            if(ActiveQuests.size() >= MaxQuests)
+            if(ActiveQuests.size() >= BlepFishing.configBase.getMaxQuests())
                 break;
 
             if(q.canStart()){
@@ -60,25 +58,10 @@ public class QuestHandler {
 
     }
 
-    public void FinishQuest(QuestObject q){
-        q.Finish();
-    }
-
     public void CancelQuest(QuestObject q){
         ActiveQuests.remove(q);
         new CacheHandler().SaveCache();
-        SaveActive();
-    }
-
-    public void CancelQuest(String questName){
-        for(var q : ActiveQuests){
-            if(q.getName().equals(Formatting.formatColor(questName))){
-                CancelQuest(q);
-                break;
-            }else{
-                Bukkit.broadcastMessage("No Match: " + questName + " - " + Formatting.formatColor(q.getName()));
-            }
-        }
+        FileHandler.QuestData = true;
     }
 
     public static int getActiveCount(){
@@ -96,7 +79,7 @@ public class QuestHandler {
     public void QuestTimer(){
         for(var q: ActiveQuests){
             if(!q.isCompleted() && q.canFinish())
-                FinishQuest(q);
+                q.Finish();
         }
     }
 
@@ -105,7 +88,8 @@ public class QuestHandler {
             if(!q.isValid(f))  continue;
 
             q.AddFish(f, p);
-            SaveActive();
+
+            FileHandler.QuestData = true;
         }
     }
 
@@ -133,20 +117,14 @@ public class QuestHandler {
         }
     }
 
-    private void SaveActive(){
-        try {
-            String questPath = Setup.dataFolder + "/Data" + "/quests.data";
-            ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(questPath));
-            output.writeObject(ActiveQuests);
-            output.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-
     public void CheckDaySchedule(){
         if(Variables.RecordedDay == null || Variables.RecordedDay.getDayOfYear() < LocalDateTime.now().getDayOfYear()){
             NewDay();
         }
+    }
+
+    public static QuestObject FindQuest(String id){
+        return QuestList.stream().filter(q -> q.getName().equals(id))
+                .findFirst().orElse(null);
     }
 }

@@ -28,9 +28,9 @@ public class RarityObject implements Comparable<RarityObject>{
 
     public static RarityObject GetRarity(String name){
 		List<RarityObject> baseList = Variables.RarityList;
-		for(int i = 0; i < baseList.size(); i++){
-			if(baseList.get(i).Name.equalsIgnoreCase(ChatColor.stripColor(name))){
-				return(baseList.get(i));
+		for (RarityObject rarityObject : baseList) {
+			if (rarityObject.Name.equalsIgnoreCase(ChatColor.stripColor(name))) {
+				return rarityObject;
 			}
 		}
 		return null;

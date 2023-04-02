@@ -29,14 +29,18 @@ public class BiomeHandler {
     public String getBiomeName(Location loc) {
         String biomeName = null;
 
-        String version = Bukkit.getBukkitVersion();
+        //Diabled below until a better way of detecting custom biomes is found
 
-        if(version.contains("1.19") && !version.contains("1.19.3"))
-            biomeName = getKey(loc).toString();
+//        String version = Bukkit.getBukkitVersion();
+
+//        if(version.contains("1.19") && (version.contains("1.19.1") || version.contains("1.19.2")))
+//            biomeName = getKey(loc).toString();
 
 
-        if(biomeName == null)
-            biomeName = loc.getBlock().getBiome().toString();
+//        if(biomeName == null)
+//            biomeName = loc.getBlock().getBiome().toString();
+
+        biomeName = loc.getBlock().getBiome().toString();
 
         if(biomeName.startsWith("minecraft:")){
             biomeName = biomeName.replace("minecraft:", "");

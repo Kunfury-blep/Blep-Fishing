@@ -32,18 +32,6 @@ public class UpdateBag {
         final List<FishObject> tempFish = new ParseFish().RetrieveFish(bagId, "ALL");
         FinalizeUpdate(bag, p, tempFish.size());
         if(bagOpen) ShowBagInv(p, bagId, bag);
-
-        //TODO: Check if async is needed
-        //Grabs the collection Asynchronously
-//        final BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
-//        scheduler.runTaskAsynchronously(Setup.getPlugin(), () -> {
-//            final List<FishObject> tempFish = new ParseFish().RetrieveFish(bagId, "ALL");
-//
-//            scheduler.runTask(Setup.getPlugin(), () -> {
-//                FinalizeUpdate(bag, p, tempFish.size());
-//                if(bagOpen) ShowBagInv(p, bagId, bag);
-//            });
-//        });
     }
 
     private void FinalizeUpdate(ItemStack bag, Player p, int fishCount) {

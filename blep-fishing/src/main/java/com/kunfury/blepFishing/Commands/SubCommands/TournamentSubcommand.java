@@ -1,5 +1,6 @@
 package com.kunfury.blepFishing.Commands.SubCommands;
 
+import com.kunfury.blepFishing.BlepFishing;
 import com.kunfury.blepFishing.Commands.CommandManager;
 import com.kunfury.blepFishing.Commands.SubCommand;
 import com.kunfury.blepFishing.Config.Variables;
@@ -47,7 +48,7 @@ public class TournamentSubcommand extends SubCommand {
             return;
         }
 
-        if(!TournamentHandler.isActive){
+        if(!BlepFishing.configBase.getEnableTournaments()){
             sender.sendMessage(Variables.Prefix +  Formatting.getMessage("Tournament.inactive"));
             return;
         }

@@ -1,5 +1,6 @@
 package com.kunfury.blepFishing.Crafting;
 
+import com.kunfury.blepFishing.BlepFishing;
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.BagInfo;
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.FishBagRecipe;
 import com.kunfury.blepFishing.Config.Variables;
@@ -19,7 +20,7 @@ public class CraftingManager {
 
     public void InitItems(){
         ShapedRecipes = new ArrayList<>();
-        if(Variables.EnableFishBags) new FishBagRecipe().SmallBag();
+        if(BlepFishing.configBase.getEnableFishBags()) new FishBagRecipe().SmallBag();
     }
 
     public static void CheckBagCraft(CraftItemEvent e, ItemStack item){

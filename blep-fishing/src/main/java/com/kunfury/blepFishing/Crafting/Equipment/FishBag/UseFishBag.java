@@ -1,5 +1,6 @@
 package com.kunfury.blepFishing.Crafting.Equipment.FishBag;
 
+import com.kunfury.blepFishing.Config.FileHandler;
 import com.kunfury.blepFishing.Config.ItemsConfig;
 import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
@@ -110,7 +111,10 @@ public class UseFishBag {
         }
         fishObj.setBagID(bagId);
         fish.setAmount(0);
-        Variables.UpdateFishData();
+
+        //Variables.UpdateFishData();
+        FileHandler.FishData = true;
+
         new UpdateBag().Update(bag, p, bagOpen);
         p.playSound(p.getLocation(), Sound.ENTITY_PUFFER_FISH_FLOP, .5f, 1f);
     }
@@ -158,7 +162,7 @@ public class UseFishBag {
                 p.getInventory().addItem(fish.GenerateItemStack());
             }
             p.playSound(p.getLocation(), Sound.ENTITY_SALMON_FLOP, .5f, 1f);
-            Variables.UpdateFishData();
+            FileHandler.FishData = true;
 
             new UpdateBag().Update(bag, p, true);
         }

@@ -1,6 +1,6 @@
 package com.kunfury.blepFishing.Config;
 
-import com.kunfury.blepFishing.Setup;
+import com.kunfury.blepFishing.BlepFishing;
 
 import java.io.File;
 
@@ -16,7 +16,7 @@ public class ConfigHandler {
 
 
     private void getConfig(String fileName){
-        File configFile = new File(Setup.getPlugin().getDataFolder(), fileName);
+        File configFile = new File(BlepFishing.getPlugin().getDataFolder(), fileName);
         //TODO: Get current config. Copy from Reload
     }
 

@@ -1,6 +1,7 @@
 package com.kunfury.blepFishing.Objects;
 
 import com.kunfury.blepFishing.CollectionLog.CollectionHandler;
+import com.kunfury.blepFishing.Config.FileHandler;
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.BagInfo;
 import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Quests.QuestObject;
@@ -67,7 +68,7 @@ public class CollectionLogObject implements Serializable {
         }
         else fishCol.Caught(fish);
 
-        new CollectionHandler().SaveLog();
+        FileHandler.CollectionData = true;
     }
 
     public void FinishQuest(QuestObject q){
@@ -91,7 +92,7 @@ public class CollectionLogObject implements Serializable {
         Boolean hasBag = BagMap.get(bagType);
         if(hasBag == null || !hasBag) {
             BagMap.put(bagType, true);
-            new CollectionHandler().SaveLog();
+            FileHandler.CollectionData = true;
         }
     }
 

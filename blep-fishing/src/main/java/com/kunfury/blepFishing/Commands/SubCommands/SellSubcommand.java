@@ -4,7 +4,7 @@ import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Miscellaneous.FishEconomy;
 import com.kunfury.blepFishing.Commands.SubCommand;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
-import com.kunfury.blepFishing.Setup;
+import com.kunfury.blepFishing.BlepFishing;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -29,7 +29,7 @@ public class SellSubcommand extends SubCommand {
 
     @Override
     public void perform(@NotNull CommandSender sender, String[] args) {
-        if(Setup.getEconomy() != null){
+        if(BlepFishing.getEconomy() != null){
             FishEconomy.SellFish((Player)sender, false, 1);
         }else sender.sendMessage(Variables.Prefix + Formatting.getMessage("Economy.noEconomy"));
 

@@ -19,11 +19,12 @@ import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Objects.MarketObject;
 import com.kunfury.blepFishing.Plugins.McMMOListener;
-import com.kunfury.blepFishing.Setup;
+import com.kunfury.blepFishing.BlepFishing;
 import com.kunfury.blepFishing.Signs.FishSign;
 import com.kunfury.blepFishing.Tournament.TournamentHandler;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.*;
@@ -36,93 +37,75 @@ import org.bukkit.event.player.*;
 import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.UUID;
 
 public class EventListener implements Listener {
-
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void onFishNormal(PlayerFishEvent e) {
-        if(!Variables.HighPriority && e.getState() == PlayerFishEvent.State.CAUGHT_FISH) MoveToSwap(e);
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onFishHigh(PlayerFishEvent e) {
-        if(Variables.HighPriority && e.getState() == PlayerFishEvent.State.CAUGHT_FISH) MoveToSwap(e);
-    }
-
     @EventHandler
-    public void PlayerInteract(PlayerInteractEvent e){
-        if(e.getHand() != EquipmentSlot.HAND) return;
+    public void PlayerInteract(@NotNull PlayerInteractEvent e){
+        if(e.getHand() != EquipmentSlot.HAND || e.getAction() == Action.PHYSICAL) return;
 
         Player p = e.getPlayer();
         ItemStack item = p.getInventory().getItemInMainHand();
         Action a = e.getAction();
 
 
-        if(a != Action.PHYSICAL){
-            switch(item.getType()){
-                case COMPASS:
-                    if(AllBlueInfo.IsCompassComplete(item)){
-                        new CompassHandler().UseCompass(item, p);
-                        break;
-                    }
-                case PRISMARINE_CRYSTALS:
-                    if(AllBlueInfo.IsCompass(item)){
-                        new CompassHandler().LocateNextPiece(item, p);
-                        break;
-                    }
-                case GLASS_BOTTLE:
-                    if(NBTEditor.contains(item, "blep", "item", "MessageBottle")){
-                        e.setCancelled(true);
-                        new TreasureHandler().OpenBottle(p, item);
-                        break;
-                    }
-                case CHEST:
-                    if(NBTEditor.contains(item, "blep", "item", "CasketType")){
-                        e.setCancelled(true);
-                        new TreasureHandler().OpenCasket(p, item);
-                        break;
-                    }
-                case WRITTEN_BOOK:
-                    if(NBTEditor.contains(item, "blep", "item", "JournalID")){
-                        if(a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK){
-                            new JournalHandler().OpenJournal(p, item, e);
-                            break;
-                        }
-                    }
-            }
-
-            if(item.getType().equals(ItemsConfig.BagMat) && BagInfo.IsBag(item) && !p.getOpenInventory().getType().equals(InventoryType.CHEST)){
-                e.setCancelled(true);
-                if(a == Action.LEFT_CLICK_AIR || a == Action.LEFT_CLICK_BLOCK){
-                    if(p.isSneaking()) new UseFishBag().FillBag(item, p);
-                    else new UseFishBag().TogglePickup(item, p);
-                }else if(a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK){
-                    if(Setup.hasEconomy() && a == Action.RIGHT_CLICK_BLOCK && e.getClickedBlock().getState() instanceof Sign){
-                        Sign sign = (Sign) e.getClickedBlock().getState();
-                        for(MarketObject market : FishSign.marketSigns) {
-                            if(market.CheckBool(sign)){
-                                FishEconomy.SellBag(e.getPlayer(), item, 1);
-                                return;
-                            }
-                        }
-                    }
-
-                    new UseFishBag().UseBag(item, p);
+        switch(item.getType()){
+            case COMPASS:
+                if(AllBlueInfo.IsCompassComplete(item)){
+                    new CompassHandler().UseCompass(item, p);
+                    break;
                 }
-            }
-
-
+            case PRISMARINE_CRYSTALS:
+                if(AllBlueInfo.IsCompass(item)){
+                    new CompassHandler().LocateNextPiece(item, p);
+                    break;
+                }
+            case GLASS_BOTTLE:
+                if(NBTEditor.contains(item, "blep", "item", "MessageBottle")){
+                    e.setCancelled(true);
+                    new TreasureHandler().OpenBottle(p, item);
+                    break;
+                }
+            case CHEST:
+                if(NBTEditor.contains(item, "blep", "item", "CasketType")){
+                    e.setCancelled(true);
+                    new TreasureHandler().OpenCasket(p, item);
+                    break;
+                }
+            case WRITTEN_BOOK:
+                if(NBTEditor.contains(item, "blep", "item", "JournalID")){
+                    if(a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK){
+                        new JournalHandler().OpenJournal(p, item, e);
+                        break;
+                    }
+                }
         }
 
-
-
+        if(item.getType().equals(ItemsConfig.BagMat) && BagInfo.IsBag(item) && !p.getOpenInventory().getType().equals(InventoryType.CHEST)){
+            e.setCancelled(true);
+            if(a == Action.LEFT_CLICK_AIR || a == Action.LEFT_CLICK_BLOCK){
+                if(p.isSneaking()) new UseFishBag().FillBag(item, p);
+                else new UseFishBag().TogglePickup(item, p);
+            }else if(a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK){
+                if(BlepFishing.hasEconomy() && a == Action.RIGHT_CLICK_BLOCK && e.getClickedBlock().getState() instanceof Sign){
+                    Sign sign = (Sign) e.getClickedBlock().getState();
+                    for(MarketObject market : FishSign.marketSigns) {
+                        if(market.CheckBool(sign)){
+                            FishEconomy.SellBag(e.getPlayer(), item, 1);
+                            return;
+                        }
+                    }
+                }
+                new UseFishBag().UseBag(item, p);
+            }
+        }
     }
 
     @EventHandler
-    public void PlayerQuit(PlayerQuitEvent e){
+    public void PlayerQuit(@NotNull PlayerQuitEvent e){
         Player p = e.getPlayer();
         if(CompassHandler.ActivePlayers.contains(p)) CompassHandler.ActivePlayers.remove(p);
     }
@@ -134,11 +117,11 @@ public class EventListener implements Listener {
     }
 
     @EventHandler
-    public void EntityInteract(PlayerInteractEntityEvent e) {
+    public void EntityInteract(@NotNull PlayerInteractEntityEvent e) {
         Entity entity = e.getRightClicked();
         Player p = e.getPlayer();
         ItemStack item = p.getInventory().getItemInMainHand();
-        if(Setup.getEconomy() != null){
+        if(BlepFishing.getEconomy() != null){
             if(entity instanceof Villager) {
                 Villager villager = (Villager)entity;
                 if(villager.getProfession().equals(Villager.Profession.FISHERMAN)){
@@ -154,14 +137,14 @@ public class EventListener implements Listener {
                 }
 
             }
-            if(Variables.AllowWanderingTraders && entity instanceof WanderingTrader){
+            if(BlepFishing.configBase.getAllowWanderingTraders() && entity instanceof WanderingTrader){
                 if(item.getType() == ItemsConfig.FishMat){
                     e.setCancelled(true);
-                    FishEconomy.SellFish(p, Variables.TraderMod);
+                    FishEconomy.SellFish(p, BlepFishing.configBase.getTraderMod());
                 }
                 if(BagInfo.IsBag(item)){
                     e.setCancelled(true);
-                    FishEconomy.SellBag(p, item, Variables.TraderMod);
+                    FishEconomy.SellBag(p, item, BlepFishing.configBase.getTraderMod());
                 }
 
             }
@@ -273,9 +256,14 @@ public class EventListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e)
     {
-        if(Variables.EnableFishBags) e.getPlayer().discoverRecipe(CraftingManager.key);
+        Player p = e.getPlayer();
+        if(BlepFishing.configBase.getEnableFishBags()) p.discoverRecipe(CraftingManager.key);
 
-        new TournamentHandler().ShowBars(e.getPlayer());
+        new TournamentHandler().ShowBars(p);
+
+        if(p.hasPermission("bf.admin") && Variables.ErrorMessages.size() > 0){
+            Variables.ErrorMessages.forEach(er -> p.sendMessage(Variables.Prefix + ChatColor.RED + er));
+        }
     }
 
     @EventHandler
@@ -310,20 +298,5 @@ public class EventListener implements Listener {
         if (e.getClickedInventory() != null && e.getClickedInventory().getType() == InventoryType.GRINDSTONE && e.getSlotType() == InventoryType.SlotType.RESULT && BagInfo.IsBag(e.getCurrentItem())) {
             e.setCancelled(true);
         }
-    }
-
-    private void MoveToSwap(PlayerFishEvent e){
-        //Delays the check by 1 tick to ensure the MCMMO event has run.
-        Bukkit.getScheduler ().runTaskLater (Setup.getPlugin(), () ->{
-            if(McMcMmoCanFish(e.getPlayer())) new FishSwitch().FishHandler(e);
-        } , 1);
-    }
-
-
-    private boolean McMcMmoCanFish(Player player) {
-        if(McMMOListener.canFishList.contains(player)){
-            McMMOListener.canFishList.remove(player);
-            return false;
-        }else return true;
     }
 }

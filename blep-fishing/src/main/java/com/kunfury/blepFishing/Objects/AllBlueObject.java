@@ -1,5 +1,6 @@
 package com.kunfury.blepFishing.Objects;
 
+import com.kunfury.blepFishing.BlepFishing;
 import com.kunfury.blepFishing.Endgame.EndgameVars;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -19,7 +20,7 @@ public class AllBlueObject implements Serializable {
     public AllBlueObject(Location _location){
         location = new LocationObject(_location);
 
-        fishRemaining = EndgameVars.AvailableFish;
+        fishRemaining = BlepFishing.configBase.getAllBlueFish();
     }
 
     public Location getLocation(){
@@ -27,7 +28,7 @@ public class AllBlueObject implements Serializable {
     }
 
     public void RemoveFish(int amt, Player p){
-        if(EndgameVars.Permanent) return;
+        if(BlepFishing.configBase.getPermanentAllBlue()) return;
         fishRemaining -= amt;
         if(fishRemaining <= 0 && EndgameVars.AllBlueList.contains(this)){
             EndgameVars.AllBlueList.remove(this);

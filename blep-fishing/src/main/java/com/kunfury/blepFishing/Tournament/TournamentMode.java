@@ -1,4 +1,4 @@
-package com.kunfury.blepFishing.Config;
+package com.kunfury.blepFishing.Tournament;
 
 public enum TournamentMode {
     DAY,

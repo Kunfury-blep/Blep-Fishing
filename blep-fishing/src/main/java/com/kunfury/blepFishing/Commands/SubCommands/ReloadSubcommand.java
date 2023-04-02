@@ -1,5 +1,6 @@
 package com.kunfury.blepFishing.Commands.SubCommands;
 
+import com.kunfury.blepFishing.BlepFishing;
 import com.kunfury.blepFishing.Config.Reload;
 import com.kunfury.blepFishing.Commands.CommandManager;
 import com.kunfury.blepFishing.Commands.SubCommand;
@@ -26,8 +27,10 @@ public class ReloadSubcommand extends SubCommand {
 
     @Override
     public void perform(@NotNull CommandSender sender, String[] args) {
-        if(sender.hasPermission("bf.reload"))
-            new Reload().ReloadPlugin(sender);
+        if(sender.hasPermission("bf.reload")){
+            //new Reload().ReloadPlugin(sender);
+            BlepFishing.configBase.reload();
+        }
         else
             new CommandManager().NoPermission(sender);
     }

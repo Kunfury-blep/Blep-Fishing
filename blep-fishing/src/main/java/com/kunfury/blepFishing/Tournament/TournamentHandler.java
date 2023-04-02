@@ -1,9 +1,10 @@
 package com.kunfury.blepFishing.Tournament;
 
 import com.kunfury.blepFishing.Config.CacheHandler;
+import com.kunfury.blepFishing.Config.FileHandler;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Objects.FishObject;
-import com.kunfury.blepFishing.Setup;
+import com.kunfury.blepFishing.BlepFishing;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -26,7 +27,6 @@ public class TournamentHandler {
     public static List<TournamentObject> ActiveTournaments = new ArrayList<>();
     public static HashMap<TournamentObject, BossBar> BossBars = new HashMap<>();
     public static List<Player> FishingPlayers = new ArrayList<>();
-    public static boolean isActive;
 
     public static void Reset(boolean disable){
         ActiveTournaments = new ArrayList<>();
@@ -72,7 +72,7 @@ public class TournamentHandler {
             p.sendMessage(announcement);
         }
 
-        SaveActive();
+        FileHandler.TournamentData = true;
         t.StartEvent();
 
         if(t.UseBossbar){
@@ -90,7 +90,7 @@ public class TournamentHandler {
     public void Cancel(TournamentObject t){
         ActiveTournaments.remove(t);
         t.FinishEvent();
-        SaveActive();
+        FileHandler.TournamentData = true;
     }
 
     static boolean barRunning;
@@ -114,12 +114,13 @@ public class TournamentHandler {
 
             }
 
-        }.runTaskTimer(Setup.getPlugin(), 0, 20);
+        }.runTaskTimer(BlepFishing.getPlugin(), 0, 20);
     }
 
     public void Finish(TournamentObject t){
         ActiveTournaments.remove(t);
-        SaveActive();
+        FileHandler.TournamentData = true;
+
         t.FinishEvent();
 
         new CacheHandler().SaveCache();
@@ -158,17 +159,6 @@ public class TournamentHandler {
 
     }
 
-    private void SaveActive(){
-        try {
-            String tourneyPath = Setup.dataFolder + "/Data" + "/tournaments.data";
-            ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(tourneyPath));
-            output.writeObject(ActiveTournaments);
-            output.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-
     public void ShowBars(Player p){
         if(!FishingPlayers.contains(p)){
             FishingPlayers.add(p);
@@ -190,5 +180,10 @@ public class TournamentHandler {
         for(Player p : Bukkit.getOnlinePlayers()) {
             p.spigot().sendMessage(mainComponent);
         }
+    }
+
+    public static TournamentObject FindTournament(String id){
+        return TournamentList.stream().filter(t -> t.getName().equals(id))
+                .findFirst().orElse(null);
     }
 }

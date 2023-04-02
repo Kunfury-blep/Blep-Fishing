@@ -1,9 +1,8 @@
 package com.kunfury.blepFishing.Miscellaneous;
 
-import com.kunfury.blepFishing.Setup;
+import com.kunfury.blepFishing.BlepFishing;
 import com.kunfury.blepFishing.Tournament.Rewards;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -95,13 +94,13 @@ public class ItemHandler {
                      GivePlayer(uuid, item);
                     break;
                 case "CASH: ":
-                    if(Setup.hasEconomy()){
+                    if(BlepFishing.hasEconomy()){
                         OfflinePlayer p = Bukkit.getOfflinePlayer(uuid);
                         int amount = Integer.parseInt(itemStr);
-                        Setup.getEconomy().depositPlayer(p, amount);
+                        BlepFishing.getEconomy().depositPlayer(p, amount);
                         if(p.isOnline())
                             p.getPlayer().sendMessage(Prefix + Formatting.getMessage("Economy.received")
-                                                        .replace("{value}", Setup.getEconomy().format(amount)));
+                                                        .replace("{value}", BlepFishing.getEconomy().format(amount)));
                     } else {
                         Bukkit.getLogger().warning("A player would have received currency but no economy was found. Please update the Blep Fishing config files.");
                     }

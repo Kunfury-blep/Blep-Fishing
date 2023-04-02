@@ -1,5 +1,6 @@
 package com.kunfury.blepFishing.Endgame;
 
+import com.kunfury.blepFishing.BlepFishing;
 import com.kunfury.blepFishing.Objects.AllBlueObject;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Bukkit;
@@ -30,16 +31,15 @@ public class AllBlueInfo {
     }
 
     public static AllBlueObject GetAllBlue(Location loc){
-        for(int i = 0; i < AllBlueList.size(); i++){
-            AllBlueObject obj = AllBlueList.get(i);
-
+        if(!BlepFishing.configBase.getEnableAllBlue()) return null;
+        for (AllBlueObject obj : AllBlueList) {
 //            if(Objects.equals(obj.getLocation().getWorld(), loc.getWorld())){
 //                Bukkit.broadcastMessage("Matching Worlds - " + loc.getWorld());
 //                Bukkit.broadcastMessage("OBJ - " + obj.getLocation().getWorld());
 //            }
 
-            if(Objects.equals(obj.getLocation().getWorld(), loc.getWorld()) && obj.getLocation().distance(loc) < 32){
-                return AllBlueList.get(i);
+            if (Objects.equals(obj.getLocation().getWorld(), loc.getWorld()) && obj.getLocation().distance(loc) < 32) {
+                return obj;
             }
         }
         return null;

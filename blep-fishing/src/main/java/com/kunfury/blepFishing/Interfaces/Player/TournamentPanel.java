@@ -1,5 +1,6 @@
 package com.kunfury.blepFishing.Interfaces.Player;
 
+import com.kunfury.blepFishing.BlepFishing;
 import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Tournament.TournamentHandler;
@@ -19,7 +20,7 @@ public class TournamentPanel {
     }
 
     private void NoTournamentsFound(Player p){
-        if(TournamentHandler.isActive)
+        if(BlepFishing.configBase.getEnableTournaments())
             p.sendMessage(Variables.Prefix + Formatting.getMessage("Tournament.empty"));
         else
             p.sendMessage(Variables.Prefix + Formatting.getMessage("Tournament.inactive"));

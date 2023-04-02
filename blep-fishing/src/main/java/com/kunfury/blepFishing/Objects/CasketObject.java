@@ -3,7 +3,7 @@ package com.kunfury.blepFishing.Objects;
 import com.kunfury.blepFishing.Endgame.TreasureHandler;
 import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
-import com.kunfury.blepFishing.Setup;
+import com.kunfury.blepFishing.BlepFishing;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -70,9 +70,9 @@ public class CasketObject implements Comparable<CasketObject>{
         ItemStack reward = DropTable.get(rolledAmt);
         String message = "";
         if(reward.getType().equals(Material.AIR)){
-            if(Setup.hasEconomy()){
-                Setup.getEconomy().depositPlayer(p, reward.getAmount());
-                message = ChatColor.GREEN + Setup.getEconomy().format(reward.getAmount());
+            if(BlepFishing.hasEconomy()){
+                BlepFishing.getEconomy().depositPlayer(p, reward.getAmount());
+                message = ChatColor.GREEN + BlepFishing.getEconomy().format(reward.getAmount());
             } else {
                 p.sendMessage(Variables.Prefix + ChatColor.RED + Formatting.getMessage("Treasure.noEcon"));
                 return;

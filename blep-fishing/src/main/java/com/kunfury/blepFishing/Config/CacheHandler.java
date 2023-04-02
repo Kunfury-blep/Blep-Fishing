@@ -1,7 +1,7 @@
 package com.kunfury.blepFishing.Config;
 
 import com.kunfury.blepFishing.Quests.QuestHandler;
-import com.kunfury.blepFishing.Setup;
+import com.kunfury.blepFishing.BlepFishing;
 import com.kunfury.blepFishing.Tournament.TournamentHandler;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -41,7 +41,7 @@ public class CacheHandler {
         FileWriter file = null;
 
         try {
-            file = new FileWriter(Setup.dataFolder + "/cache.json");
+            file = new FileWriter(BlepFishing.dataFolder + "/cache.json");
             file.write(obj.toJSONString());
             file.close();
         } catch (IOException ex) {
@@ -59,7 +59,7 @@ public class CacheHandler {
 
         try{
             JSONParser parser = new JSONParser();
-            String content = Files.readString(Paths.get(Setup.setup.getDataFolder() + "/cache.json"));
+            String content = Files.readString(Paths.get(BlepFishing.blepFishing.getDataFolder() + "/cache.json"));
             JSONObject json = (JSONObject) parser.parse(content);
 
             tourneyJson = (JSONObject) json.get("Touranments");
@@ -75,7 +75,7 @@ public class CacheHandler {
 
         try{
             JSONParser parser = new JSONParser();
-            String content = Files.readString(Paths.get(Setup.setup.getDataFolder() + "/cache.json"));
+            String content = Files.readString(Paths.get(BlepFishing.blepFishing.getDataFolder() + "/cache.json"));
             JSONObject json = (JSONObject) parser.parse(content);
 
             tourneyJson = (JSONObject) json.get("Quests");

@@ -1,5 +1,6 @@
 package com.kunfury.blepFishing.Endgame;
 
+import com.kunfury.blepFishing.BlepFishing;
 import com.kunfury.blepFishing.Objects.AreaObject;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -27,7 +28,7 @@ public class BiomeLocator {
 
 
             if(ConfirmArea(tempLoc, 0, 0, 0)){
-                int d = EndgameVars.AreaRadius;
+                int d = BlepFishing.configBase.getEndgameRadius();
                 if(ConfirmArea(tempLoc, d, 0, 0) && ConfirmArea(tempLoc, -d, 0, 0)
                 && ConfirmArea(tempLoc, 0, 0, d) && ConfirmArea(tempLoc, 0, 0, -d)){
                     tempLoc.setY(64);

@@ -60,9 +60,9 @@ public class BaseFishObject implements Serializable{
 
 	public static BaseFishObject getBase(String Name){
 		List<BaseFishObject> baseList = Variables.BaseFishList;
-		for(int i = 0; i < baseList.size(); i++){
-			if(baseList.get(i).Name.equalsIgnoreCase(ChatColor.stripColor(Name))){
-				return(baseList.get(i));
+		for (BaseFishObject baseFishObject : baseList) {
+			if (baseFishObject.Name.equalsIgnoreCase(ChatColor.stripColor(Name))) {
+				return baseFishObject;
 			}
 		}
 		return null;

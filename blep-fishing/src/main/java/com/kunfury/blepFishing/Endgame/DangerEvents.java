@@ -1,5 +1,6 @@
 package com.kunfury.blepFishing.Endgame;
 
+import com.kunfury.blepFishing.BlepFishing;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.*;
@@ -54,7 +55,7 @@ public class DangerEvents {
 
     public boolean SpawnCheck(){
         int rolledAmt = new Random().nextInt(100);
-        return rolledAmt <= EndgameVars.MobSpawnChance;
+        return rolledAmt <= BlepFishing.configBase.getMobChance();
     }
 
 

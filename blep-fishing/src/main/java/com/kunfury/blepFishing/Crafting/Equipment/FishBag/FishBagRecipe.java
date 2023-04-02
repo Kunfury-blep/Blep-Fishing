@@ -3,7 +3,7 @@ package com.kunfury.blepFishing.Crafting.Equipment.FishBag;
 import com.kunfury.blepFishing.Config.ItemsConfig;
 import com.kunfury.blepFishing.Crafting.CraftingManager;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
-import com.kunfury.blepFishing.Setup;
+import com.kunfury.blepFishing.BlepFishing;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -37,7 +37,7 @@ public class FishBagRecipe {
 
         bag.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
         //Recipe Creation
-        CraftingManager.key = new NamespacedKey(Setup.getPlugin(), "FishBag");
+        CraftingManager.key = new NamespacedKey(BlepFishing.getPlugin(), "FishBag");
         ShapedRecipe bagRecipe = new ShapedRecipe(CraftingManager.key, bag);
         bagRecipe.shape("123","456","789");
         bagRecipe.setIngredient('1', Material.AIR);
@@ -53,8 +53,8 @@ public class FishBagRecipe {
         CraftingManager.ShapedRecipes.add(bagRecipe);
 
         //This doesn't work for some reason
-        Bukkit.getScheduler().scheduleSyncDelayedTask(Setup.getPlugin(), () -> {
-            for(Player p : Setup.getPlugin().getServer().getOnlinePlayers()) {
+        Bukkit.getScheduler().scheduleSyncDelayedTask(BlepFishing.getPlugin(), () -> {
+            for(Player p : BlepFishing.getPlugin().getServer().getOnlinePlayers()) {
                 p.discoverRecipe(CraftingManager.key);
             }
         }, 1L); // 600L (ticks) is equal to 30 seconds (20 ticks = 1 second)

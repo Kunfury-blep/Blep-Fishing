@@ -5,11 +5,14 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 import com.kunfury.blepFishing.Config.CacheHandler;
+import com.kunfury.blepFishing.Config.ConfigBase;
 import com.kunfury.blepFishing.Config.Reload;
 import com.kunfury.blepFishing.Crafting.CraftingManager;
 import com.kunfury.blepFishing.Crafting.SmithingTableHandler;
+import com.kunfury.blepFishing.Events.EventHandler;
 import com.kunfury.blepFishing.Events.EventListener;
 import com.kunfury.blepFishing.Commands.*;
+import com.kunfury.blepFishing.Interfaces.MenuHandler;
 import com.kunfury.blepFishing.Miscellaneous.Utilities;
 import com.kunfury.blepFishing.Plugins.PluginHandler;
 import com.kunfury.blepFishing.Tournament.TournamentHandler;
@@ -25,9 +28,12 @@ import com.kunfury.blepFishing.Signs.FishSign;
 
 import net.milkbowl.vault.economy.Economy;
 
-public class Setup extends JavaPlugin {
+public class BlepFishing extends JavaPlugin {
+	public static ConfigBase configBase;
+
+
 	public static FileConfiguration config;
-	public static Setup setup;
+	public static BlepFishing blepFishing;
 	public static File dataFolder;
 	public static boolean econEnabled = true;
 	
@@ -40,7 +46,7 @@ public class Setup extends JavaPlugin {
     @Override
     public void onEnable() {
     	plugin = this;
-    	setup = this;
+    	blepFishing = this;
     	dataFolder = getDataFolder();
     	
     	if(!setupEconomy()) {
@@ -54,19 +60,18 @@ public class Setup extends JavaPlugin {
 
     	new FishSign().LoadSigns();
 
-    	PluginManager pm = getServer().getPluginManager();
-    	pm.registerEvents(new EventListener(), this);
-		pm.registerEvents(new FishSign(), this);
-		pm.registerEvents(new AdminMenu(), this);
+		new EventHandler().SetupEvents(getServer().getPluginManager());
+
 
 		new SmithingTableHandler().InitializeSmithRecipes();
 
 		new PluginHandler().InitializePlugins();
 
     	SetupCommands();
-    	saveConfig();
 
-    	new Reload().ReloadPlugin(Bukkit.getConsoleSender());
+		saveConfig();
+		configBase = new ConfigBase(this);
+		new Reload().ReloadPlugin(Bukkit.getConsoleSender());
 
 		if(Reload.success){
 			new AdminMenu().CreateStacks(); //Creates the icons for the admin panel
@@ -96,7 +101,7 @@ public class Setup extends JavaPlugin {
 	}
 
     public static boolean hasEconomy(){
-		return econEnabled && Setup.setup.getServer().getPluginManager().getPlugin("Vault") != null && econ != null;
+		return econEnabled && BlepFishing.blepFishing.getServer().getPluginManager().getPlugin("Vault") != null && econ != null;
 	}
 
     private boolean setupEconomy() {

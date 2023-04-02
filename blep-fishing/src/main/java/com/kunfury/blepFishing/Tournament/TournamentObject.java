@@ -1,7 +1,5 @@
 package com.kunfury.blepFishing.Tournament;
 
-import com.kunfury.blepFishing.Config.TournamentMode;
-import com.kunfury.blepFishing.Config.TournamentType;
 import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Objects.BaseFishObject;
@@ -283,6 +281,13 @@ public class TournamentObject implements Serializable{
         return participants;
     }
 
+    public int getModelData(){
+        BaseFishObject base = BaseFishObject.getBase(getFishType());
+        if(base != null)
+            return base.ModelData;
+        return 0;
+    }
+
     public ItemStack getItemStack(boolean admin){
         ItemStack item = new ItemStack(Material.SALMON);
         ItemMeta m = item.getItemMeta();
@@ -299,9 +304,7 @@ public class TournamentObject implements Serializable{
         if(getFishType().equalsIgnoreCase("ALL"))
             fishName = Formatting.getMessage("Tournament.allFish");
         else{
-            BaseFishObject base = BaseFishObject.getBase(getFishType());
-            if(base != null)
-                m.setCustomModelData(base.ModelData);
+            m.setCustomModelData(getModelData());
 
             fishName = getFishType();
         }
@@ -424,6 +427,10 @@ public class TournamentObject implements Serializable{
 
         if(isBest(fish))
             new TournamentHandler().AnnounceBest(this, fish);
+    }
+
+    public double getDuration(){
+        return duration;
     }
 
 }

@@ -1,5 +1,6 @@
 package com.kunfury.blepFishing.Commands.SubCommands;
 
+import com.kunfury.blepFishing.BlepFishing;
 import com.kunfury.blepFishing.Commands.CommandManager;
 import com.kunfury.blepFishing.Commands.SubCommand;
 import com.kunfury.blepFishing.Config.Variables;
@@ -49,7 +50,7 @@ public class QuestSubcommand extends SubCommand {
             return;
         }
 
-        if(!QuestHandler.isActive){
+        if(!BlepFishing.configBase.getEnableQuests()){
             sender.sendMessage(Variables.Prefix +  Formatting.getMessage("Quests.inactive"));
             return;
         }

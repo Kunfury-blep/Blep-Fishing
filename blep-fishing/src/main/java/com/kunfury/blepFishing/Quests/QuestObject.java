@@ -1,10 +1,12 @@
 package com.kunfury.blepFishing.Quests;
 
+import com.kunfury.blepFishing.BlepFishing;
 import com.kunfury.blepFishing.CollectionLog.CollectionHandler;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Miscellaneous.ItemHandler;
 import com.kunfury.blepFishing.Objects.BaseFishObject;
 import com.kunfury.blepFishing.Objects.FishObject;
+import com.kunfury.blepFishing.Tournament.TournamentHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -110,9 +112,10 @@ public class QuestObject implements Serializable {
         startDate = LocalDateTime.now();
         winners = new ArrayList<>();
         catchMap = new HashMap<>();
+        completed = false;
         setEndDate();
 
-        if(QuestHandler.announceQuests){
+        if(BlepFishing.configBase.getAnnounceQuests()){
             for(var p : Bukkit.getOnlinePlayers()){
                 p.sendMessage(Formatting.formatColor(
                         Formatting.getMessage("Quests.progress")
@@ -135,6 +138,9 @@ public class QuestObject implements Serializable {
         setLastRan(LocalDateTime.now());
         completed = true;
 
+
+        //
+        //QuestHandler.ActiveQuests.remove(this);
     }
 
     public void AddFish(FishObject fish, Player p){
@@ -268,6 +274,17 @@ public class QuestObject implements Serializable {
         long seconds = (long) (duration * 60 * 60);
 
         endDate = startDate.plusSeconds(seconds);
+    }
+
+    public double getDuration() {
+        return duration;
+    }
+
+    public int getModelData(){
+        BaseFishObject base = BaseFishObject.getBase(getFishTypeName());
+        if(base != null)
+            return base.ModelData;
+        return 0;
     }
 
 }

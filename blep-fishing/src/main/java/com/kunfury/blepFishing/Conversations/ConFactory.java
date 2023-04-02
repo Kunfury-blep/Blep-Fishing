@@ -5,12 +5,12 @@ import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.conversations.ConversationPrefix;
 
-import com.kunfury.blepFishing.Setup;
+import com.kunfury.blepFishing.BlepFishing;
 
 public class ConFactory {
 
 	public ConversationFactory GetFactory() {
-		return new ConversationFactory(Setup.getPlugin())
+		return new ConversationFactory(BlepFishing.getPlugin())
 		.withTimeout(30)
 		.withPrefix(new BlepFishingConPrefix())
 		.thatExcludesNonPlayersWithMessage("Go away evil console!");

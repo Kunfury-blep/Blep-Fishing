@@ -1,10 +1,11 @@
 package com.kunfury.blepFishing.CollectionLog;
 
+import com.kunfury.blepFishing.Config.FileHandler;
 import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Objects.CollectionLogObject;
 import com.kunfury.blepFishing.Objects.FishObject;
 import com.kunfury.blepFishing.Quests.QuestObject;
-import com.kunfury.blepFishing.Setup;
+import com.kunfury.blepFishing.BlepFishing;
 import org.bukkit.entity.Player;
 
 import java.io.FileOutputStream;
@@ -29,7 +30,8 @@ public class CollectionHandler {
         if(logObject != null) return logObject;
         logObject = new CollectionLogObject(p);
         Variables.CollectionLogs.add(logObject);
-        SaveLog();
+
+        FileHandler.CollectionData = true;
         return logObject;
 
     }
@@ -50,18 +52,6 @@ public class CollectionHandler {
         CollectionLogObject log = GetLog(p);
         log.FinishQuest(q);
 
-    }
-
-    public void SaveLog(){
-        try {
-            String logPath = Setup.dataFolder + "/Data" + "/collections.data";
-            ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(logPath));
-
-            output.writeObject(Variables.CollectionLogs);
-            output.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
     }
 
     public static <T> Collector<T, ?, T> toSingleton() {

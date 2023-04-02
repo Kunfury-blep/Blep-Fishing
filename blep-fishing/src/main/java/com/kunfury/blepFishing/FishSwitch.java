@@ -13,6 +13,7 @@ import com.kunfury.blepFishing.Events.FishCaughtEvent;
 import com.kunfury.blepFishing.Miscellaneous.BiomeHandler;
 import com.kunfury.blepFishing.Objects.*;
 import com.kunfury.blepFishing.Quests.QuestHandler;
+import com.kunfury.blepFishing.Signs.FishSign;
 import com.kunfury.blepFishing.Tournament.TournamentHandler;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -32,83 +33,84 @@ public class FishSwitch{
 
 
 	public void FishHandler(@NotNull PlayerFishEvent e) {
-		if(e.getState() != PlayerFishEvent.State.CAUGHT_FISH) return;
-	    if(e.getCaught() instanceof Item){
-			Item item = (Item) e.getCaught();
-			Player player = e.getPlayer();
+		Player player = e.getPlayer();
+		if(e.getState() != PlayerFishEvent.State.CAUGHT_FISH
+				|| !(e.getCaught() instanceof Item item)
+				|| !CanFish(item, player, e )) return;
 
-			if(!CanFish(item, player, e )) return;
-			AllBlueObject allBlueObj = AllBlueInfo.GetAllBlue(item.getLocation());
-			boolean allBlue = (allBlueObj != null);
+		AllBlueObject allBlueObj = AllBlueInfo.GetAllBlue(item.getLocation());
+		boolean allBlue = (allBlueObj != null);
+		Location itemLoc = item.getLocation();
 
-			ItemStack treasure = new TreasureHandler().Perform(player, item.getLocation());
-			if(treasure != null && treasure.getType() != Material.AIR){
-				item.setItemStack(treasure);
-				return;
-			}
-
-			BaseFishObject base = GetCaughtFish(item, allBlue);
-			if(base == null || base.Name == null) return;
-
-			//Rarity Selection
-			RarityObject chosenRarity = RarityObject.GetRandom();
-
-			FishObject fish = new FishObject(base, chosenRarity, e.getPlayer(), base.getSize(allBlue));
-
-			//Calls the event
-			FishCaughtEvent event = new FishCaughtEvent(item, fish, player);
-			Bukkit.getServer().getPluginManager().callEvent(event);
-
-			if(event.isCancelled()){
-				return;
-			}
-
-			item.setItemStack(fish.GenerateItemStack());
-
-			new DangerEvents().Trigger(player, item.getLocation());
-			//Checks if the player has a fishing bag. Automatically adds the fish to it if so
-
-			if(Variables.EnableFishBags && player.getInventory().contains(ItemsConfig.BagMat)){
-				for (var slot : player.getInventory())
-				{
-					if(slot != null && BagInfo.IsBag(slot) && NBTEditor.getBoolean(slot, "blep", "item", "fishBagAutoPickup") && !BagInfo.IsFull(slot)){
-						fish.setBagID(BagInfo.getId(slot));
-						item.remove();
-						player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, .33f, 1f);
-						new UpdateBag().IncreaseAmount(slot, player);
-						break;
-					}
-				}
-			}
-
-
-			//Broadcasts if the player catches the rarest fish possible
-			if(chosenRarity.Weight <= Variables.RarityList.get(0).Weight) {
-				if(Variables.LegendaryFishAnnounce){
-					String message = Formatting.getMessage("System.announceCatch")
-									.replace("{player}", player.getDisplayName())
-									.replace("{rarity}", fish.Rarity)
-									.replace("{fish}", fish.Name)
-									.replace("{size}", Formatting.DoubleFormat(fish.RealSize));
-
-					for(var s : Bukkit.getOnlinePlayers()){
-						s.sendMessage(Variables.Prefix + Formatting.formatColor(message));
-					}
-				}
-				Firework fw = (Firework) player.getWorld().spawnEntity(player.getLocation(), EntityType.FIREWORK);
-				fw.detonate();
-			}
-			new DisplayFishInfo().InitialDisplay(player, fish);
-
-			for(var a : TournamentHandler.ActiveTournaments){
-				a.newCatch(fish, player);
-			}
-			new QuestHandler().UpdateFishQuest(player, fish);
-			Variables.AddToFishDict(fish);
-
-			if(allBlue) allBlueObj.RemoveFish(1, player);
-			new CollectionHandler().CaughtFish(player, fish); //Adds the caught fish to the players collection
+		ItemStack treasure = new TreasureHandler().Perform(player, itemLoc);
+		if(treasure != null && treasure.getType() != Material.AIR){
+			item.setItemStack(treasure);
+			return;
 		}
+
+		BaseFishObject base = GetCaughtFish(item, allBlue);
+		if(base == null || base.Name == null) return;
+
+		//Rarity Selection
+		RarityObject chosenRarity = RarityObject.GetRandom();
+
+		FishObject fish = new FishObject(base, chosenRarity, e.getPlayer(), base.getSize(allBlue));
+
+		//Calls the event
+		FishCaughtEvent event = new FishCaughtEvent(item, fish, player);
+		Bukkit.getServer().getPluginManager().callEvent(event);
+
+		if(event.isCancelled()){
+			return;
+		}
+
+		item.setItemStack(fish.GenerateItemStack());
+
+		new DangerEvents().Trigger(player, item.getLocation());
+
+		//Checks if the player has a fishing bag. Automatically adds the fish to it if so
+		if(BlepFishing.configBase.getEnableFishBags() && player.getInventory().contains(ItemsConfig.BagMat)){
+			for (var slot : player.getInventory())
+			{
+				if(slot != null && BagInfo.IsBag(slot) && NBTEditor.getBoolean(slot, "blep", "item", "fishBagAutoPickup") && !BagInfo.IsFull(slot)){
+					fish.setBagID(BagInfo.getId(slot));
+					item.remove();
+					player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, .33f, 1f);
+					new UpdateBag().IncreaseAmount(slot, player);
+					break;
+				}
+			}
+		}
+
+		if(BlepFishing.configBase.getAnnounceLegendary() && chosenRarity.Weight <= Variables.RarityList.get(0).Weight){
+			String message = Formatting.getMessage("System.announceCatch")
+					.replace("{player}", player.getDisplayName())
+					.replace("{rarity}", fish.Rarity)
+					.replace("{fish}", fish.Name)
+					.replace("{size}", Formatting.DoubleFormat(fish.RealSize));
+
+			for(var s : Bukkit.getOnlinePlayers()){
+				s.sendMessage(Variables.Prefix + Formatting.formatColor(message));
+			}
+
+			Firework fw = (Firework) player.getWorld().spawnEntity(player.getLocation(), EntityType.FIREWORK);
+			fw.detonate();
+		}
+
+		new DisplayFishInfo().InitialDisplay(player, fish);
+
+		for(var a : TournamentHandler.ActiveTournaments){
+			a.newCatch(fish, player);
+		}
+
+		Variables.AddToFishDict(fish);
+
+		new QuestHandler().UpdateFishQuest(player, fish);
+		new CollectionHandler().CaughtFish(player, fish); //Adds the caught fish to the players collection
+
+		new FishSign().UpdateSigns();
+
+		if(allBlue) allBlueObj.RemoveFish(1, player);
 	}
 
 	/**
@@ -154,7 +156,7 @@ public class FishSwitch{
 
 	private boolean CanFish(Item item, Player player, PlayerFishEvent e) {
 
-		if(Variables.RequireAreaPerm){//Check Area
+		if(BlepFishing.configBase.getAreaPermissions()){//Check Area
 			String biomeName = new BiomeHandler().getBiomeName(e.getHook().getLocation());
 			List<AreaObject> areas = new ArrayList<>();
 			for(AreaObject a : Variables.AreaList) {
@@ -179,11 +181,11 @@ public class FishSwitch{
 		if (!itemList.contains(item.getItemStack().getType()) || Objects.requireNonNull(item.getItemStack().getItemMeta()).hasCustomModelData()) return false;
 
 		//Checks if the server is tournament only
-		if(Variables.TournamentOnly && (TournamentHandler.ActiveTournaments == null || TournamentHandler.ActiveTournaments.size() == 0)) return false;
+		if(BlepFishing.configBase.getTournamentOnly() && (TournamentHandler.ActiveTournaments == null || TournamentHandler.ActiveTournaments.size() == 0)) return false;
 
 		//Check for world permissions
 		String world = e.getPlayer().getWorld().getName().toUpperCase();
-		if(Variables.WorldsWhitelist && !Variables.AllowedWorlds.contains(world)) return false;
+		if(BlepFishing.configBase.getEnableWorldWhitelist() && !BlepFishing.configBase.getAllowedWorlds().contains(world)) return false;
 
 		var l = item.getLocation();
 
@@ -191,5 +193,4 @@ public class FishSwitch{
 
 		return true;
 	}
-
 }

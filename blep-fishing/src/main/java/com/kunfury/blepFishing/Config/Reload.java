@@ -17,12 +17,14 @@ import com.kunfury.blepFishing.Objects.*;
 import com.kunfury.blepFishing.Quests.QuestHandler;
 import com.kunfury.blepFishing.Quests.QuestObject;
 import com.kunfury.blepFishing.Tournament.TournamentHandler;
+import com.kunfury.blepFishing.Tournament.TournamentMode;
 import com.kunfury.blepFishing.Tournament.TournamentObject;
+import com.kunfury.blepFishing.Tournament.TournamentType;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.command.CommandSender;
 
-import com.kunfury.blepFishing.Setup;
+import com.kunfury.blepFishing.BlepFishing;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -36,9 +38,9 @@ public class Reload {
 	public void ReloadPlugin(CommandSender s) {
 		sender = s;
 		success = false;
-    	Setup.config = Setup.setup.getConfig();
+    	BlepFishing.config = BlepFishing.blepFishing.getConfig();
 
-    	if(Setup.config.getKeys(false).size() == 0){
+    	if(BlepFishing.config.getKeys(false).size() == 0){
 			SendError("No/Empty Config for Blep Fishing! Blep Fishing has been disabled.", null);
 			return;
 		}
@@ -52,46 +54,46 @@ public class Reload {
 
 		FixFileLocations(); //Quick fix for updating file formats
 
-		Variables.HighPriority = Setup.config.getBoolean("High Priority");
-		Setup.econEnabled = Setup.config.getBoolean("Use Economy");
-		Variables.TournamentOnly = Setup.config.getBoolean("Tournament Only");
-		Variables.RequireAreaPerm = Setup.config.getBoolean("Area Permissions");
-		Variables.WorldsWhitelist = Setup.config.getBoolean("World Whitelist");
-		Variables.LegendaryFishAnnounce = Setup.config.getBoolean("Announce Legendary");
-		Variables.AllowWanderingTraders = Setup.config.getBoolean("Allow Wandering Traders");
-		Variables.EnableFishBags = Setup.config.getBoolean("Enable Fish Bags");
-		Variables.Teasers = Setup.config.getBoolean("Enable Teasers");
-		Variables.Patrons = Setup.config.getBoolean("Enable Patrons");
+//		Variables.HighPriority = BlepFishing.config.getBoolean("High Priority");
+//		BlepFishing.econEnabled = BlepFishing.config.getBoolean("Use Economy");
+//		Variables.TournamentOnly = BlepFishing.config.getBoolean("Tournament Only");
+//		Variables.RequireAreaPerm = BlepFishing.config.getBoolean("Area Permissions");
+//		Variables.WorldsWhitelist = BlepFishing.config.getBoolean("World Whitelist");
+//		Variables.LegendaryFishAnnounce = BlepFishing.config.getBoolean("Announce Legendary");
+//		Variables.AllowWanderingTraders = BlepFishing.config.getBoolean("Allow Wandering Traders");
+//		Variables.EnableFishBags = BlepFishing.config.getBoolean("Enable Fish Bags");
+//		Variables.Teasers = BlepFishing.config.getBoolean("Enable Teasers");
+//		Variables.Patrons = BlepFishing.config.getBoolean("Enable Patrons");
 
-		DisplayFishInfo.InfoScoreboard = Setup.config.getBoolean("Show ScoreBoard");
-		DisplayFishInfo.InfoChat = Setup.config.getBoolean("Show Chat");
+//		DisplayFishInfo.InfoScoreboard = BlepFishing.config.getBoolean("Show ScoreBoard");
+//		DisplayFishInfo.InfoChat = BlepFishing.config.getBoolean("Show Chat");
 
-		EndgameVars.TreasureEnabled = Setup.config.getBoolean("Enable Treasure");
-		EndgameVars.Enabled = Setup.config.getBoolean("Enable All Blue");
-		EndgameVars.Permanent = Setup.config.getBoolean("Permanent All Blue");
+		//EndgameVars.TreasureEnabled = BlepFishing.config.getBoolean("Enable Treasure");
+//		EndgameVars.Enabled = BlepFishing.config.getBoolean("Enable All Blue");
+//		EndgameVars.Permanent = BlepFishing.config.getBoolean("Permanent All Blue");
 
-		Variables.AllowedWorlds = Setup.config.getStringList("Allowed Worlds");
-		Variables.DayReset = Setup.config.getString("New Day Time");
+//		Variables.AllowedWorlds = BlepFishing.config.getStringList("Allowed Worlds");
+//		Variables.DayReset = BlepFishing.config.getString("New Day Time");
 
-		if (Variables.AllowWanderingTraders)
-			Variables.TraderMod = Setup.config.getDouble("Wandering Traders Modifier");
+//		if (ConfigBase.  Variables.AllowWanderingTraders)
+//			Variables.TraderMod = BlepFishing.config.getDouble("Wandering Traders Modifier");
 
-		if (EndgameVars.TreasureEnabled)
-			EndgameVars.TreasureChance = Setup.config.getInt("Treasure Chance");
+//		if (EndgameVars.TreasureEnabled)
+//			EndgameVars.TreasureChance = BlepFishing.config.getInt("Treasure Chance");
 
 
 
-		EndgameVars.AvailableFish = Setup.config.getInt("All Blue Fish");
-		EndgameVars.MobSpawnChance = Setup.config.getDouble("Endgame Mob Chance");
+//		EndgameVars.AvailableFish = BlepFishing.config.getInt("All Blue Fish");
+//		EndgameVars.MobSpawnChance = BlepFishing.config.getDouble("Endgame Mob Chance");
 
-		EndgameVars.AreaRadius = Setup.config.getInt("Endgame Radius");
+//		EndgameVars.AreaRadius = BlepFishing.config.getInt("Endgame Radius");
 
-		Variables.ParrotBonus = Setup.config.getDouble("Parrot Treasure Bonus");
-		Variables.BoatBonus = Setup.config.getDouble("Boat Treasure Bonus");
+//		Variables.ParrotBonus = BlepFishing.config.getDouble("Parrot Treasure Bonus");
+//		Variables.BoatBonus = BlepFishing.config.getDouble("Boat Treasure Bonus");
 
-		QuestHandler.MaxQuests = Setup.config.getInt("Max Quests");
-		QuestHandler.isActive = Setup.config.getBoolean("Enable Quests");
-		QuestHandler.announceQuests = Setup.config.getBoolean("Announce Quests");
+//		QuestHandler.MaxQuests = BlepFishing.config.getInt("Max Quests");
+		//QuestHandler.isActive = BlepFishing.config.getBoolean("Enable Quests");
+//		QuestHandler.announceQuests = BlepFishing.config.getBoolean("Announce Quests");
 
 		LoadFish();
 		LoadRarities();
@@ -103,7 +105,7 @@ public class Reload {
 		LoadItems();
 		LoadQuests();
 
-		String areaStr = Setup.config.getString("Endgame Area");
+		String areaStr = BlepFishing.config.getString("Endgame Area");
 		EndgameVars.EndgameArea = AreaObject.FromString(areaStr);
 
 		success = true;
@@ -118,37 +120,37 @@ public class Reload {
 	private void FixFileLocations(){
 
 		try {
-			Files.createDirectories(Paths.get(Setup.dataFolder + "/Data"));
+			Files.createDirectories(Paths.get(BlepFishing.dataFolder + "/Data"));
 
-			if(new File(Setup.dataFolder + "/tournaments.data").exists()){
-				Files.move(Paths.get(Setup.dataFolder + "/tournaments.data"),
-						Paths.get(Setup.dataFolder + "/Data/" + "/tournaments.data"));
+			if(new File(BlepFishing.dataFolder + "/tournaments.data").exists()){
+				Files.move(Paths.get(BlepFishing.dataFolder + "/tournaments.data"),
+						Paths.get(BlepFishing.dataFolder + "/Data/" + "/tournaments.data"));
 			}
 
-			if(new File(Setup.dataFolder + "/fish.data").exists()){
-				Files.move(Paths.get(Setup.dataFolder + "/fish.data"),
-						Paths.get(Setup.dataFolder + "/Data/" + "/fish.data"));
+			if(new File(BlepFishing.dataFolder + "/fish.data").exists()){
+				Files.move(Paths.get(BlepFishing.dataFolder + "/fish.data"),
+						Paths.get(BlepFishing.dataFolder + "/Data/" + "/fish.data"));
 			}
 
-			if(new File(Setup.dataFolder + "/endgameArea.data").exists()){
-				Files.move(Paths.get(Setup.dataFolder + "/endgameArea.data"),
-						Paths.get(Setup.dataFolder + "/Data/" + "/endgameArea.data"));
+			if(new File(BlepFishing.dataFolder + "/endgameArea.data").exists()){
+				Files.move(Paths.get(BlepFishing.dataFolder + "/endgameArea.data"),
+						Paths.get(BlepFishing.dataFolder + "/Data/" + "/endgameArea.data"));
 			}
 
 			//Needed due to changing of file name in v1.10.1
-			if(new File(Setup.dataFolder + "/AllBlue.data").exists()){
-				Files.move(Paths.get(Setup.dataFolder + "/AllBlue..data"),
-						Paths.get(Setup.dataFolder + "/Data/" + "/endgameArea.data"));
+			if(new File(BlepFishing.dataFolder + "/AllBlue.data").exists()){
+				Files.move(Paths.get(BlepFishing.dataFolder + "/AllBlue..data"),
+						Paths.get(BlepFishing.dataFolder + "/Data/" + "/endgameArea.data"));
 			}
 
-			if(new File(Setup.dataFolder + "/markets.data").exists()){
-				Files.move(Paths.get(Setup.dataFolder + "/markets.data"),
-						Paths.get(Setup.dataFolder + "/Data/" + "/markets.data"));
+			if(new File(BlepFishing.dataFolder + "/markets.data").exists()){
+				Files.move(Paths.get(BlepFishing.dataFolder + "/markets.data"),
+						Paths.get(BlepFishing.dataFolder + "/Data/" + "/markets.data"));
 			}
 
-			if(new File(Setup.dataFolder + "/signs.data").exists()){
-				Files.move(Paths.get(Setup.dataFolder + "/signs.data"),
-						Paths.get(Setup.dataFolder + "/Data/" + "/signs.data"));
+			if(new File(BlepFishing.dataFolder + "/signs.data").exists()){
+				Files.move(Paths.get(BlepFishing.dataFolder + "/signs.data"),
+						Paths.get(BlepFishing.dataFolder + "/Data/" + "/signs.data"));
 			}
 
 		} catch (IOException e) {
@@ -160,7 +162,7 @@ public class Reload {
 	private void LoadAllBlue(){
 		EndgameVars.AllBlueList = new ArrayList<>();
 		try {
-			String path = Setup.dataFolder + "/Data/" + "/endgameArea.data";
+			String path = BlepFishing.dataFolder + "/Data/" + "/endgameArea.data";
 			ObjectInputStream input = null;
 			File tempFile = new File(path);
 			if(tempFile.exists()) {
@@ -177,15 +179,15 @@ public class Reload {
 
 	private void LoadCaskets(){
 		TreasureHandler.CasketList = new ArrayList<>();
-		var configSection = Setup.config.getConfigurationSection("treasure");
+		var configSection = BlepFishing.config.getConfigurationSection("treasure");
 		if(configSection != null){
 			Map<String, Object> treasureMap = configSection.getValues(false); //Haha, treasure map. Classic.
 			for(final String key : treasureMap.keySet()) {
-				int weight = Setup.config.getInt("treasure." + key + ".Weight");
-				String prefix = Setup.config.getString("treasure." + key + ".Prefix");
-				int modelData = Setup.config.getInt("treasure." + key + ".ModelData");
+				int weight = BlepFishing.config.getInt("treasure." + key + ".Weight");
+				String prefix = BlepFishing.config.getString("treasure." + key + ".Prefix");
+				int modelData = BlepFishing.config.getInt("treasure." + key + ".ModelData");
 				String path = "treasure." + key + ".Drop Table";
-				List<String> dtList = Setup.config.getStringList(path);
+				List<String> dtList = BlepFishing.config.getStringList(path);
 
 				List<ItemStack> itemStacks = new ArrayList<>();
 				try {
@@ -209,7 +211,7 @@ public class Reload {
 	private void LoadCollections(){
 		Variables.CollectionLogs = new ArrayList<>();
 		try {
-			String path = Setup.dataFolder + "/Data/" + "/collections.data";
+			String path = BlepFishing.dataFolder + "/Data/" + "/collections.data";
 			ObjectInputStream input = null;
 			File tempFile = new File(path);
 			if(tempFile.exists()) {
@@ -231,20 +233,20 @@ public class Reload {
 
 	private void LoadFish(){
 		Variables.BaseFishList.clear();
-		Map<String, Object> fishMap = Setup.config.getConfigurationSection("fish").getValues(false);
+		Map<String, Object> fishMap = BlepFishing.config.getConfigurationSection("fish").getValues(false);
 		for(final String key : fishMap.keySet()) {
-			String lore = Setup.config.getString("fish." + key + ".Lore");
-			double minSize = (Setup.config.getDouble("fish." + key + ".Min Size"));
-			double maxSize = Setup.config.getDouble("fish." + key + ".Max Size");
-			int modelData = Setup.config.getInt("fish." + key + ".ModelData");
-			boolean raining = Setup.config.getBoolean("fish." + key + ".Raining");
-			int weight = Setup.config.getInt("fish." + key + ".Weight");
-			double baseCost = Setup.config.getDouble("fish." + key + ".Base Price");
+			String lore = BlepFishing.config.getString("fish." + key + ".Lore");
+			double minSize = (BlepFishing.config.getDouble("fish." + key + ".Min Size"));
+			double maxSize = BlepFishing.config.getDouble("fish." + key + ".Max Size");
+			int modelData = BlepFishing.config.getInt("fish." + key + ".ModelData");
+			boolean raining = BlepFishing.config.getBoolean("fish." + key + ".Raining");
+			int weight = BlepFishing.config.getInt("fish." + key + ".Weight");
+			double baseCost = BlepFishing.config.getDouble("fish." + key + ".Base Price");
 
-			int minHeight = Setup.config.getInt("fish." + key + ".Min Height");
-			int maxHeight = Setup.config.getInt("fish." + key + ".Max Height");
+			int minHeight = BlepFishing.config.getInt("fish." + key + ".Min Height");
+			int maxHeight = BlepFishing.config.getInt("fish." + key + ".Max Height");
 
-			String timeStr = Setup.config.getString("fish." + key + ".Time");
+			String timeStr = BlepFishing.config.getString("fish." + key + ".Time");
 
 			FishTime time = FishTime.ALL;
 
@@ -252,8 +254,8 @@ public class Reload {
 				time = FishTime.valueOf(timeStr);
 
 
-			String area = Setup.config.getString("fish." + key + ".Area");
-			List<String> areas = Setup.config.getStringList("fish." + key + ".Areas");
+			String area = BlepFishing.config.getString("fish." + key + ".Area");
+			List<String> areas = BlepFishing.config.getStringList("fish." + key + ".Areas");
 			if(areas.size() == 0){
 				areas = new ArrayList<>();
 				areas.add(area);
@@ -266,7 +268,7 @@ public class Reload {
 		}
 
 		try {
-			String dictPath = Setup.dataFolder + "/Data/" +  "/fish.data";
+			String dictPath = BlepFishing.dataFolder + "/Data/" +  "/fish.data";
 			ObjectInputStream input = null;
 			File tempFile = new File(dictPath);
 			if(tempFile.exists()) {
@@ -287,19 +289,15 @@ public class Reload {
 	}
 
 	private void LoadTournaments(){
-		if(!Setup.config.getBoolean("Enable Tournaments")){
-			TournamentHandler.isActive = false;
-			return;
-		} else
-			TournamentHandler.isActive = true;
+		if(!BlepFishing.configBase.getEnableTournaments()){ return; }
 
 		//Loads Active Tournaments from file
 		List<TournamentObject> tObjs = TournamentHandler.TournamentList;
 
 		TournamentHandler.Reset(false);
 		try {
-			Files.createDirectories(Paths.get(Setup.dataFolder + "/Data"));
-			String tourneyPath = Setup.dataFolder + "/Data/" + "/tournaments.data";
+			Files.createDirectories(Paths.get(BlepFishing.dataFolder + "/Data"));
+			String tourneyPath = BlepFishing.dataFolder + "/Data/" + "/tournaments.data";
 			ObjectInputStream input = null;
 			File tempFile = new File(tourneyPath);
 			if(tempFile.exists()) {
@@ -320,9 +318,9 @@ public class Reload {
 		}
 
 		//Checks tournament config file and ensures they are added
-		var tourneyConfigFile = new File(Setup.setup.getDataFolder(), "tournaments.yml");
+		var tourneyConfigFile = new File(BlepFishing.blepFishing.getDataFolder(), "tournaments.yml");
 		if (!tourneyConfigFile.exists()) {
-			Setup.getPlugin().saveResource("tournaments.yml", false);
+			BlepFishing.getPlugin().saveResource("tournaments.yml", false);
 		}
 
 		FileConfiguration tourney = new YamlConfiguration();
@@ -388,7 +386,7 @@ public class Reload {
 					delay, rewards, minFish, bossbarTime, bossbarTimePercent, type, announceWinner, lastRan));
 		}
 
-		File cacheFile = new File(Setup.getPlugin().getDataFolder(), "cache.json");
+		File cacheFile = new File(BlepFishing.getPlugin().getDataFolder(), "cache.json");
 		if (cacheFile.exists()){
 			JSONObject json = new CacheHandler().getTourneyCache();
 
@@ -410,9 +408,9 @@ public class Reload {
 	private boolean LoadMessages(){
 		double version = 1.4;
 
-		var messageConfigFile = new File(Setup.setup.getDataFolder(), "messages.yml");
+		var messageConfigFile = new File(BlepFishing.blepFishing.getDataFolder(), "messages.yml");
 		if (!messageConfigFile.exists()) {
-			Setup.getPlugin().saveResource("messages.yml", false);
+			BlepFishing.getPlugin().saveResource("messages.yml", false);
 		}
 
 		FileConfiguration messages = new YamlConfiguration();
@@ -434,9 +432,9 @@ public class Reload {
 	}
 
 	private void LoadItems(){
-		var itemsConfigFile = new File(Setup.setup.getDataFolder(), "items.yml");
+		var itemsConfigFile = new File(BlepFishing.blepFishing.getDataFolder(), "items.yml");
 		if (!itemsConfigFile.exists()) {
-			Setup.getPlugin().saveResource("items.yml", false);
+			BlepFishing.getPlugin().saveResource("items.yml", false);
 		}
 		FileConfiguration items = new YamlConfiguration();
 		try {
@@ -452,9 +450,9 @@ public class Reload {
 
 	private void LoadQuests(){
 		//Checks tournament config file and ensures they are added
-		var questsConfigFile = new File(Setup.setup.getDataFolder(), "quests.yml");
+		var questsConfigFile = new File(BlepFishing.blepFishing.getDataFolder(), "quests.yml");
 		if (!questsConfigFile.exists()) {
-			Setup.getPlugin().saveResource("quests.yml", false);
+			BlepFishing.getPlugin().saveResource("quests.yml", false);
 		}
 
 		FileConfiguration questFile = new YamlConfiguration();
@@ -469,8 +467,8 @@ public class Reload {
 		QuestHandler.resetQuestList();
 		QuestHandler.ActiveQuests = new ArrayList<>();
 		try {
-			Files.createDirectories(Paths.get(Setup.dataFolder + "/Data"));
-			String questPath = Setup.dataFolder + "/Data/" + "/quests.data";
+			Files.createDirectories(Paths.get(BlepFishing.dataFolder + "/Data"));
+			String questPath = BlepFishing.dataFolder + "/Data/" + "/quests.data";
 			ObjectInputStream input = null;
 			File tempFile = new File(questPath);
 			if(tempFile.exists()) {
@@ -503,11 +501,20 @@ public class Reload {
 			List<String> rewards = questFile.getStringList (key + ".Rewards");
 			boolean announceProgress = questFile.getBoolean(key + ".Announce Progress");
 
+			BaseFishObject baseFish = BaseFishObject.getBase(fishName);
+
+			if(baseFish == null && !fishName.equalsIgnoreCase("ALL") && !fishName.equalsIgnoreCase("ANY")){
+				Variables.AddError("Error adding quest " + key + " due to unrecognized fish name: " + fishName);
+				continue;
+			}
+
 			QuestObject quest = new QuestObject(key, amount, fishName, maxSize, minSize, duration, cooldown, rewards, announceProgress);
 			QuestHandler.AddQuest(quest);
+
+
 		}
 
-		File cacheFile = new File(Setup.getPlugin().getDataFolder(), "cache.json");
+		File cacheFile = new File(BlepFishing.getPlugin().getDataFolder(), "cache.json");
 		if (cacheFile.exists()){
 			JSONObject json = new CacheHandler().getQuestCache();
 			for(var q : QuestHandler.getQuestList()){
@@ -530,11 +537,11 @@ public class Reload {
 
 	private void LoadRarities(){
 		Variables.RarityList.clear();
-		Map<String, Object> rarityMap = Setup.config.getConfigurationSection("rarities").getValues(false);
+		Map<String, Object> rarityMap = BlepFishing.config.getConfigurationSection("rarities").getValues(false);
 		for (final String key : rarityMap.keySet()) {
-			int weight = Setup.config.getInt("rarities." + key + ".Weight");
-			String prefix = Setup.config.getString("rarities." + key + ".Color Code");
-			double priceMod = Setup.config.getDouble("rarities." + key + ".Price Mod");
+			int weight = BlepFishing.config.getInt("rarities." + key + ".Weight");
+			String prefix = BlepFishing.config.getString("rarities." + key + ".Color Code");
+			double priceMod = BlepFishing.config.getDouble("rarities." + key + ".Price Mod");
 
 			RarityObject rarity = new RarityObject(key, weight, prefix, priceMod);
 			Variables.RarityList.add(rarity);
@@ -548,9 +555,9 @@ public class Reload {
 
 	private void LoadAreas(){
 		Variables.AreaList.clear();
-		Map<String, Object> areaMap = Setup.config.getConfigurationSection("areas").getValues(false);
+		Map<String, Object> areaMap = BlepFishing.config.getConfigurationSection("areas").getValues(false);
 		for (final String key : areaMap.keySet()) {
-			List<String> origBiomes = Setup.config.getStringList("areas." + key + ".Biomes");
+			List<String> origBiomes = BlepFishing.config.getStringList("areas." + key + ".Biomes");
 
 			List<String> biomes = new ArrayList<>();
 			for (var b : origBiomes) {
@@ -558,8 +565,8 @@ public class Reload {
 					b = b.replace("minecraft:", "");
 				biomes.add(b.toUpperCase());
 			}
-			String compassHint = Setup.config.getString("areas." + key + ".Compass Hint");
-			boolean hasCompass = Setup.config.getBoolean("areas." + key + ".Has Compass");
+			String compassHint = BlepFishing.config.getString("areas." + key + ".Compass Hint");
+			boolean hasCompass = BlepFishing.config.getBoolean("areas." + key + ".Has Compass");
 
 			AreaObject area = new AreaObject(key, biomes, compassHint, hasCompass);
 			Variables.AreaList.add(area);
@@ -576,126 +583,10 @@ public class Reload {
 		Bukkit.getLogger().warning(" ");
 		Bukkit.getLogger().warning("------------------------------------");
 
-		Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(Setup.getPlugin(), () -> {
+		Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(BlepFishing.getPlugin(), () -> {
 			Bukkit.broadcastMessage("Blep Fishing Disabled. Please Check Server Console for Error.");
-			Setup.getPlugin().getServer().getPluginManager().disablePlugin(Setup.getPlugin());
+			BlepFishing.getPlugin().getServer().getPluginManager().disablePlugin(BlepFishing.getPlugin());
 		}, 0, 100);
-	}
-
-
-
-	private void OldConfig() {
-		Set<String> existCheck = Setup.config.getConfigurationSection("").getKeys(false); //Gets all the config-
-
-		if (existCheck.contains("fish") && existCheck.contains("rarities")) {
-			//Reset all variables to reduce crashing
-			Variables.BaseFishList.clear();
-			Variables.RarityList.clear();
-			Variables.AreaList.clear();
-			Variables.RarityTotalWeight = 0;
-			Variables.FishTotalWeight = 0;
-
-			LoadFish();
-
-
-//			//Reloading Rarities
-//			Map<String, Object> rarityMap = Setup.config.getConfigurationSection("rarities").getValues(false);
-//			for (final String key : rarityMap.keySet()) {
-//				int weight = Setup.config.getInt("rarities." + key + ".Weight");
-//				String prefix = Setup.config.getString("rarities." + key + ".Color Code");
-//				double priceMod = Setup.config.getDouble("rarities." + key + ".Price Mod");
-//
-//				RarityObject rarity = new RarityObject(key, weight, prefix, priceMod);
-//				Variables.RarityList.add(rarity);
-//			}
-//			Collections.sort(Variables.RarityList);
-
-			//Reloading Areas
-//			Map<String, Object> areaMap = Setup.config.getConfigurationSection("areas").getValues(false);
-//			for (final String key : areaMap.keySet()) {
-//				List<String> origBiomes = Setup.config.getStringList("areas." + key + ".Biomes");
-//
-//				List<String> biomes = new ArrayList<>();
-//				for (var b : origBiomes) {
-//					if (b.startsWith("minecraft:"))
-//						b = b.replace("minecraft:", "");
-//					biomes.add(b.toUpperCase());
-//				}
-//				String compassHint = Setup.config.getString("areas." + key + ".Compass Hint");
-//				boolean hasCompass = Setup.config.getBoolean("areas." + key + ".Has Compass");
-//
-//				AreaObject area = new AreaObject(key, biomes, compassHint, hasCompass);
-//				Variables.AreaList.add(area);
-//			}
-
-			//Sets the total weight of rarities and fish
-			for (final RarityObject rarity : Variables.RarityList)
-				Variables.RarityTotalWeight += rarity.Weight;
-
-			for (final BaseFishObject fish : Variables.BaseFishList)
-				Variables.FishTotalWeight += fish.Weight;
-
-			String t = Setup.config.getString("Currency Symbol");
-			if (t != null)
-				Variables.CurrSym = t;
-
-			Variables.HighPriority = Setup.config.getBoolean("High Priority");
-			Variables.TournamentOnly = Setup.config.getBoolean("Tournament Only");
-			Variables.RequireAreaPerm = Setup.config.getBoolean("Area Permissions");
-			Variables.WorldsWhitelist = Setup.config.getBoolean("World Whitelist");
-			Variables.AllowedWorlds = Setup.config.getStringList("Allowed Worlds");
-			Variables.LegendaryFishAnnounce = Setup.config.getBoolean("Announce Legendary");
-			Variables.DayReset = Setup.config.getString("New Day Time");
-
-			DisplayFishInfo.InfoScoreboard = Setup.config.getBoolean("Show ScoreBoard");
-			DisplayFishInfo.InfoChat = Setup.config.getBoolean("Show Chat");
-
-			Variables.AllowWanderingTraders = Setup.config.getBoolean("Allow Wandering Traders");
-			if (Variables.AllowWanderingTraders)
-				Variables.TraderMod = Setup.config.getDouble("Wandering Traders Modifier");
-
-
-			EndgameVars.TreasureEnabled = Setup.config.getBoolean("Enable Treasure");
-			if (EndgameVars.TreasureEnabled) EndgameVars.TreasureChance = Setup.config.getInt("Treasure Chance");
-			Setup.econEnabled = Setup.config.getBoolean("Use Economy");
-			Variables.EnableFishBags = Setup.config.getBoolean("Enable Fish Bags");
-
-			EndgameVars.Enabled = Setup.config.getBoolean("Enable All Blue");
-			EndgameVars.Permanent = Setup.config.getBoolean("Permanent All Blue");
-			EndgameVars.AvailableFish = Setup.config.getInt("All Blue Fish");
-			EndgameVars.MobSpawnChance = Setup.config.getDouble("Endgame Mob Chance");
-
-			EndgameVars.AreaRadius = Setup.config.getInt("Endgame Radius");
-			String areaStr = Setup.config.getString("Endgame Area");
-			EndgameVars.EndgameArea = AreaObject.FromString(areaStr);
-
-			Variables.ParrotBonus = Setup.config.getDouble("Parrot Treasure Bonus");
-			Variables.BoatBonus = Setup.config.getDouble("Boat Treasure Bonus");
-
-			Variables.Teasers = Setup.config.getBoolean("Enable Teasers");
-
-			QuestHandler.MaxQuests = Setup.config.getInt("Max Quests");
-			QuestHandler.isActive = Setup.config.getBoolean("Enable Quests");
-
-
-			FixFileLocations();
-
-			LoadAllBlue();
-
-			LoadCaskets();
-
-			LoadCollections();
-
-			LoadTournaments();
-
-			LoadItems();
-
-			LoadQuests();
-
-			success = true;
-			Variables.Prefix = Formatting.getMessage("System.prefix");
-			sender.sendMessage(Variables.Prefix + Formatting.getMessage("System.reload"));
-		}
 	}
 
 }

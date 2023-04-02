@@ -28,7 +28,7 @@ public class AdminSubcommand extends SubCommand {
     public void perform(@NotNull CommandSender sender, String[] args) {
         if(sender.hasPermission("bf.admin")) {
             AdminMenu menu = new AdminMenu();
-            menu.ShowInventory(sender);
+            menu.ShowMenu(sender);
         }else new CommandManager().NoPermission(sender);
     }
 

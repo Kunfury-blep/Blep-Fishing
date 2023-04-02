@@ -1,15 +1,12 @@
 package com.kunfury.blepFishing.Plugins;
 
-import com.kunfury.blepFishing.Setup;
+import com.kunfury.blepFishing.BlepFishing;
 import com.sk89q.worldedit.util.Location;
 import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
-import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.StateFlag;
-import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
-import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
 import org.bukkit.Bukkit;
@@ -35,7 +32,7 @@ public class PluginHandler {
 
     private void SetupMcMMO(){
         if(Bukkit.getPluginManager().getPlugin("McMMO") != null){
-            Setup.setup.getServer().getPluginManager().registerEvents(new McMMOListener(), Setup.setup);
+            BlepFishing.blepFishing.getServer().getPluginManager().registerEvents(new McMMOListener(), BlepFishing.blepFishing);
             Bukkit.broadcastMessage("Registering MCMMO");
             hasMcMMO = true;
         }else{

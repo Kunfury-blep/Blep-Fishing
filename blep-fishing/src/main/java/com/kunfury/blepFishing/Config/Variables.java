@@ -7,9 +7,12 @@ import java.util.Map.Entry;
 
 import com.kunfury.blepFishing.Objects.CollectionLogObject;
 import com.kunfury.blepFishing.Objects.*;
-import com.kunfury.blepFishing.Setup;
+import com.kunfury.blepFishing.BlepFishing;
 import com.kunfury.blepFishing.Signs.FishSign;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
 
@@ -20,32 +23,16 @@ public class Variables {
 	public static List<RarityObject> RarityList = new ArrayList<>(); //Available rarities
 	public static List<AreaObject> AreaList = new ArrayList<>(); //Available Areas
 
-	public static List<String> AllowedWorlds = new ArrayList<>();
 	//endregion
 
-	//region Static Booleans
-	public static boolean HighPriority = false;
-	public static boolean TournamentOnly = false;
-	public static boolean WorldsWhitelist = false;
-	public static boolean RequireAreaPerm = false;
-	public static boolean AllowWanderingTraders = false;
-	public static boolean LegendaryFishAnnounce = true;
-	//public static boolean UseEconomy = true;
-	public static boolean EnableFishBags = true;
 	public static boolean DebugMode = false;
-	public static boolean Teasers = true;
-	public static boolean Patrons = true;
 	//endregion
 
 	//region Unique Static
-		//Dictionary containing lists of all caught fish
-		//String =
 	public static HashMap<String, List<FishObject>> FishDict = new HashMap<>();
 	public static List<CollectionLogObject> CollectionLogs = new ArrayList<>();
-	public static double TraderMod = 1;
 	public static LocalDateTime RecordedDay;
 	//endregion
-
 
 
 	//endregion
@@ -58,13 +45,10 @@ public class Variables {
 
 	public static int RarityTotalWeight;
 	public static int FishTotalWeight;
-	public static double ParrotBonus;
-	public static double BoatBonus;
-	
+
 	public static String Prefix;
-	
+
 	public static String CurrSym = "$"; //The global currency symbol
-	public static String DayReset = "00:01";
 
 
 	/**
@@ -75,23 +59,19 @@ public class Variables {
 	//Handles saving the fish to the local dictionary
 	public static void AddToFishDict(FishObject f) {
 		String fishName = f.Name.toUpperCase(); //Gets the name of the fish to be saved
-		
+
 		List<FishObject> list = new ArrayList<>();
-		
+
 		if(FishDict.get(fishName) != null) {
 			list = FishDict.get(fishName);
 		}
-		
-		
+
+
 		list.add(f);
 
-		if(list.size() <= 0) return;
 		FishDict.put(fishName, list);
-		UpdateFishData();
-
-		new FishSign().UpdateSigns();
 	}
-	
+
 	public static List<FishObject> getFishList(String fishName) {
 		fishName = fishName.toUpperCase();
 		boolean fishFound = false;
@@ -108,15 +88,15 @@ public class Variables {
 				}
 			}
 		}
-		
+
 		if(fishFound) { //If the fish is found, get all caught
 			if(!fishName.equalsIgnoreCase("ALL")) {
 				fishList = FishDict.get(fishName);
 			}else {
-				 for (Entry<String, List<FishObject>> entry : FishDict.entrySet()) {
-					fishList.addAll(entry.getValue());				 
-				 }
-			}		
+				for (Entry<String, List<FishObject>> entry : FishDict.entrySet()) {
+					fishList.addAll(entry.getValue());
+				}
+			}
 			if(fishList != null && fishList.size() > 0)
 				fishList.sort(Collections.reverseOrder());
 			else
@@ -124,18 +104,6 @@ public class Variables {
 		}
 		return fishList;
 
-	}
-
-	public static void UpdateFishData(){
-		try {
-			String dictPath = Setup.dataFolder + "/Data" + "/fish.data";
-			ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(dictPath));
-
-			output.writeObject(FishDict);
-			output.close();
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		}
 	}
 
 	public static List<String> SerializeItemList(List<ItemStack> items){
@@ -185,6 +153,14 @@ public class Variables {
 
 
 		return FishNameList;
+	}
+
+	public static List<String> ErrorMessages = new ArrayList<>();
+
+	public static void AddError(String error){
+		if(!ErrorMessages.contains(error)){
+			ErrorMessages.add(error);
+		}
 	}
 
 

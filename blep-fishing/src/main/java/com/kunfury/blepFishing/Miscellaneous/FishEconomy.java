@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.kunfury.blepFishing.Config.FileHandler;
 import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.BagInfo;
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.ParseFish;
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.UpdateBag;
 import com.kunfury.blepFishing.Objects.FishObject;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import com.kunfury.blepFishing.Setup;
+import com.kunfury.blepFishing.BlepFishing;
 
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
@@ -39,7 +39,7 @@ public class FishEconomy {
 
 
 	public static void SellFish(Player p, boolean sellAll, double priceMod) {
-		Economy econ = Setup.getEconomy();
+		Economy econ = BlepFishing.getEconomy();
 		if(econ != null){
 			List<ItemStack> itemList = new ArrayList<>();
 			if(sellAll) { //Runs if the player is wanting to sell all fish
@@ -70,12 +70,12 @@ public class FishEconomy {
 
 						p.sendMessage(Variables.Prefix + Formatting.getMessage("Economy.singleSale")
 								.replace("{fish}", Objects.requireNonNull(item.getItemMeta()).getDisplayName())
-								.replace("{total}", Setup.getEconomy().format(total)));
+								.replace("{total}", BlepFishing.getEconomy().format(total)));
 						item.setAmount(item.getAmount() - 1);
 					}else{
 						p.sendMessage(Variables.Prefix + Formatting.getMessage("Economy.finishSale")
 								.replace("{amount}", String.valueOf(itemList.size()))
-								.replace("{total}", Setup.getEconomy().format(total)));
+								.replace("{total}", BlepFishing.getEconomy().format(total)));
 						for(var i : itemList){
 							i.setAmount(0);
 						}
@@ -88,7 +88,7 @@ public class FishEconomy {
 	}
 
 	public static void SellFish(List<FishObject> fishList, Player p, double priceMod, ItemStack bag){
-		Economy econ = Setup.getEconomy();
+		Economy econ = BlepFishing.getEconomy();
 		if(econ == null) return;
 		double total = 0;
 
@@ -103,12 +103,13 @@ public class FishEconomy {
 			if(r.transactionSuccess()) {
 				p.sendMessage(Variables.Prefix + Formatting.getMessage("Economy.finishSale")
 						.replace("{amount}", String.valueOf(fishList.size()))
-						.replace("{total}", Setup.getEconomy().format(total)));
+						.replace("{total}", BlepFishing.getEconomy().format(total)));
 				for(var f : fishList){
 					f.setBagID(null);
 				}
 				new UpdateBag().Update(bag, p, false);
-				Variables.UpdateFishData();
+				//Variables.UpdateFishData();
+				FileHandler.FishData = true;
 			} else {
 				p.sendMessage(String.format("An error occured: %s", r.errorMessage));
 			}

@@ -22,7 +22,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import com.kunfury.blepFishing.Setup;
+import com.kunfury.blepFishing.BlepFishing;
 
 import com.kunfury.blepFishing.Miscellaneous.FishEconomy;
 import com.kunfury.blepFishing.Config.Variables;
@@ -36,8 +36,8 @@ public class FishSign implements Listener {
 
 	public static List<SignObject> rankSigns = new ArrayList<>();
 	public static List<MarketObject> marketSigns = new ArrayList<>();
-	static String signFilePath = Setup.dataFolder + "/Data" + "/signs.data";
-	static String marketFilePath = Setup.dataFolder + "/Data" + "/markets.data";
+	static String signFilePath = BlepFishing.dataFolder + "/Data" + "/signs.data";
+	static String marketFilePath = BlepFishing.dataFolder + "/Data" + "/markets.data";
 
 	/**
 	 * Signs for the Fishmarket
@@ -110,7 +110,7 @@ public class FishSign implements Listener {
 		if(e.getAction().equals(Action.RIGHT_CLICK_BLOCK) && e.getClickedBlock().getState() instanceof  Sign) {
 			Sign sign = (Sign) e.getClickedBlock().getState();
 
-			if(Setup.econEnabled && e.getItem() != null){
+			if(BlepFishing.econEnabled && e.getItem() != null){
 				ItemStack item = e.getItem();
 				if(item.getType().equals(Material.SALMON)){
 					for(MarketObject market : marketSigns) {
@@ -196,7 +196,7 @@ public class FishSign implements Listener {
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
-		Bukkit.getScheduler().runTaskLater(Setup.getPlugin(), () -> {
+		Bukkit.getScheduler().runTaskLater(BlepFishing.getPlugin(), () -> {
 			sign.setLine(0, "-------------");
 			sign.setLine(1, Formatting.getMessage("Signs.fish"));
 			sign.setLine(2, Formatting.getMessage("Signs.market"));
@@ -214,7 +214,7 @@ public class FishSign implements Listener {
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
-		Bukkit.getScheduler().runTaskLater(Setup.getPlugin(), () -> UpdateSigns(), 1L);
+		Bukkit.getScheduler().runTaskLater(BlepFishing.getPlugin(), () -> UpdateSigns(), 1L);
 
 		//TODO: Possibly delete file if empty
 		//TODO: Combine MarketObject and SignObject

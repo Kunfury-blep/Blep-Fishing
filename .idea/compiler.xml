@@ -9,8 +9,6 @@
         <module name="blep-fishing" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="18.0.1.1">
-      <module name="blep-fishing" target="16" />
-    </bytecodeTargetLevel>
+    <bytecodeTargetLevel target="18.0.1.1" />
   </component>
 </project>
