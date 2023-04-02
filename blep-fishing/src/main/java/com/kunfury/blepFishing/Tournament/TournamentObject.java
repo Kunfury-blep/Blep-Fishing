@@ -433,4 +433,16 @@ public class TournamentObject implements Serializable{
         return duration;
     }
 
+    public List<FishObject> getWinningFish(){
+        List<FishObject> sortedCaughtFish = getFish();
+
+        sortedCaughtFish.sort(new Comparator<FishObject>() {
+            @Override
+            public int compare(FishObject f1, FishObject f2) {
+                return (int)(f1.getSize() - f2.getSize());
+            }
+        });
+
+        return sortedCaughtFish;
+    }
 }

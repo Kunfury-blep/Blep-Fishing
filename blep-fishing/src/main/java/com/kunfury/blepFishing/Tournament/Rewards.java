@@ -16,8 +16,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
-import static com.kunfury.blepFishing.Config.Variables.Prefix;
-
 public class Rewards {
 
     public static HashMap<UUID, List<ItemStack>> UnsavedRewards = new HashMap<>();
@@ -146,7 +144,7 @@ public class Rewards {
                     if(p != null){
                         p.sendMessage(Formatting.getMessage("Tournament.claimRewards")
                                 .replace("{amount}", String.valueOf(rewards.size())));
-                        p.sendMessage(Variables.Prefix + Formatting.getMessage("Tournament.claimRewards2"));
+                        p.sendMessage(Formatting.getFormattedMesage("Tournament.claimRewards2"));
                     }
                 });
                 UnsavedRewards.clear();
@@ -174,7 +172,7 @@ public class Rewards {
 
                 if(!file.delete())
                 {
-                    String msg = Prefix + "Failed to delete the rewards file for " + uuid;
+                    String msg = Variables.getPrefix() + "Failed to delete the rewards file for " + uuid;
                     Bukkit.getLogger().warning(msg);
                 }
 
@@ -192,7 +190,7 @@ public class Rewards {
         List<ItemStack> rewards = LoadRewards(uuid);
 
         if(Utilities.getFreeSlots(p.getInventory()) <= 0){
-            p.sendMessage(Prefix + Formatting.getMessage("System.inventoryFull"));
+            p.sendMessage(Formatting.getFormattedMesage("System.inventoryFull"));
             AddRewards(uuid, rewards);
             SaveRewards();
             return;
@@ -205,7 +203,7 @@ public class Rewards {
 
             SaveRewards();
         }
-        else p.sendMessage(Prefix + Formatting.getMessage("Tournament.noRewards"));
+        else p.sendMessage(Formatting.getFormattedMesage("Tournament.noRewards"));
 
 
 

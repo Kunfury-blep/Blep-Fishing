@@ -11,25 +11,21 @@ import com.kunfury.blepFishing.Crafting.CraftingManager;
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.BagInfo;
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.UseFishBag;
 import com.kunfury.blepFishing.Crafting.SmithingTableHandler;
-import com.kunfury.blepFishing.FishSwitch;
 import com.kunfury.blepFishing.Interfaces.Player.QuestPanel;
 import com.kunfury.blepFishing.Miscellaneous.FishEconomy;
 import com.kunfury.blepFishing.Interfaces.Player.PlayerPanel;
 import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Objects.MarketObject;
-import com.kunfury.blepFishing.Plugins.McMMOListener;
 import com.kunfury.blepFishing.BlepFishing;
 import com.kunfury.blepFishing.Signs.FishSign;
 import com.kunfury.blepFishing.Tournament.TournamentHandler;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.*;
@@ -262,7 +258,7 @@ public class EventListener implements Listener {
         new TournamentHandler().ShowBars(p);
 
         if(p.hasPermission("bf.admin") && Variables.ErrorMessages.size() > 0){
-            Variables.ErrorMessages.forEach(er -> p.sendMessage(Variables.Prefix + ChatColor.RED + er));
+            Variables.ErrorMessages.forEach(er -> p.sendMessage(Variables.getPrefix() + ChatColor.RED + er));
         }
     }
 

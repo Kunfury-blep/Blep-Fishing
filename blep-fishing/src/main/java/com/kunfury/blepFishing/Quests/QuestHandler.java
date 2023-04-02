@@ -5,13 +5,9 @@ import com.kunfury.blepFishing.Config.FileHandler;
 import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Objects.FishObject;
 import com.kunfury.blepFishing.BlepFishing;
-import net.minecraft.core.BlockPosition;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,7 +32,7 @@ public class QuestHandler {
 
     public void NewDay(){
 
-        Bukkit.broadcastMessage(Variables.Prefix + "A new day has begun, new quests are available!");
+        Bukkit.broadcastMessage(Variables.getPrefix() + "A new day has begun, new quests are available!"); //Add to messages.yml file
 //        ActiveQuests.removeIf(QuestObject::isComplete);
 
         for(var q : new ArrayList<>(ActiveQuests)){

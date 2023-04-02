@@ -42,7 +42,7 @@ public class ExpandPlaceholder extends PlaceholderExpansion {
             case "TOP" -> getTopFish(args);
             case "TOURNAMENT" -> getTournament(args);
             case "FISH" -> getFish(args);
-            default -> Variables.Prefix + "The input of: " + params + " is not recognized";
+            default -> "The input of: " + params + " is not recognized";
         };
     }
 

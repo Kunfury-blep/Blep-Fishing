@@ -37,7 +37,7 @@ public class TournamentSubcommand extends SubCommand {
             if(sender instanceof Player){
                 new TournamentPanel().ClickBase((Player) sender);
             }else{
-                sender.sendMessage(Variables.Prefix + Formatting.getMessage("Tournament.noAction"));
+                sender.sendMessage(Formatting.getFormattedMesage("Tournament.noAction"));
             }
 
             return;
@@ -49,12 +49,12 @@ public class TournamentSubcommand extends SubCommand {
         }
 
         if(!BlepFishing.configBase.getEnableTournaments()){
-            sender.sendMessage(Variables.Prefix +  Formatting.getMessage("Tournament.inactive"));
+            sender.sendMessage(Formatting.getFormattedMesage("Tournament.inactive"));
             return;
         }
 
         if(args.length == 2){
-            sender.sendMessage(Variables.Prefix + Formatting.getMessage("Tournament.noName")
+            sender.sendMessage(Formatting.getFormattedMesage("Tournament.noName")
                     .replace("{action}", args[1].toLowerCase()));
             return;
         }
@@ -75,7 +75,7 @@ public class TournamentSubcommand extends SubCommand {
         }
 
         if(!args[2].equalsIgnoreCase("ALL") && t == null){
-            sender.sendMessage(Variables.Prefix + Formatting.getMessage("Tournament.noTournament"));
+            sender.sendMessage(Formatting.getFormattedMesage("Tournament.noTournament"));
             return;
         }
 
@@ -90,20 +90,20 @@ public class TournamentSubcommand extends SubCommand {
                     if(TournamentHandler.ActiveTournaments.size() > 0){
                         for(var a : new ArrayList<>(TournamentHandler.ActiveTournaments)){
                             new TournamentHandler().Cancel(a);
-                            sender.sendMessage(Variables.Prefix + Formatting.formatColor(Formatting.getMessage("Tournament.cancel")
+                            sender.sendMessage(Variables.getPrefix() + Formatting.formatColor(Formatting.getMessage("Tournament.cancel")
                                     .replace("{tournament}", a.getName())));
                         }
-                    } else sender.sendMessage(Variables.Prefix + Formatting.getMessage("Tournament.empty"));
+                    } else sender.sendMessage(Formatting.getFormattedMesage("Tournament.empty"));
                     return;
                 }
 
                 if(TournamentHandler.ActiveTournaments.contains(t)){
                     new TournamentHandler().Cancel(t);
-                    sender.sendMessage(Variables.Prefix + Formatting.formatColor(Formatting.getMessage("Tournament.cancel")
+                    sender.sendMessage(Variables.getPrefix() + Formatting.formatColor(Formatting.getMessage("Tournament.cancel")
                             .replace("{tournament}", t.getName())));
                 }
 
-                else sender.sendMessage(Variables.Prefix + Formatting.formatColor(Formatting.getMessage("Tournament.notRunning")
+                else sender.sendMessage(Variables.getPrefix() + Formatting.formatColor(Formatting.getMessage("Tournament.notRunning")
                         .replace("{tournament}", t.getName())));
             }
             case "START" -> {

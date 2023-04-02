@@ -7,12 +7,7 @@ import java.util.Map.Entry;
 
 import com.kunfury.blepFishing.Objects.CollectionLogObject;
 import com.kunfury.blepFishing.Objects.*;
-import com.kunfury.blepFishing.BlepFishing;
-import com.kunfury.blepFishing.Signs.FishSign;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
 
@@ -46,7 +41,7 @@ public class Variables {
 	public static int RarityTotalWeight;
 	public static int FishTotalWeight;
 
-	public static String Prefix;
+	private static String prefix;
 
 	public static String CurrSym = "$"; //The global currency symbol
 
@@ -163,6 +158,19 @@ public class Variables {
 		}
 	}
 
+	public static String getPrefix() {
+		return prefix;
+	}
+
+	public static String getPrefix(boolean canFail) {
+		if(prefix == null)
+			prefix = "&b[BF]&f ";
+		return prefix;
+	}
+
+	public static void setPrefix(String prefix) {
+		Variables.prefix = prefix;
+	}
 
 }
 

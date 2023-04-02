@@ -105,8 +105,8 @@ public class TreasureHandler {
             CasketObject tObj = CasketObject.GetTreasure(casket);
             if(tObj != null){
                 tObj.Open(p, casket);
-            }else p.sendMessage(Variables.Prefix + ChatColor.RED + "Unable to open Casket. Something is wrong with the config.");
-        } else p.sendMessage(Variables.Prefix + Formatting.getMessage("System.inventoryFull"));
+            }else p.sendMessage(Variables.getPrefix() + ChatColor.RED + "Unable to open Casket. Something is wrong with the config."); //TODO: Add to messages.yml
+        } else p.sendMessage(Formatting.getFormattedMesage("System.inventoryFull"));
 
     }
 

@@ -30,7 +30,7 @@ public class SellAllSubcommand extends SubCommand {
     @Override
     public void perform(@NotNull CommandSender sender, String[] args) {
         if(BlepFishing.getEconomy() != null) FishEconomy.SellFish((Player)sender, true, 1);
-        else sender.sendMessage(Variables.Prefix + Formatting.getMessage("Economy.noEconomy"));
+        else sender.sendMessage(Formatting.getFormattedMesage("Economy.noEconomy"));
     }
 
     @Override

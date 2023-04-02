@@ -13,8 +13,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.kunfury.blepFishing.Config.Variables.Prefix;
-
 public class CommandManager implements TabExecutor {
     private final ArrayList<SubCommand> subCommands = new ArrayList<>();
 
@@ -45,7 +43,7 @@ public class CommandManager implements TabExecutor {
                     return true;
                 }
             }
-            sender.sendMessage(Prefix + Formatting.getMessage("System.noComm"));
+            sender.sendMessage(Formatting.getFormattedMesage("System.noComm"));
         }else BaseCommand(sender);
 
         return true;
@@ -77,7 +75,7 @@ public class CommandManager implements TabExecutor {
     }
 
     public void NoPermission(CommandSender sender) {
-        sender.sendMessage(Prefix + Formatting.getMessage("System.noPerm"));
+        sender.sendMessage(Formatting.getFormattedMesage("System.noPerm"));
     }
 
     private boolean CheckPermissions(CommandSender sender, String permission){

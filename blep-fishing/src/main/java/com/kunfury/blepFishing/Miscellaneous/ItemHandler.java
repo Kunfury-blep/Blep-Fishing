@@ -14,8 +14,6 @@ import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 import java.io.*;
 import java.util.UUID;
 
-import static com.kunfury.blepFishing.Config.Variables.Prefix;
-
 public class ItemHandler {
     public static String itemStackToBase64(ItemStack item) throws IllegalStateException {
         try {
@@ -99,7 +97,7 @@ public class ItemHandler {
                         int amount = Integer.parseInt(itemStr);
                         BlepFishing.getEconomy().depositPlayer(p, amount);
                         if(p.isOnline())
-                            p.getPlayer().sendMessage(Prefix + Formatting.getMessage("Economy.received")
+                            p.getPlayer().sendMessage(Formatting.getFormattedMesage("Economy.received")
                                                         .replace("{value}", BlepFishing.getEconomy().format(amount)));
                     } else {
                         Bukkit.getLogger().warning("A player would have received currency but no economy was found. Please update the Blep Fishing config files.");
@@ -141,7 +139,7 @@ public class ItemHandler {
             assert player != null;
             if(Utilities.getFreeSlots(player.getInventory()) > 0){
                 player.getInventory().addItem(item);
-                player.sendMessage(Prefix + Formatting.getMessage("System.itemReceive")
+                player.sendMessage(Formatting.getFormattedMesage("System.itemReceive")
                                 .replace("{amount}", String.valueOf(item.getAmount()))
                                 .replace("{item}", item.getType().toString()));
             }else Rewards.AddReward(uuid, item);

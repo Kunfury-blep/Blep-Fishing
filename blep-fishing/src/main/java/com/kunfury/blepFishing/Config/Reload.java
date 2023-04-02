@@ -10,7 +10,6 @@ import java.util.*;
 import com.kunfury.blepFishing.Objects.CollectionLogObject;
 import com.kunfury.blepFishing.Endgame.EndgameVars;
 import com.kunfury.blepFishing.Endgame.TreasureHandler;
-import com.kunfury.blepFishing.DisplayFishInfo;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Miscellaneous.ItemHandler;
 import com.kunfury.blepFishing.Objects.*;
@@ -109,8 +108,8 @@ public class Reload {
 		EndgameVars.EndgameArea = AreaObject.FromString(areaStr);
 
 		success = true;
-		Variables.Prefix = Formatting.getMessage("System.prefix");
-		sender.sendMessage(Variables.Prefix + Formatting.getMessage("System.reload"));
+		Variables.setPrefix(Formatting.getMessage("System.prefix"));
+		sender.sendMessage(Formatting.getFormattedMesage("System.reload"));
 
 	}
 
@@ -172,7 +171,7 @@ public class Reload {
 			if(input != null)
 				input.close();
 		} catch (IOException | ClassNotFoundException ex) {
-			sender.sendMessage(Variables.Prefix + "Loading of all blue Failed");
+			sender.sendMessage(Variables.getPrefix(true) + "Loading of all blue Failed"); //TODO: Add to messages.yml
 			ex.printStackTrace();
 		}
 	}
@@ -226,7 +225,7 @@ public class Reload {
 			if(input != null)
 				input.close();
 		} catch (IOException | ClassNotFoundException ex) {
-			sender.sendMessage(Variables.Prefix + "Loading of Collection Logs Failed");
+			sender.sendMessage(Variables.getPrefix(true) + "Loading of Collection Logs Failed"); //TODO: Add to messages.yml
 			ex.printStackTrace();
 		}
 	}
@@ -278,7 +277,7 @@ public class Reload {
 			if(input != null)
 				input.close();
 		} catch (IOException | ClassNotFoundException ex) {
-			sender.sendMessage(Variables.Prefix + "Loading of fish Failed");
+			sender.sendMessage(Variables.getPrefix(true) + "Loading of fish Failed");
 			ex.printStackTrace();
 		}
 
@@ -308,7 +307,7 @@ public class Reload {
 			if(input != null)
 				input.close();
 		} catch (IOException | ClassNotFoundException ex) {
-			sender.sendMessage(Variables.Prefix + "Loading of tournaments Failed");
+			sender.sendMessage(Variables.getPrefix(true) + "Loading of tournaments Failed"); //TODO: Add to messages.yml
 			ex.printStackTrace();
 		}
 
@@ -479,7 +478,7 @@ public class Reload {
 			if(input != null)
 				input.close();
 		} catch (IOException | ClassNotFoundException ex) {
-			sender.sendMessage(Variables.Prefix + "Loading of Active Quests Failed");
+			sender.sendMessage(Variables.getPrefix(true) + "Loading of Active Quests Failed");
 			ex.printStackTrace();
 		}
 

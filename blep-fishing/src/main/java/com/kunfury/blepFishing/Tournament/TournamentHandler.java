@@ -12,14 +12,9 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import static com.kunfury.blepFishing.Config.Variables.Prefix;
 
 public class TournamentHandler {
 
@@ -63,7 +58,7 @@ public class TournamentHandler {
             return;
         }
         ActiveTournaments.add(t);
-        String announcement = Prefix + Formatting.getMessage("Tournament.start")
+        String announcement = Formatting.getFormattedMesage("Tournament.start")
                 .replace("{tournament}", t.getName());
 
         announcement = Formatting.formatColor(announcement);
@@ -128,7 +123,7 @@ public class TournamentHandler {
         if(t.getFish().size() == 0){
             String tempName = t.getFishType().toLowerCase();
             if(tempName.equalsIgnoreCase("ALL")) tempName = "fish";
-            Bukkit.broadcastMessage(Prefix + Formatting.getMessage("Tournament.noneCaught")
+            Bukkit.broadcastMessage(Formatting.getFormattedMesage("Tournament.noneCaught")
                     .replace("{fish}", tempName));
             return;
         }

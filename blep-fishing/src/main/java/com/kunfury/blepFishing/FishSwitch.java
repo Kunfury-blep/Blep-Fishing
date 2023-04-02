@@ -16,8 +16,6 @@ import com.kunfury.blepFishing.Quests.QuestHandler;
 import com.kunfury.blepFishing.Signs.FishSign;
 import com.kunfury.blepFishing.Tournament.TournamentHandler;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.player.PlayerFishEvent;
@@ -90,7 +88,7 @@ public class FishSwitch{
 					.replace("{size}", Formatting.DoubleFormat(fish.RealSize));
 
 			for(var s : Bukkit.getOnlinePlayers()){
-				s.sendMessage(Variables.Prefix + Formatting.formatColor(message));
+				s.sendMessage(Variables.getPrefix() + Formatting.formatColor(message));
 			}
 
 			Firework fw = (Firework) player.getWorld().spawnEntity(player.getLocation(), EntityType.FIREWORK);

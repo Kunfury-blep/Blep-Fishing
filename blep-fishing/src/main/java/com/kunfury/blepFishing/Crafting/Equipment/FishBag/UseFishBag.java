@@ -51,13 +51,13 @@ public class UseFishBag {
         }
 
         if(amount > 0){
-            p.sendMessage(Variables.Prefix + Formatting.getMessage("Equipment.Fish Bag.addFish")
+            p.sendMessage(Formatting.getFormattedMesage("Equipment.Fish Bag.addFish")
                             .replace("{amount}", String.valueOf(amount)));
         }else{
             if(bagAmt >= bagMax)
-                p.sendMessage(Variables.Prefix + Formatting.getMessage("Equipment.Fish Bag.noSpace"));
+                p.sendMessage(Formatting.getFormattedMesage("Equipment.Fish Bag.noSpace"));
             else
-                p.sendMessage(Variables.Prefix + Formatting.getMessage("Equipment.Fish Bag.noFish"));
+                p.sendMessage(Formatting.getFormattedMesage("Equipment.Fish Bag.noFish"));
         }
 
     }
@@ -70,11 +70,11 @@ public class UseFishBag {
         if(enabled){
             bag = NBTEditor.set(bag, false, "blep", "item", "fishBagAutoPickup" );
             bag.removeEnchantment(Enchantment.DURABILITY);
-            p.sendMessage(Variables.Prefix + Formatting.getMessage("Equipment.Fish Bag.pickupDisabled"));
+            p.sendMessage(Formatting.getFormattedMesage("Equipment.Fish Bag.pickupDisabled"));
         }else{
             bag = NBTEditor.set(bag, true, "blep", "item", "fishBagAutoPickup" );
             bag.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
-            p.sendMessage(Variables.Prefix + Formatting.getMessage("Equipment.Fish Bag.pickupEnabled"));
+            p.sendMessage(Formatting.getFormattedMesage("Equipment.Fish Bag.pickupEnabled"));
         }
 
         ItemMeta m = bag.getItemMeta();
@@ -91,7 +91,7 @@ public class UseFishBag {
      */
     public void AddFish(ItemStack bag, Player p, ItemStack fish, boolean bagOpen){
         if(BagInfo.IsFull(bag)){
-            p.sendMessage(Variables.Prefix + Formatting.getMessage("Equipment.Fish Bag.noSpace"));
+            p.sendMessage(Formatting.getFormattedMesage("Equipment.Fish Bag.noSpace"));
             return;
         }
         String bagId = BagInfo.getId(bag);
@@ -101,12 +101,12 @@ public class UseFishBag {
         FishObject fishObj = new ParseFish().FishFromId(fishId);
 
         if(fishObj == null){
-            p.sendMessage(Variables.Prefix + Formatting.getMessage("Equipment.Fish Bag.oldVersion"));
+            p.sendMessage(Formatting.getFormattedMesage("Equipment.Fish Bag.oldVersion"));
             return;
         }
 
         if(fishObj.getBagID() != null){
-            p.sendMessage(Variables.Prefix + ChatColor.RED + "That fish is already stored in another bag somewhere. This shouldn't happen.");
+            p.sendMessage(Variables.getPrefix() + ChatColor.RED + "That fish is already stored in another bag somewhere. This shouldn't happen."); //Add to messages.yml
             return;
         }
         fishObj.setBagID(bagId);

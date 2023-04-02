@@ -250,7 +250,7 @@ public class AdminMenu implements Listener {
 	
 	public void TournamentEdit(Player p){
 		p.closeInventory();
-		TextComponent message = new TextComponent(Variables.Prefix + "Click here to open the Tournament Wiki Page." );
+		TextComponent message = new TextComponent(Variables.getPrefix() + "Click here to open the Tournament Wiki Page." ); //Add to Messages.yml file
 		message.setClickEvent( new ClickEvent( ClickEvent.Action.OPEN_URL, "https://github.com/Kunfury-blep/Blep-Fishing/wiki/Tournaments.yml" ) );
 		p.spigot().sendMessage(message);
 	}

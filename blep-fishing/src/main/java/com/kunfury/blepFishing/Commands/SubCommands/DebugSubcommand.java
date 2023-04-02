@@ -6,8 +6,6 @@ import com.kunfury.blepFishing.Config.CacheHandler;
 import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Miscellaneous.BiomeHandler;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
-import org.bukkit.Bukkit;
-import org.bukkit.block.Biome;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -34,9 +32,9 @@ public class DebugSubcommand extends SubCommand {
     public void perform(@NotNull CommandSender sender, String[] args) {
         if(sender.hasPermission("bf.admin")) {
             Variables.DebugMode = !Variables.DebugMode;
-            if(Variables.DebugMode) sender.sendMessage(Variables.Prefix + Formatting.getMessage("System.debugEnabled"));
-            else sender.sendMessage(Variables.Prefix + Formatting.getMessage("System.debugDisabled"));
-            sender.sendMessage(Variables.Prefix + Formatting.getMessage("System.debugFish")
+            if(Variables.DebugMode) sender.sendMessage(Formatting.getFormattedMesage("System.debugEnabled"));
+            else sender.sendMessage(Formatting.getFormattedMesage("System.debugDisabled"));
+            sender.sendMessage(Formatting.getFormattedMesage("System.debugFish")
                             .replace("{amount}", String.valueOf(Variables.getFishList("ALL").size())));
 
             Player p = (Player)sender;

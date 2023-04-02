@@ -7,8 +7,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import static com.kunfury.blepFishing.Config.Variables.Prefix;
-
 public class HelpSubcommand extends SubCommand {
     @Override
     public String getName() {
@@ -27,14 +25,14 @@ public class HelpSubcommand extends SubCommand {
 
     @Override
     public void perform(@NotNull CommandSender sender, String[] args) {
-        String helpMessage = Formatting.getMessage("Player Panel.Help.title") + "\n"
-                        + Prefix + Formatting.getMessage("Player Panel.Help.lb") + "\n"
-                        + Prefix + Formatting.getMessage("Player Panel.Help.claim") + "\n";
+        String helpMessage = Formatting.getFormattedMesage("Player Panel.Help.title") + "\n"
+                        + Formatting.getFormattedMesage("Player Panel.Help.lb") + "\n"
+                        + Formatting.getFormattedMesage("Player Panel.Help.claim") + "\n";
         if(sender.hasPermission("bf.admin")) {
-            helpMessage += Prefix + Formatting.getMessage("Player Panel.Help.config") + "\n";
-            helpMessage += Prefix + Formatting.getMessage("Player Panel.Help.reload") + "\n";
-            helpMessage += Prefix + Formatting.getMessage("Player Panel.Help.getData") + "\n";
-            helpMessage += Prefix + Formatting.getMessage("Player Panel.Help.tourney") + "\n";
+            helpMessage += Formatting.getFormattedMesage("Player Panel.Help.config") + "\n";
+            helpMessage += Formatting.getFormattedMesage("Player Panel.Help.reload") + "\n";
+            helpMessage += Formatting.getFormattedMesage("Player Panel.Help.getData") + "\n";
+            helpMessage += Formatting.getFormattedMesage("Player Panel.Help.tourney") + "\n";
         }
         sender.sendMessage(helpMessage);
     }

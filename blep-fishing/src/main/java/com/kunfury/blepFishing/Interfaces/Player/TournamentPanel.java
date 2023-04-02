@@ -21,9 +21,9 @@ public class TournamentPanel {
 
     private void NoTournamentsFound(Player p){
         if(BlepFishing.configBase.getEnableTournaments())
-            p.sendMessage(Variables.Prefix + Formatting.getMessage("Tournament.empty"));
+            p.sendMessage(Formatting.getFormattedMesage("Tournament.empty"));
         else
-            p.sendMessage(Variables.Prefix + Formatting.getMessage("Tournament.inactive"));
+            p.sendMessage(Formatting.getFormattedMesage("Tournament.inactive"));
 
     }
 

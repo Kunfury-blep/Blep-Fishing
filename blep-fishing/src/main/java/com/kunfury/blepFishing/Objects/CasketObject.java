@@ -74,7 +74,7 @@ public class CasketObject implements Comparable<CasketObject>{
                 BlepFishing.getEconomy().depositPlayer(p, reward.getAmount());
                 message = ChatColor.GREEN + BlepFishing.getEconomy().format(reward.getAmount());
             } else {
-                p.sendMessage(Variables.Prefix + ChatColor.RED + Formatting.getMessage("Treasure.noEcon"));
+                p.sendMessage(Formatting.getFormattedMesage("Treasure.noEcon", ChatColor.RED));
                 return;
             }
         } else{

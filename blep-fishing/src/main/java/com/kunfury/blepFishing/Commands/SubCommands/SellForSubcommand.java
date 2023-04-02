@@ -35,9 +35,9 @@ public class SellForSubcommand extends SubCommand {
             if(p != null && p.isOnline())
                 FishEconomy.SellFish(p, 1);
             else
-                sender.sendMessage(Variables.Prefix + Formatting.getMessage("Economy.noPlayer"));
+                sender.sendMessage(Formatting.getFormattedMesage("Economy.noPlayer"));
         }else
-            sender.sendMessage(Variables.Prefix + Formatting.getMessage("Economy.noPlayer"));
+            sender.sendMessage(Formatting.getFormattedMesage("Economy.noPlayer"));
 
     }
 

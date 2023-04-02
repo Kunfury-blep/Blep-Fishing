@@ -78,7 +78,7 @@ public class DisplayFishInfo {
 	}
 
 	private void ShowChat(Player p, FishObject fish){
-		String lbString = Variables.Prefix + Formatting.getMessage("Fish Object.announce")
+		String lbString = Formatting.getFormattedMesage("Fish Object.announce")
 												.replace("{rarity}", fish.Rarity)
 												.replace("{fish}", fish.Name);
 		TextComponent mainComponent = new TextComponent (Formatting.formatColor(lbString));

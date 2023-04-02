@@ -6,7 +6,6 @@ import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Miscellaneous.ItemHandler;
 import com.kunfury.blepFishing.Objects.BaseFishObject;
 import com.kunfury.blepFishing.Objects.FishObject;
-import com.kunfury.blepFishing.Tournament.TournamentHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -23,7 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-import static com.kunfury.blepFishing.Config.Variables.Prefix;
 
 public class QuestObject implements Serializable {
 
@@ -166,8 +164,7 @@ public class QuestObject implements Serializable {
 
         if(catchMap.get(uuid) >= getCatchAmount() && !winners.contains(uuid)){
             winners.add(uuid);
-            p.sendMessage(Formatting.formatColor(Prefix +
-                    Formatting.getMessage("Quests.completed")
+            p.sendMessage(Formatting.formatColor(Formatting.getFormattedMesage("Quests.completed")
                             .replace("{quest}", getName())
             ));
 

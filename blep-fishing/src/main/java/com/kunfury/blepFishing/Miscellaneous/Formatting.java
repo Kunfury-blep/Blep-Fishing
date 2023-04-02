@@ -1,5 +1,6 @@
 package com.kunfury.blepFishing.Miscellaneous;
 
+import com.kunfury.blepFishing.Config.Variables;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -17,7 +18,7 @@ import java.util.regex.Pattern;
 public class Formatting {
 
 	public static DecimalFormat df = new DecimalFormat("##.00");
-	
+
 	//Formats doubles to two decimal places and returns them
 	//Parses through a locale formatter in order to ensure no incompatibilities
 	public static String DoubleFormat(Double d) {
@@ -29,9 +30,9 @@ public class Formatting {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		return(df.format(number));		
+		return(df.format(number));
 	}
-	
+
 	public static String asTime(long milli) {
 
 		long seconds = (milli / 1000) % 60;
@@ -45,10 +46,10 @@ public class Formatting {
 		if(hours > 0) result += hours + "h ";
 		if(minutes > 0) result += minutes + "m ";
 		if(seconds > 0) result += seconds + "s ";
-		
+
 		return result;
 	}
-	
+
 	/********************************************************
     * Fix string spaces to align text in minecraft chat
     *
@@ -58,8 +59,8 @@ public class Formatting {
     * @return New aligned String
     */
     public static String FixFontSize (String s, int size) {
-     
-	    StringBuilder ret = new StringBuilder(s);
+
+		StringBuilder ret = new StringBuilder(s);
 		for (int i=0; i < s.length(); i++) {
 			if ( s.charAt(i) == 'I' || s.charAt(i) == ' ') {
 				ret.append(" ");
@@ -69,8 +70,8 @@ public class Formatting {
 		int availLength = size - s.length();
 
 		ret.append(" ".repeat(Math.max(0, availLength)));
-	     
-	    return (ret.toString());
+
+		return (ret.toString());
     }
 
 	public static double round(double value, int places) {
@@ -96,11 +97,20 @@ public class Formatting {
 
 
 	public static FileConfiguration messages = new YamlConfiguration();
+
 	public static String getMessage(String key){
 		if(messages.contains(key)){
 			return formatColor(messages.getString(key));
 		}else{
 			return ChatColor.RED + "Message Not Found - " + key;
 		}
+	}
+
+	public static String getFormattedMesage(String key){
+		return Variables.getPrefix() + getMessage(key);
+	}
+
+	public static String getFormattedMesage(String key, ChatColor color){
+		return Variables.getPrefix() + color + getMessage(key);
 	}
 }

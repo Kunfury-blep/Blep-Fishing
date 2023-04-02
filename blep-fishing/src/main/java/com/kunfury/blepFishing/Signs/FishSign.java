@@ -54,14 +54,14 @@ public class FishSign implements Listener {
 		if(lines[0].equals("[bf]")) { //Checks that the sign is a Blep Fishing sign
 			if(lines[1].equalsIgnoreCase(Formatting.getMessage("Signs.marketTitle"))) {
 				if(player.hasPermission("bf.admin")) MarketCreate(sign, player.getWorld());
-				else player.sendMessage(Variables.Prefix + Formatting.getMessage("System.adminReq"));
+				else player.sendMessage(Formatting.getFormattedMesage("System.adminReq"));
 			}else {
 				//Checks if fish exist in the main list in FishSwitch
 				int level = 0;
 				if(!lines[2].isEmpty() && isNumeric(lines[2])) { //Gets the provided leaderboard level
 					level = Integer.parseInt(lines[2]) - 1;
 					if(level < 0) level = 0;
-				}else player.sendMessage(Variables.Prefix + Formatting.getMessage("Signs.noRank"));
+				}else player.sendMessage(Formatting.getFormattedMesage("Signs.noRank"));
 
 				SignObject signObj = new SignObject((Sign)e.getBlock().getState(), lines[1], level, player.getWorld());
 

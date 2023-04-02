@@ -5,15 +5,11 @@ import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Quests.QuestHandler;
 import com.kunfury.blepFishing.Quests.QuestObject;
-import com.kunfury.blepFishing.Tournament.TournamentHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-
-import java.util.Objects;
 
 public class QuestPanel {
 
@@ -24,9 +20,9 @@ public class QuestPanel {
 
     private void NoQuestsFound(Player p){
         if(BlepFishing.configBase.getEnableQuests())
-            p.sendMessage(Variables.Prefix + Formatting.getMessage("Quests.noneActive"));
+            p.sendMessage(Formatting.getFormattedMesage("Quests.noneActive"));
         else
-            p.sendMessage(Variables.Prefix + Formatting.getMessage("Quests.disabled"));
+            p.sendMessage(Formatting.getFormattedMesage("Quests.disabled"));
 
         new PlayerPanel().Show(p);
 

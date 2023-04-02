@@ -78,17 +78,6 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 
 	}
 
-	/**
-	 * Recalculates the score of the fish
-	 * Needed in order to rescore all fish after a config change
-	 * @param r is the fishobject
-	 * @return the new cost of the fish
-	 */
-	@Override
-	public int compareTo(FishObject r) {
-		return this.Score.compareTo(r.Score);
-	}
-
 	private double CalcScore(BaseFishObject base, RarityObject rarity) {
 		double adjWeight = rarity.Weight;
 		if(Variables.RarityList.get(0).Weight != 1)
@@ -126,11 +115,6 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 
 
 	}
-
-	public BaseFishObject getBase(){
-		return BaseFishObject.getBase(Name);
-	}
-
 	public double getScore(){return Score;}
 
 	public String getFishId(){
@@ -248,5 +232,14 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 				.findFirst().orElse(null);
 	}
 
-
+	/**
+	 * Recalculates the score of the fish
+	 * Needed in order to rescore all fish after a config change
+	 * @param r is the fishobject
+	 * @return the new cost of the fish
+	 */
+	@Override
+	public int compareTo(FishObject r) {
+		return this.Score.compareTo(r.Score);
+	}
 }

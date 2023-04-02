@@ -32,7 +32,7 @@ public class GetDataSubCommand extends SubCommand {
     @Override
     public void perform(@NotNull CommandSender sender, String[] args) {
         if(!(sender instanceof Player)){
-            sender.sendMessage(Variables.Prefix + Formatting.getMessage("System.playerOnly"));
+            sender.sendMessage(Formatting.getFormattedMesage("System.playerOnly"));
             return;
         }
         Player p = (Player) sender;
@@ -42,7 +42,7 @@ public class GetDataSubCommand extends SubCommand {
         String data = ItemHandler.itemStackToBase64(item);
 
         String dataStr = "BYTE: " + data;
-        TextComponent message = new TextComponent(Variables.Prefix +  Formatting.getMessage("Admin.getDataClick"));
+        TextComponent message = new TextComponent(Formatting.getFormattedMesage("Admin.getDataClick"));
         message.setClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, dataStr));
         message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Use Ctrl-V to paste!").create()));
         p.spigot().sendMessage(message);

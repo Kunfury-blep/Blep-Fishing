@@ -45,11 +45,11 @@ public class AllBlueGeneration {
         }
 
         if(allBlue == null){
-            player.sendMessage(Variables.Prefix + ChatColor.RED + "No suitable ocean found. Please attempt again.");
-            player.sendMessage(Variables.Prefix + ChatColor.RED + "If issue persists, let an admin know.");
+            player.sendMessage(Variables.getPrefix() + ChatColor.RED + "No suitable ocean found. Please attempt again."); //TODO: Add to messages.yml
+            player.sendMessage(Variables.getPrefix() + ChatColor.RED + "If issue persists, let an admin know."); //TODO: Add to messages.yml
 
             Logger log = Bukkit.getLogger();
-            log.warning(Variables.Prefix + "No suitable ocean found for All Blue Generation. This should only happen if oceans do not exist within the world border./");
+            log.warning(Variables.getPrefix() + "No suitable ocean found for All Blue Generation. This should only happen if oceans do not exist within the world border./"); //TODO: Add to messages.yml
             return null;
         }
 

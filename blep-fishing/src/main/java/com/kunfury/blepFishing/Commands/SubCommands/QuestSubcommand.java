@@ -5,12 +5,8 @@ import com.kunfury.blepFishing.Commands.CommandManager;
 import com.kunfury.blepFishing.Commands.SubCommand;
 import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Interfaces.Player.QuestPanel;
-import com.kunfury.blepFishing.Interfaces.Player.TournamentPanel;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Quests.QuestHandler;
-import com.kunfury.blepFishing.Tournament.TournamentHandler;
-import com.kunfury.blepFishing.Tournament.TournamentObject;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -40,7 +36,7 @@ public class QuestSubcommand extends SubCommand {
             if(sender instanceof Player){
                 new QuestPanel().ClickBase((Player)sender);
             }else{
-                sender.sendMessage(Variables.Prefix + Formatting.getMessage("Quests.noAction"));
+                sender.sendMessage(Formatting.getFormattedMesage("Quests.noAction"));
             }
             return;
         }
@@ -51,7 +47,7 @@ public class QuestSubcommand extends SubCommand {
         }
 
         if(!BlepFishing.configBase.getEnableQuests()){
-            sender.sendMessage(Variables.Prefix +  Formatting.getMessage("Quests.inactive"));
+            sender.sendMessage(Formatting.getFormattedMesage("Quests.inactive"));
             return;
         }
 

@@ -31,7 +31,7 @@ public class FishEconomy {
 				PlayerWaitList.remove(p.toString());
 			}else {
 				PlayerWaitList.add(p.toString());
-				p.sendMessage(Variables.Prefix + Formatting.getMessage("Economy.confirmSellAll"));
+				p.sendMessage(Formatting.getFormattedMesage("Economy.confirmSellAll"));
 			}
 		}else
 			SellFish(p, false, priceMod);
@@ -68,12 +68,12 @@ public class FishEconomy {
 					if(itemList.size() == 1){
 						ItemStack item = itemList.get(0);
 
-						p.sendMessage(Variables.Prefix + Formatting.getMessage("Economy.singleSale")
+						p.sendMessage(Formatting.getFormattedMesage("Economy.singleSale")
 								.replace("{fish}", Objects.requireNonNull(item.getItemMeta()).getDisplayName())
 								.replace("{total}", BlepFishing.getEconomy().format(total)));
 						item.setAmount(item.getAmount() - 1);
 					}else{
-						p.sendMessage(Variables.Prefix + Formatting.getMessage("Economy.finishSale")
+						p.sendMessage(Formatting.getFormattedMesage("Economy.finishSale")
 								.replace("{amount}", String.valueOf(itemList.size()))
 								.replace("{total}", BlepFishing.getEconomy().format(total)));
 						for(var i : itemList){
@@ -83,7 +83,7 @@ public class FishEconomy {
 				} else {
 					p.sendMessage(String.format("An error occured: %s", r.errorMessage));
 				}
-			}else p.sendMessage(Variables.Prefix + Formatting.getMessage("Economy.noValue"));
+			}else p.sendMessage(Formatting.getFormattedMesage("Economy.noValue"));
 		}
 	}
 
@@ -101,7 +101,7 @@ public class FishEconomy {
 		if(total > 0) {
 			EconomyResponse r = econ.depositPlayer(p, total);
 			if(r.transactionSuccess()) {
-				p.sendMessage(Variables.Prefix + Formatting.getMessage("Economy.finishSale")
+				p.sendMessage(Formatting.getFormattedMesage("Economy.finishSale")
 						.replace("{amount}", String.valueOf(fishList.size()))
 						.replace("{total}", BlepFishing.getEconomy().format(total)));
 				for(var f : fishList){
@@ -113,18 +113,18 @@ public class FishEconomy {
 			} else {
 				p.sendMessage(String.format("An error occured: %s", r.errorMessage));
 			}
-		}else p.sendMessage(Variables.Prefix + Formatting.getMessage("Economy.noValue"));
+		}else p.sendMessage(Formatting.getFormattedMesage("Economy.noValue"));
 	}
 
 	public static void SellBag(Player p, ItemStack bag, double priceMod){
 		if(!p.isSneaking()){
-			p.sendMessage(Variables.Prefix + Formatting.getMessage("Economy.sellBagHint"));
+			p.sendMessage(Formatting.getFormattedMesage("Economy.sellBagHint"));
 			return;
 		}
 
 		if(!PlayerWaitList.contains(p.toString())) {
 			PlayerWaitList.add(p.toString());
-			p.sendMessage(Variables.Prefix + Formatting.getMessage("Economy.sellBagConfirm"));
+			p.sendMessage(Formatting.getFormattedMesage("Economy.sellBagConfirm"));
 			return;
 		}
 
