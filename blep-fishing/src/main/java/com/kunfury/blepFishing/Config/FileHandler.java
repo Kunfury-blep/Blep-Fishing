@@ -30,6 +30,15 @@ public class FileHandler {
 
     }
 
+    public static void SaveAll(){
+        FishData = true;
+        QuestData = true;
+        CollectionData = true;
+        TournamentData = true;
+
+        SaveData();
+    }
+
     private static void UpdateFishData(){
         try {
             String dictPath = BlepFishing.dataFolder + "/Data" + "/fish.data";

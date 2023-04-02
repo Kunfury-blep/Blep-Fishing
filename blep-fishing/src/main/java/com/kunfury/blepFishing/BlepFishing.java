@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import com.kunfury.blepFishing.Config.CacheHandler;
 import com.kunfury.blepFishing.Config.ConfigBase;
+import com.kunfury.blepFishing.Config.FileHandler;
 import com.kunfury.blepFishing.Config.Reload;
 import com.kunfury.blepFishing.Crafting.CraftingManager;
 import com.kunfury.blepFishing.Crafting.SmithingTableHandler;
@@ -84,6 +85,7 @@ public class BlepFishing extends JavaPlugin {
 	@Override
 	public void onDisable(){
 		new CacheHandler().SaveCache();
+		FileHandler.SaveAll();
 
 		if(SmithingTableHandler.SmithingKeys != null){
 			for(var r : SmithingTableHandler.SmithingKeys){
@@ -97,7 +99,6 @@ public class BlepFishing extends JavaPlugin {
 		}
 
 		TournamentHandler.Reset(true);
-
 	}
 
     public static boolean hasEconomy(){
