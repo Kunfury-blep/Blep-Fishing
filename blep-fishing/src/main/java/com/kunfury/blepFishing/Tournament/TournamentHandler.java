@@ -139,15 +139,15 @@ public class TournamentHandler {
             textComponents.add(mainComponent);
         });
 
-//        String banner =  Formatting.getMessage("Tournament.noneCaught");
-//        for(Player p : Bukkit.getOnlinePlayers()) {
-//            p.sendMessage(" ");
-//            p.sendMessage(banner);
-//            for(var c : textComponents){
-//                p.spigot().sendMessage(c);
-//            }
-//            p.sendMessage(" ");
-//        }
+        String banner =  Formatting.getMessage("Tournament.leaderboard");
+        for(Player p : Bukkit.getOnlinePlayers()) {
+            p.sendMessage(" ");
+            p.sendMessage(banner);
+            for(var c : textComponents){
+                p.spigot().sendMessage(c);
+            }
+            p.sendMessage(" ");
+        }
 
         new Rewards().Generate(t);
 

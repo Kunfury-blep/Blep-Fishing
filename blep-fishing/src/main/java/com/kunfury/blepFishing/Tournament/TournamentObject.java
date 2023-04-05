@@ -1,5 +1,6 @@
 package com.kunfury.blepFishing.Tournament;
 
+import com.kunfury.blepFishing.BlepFishing;
 import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Objects.BaseFishObject;
@@ -11,6 +12,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
+import org.bukkit.entity.Fish;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -20,6 +22,7 @@ import java.io.Serializable;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 public class TournamentObject implements Serializable{
@@ -153,6 +156,7 @@ public class TournamentObject implements Serializable{
 
     public List<FishObject> getFish(){
         List<FishObject> fishList = Variables.getFishList(getFishType());
+
         if(needsUpdate(fishList) || caughtFish == null){
             caughtFish = Objects.requireNonNull(fishList).stream().filter(f -> f.DateCaught.isAfter(startDate)).collect(Collectors.toList());
         }
@@ -176,6 +180,7 @@ public class TournamentObject implements Serializable{
         caughtFish = null;
         participants = null;
         CaughtMap = new HashMap<>();
+        bestFish = null;
         setEndDate();
     }
 
@@ -203,57 +208,6 @@ public class TournamentObject implements Serializable{
 
     public boolean showTimer(){
         return BossbarTime && getProgress() * 100 >= 100 - BossbarTimePercent;
-    }
-
-    public HashMap<Integer, FishObject> getWinners(){
-        if(!needsUpdate(getFish()) && winners != null) return winners;
-        winners = new HashMap<>();
-        List<FishObject> caughtFish = getFish();
-
-
-        switch(Type){ //Sorts the list so first place winner is ALWAYS at the top
-            case LARGEST -> {
-                caughtFish.sort(Comparator.comparing(o -> o.RealSize));
-            }
-            case SMALLEST -> {
-                caughtFish.sort(Comparator.comparing(o -> o.RealSize));
-                caughtFish.sort(Collections.reverseOrder());
-            }
-            case EXPENSIVE -> {
-                caughtFish.sort(Comparator.comparing(o -> o.RealCost));
-            }
-            case CHEAPEST -> {
-                caughtFish.sort(Comparator.comparing(o -> o.RealCost));
-                caughtFish.sort(Collections.reverseOrder());
-            }
-            case SCORE -> {
-                caughtFish.sort(Comparator.comparing(o -> o.Score));
-            }
-        }
-
-        boolean requireAmt = minimumFish > 1; //Only runs amount checker if necessary
-
-        List<FishObject> winningFish = new ArrayList<>();
-        participants = new ArrayList<>();
-        //Fills winningFish with fish caught by unique players
-        for(var f: caughtFish){
-            UUID uuid = f.getPlayerUUID();
-            if(winningFish.stream().anyMatch(w -> w.getPlayerUUID().equals(uuid)) || (requireAmt && getAmountCaught(uuid, caughtFish) < minimumFish)){
-                OfflinePlayer p = f.getPlayer();
-                if(!participants.contains(p)) participants.add(p);
-                continue;
-            }
-            winningFish.add(f);
-        }
-
-        for(var i = 0; i < maxRank; i++){
-            if(winningFish.size() < i) break;
-            String key = String.valueOf(i);
-            if(!Rewards.containsKey(key)) continue; //Ensures the rewards file actually contains the key
-            winners.put(i, winningFish.get(i - 1));
-        }
-
-        return winners;
     }
 
     public HashMap<OfflinePlayer, Integer> getWinnersAmount(){
@@ -425,24 +379,139 @@ public class TournamentObject implements Serializable{
         }else
             CaughtMap.put(uuid, 1);
 
-        if(isBest(fish))
+        if(isBest(fish)){
+            Bukkit.broadcastMessage("Best Fish Found!");
             new TournamentHandler().AnnounceBest(this, fish);
+        }else{
+            Bukkit.broadcastMessage("Not a best fish.");
+        }
+
+
+
+
+
+        if(Variables.DebugMode){
+
+            var winners = getWinners();
+
+            var logger = BlepFishing.getPlugin().getLogger();
+
+            logger.info("Test Message");
+
+            logger.info(" ");
+            logger.info( "~Start Tournament Catch Debug~ " + winners.size());
+            logger.info( " ");
+
+            winners.forEach((rank, f) -> {
+                logger.info( rank + " : " + f.Name + " : " + f.getSize() + " : $" + f.getValue() + " : S:" + f.getScore() + " : " + f.getPlayerUUID());
+            });
+        }
+
     }
 
     public double getDuration(){
         return duration;
     }
 
-    public List<FishObject> getWinningFish(){
-        List<FishObject> sortedCaughtFish = getFish();
+//    public List<FishObject> getWinningFish(){
+//        List<FishObject> sortedCaughtFish = getFish();
+//
+//        switch(Type){ //Sorts the list so first place winner is ALWAYS at the top
+//            case LARGEST -> {
+//                Bukkit.broadcastMessage("Sorting by Largest!");
+//                sortedCaughtFish.sort((o1, o2) -> (int) (o2.RealSize - o1.RealSize));
+//            }
+//            case SMALLEST -> {
+//                Bukkit.broadcastMessage("Sorting by Smallest!");
+//                sortedCaughtFish.sort((o1, o2) -> (int) (o1.RealSize - o2.RealSize));
+//            }
+//            case EXPENSIVE -> {
+//                Bukkit.broadcastMessage("Sorting by Expense!");
+//                sortedCaughtFish.sort((o1, o2) -> (int) (o2.RealCost - o1.RealCost));
+//            }
+//            case CHEAPEST -> {
+//                Bukkit.broadcastMessage("Sorting by Cheapest!");
+//                sortedCaughtFish.sort((o1, o2) -> (int) (o1.RealCost - o2.RealCost));
+//            }
+//            case SCORE -> {
+//                Bukkit.broadcastMessage("Sorting by Score!");
+//                sortedCaughtFish.sort((o1, o2) -> (int) (o2.Score - o1.Score));
+//            }
+//            case AMOUNT -> {
+//                Bukkit.broadcastMessage("Sorting by Amount!");
+//                //Doesn't need to sort because of amount
+//            }
+//        }
+//
+//        return sortedCaughtFish;
+//    }
+//
+//    public List<FishObject> getRealWinners(){
+//        List<FishObject> winningFish = getWinningFish();
+//
+//        List<FishObject> finalFish = new ArrayList<>();
+//
+//        while(winningFish.size() > 0){
+//            FishObject firstFish = winningFish.get(0);
+//            finalFish.add(firstFish);
+//
+//            UUID firstUUID = firstFish.getPlayerUUID();
+//
+//            winningFish.removeIf(obj -> obj.getPlayerUUID().equals(firstUUID));
+//        }
+//
+//
+//       //TODO: Check for amount
+//
+//        return finalFish;
+//    }
 
-        sortedCaughtFish.sort(new Comparator<FishObject>() {
-            @Override
-            public int compare(FishObject f1, FishObject f2) {
-                return (int)(f1.getSize() - f2.getSize());
+    public HashMap<Integer, FishObject> getWinners(){
+        if(!needsUpdate(getFish()) && winners != null) return winners;
+        winners = new HashMap<>();
+        List<FishObject> caughtFish = getFish();
+
+
+        switch(Type){ //Sorts the list so first place winner is ALWAYS at the top
+            case LARGEST -> {
+                caughtFish.sort((o1, o2) -> (int) (o2.RealSize - o1.RealSize));
             }
-        });
+            case SMALLEST -> {
+                caughtFish.sort((o1, o2) -> (int) (o1.RealSize - o2.RealSize));
+            }
+            case EXPENSIVE -> {
+                caughtFish.sort((o1, o2) -> (int) (o2.RealCost - o1.RealCost));
+            }
+            case CHEAPEST -> {
+                caughtFish.sort((o1, o2) -> (int) (o1.RealCost - o2.RealCost));
+            }
+            case SCORE -> {
+                caughtFish.sort((o1, o2) -> (int) (o2.Score - o1.Score));
+            }
+        }
 
-        return sortedCaughtFish;
+        boolean requireAmt = minimumFish > 1; //Only runs amount checker if necessary
+
+        List<FishObject> winningFish = new ArrayList<>();
+        participants = new ArrayList<>();
+        //Fills winningFish with fish caught by unique players
+        for(var f: caughtFish){
+            UUID uuid = f.getPlayerUUID();
+            if(winningFish.stream().anyMatch(w -> w.getPlayerUUID().equals(uuid)) || (requireAmt && getAmountCaught(uuid, caughtFish) < minimumFish)){
+                OfflinePlayer p = f.getPlayer();
+                if(!participants.contains(p)) participants.add(p);
+                continue;
+            }
+            winningFish.add(f);
+        }
+
+        for(var i = 0; i < maxRank; i++){
+            if(winningFish.size() < i) break;
+            String key = String.valueOf(i);
+            if(!Rewards.containsKey(key)) continue; //Ensures the rewards file actually contains the key
+            winners.put(i, winningFish.get(i - 1));
+        }
+
+        return winners;
     }
 }
