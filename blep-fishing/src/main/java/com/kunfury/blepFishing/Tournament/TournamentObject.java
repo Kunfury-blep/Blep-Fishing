@@ -380,10 +380,7 @@ public class TournamentObject implements Serializable{
             CaughtMap.put(uuid, 1);
 
         if(isBest(fish)){
-            Bukkit.broadcastMessage("Best Fish Found!");
             new TournamentHandler().AnnounceBest(this, fish);
-        }else{
-            Bukkit.broadcastMessage("Not a best fish.");
         }
 
 
