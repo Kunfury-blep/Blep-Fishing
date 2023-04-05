@@ -1,5 +1,6 @@
 package com.kunfury.blepFishing.Crafting.Equipment.FishBag;
 
+import com.kunfury.blepFishing.BlepFishing;
 import com.kunfury.blepFishing.Config.FileHandler;
 import com.kunfury.blepFishing.Config.ItemsConfig;
 import com.kunfury.blepFishing.Config.Variables;
@@ -7,13 +8,22 @@ import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Miscellaneous.Utilities;
 import com.kunfury.blepFishing.Objects.FishObject;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Container;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Salmon;
 import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
@@ -60,6 +70,7 @@ public class UseFishBag {
                 p.sendMessage(Formatting.getFormattedMesage("Equipment.Fish Bag.noFish"));
         }
 
+        new UpdateBag().Update(bag, p, false);
     }
 
     public void TogglePickup(ItemStack bag, Player p){
@@ -186,6 +197,44 @@ public class UseFishBag {
         new UpdateBag().Update(bag, p, true);
 
         p.updateInventory();
+    }
+
+    private static final List<Player> convertPlayers = new ArrayList<>();
+    public void ConvertFish(ItemStack bag, Player p, Block barrel, PlayerInteractEvent e){
+        if(!convertPlayers.contains(p)){
+            e.setCancelled(true);
+            convertPlayers.add(p);
+            p.sendMessage("Right click again to convert all fish in the bag. " + ChatColor.RED + "WARNING - This cannot be undone.");
+            return;
+        }
+        convertPlayers.remove(p);
+
+        String bagId = BagInfo.getId(bag);
+
+        final List<FishObject> tempFish = new ParseFish().RetrieveFish(bagId, "ALL");
+        if(tempFish.size() == 0){
+            p.sendMessage("The bag is empty.");
+            return;
+        }
+
+
+        BlockState state = barrel.getState();
+
+        if (!(state instanceof Container container)) {
+            return;
+        }
+
+        Inventory inv = container.getInventory();
+
+        for(var f: tempFish){
+            if(inv.firstEmpty() == -1) break;
+            inv.addItem(new ItemStack(Material.SALMON));
+            f.setBagID(null);
+            p.playSound(p.getLocation(), Sound.ENTITY_PUFFER_FISH_FLOP, .5f, 1f);
+        }
+
+        new UpdateBag().Update(bag, p, false);
+
     }
 
 }

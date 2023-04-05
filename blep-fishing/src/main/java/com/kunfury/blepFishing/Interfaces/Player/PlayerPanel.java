@@ -1,19 +1,16 @@
 package com.kunfury.blepFishing.Interfaces.Player;
 
 import com.kunfury.blepFishing.BlepFishing;
-import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Interfaces.MenuButton;
 import com.kunfury.blepFishing.Interfaces.MenuButtons.AdminMenuButton;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Quests.QuestHandler;
 import com.kunfury.blepFishing.Tournament.TournamentHandler;
-import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -88,11 +85,11 @@ public class PlayerPanel {
 
         List<String> lore = new ArrayList<>();
 
-        if(QuestHandler.ActiveQuests != null && QuestHandler.ActiveQuests.size() > 0){
+        if(QuestHandler.getActiveQuests() != null && QuestHandler.getActiveQuests().size() > 0){
             lore.add(ChatColor.BLUE + " ~ " + QuestHandler.getActiveCount() + " Active ~ ");
             lore.add("");
 
-            for(var q : QuestHandler.ActiveQuests){
+            for(var q : QuestHandler.getActiveQuests()){
                 int caughtAmt = 0;
                 String uuid = p.getUniqueId().toString();
 

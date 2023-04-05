@@ -97,11 +97,11 @@ public class FishSwitch{
 
 		new DisplayFishInfo().InitialDisplay(player, fish);
 
+		Variables.AddToFishDict(fish);
+
 		for(var a : TournamentHandler.ActiveTournaments){
 			a.newCatch(fish, player);
 		}
-
-		Variables.AddToFishDict(fish);
 
 		new QuestHandler().UpdateFishQuest(player, fish);
 		new CollectionHandler().CaughtFish(player, fish); //Adds the caught fish to the players collection

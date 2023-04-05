@@ -30,12 +30,10 @@ public class FileHandler {
     }
 
     public static void SaveAll(){
-        FishData = true;
-        QuestData = true;
-        CollectionData = true;
-        TournamentData = true;
-
-        SaveData();
+        UpdateFishData();
+        UpdateQuestData();
+        UpdateCollectionData();
+        UpdateTournamentData();
     }
 
     private static void UpdateFishData(){
@@ -56,7 +54,7 @@ public class FileHandler {
         try {
             String questPath = BlepFishing.dataFolder + "/Data" + "/quests.data";
             ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(questPath));
-            output.writeObject(QuestHandler.ActiveQuests);
+            output.writeObject(QuestHandler.getActiveQuests());
             output.close();
         } catch (IOException ex) {
             ex.printStackTrace();

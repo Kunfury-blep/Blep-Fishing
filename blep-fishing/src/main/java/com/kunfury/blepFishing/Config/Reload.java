@@ -464,7 +464,7 @@ public class Reload {
 		}
 
 		QuestHandler.resetQuestList();
-		QuestHandler.ActiveQuests = new ArrayList<>();
+		QuestHandler.setActiveQuests(new ArrayList<>());
 		try {
 			Files.createDirectories(Paths.get(BlepFishing.dataFolder + "/Data"));
 			String questPath = BlepFishing.dataFolder + "/Data/" + "/quests.data";
@@ -472,7 +472,7 @@ public class Reload {
 			File tempFile = new File(questPath);
 			if(tempFile.exists()) {
 				input = new ObjectInputStream(new FileInputStream (questPath));
-				QuestHandler.ActiveQuests = (List<QuestObject>) input.readObject();
+				QuestHandler.setActiveQuests((List<QuestObject>)input.readObject());
 				input.close();
 			}
 			if(input != null)
@@ -482,12 +482,12 @@ public class Reload {
 			ex.printStackTrace();
 		}
 
-		QuestHandler.AddQuests(QuestHandler.ActiveQuests);
+		QuestHandler.AddQuests(QuestHandler.getActiveQuests());
 
 
 		for(final String key : questFile.getKeys(false)) {
 
-			if(QuestHandler.ActiveQuests.stream().anyMatch(o -> o.getName().equals(key))){
+			if(QuestHandler.getActiveQuests().stream().anyMatch(o -> o.getName().equals(key))){
 				continue;
 			}
 

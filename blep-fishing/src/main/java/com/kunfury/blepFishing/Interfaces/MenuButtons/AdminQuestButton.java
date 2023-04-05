@@ -2,13 +2,10 @@ package com.kunfury.blepFishing.Interfaces.MenuButtons;
 
 import com.kunfury.blepFishing.Config.ItemsConfig;
 import com.kunfury.blepFishing.Interfaces.Admin.AdminQuestMenu;
-import com.kunfury.blepFishing.Interfaces.Admin.AdminTournamentMenu;
 import com.kunfury.blepFishing.Interfaces.MenuButton;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Quests.QuestHandler;
 import com.kunfury.blepFishing.Quests.QuestObject;
-import com.kunfury.blepFishing.Tournament.TournamentHandler;
-import com.kunfury.blepFishing.Tournament.TournamentObject;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
@@ -45,7 +42,7 @@ public class AdminQuestButton extends MenuButton {
 
         lore.add("");
 
-        if(QuestHandler.ActiveQuests.contains(q)){
+        if(QuestHandler.getActiveQuests().contains(q)){
             lore.add(ChatColor.GREEN + "Running");
             lore.add("");
             lore.add("Right-Click to Cancel");
@@ -68,7 +65,7 @@ public class AdminQuestButton extends MenuButton {
     protected void click_left() {
         QuestObject quest = getQuest();
 
-        if(!QuestHandler.ActiveQuests.contains(quest)){
+        if(!QuestHandler.getActiveQuests().contains(quest)){
             new QuestHandler().Start(quest);
             new AdminQuestMenu().ShowMenu(player);
         }
@@ -78,7 +75,7 @@ public class AdminQuestButton extends MenuButton {
     protected void click_right() {
         QuestObject quest = getQuest();
 
-        if(QuestHandler.ActiveQuests.contains(quest)){
+        if(QuestHandler.getActiveQuests().contains(quest)){
             new QuestHandler().CancelQuest(quest);
             new AdminQuestMenu().ShowMenu(player);
         }

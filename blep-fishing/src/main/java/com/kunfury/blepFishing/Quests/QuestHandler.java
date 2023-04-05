@@ -15,18 +15,29 @@ import java.util.List;
 
 public class QuestHandler {
     private static List<QuestObject> QuestList;
-    public static List<QuestObject> ActiveQuests;
+
+    public static List<QuestObject> getActiveQuests() {
+        if(activeQuests == null)
+            activeQuests = new ArrayList<>();
+        return activeQuests;
+    }
+
+    public static void setActiveQuests(List<QuestObject> activeQuests) {
+        QuestHandler.activeQuests = activeQuests;
+    }
+
+    private static List<QuestObject> activeQuests;
 
 //    public static int MaxQuests = 3;
 
 
     public void Start(QuestObject quest){
-        if(ActiveQuests.contains(quest)){
+        if(activeQuests.contains(quest)){
             return;
         }
 
         quest.Start();
-        ActiveQuests.add(quest);
+        activeQuests.add(quest);
         FileHandler.QuestData = true;
     }
 
@@ -35,16 +46,16 @@ public class QuestHandler {
         Bukkit.broadcastMessage(Variables.getPrefix() + "A new day has begun, new quests are available!"); //Add to messages.yml file
 //        ActiveQuests.removeIf(QuestObject::isComplete);
 
-        for(var q : new ArrayList<>(ActiveQuests)){
+        for(var q : new ArrayList<>(activeQuests)){
             if(q.isCompleted()){
-                ActiveQuests.remove(q);
+                activeQuests.remove(q);
             }
         }
 
         Collections.shuffle(QuestList); //Shuffles the list to ensure diversity in quests
 
         for(var q : QuestList){
-            if(ActiveQuests.size() >= BlepFishing.configBase.getMaxQuests())
+            if(activeQuests.size() >= BlepFishing.configBase.getMaxQuests())
                 break;
 
             if(q.canStart()){
@@ -55,7 +66,7 @@ public class QuestHandler {
     }
 
     public void CancelQuest(QuestObject q){
-        ActiveQuests.remove(q);
+        activeQuests.remove(q);
         new CacheHandler().SaveCache();
         FileHandler.QuestData = true;
     }
@@ -63,7 +74,7 @@ public class QuestHandler {
     public static int getActiveCount(){
         int size = 0;
 
-        for(var q : ActiveQuests){
+        for(var q : activeQuests){
             if (!q.isCompleted()) {
                 size++;
             }
@@ -73,14 +84,14 @@ public class QuestHandler {
     }
 
     public void QuestTimer(){
-        for(var q: ActiveQuests){
+        for(var q: activeQuests){
             if(!q.isCompleted() && q.canFinish())
                 q.Finish();
         }
     }
 
     public void UpdateFishQuest(Player p, FishObject f){
-        for(var q : ActiveQuests){
+        for(var q : activeQuests){
             if(!q.isValid(f))  continue;
 
             q.AddFish(f, p);

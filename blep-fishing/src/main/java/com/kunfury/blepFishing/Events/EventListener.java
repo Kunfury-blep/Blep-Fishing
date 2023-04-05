@@ -20,7 +20,9 @@ import com.kunfury.blepFishing.Objects.MarketObject;
 import com.kunfury.blepFishing.BlepFishing;
 import com.kunfury.blepFishing.Signs.FishSign;
 import com.kunfury.blepFishing.Tournament.TournamentHandler;
+import com.sk89q.worldedit.world.block.BlockType;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
@@ -52,41 +54,44 @@ public class EventListener implements Listener {
             case COMPASS:
                 if(AllBlueInfo.IsCompassComplete(item)){
                     new CompassHandler().UseCompass(item, p);
-                    break;
+                   return;
                 }
             case PRISMARINE_CRYSTALS:
                 if(AllBlueInfo.IsCompass(item)){
                     new CompassHandler().LocateNextPiece(item, p);
-                    break;
+                    return;
                 }
             case GLASS_BOTTLE:
                 if(NBTEditor.contains(item, "blep", "item", "MessageBottle")){
                     e.setCancelled(true);
                     new TreasureHandler().OpenBottle(p, item);
-                    break;
+                    return;
                 }
             case CHEST:
                 if(NBTEditor.contains(item, "blep", "item", "CasketType")){
                     e.setCancelled(true);
                     new TreasureHandler().OpenCasket(p, item);
-                    break;
+                    return;
                 }
             case WRITTEN_BOOK:
                 if(NBTEditor.contains(item, "blep", "item", "JournalID")){
                     if(a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK){
                         new JournalHandler().OpenJournal(p, item, e);
-                        break;
+                        return;
                     }
                 }
         }
 
+        //TODO: Right click barrel with bag or fish and convert to vanilla fish for easy smelting
+
         if(item.getType().equals(ItemsConfig.BagMat) && BagInfo.IsBag(item) && !p.getOpenInventory().getType().equals(InventoryType.CHEST)){
-            e.setCancelled(true);
             if(a == Action.LEFT_CLICK_AIR || a == Action.LEFT_CLICK_BLOCK){
+                e.setCancelled(true);
                 if(p.isSneaking()) new UseFishBag().FillBag(item, p);
                 else new UseFishBag().TogglePickup(item, p);
             }else if(a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK){
                 if(BlepFishing.hasEconomy() && a == Action.RIGHT_CLICK_BLOCK && e.getClickedBlock().getState() instanceof Sign){
+                    e.setCancelled(true);
                     Sign sign = (Sign) e.getClickedBlock().getState();
                     for(MarketObject market : FishSign.marketSigns) {
                         if(market.CheckBool(sign)){
@@ -95,6 +100,11 @@ public class EventListener implements Listener {
                         }
                     }
                 }
+                if(e.getClickedBlock() != null && p.isSneaking() && e.getClickedBlock().getType().equals(Material.BARREL)){
+                    new UseFishBag().ConvertFish(item, p, e.getClickedBlock(), e);
+                    return;
+                }
+                e.setCancelled(true);
                 new UseFishBag().UseBag(item, p);
             }
         }

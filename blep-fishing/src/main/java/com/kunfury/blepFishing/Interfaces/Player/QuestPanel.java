@@ -1,7 +1,6 @@
 package com.kunfury.blepFishing.Interfaces.Player;
 
 import com.kunfury.blepFishing.BlepFishing;
-import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Quests.QuestHandler;
 import com.kunfury.blepFishing.Quests.QuestObject;
@@ -14,7 +13,7 @@ import org.bukkit.inventory.Inventory;
 public class QuestPanel {
 
     public void ClickBase(Player p){
-        if(QuestHandler.ActiveQuests.size() == 0) NoQuestsFound(p);
+        if(QuestHandler.getActiveQuests().size() == 0) NoQuestsFound(p);
         else ShowQuests(p);
     }
 
@@ -31,7 +30,7 @@ public class QuestPanel {
     private void ShowQuests(Player p){
         Inventory inv = Bukkit.createInventory(null, 27, Formatting.getMessage("Player Panel.quests"));
 
-        for(var q : QuestHandler.ActiveQuests){
+        for(var q : QuestHandler.getActiveQuests()){
             inv.addItem(q.getItemStack(p.hasPermission("bf.admin"), p.getUniqueId().toString()));
         }
 
@@ -43,11 +42,11 @@ public class QuestPanel {
         if(e.getClick().equals(ClickType.SHIFT_RIGHT)  && p.hasPermission("bf.admin")){
             int slot = e.getSlot();
 
-            if(QuestHandler.ActiveQuests.size() >= slot + 1){
-                QuestObject q = QuestHandler.ActiveQuests.get(slot);
+            if(QuestHandler.getActiveQuests().size() >= slot + 1){
+                QuestObject q = QuestHandler.getActiveQuests().get(slot);
 
                 if(!q.isCompleted()){
-                    new QuestHandler().CancelQuest(QuestHandler.ActiveQuests.get(slot));
+                    new QuestHandler().CancelQuest(QuestHandler.getActiveQuests().get(slot));
                 }
                 ClickBase(p);
             }
