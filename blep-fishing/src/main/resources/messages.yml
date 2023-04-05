@@ -123,6 +123,9 @@ Equipment:
     medBag: "Medium Bag o' Fish"
     largeBag: "Large Bag o' Fish"
     giantBag: "Giant Bag o' Fish"
+    convert: "Right click again to convert all fish in the bag. &4WARNING &f- This cannot be undone."
+    corruptFish: "&4That fish is already stored in another bag somewhere. This shouldn't happen."
+    empty: "The bag is empty."
 
 Economy:
   noValue: "Those fish aren't worth anything."

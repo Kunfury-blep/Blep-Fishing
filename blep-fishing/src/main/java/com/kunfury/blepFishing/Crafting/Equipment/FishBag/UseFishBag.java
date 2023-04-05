@@ -32,16 +32,6 @@ public class UseFishBag {
         String bagId = BagInfo.getId(bag);
         new UpdateBag().ShowBagInv(p, bagId, bag);
         p.playSound(p.getLocation(), Sound.ITEM_ARMOR_EQUIP_LEATHER, .3f, 1f);
-
-        //TODO: Remove from async
-//        final BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
-//
-//        //Grabs the collection Asynchronously
-//        scheduler.runTaskAsynchronously(Setup.getPlugin(), () -> {
-//            scheduler.runTask(Setup.getPlugin(), () -> {
-//
-//            });
-//        });
     }
 
 
@@ -117,7 +107,7 @@ public class UseFishBag {
         }
 
         if(fishObj.getBagID() != null){
-            p.sendMessage(Variables.getPrefix() + ChatColor.RED + "That fish is already stored in another bag somewhere. This shouldn't happen."); //Add to messages.yml
+            p.sendMessage(Formatting.getFormattedMesage("Equipment.Fish Bag.corruptFish"));
             return;
         }
         fishObj.setBagID(bagId);
@@ -204,7 +194,7 @@ public class UseFishBag {
         if(!convertPlayers.contains(p)){
             e.setCancelled(true);
             convertPlayers.add(p);
-            p.sendMessage("Right click again to convert all fish in the bag. " + ChatColor.RED + "WARNING - This cannot be undone.");
+            p.sendMessage(Formatting.getFormattedMesage("Equipment.Fish Bag.convert"));
             return;
         }
         convertPlayers.remove(p);
@@ -213,7 +203,7 @@ public class UseFishBag {
 
         final List<FishObject> tempFish = new ParseFish().RetrieveFish(bagId, "ALL");
         if(tempFish.size() == 0){
-            p.sendMessage("The bag is empty.");
+            p.sendMessage(Formatting.getFormattedMesage("Equipment.Fish Bag.empty"));
             return;
         }
 
