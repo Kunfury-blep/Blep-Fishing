@@ -15,6 +15,7 @@ import com.kunfury.blepFishing.Events.EventListener;
 import com.kunfury.blepFishing.Commands.*;
 import com.kunfury.blepFishing.Interfaces.MenuHandler;
 import com.kunfury.blepFishing.Miscellaneous.Utilities;
+import com.kunfury.blepFishing.Plugins.Metrics;
 import com.kunfury.blepFishing.Plugins.PluginHandler;
 import com.kunfury.blepFishing.Tournament.TournamentHandler;
 import org.bukkit.Bukkit;
@@ -49,7 +50,10 @@ public class BlepFishing extends JavaPlugin {
     	plugin = this;
     	blepFishing = this;
     	dataFolder = getDataFolder();
-    	
+
+		int pluginId = 18201; // <-- Replace with the id of your plugin!
+		Metrics metrics = new Metrics(this, pluginId);
+
     	if(!setupEconomy()) {
     		log.warning(String.format("[%s] - Economy support disabled due to no Vault dependency found!", getDescription().getName()));
     		econEnabled = false;
