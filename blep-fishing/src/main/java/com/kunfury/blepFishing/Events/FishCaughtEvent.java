@@ -6,7 +6,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-import org.jetbrains.annotations.NotNull;
 
 public final class FishCaughtEvent extends Event implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
@@ -21,13 +20,13 @@ public final class FishCaughtEvent extends Event implements Cancellable {
         caughtItem = _caughtItem;
     }
 
-    public FishObject GetCaughtFish(){
+    public FishObject getCaughtFish(){
         return fish;
     }
 
-    public Item GetCaughtItem(){return caughtItem;}
+    public Item getCaughtItem(){return caughtItem;}
 
-    public Player GetWhoCaught(){
+    public Player getWhoCaught(){
         return player;
     }
 
