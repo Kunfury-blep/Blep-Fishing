@@ -1,25 +1,43 @@
 package com.kunfury.blepFishing.Config;
 
 import com.kunfury.blepFishing.BlepFishing;
+import com.kunfury.blepFishing.Crafting.CraftingManager;
+import com.kunfury.blepFishing.Interfaces.Admin.AdminMenu;
+import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Objects;
 
 public class ConfigBase {
 
-    private FileConfiguration config;
-    private BlepFishing plugin;
+    public FileConfiguration config;
+    private final BlepFishing plugin;
 
     public ConfigBase(BlepFishing plugin){
         this.plugin = plugin;
         reload();
     }
+
     public void reload(){
+        reload(null);
+    }
+
+    public void reload(CommandSender sender){
         plugin.reloadConfig();
         config = plugin.getConfig();
         BlepFishing.econEnabled = config.getBoolean("Use Economy");
-        Bukkit.broadcastMessage("Config Reload Complete");
+
+
+        if(sender != null)
+            sender.sendMessage(Formatting.getFormattedMesage("System.reload"));
     }
 
     public boolean getShowScoreboard(){
@@ -73,7 +91,7 @@ public class ConfigBase {
     public boolean getAnnounceQuests(){
         return config.getBoolean("Announce Quests");
     }
-    public int getMaxQuests(){return BlepFishing.config.getInt("Max Quests");}
+    public int getMaxQuests(){return config.getInt("Max Quests");}
 
     public boolean getEnableWorldWhitelist(){ return config.getBoolean("World Whitelist");}
     public boolean getAllowWanderingTraders(){ return config.getBoolean("Allow Wandering Traders");}
@@ -84,11 +102,12 @@ public class ConfigBase {
     public double getTreasureChance(){return config.getDouble("Treasure Chance");}
     public boolean getEnableAllBlue(){return config.getBoolean("Enable All Blue");}
     public boolean getPermanentAllBlue(){return config.getBoolean("Permanent All Blue");}
-    public List<String> getAllowedWorlds(){return BlepFishing.config.getStringList("Allowed Worlds");}
-    public String getDayReset(){return BlepFishing.config.getString("New Day Time");}
-    public int getAllBlueFish(){return BlepFishing.config.getInt("All Blue Fish");}
-    public double getMobChance(){return BlepFishing.config.getDouble("Endgame Mob Chance");}
-    public int getEndgameRadius(){return BlepFishing.config.getInt("Endgame Radius");}
-    public double getParrotBonus(){return BlepFishing.config.getDouble("Parrot Treasure Bonus");}
-    public double getBoatBonus(){return BlepFishing.config.getDouble("Boat Treasure Bonus");}
+    public List<String> getAllowedWorlds(){return config.getStringList("Allowed Worlds");}
+    public String getDayReset(){return config.getString("New Day Time");}
+    public int getAllBlueFish(){return config.getInt("All Blue Fish");}
+    public double getMobChance(){return config.getDouble("Endgame Mob Chance");}
+    public int getEndgameRadius(){return config.getInt("Endgame Radius");}
+    public double getParrotBonus(){return config.getDouble("Parrot Treasure Bonus");}
+    public double getBoatBonus(){return config.getDouble("Boat Treasure Bonus");}
+    public boolean getEnableDiscordSRV(){return config.getBoolean("Enable DiscordSRV");}
 }
