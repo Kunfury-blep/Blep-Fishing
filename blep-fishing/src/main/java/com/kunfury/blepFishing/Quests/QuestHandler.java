@@ -1,11 +1,13 @@
 package com.kunfury.blepFishing.Quests;
 
 import com.kunfury.blepFishing.Config.CacheHandler;
+import com.kunfury.blepFishing.Config.ConfigExtra;
 import com.kunfury.blepFishing.Config.FileHandler;
 import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Objects.FishObject;
 import com.kunfury.blepFishing.BlepFishing;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.time.LocalDateTime;
@@ -43,7 +45,7 @@ public class QuestHandler {
 
     public void NewDay(){
 
-        Bukkit.broadcastMessage(Variables.getPrefix() + "A new day has begun, new quests are available!"); //Add to messages.yml file
+        Bukkit.broadcastMessage(Variables.getPrefix() + "A new day has begun, new quests are available!"); //TODO: Add to messages.yml file
 //        ActiveQuests.removeIf(QuestObject::isComplete);
 
         for(var q : new ArrayList<>(activeQuests)){
@@ -133,5 +135,20 @@ public class QuestHandler {
     public static QuestObject FindQuest(String id){
         return QuestList.stream().filter(q -> q.getName().equals(id))
                 .findFirst().orElse(null);
+    }
+
+    public static void EnableQuests(boolean enabled, Player player){
+        FileConfiguration config = BlepFishing.configBase.config;
+        config.set("Enable Quests", enabled);
+
+        BlepFishing.blepFishing.saveConfig();
+
+        if(enabled){
+            new ConfigExtra().LoadQuests();
+            player.sendMessage(Variables.getPrefix() + "Fishing Quests have been enabled.");
+        }else{
+            player.sendMessage(Variables.getPrefix() + "Fishing Quests have been disabled.");
+        }
+
     }
 }

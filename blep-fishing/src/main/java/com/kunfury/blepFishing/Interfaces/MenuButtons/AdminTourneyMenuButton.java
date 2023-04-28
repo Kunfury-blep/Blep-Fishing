@@ -36,17 +36,19 @@ public class AdminTourneyMenuButton extends MenuButton {
 
     @Override
     public ItemStack getItemStack() {
-        if(!BlepFishing.configBase.getEnableTournaments()){
-            return MenuHandler.getBackgroundItem();
-        }
-
         ItemStack item = new ItemStack(Material.FISHING_ROD);
         ItemMeta m = item.getItemMeta();
         ArrayList<String> lore = new ArrayList<>();
 
         m.setDisplayName("Tournaments");
-        m.setLore(lore);
 
+
+        if(!BlepFishing.configBase.getEnableTournaments()){
+            lore.add(ChatColor.RED + "Tournaments Are Disabled");
+            lore.add(ChatColor.YELLOW +"Right-Click to Enable");
+        }
+
+        m.setLore(lore);
         item.setItemMeta(m);
 
         item = NBTEditor.set(item, getId(),"blep", "item", "buttonId");
@@ -61,5 +63,16 @@ public class AdminTourneyMenuButton extends MenuButton {
 
         AdminTournamentMenu menu = new AdminTournamentMenu();
         menu.ShowMenu(player);
+    }
+
+    @Override
+    protected void click_right(){
+        if(BlepFishing.configBase.getEnableTournaments()){
+            click_left();
+            return;
+        }
+
+        TournamentHandler.EnableTournaments(true, player);
+        new AdminTournamentMenu().ShowMenu(player);
     }
 }

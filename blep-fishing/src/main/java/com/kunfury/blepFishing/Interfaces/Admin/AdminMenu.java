@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.kunfury.blepFishing.BlepFishing;
 import com.kunfury.blepFishing.Commands.SubCommands.ConfigSubcommand;
 import com.kunfury.blepFishing.Commands.SubCommands.ReloadSubcommand;
 import com.kunfury.blepFishing.Interfaces.MenuButtons.AdminQuestMenuButton;
+import com.kunfury.blepFishing.Interfaces.MenuButtons.AdminRarityMenuButton;
 import com.kunfury.blepFishing.Interfaces.MenuButtons.AdminTourneyMenuButton;
 import com.kunfury.blepFishing.Interfaces.MenuHandler;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
+import com.kunfury.blepFishing.Tournament.TournamentHandler;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -30,7 +33,7 @@ import com.kunfury.blepFishing.Objects.RarityObject;
 
 public class AdminMenu implements Listener {
 	
-	public static ItemStack FishView, RarityView, ConfigEdit, BackButton, ReloadButton,
+	public static ItemStack FishView, ConfigEdit, BackButton, ReloadButton,
 		TourneyGUI;
 	
 	//static Inventory inv;
@@ -62,10 +65,17 @@ public class AdminMenu implements Listener {
 			inv.setItem(i, MenuHandler.getBackgroundItem());
 		}
 
-		inv.setItem(0, new AdminTourneyMenuButton().getItemStack());
-		inv.setItem(1, new AdminQuestMenuButton().getItemStack());
+		List<ItemStack> menuButtons = new ArrayList<>();
+		menuButtons.add(new AdminTourneyMenuButton().getItemStack());
+		menuButtons.add(new AdminQuestMenuButton().getItemStack());
+		menuButtons.add(new AdminRarityMenuButton().getItemStack());
 
-		inv.setItem(12, RarityView);
+		int slot = 0;
+		for (ItemStack menuButton : menuButtons) {
+			inv.setItem(slot, menuButton);
+			slot++;
+		}
+
 		inv.setItem(13, ConfigEdit);
 		inv.setItem(14, FishView);
 		inv.setItem(22, ReloadButton);
@@ -99,10 +109,6 @@ public class AdminMenu implements Listener {
 			if(activeWindow.equals(Window.BASE)) {
 				if(item.equals(FishView)){
 					FishEdit(p);
-					return;
-				}
-				if(item.equals(RarityView)){
-					RarityEdit(p);
 					return;
 				}
 				if(item.equals(ConfigEdit)){
@@ -167,35 +173,9 @@ public class AdminMenu implements Listener {
 	 */
 	@SuppressWarnings("serial")
 	private void RarityEdit(Player p) {
-		Inventory inv = invMap.get(p);
-		winMap.put(p, Window.RARITIES);
-		inv.clear();
-		
-		for(int i = 0; i < 27; i++) {
-			inv.setItem(i, MenuHandler.getBackgroundItem());
-		}
-		
-		ItemStack rarityIcon = new ItemStack(Material.EMERALD, 1);
-		ItemMeta meta = null;
-		
-		int i = 0;
-		for(final RarityObject rarity : Variables.RarityList) {
-			meta = rarityIcon.getItemMeta();
-			meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', rarity.Name));
-			List<String> lore = new ArrayList<String>() {{
-				add("Weight: " + rarity.Weight);
-				add("Color Code: " + rarity.Prefix);
-				add("Price Mod: " + rarity.PriceMod);
-			}};
-			meta.setLore(lore);
-			rarityIcon.setItemMeta(meta);
-			inv.setItem(i, rarityIcon);
-			i++;
-		}
-		
-		inv.setItem(inv.getSize() - 1, BackButton);
+
 	}
-	
+
 	private void ConfigEdit(Player p) {
 		p.closeInventory();
 		new ConfigSubcommand().perform(p, null);
@@ -210,11 +190,6 @@ public class AdminMenu implements Listener {
 		ItemMeta meta = FishView.getItemMeta();
 		meta.setDisplayName("View Fish Types");
 		FishView.setItemMeta(meta);
-		
-		RarityView = new ItemStack(Material.EMERALD, 1);
-		meta = RarityView.getItemMeta();
-		meta.setDisplayName("View Rarities");
-		RarityView.setItemMeta(meta);
 		
 		ConfigEdit = new ItemStack(Material.REDSTONE_TORCH, 1);
 		meta = ConfigEdit.getItemMeta();
