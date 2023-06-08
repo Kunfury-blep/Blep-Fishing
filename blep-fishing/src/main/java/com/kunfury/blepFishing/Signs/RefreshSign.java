@@ -23,7 +23,7 @@ public class RefreshSign {
     			sign.setLine(0, fish.Name + " #" + (signObj.Level + 1));
     			sign.setLine(1, fish.PlayerName);
     			sign.setLine(2, Formatting.DoubleFormat(fish.RealSize) + "in");
-    			sign.setLine(3, ChatColor.translateAlternateColorCodes('&',fish.Rarity));
+    			sign.setLine(3, fish.getFormattedRarity());
     		}else {
     			sign.setLine(0, fishName + " #" + (signObj.Level + 1));
     			sign.setLine(1, ChatColor.translateAlternateColorCodes('&',"&4Not Available"));

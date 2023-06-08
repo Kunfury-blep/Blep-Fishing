@@ -1,7 +1,6 @@
 package com.kunfury.blepFishing.Interfaces.Admin;
 
-import com.kunfury.blepFishing.Interfaces.MenuButtons.AdminTourneyButton;
-import com.kunfury.blepFishing.Interfaces.MenuButtons.AdminTourneyMenuButton;
+import com.kunfury.blepFishing.Interfaces.MenuButtons.Admin.Tournament.AdminTourneyButton;
 import com.kunfury.blepFishing.Interfaces.MenuHandler;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Tournament.TournamentHandler;

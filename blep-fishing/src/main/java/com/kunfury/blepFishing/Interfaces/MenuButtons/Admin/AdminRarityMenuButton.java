@@ -1,4 +1,4 @@
-package com.kunfury.blepFishing.Interfaces.MenuButtons;
+package com.kunfury.blepFishing.Interfaces.MenuButtons.Admin;
 
 import com.kunfury.blepFishing.BlepFishing;
 import com.kunfury.blepFishing.Interfaces.Admin.AdminRarityMenu;
@@ -24,7 +24,7 @@ public class AdminRarityMenuButton extends MenuButton {
     }
 
     @Override
-    public ItemStack getItemStack() {
+    public ItemStack getItemStack(Object o) {
         ItemStack item = new ItemStack(Material.EMERALD);
         ItemMeta m = item.getItemMeta();
         ArrayList<String> lore = new ArrayList<>();

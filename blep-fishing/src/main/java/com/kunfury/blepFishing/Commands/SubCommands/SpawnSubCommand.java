@@ -194,8 +194,8 @@ public class SpawnSubCommand extends SubCommand {
             return;
         }
 
-        if(amount > 100){
-            amount = 100;
+        if(amount > 1000){
+            amount = 1000;
             p.sendMessage(Formatting.getFormattedMesage("Admin.Spawn.limit"));
         }
 

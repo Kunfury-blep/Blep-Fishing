@@ -12,7 +12,6 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
-import org.bukkit.entity.Fish;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -22,30 +21,30 @@ import java.io.Serializable;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
-import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 public class TournamentObject implements Serializable{
 
     @Serial
     private static final long serialVersionUID = -7127107612942708629L;
-    private final String name; //The name of the tournament
-    public final TournamentMode Mode; //Which mode the tournament will operate in, HOUR or DAY
-    public final TournamentType Type;
+    public String Name; //The name of the tournament
+    public TournamentMode Mode; //Which mode the tournament will operate in, HOUR or DAY
+    public TournamentType Type;
 
-    private final String FishType; //The type of fish being caught. RANDOM + ALL as options
+    public String FishType; //The type of fish being caught. RANDOM + ALL as options
     private String ActiveFishType;
-    public final List<DayOfWeek> Days; //Days of the week the tournament will run on
+    public List<DayOfWeek> Days; //Days of the week the tournament will run on
     public double DailyDelay; //How long to delay before starting daily tournaments
-    public int FishAmount; //The amount of fish that can be caught
-    private final int minimumPlayers; //Minimum amount of online players required to sta
-    private final int minimumFish; //Minimum amount of fish player needed to catch to compete
+    public int MaxFish; //The amount of fish that can be caught
+    public int MinimumPlayers; //Minimum amount of online players required to sta
+    public int MinimumFish; //Minimum amount of fish player needed to catch to compete
     public double Cooldown;
-    private final boolean announceNewWinner;
+    public boolean AnnounceNewWinner;
+    public boolean DiscordStart;
 
 
     public boolean UseBossbar; //Whether the tournament will show a bossbar
-    private final boolean BossbarTime; //Whether to show time on the bossbar or not
+    public boolean BossbarTimer; //Whether to show time on the bossbar or not
     public BarColor BossbarColor;
     public double BossbarPercent; //The percentage of time left the bossbar will show
     public double BossbarTimePercent; //When the time will show on bossbar
@@ -54,7 +53,7 @@ public class TournamentObject implements Serializable{
     public final HashMap<String, List<String>> Rewards; //The rewards given to players. The integer is place and the List is serialized items
     public HashMap<String, Integer> CaughtMap = new HashMap<>(); //Amount of fish caught by each player
 
-    private final double duration; //Hours the tournament will run
+    private double duration; //Hours the tournament will run
     private LocalDateTime startDate;
     private LocalDateTime lastRan;
     private LocalDateTime endDate;
@@ -64,51 +63,57 @@ public class TournamentObject implements Serializable{
     private transient HashMap<Integer, FishObject> winners;
     private transient List<FishObject> caughtFish;
     private transient  List<OfflinePlayer> participants;
-    private transient int trackedFish = 0; //The amount of tracked fish
+
+    private boolean needsUpdate = true;
 
     public TournamentObject(String _name, TournamentMode _mode, double _duration, String _fishType, List<DayOfWeek> _days, int _fishAmount, double _dailyDelay,
                             int _minimumPlayers, boolean _useBossbar, double _bossbarPercent,  BarColor _bossbarColor, double _cooldown, HashMap<String,
                             List<String>> _rewards, int _minimumFish, boolean _bossbarTime, double _bossbarTimePercent, TournamentType _type, Boolean _announceNewWinner,
-                            LocalDateTime _lastRan){
-        name = _name;
+                            LocalDateTime _lastRan, boolean discordStart){
+        Name = _name;
         Mode = _mode;
         Type = _type;
         duration = _duration;
         FishType = _fishType;
         Days = _days;
-        FishAmount = _fishAmount;
+        MaxFish = _fishAmount;
         DailyDelay = _dailyDelay;
-        minimumPlayers = _minimumPlayers;
+        MinimumPlayers = _minimumPlayers;
         Cooldown = _cooldown;
         Rewards = _rewards;
-        announceNewWinner = _announceNewWinner;
+        AnnounceNewWinner = _announceNewWinner;
 
         startDate = LocalDateTime.now();
         lastRan = _lastRan;
-        minimumFish = _minimumFish;
+        MinimumFish = _minimumFish;
 
         UseBossbar = _useBossbar;
         BossbarPercent = _bossbarPercent;
         BossbarTimePercent = _bossbarTimePercent;
         BossbarColor = _bossbarColor;
-        BossbarTime = _bossbarTime;
+        BossbarTimer = _bossbarTime;
 
         //Gets the max rank available in the rewards file
         Rewards.forEach((key, value) ->{
             if(Formatting.isNumeric(key) && Integer.parseInt(key) > maxRank)
                 maxRank = Integer.parseInt(key);
         });
+
+        DiscordStart = discordStart;
     }
 
     public String getName(){
-        return name;
+        if(Name == null){
+            Name = FishType +  " : " + Mode + " " + Type + " " + duration; //Used as a backup if previous name can't be found
+        }
+        return Name;
     }
 
     public boolean canRun(){
         LocalDateTime dt = LocalDateTime.now();
 
         boolean downtimeCheck = getDowntime() >= Cooldown;
-        boolean playerCheck = minimumPlayers <= Bukkit.getServer().getOnlinePlayers().size();
+        boolean playerCheck = MinimumPlayers <= Bukkit.getServer().getOnlinePlayers().size();
         boolean delayCheck = (ChronoUnit.MINUTES.between(dt.toLocalDate().atStartOfDay(), dt) / 60.0) >= DailyDelay;
         if(!downtimeCheck || !playerCheck || !delayCheck){ return false; }
 
@@ -155,18 +160,13 @@ public class TournamentObject implements Serializable{
     }
 
     public List<FishObject> getFish(){
-        List<FishObject> fishList = Variables.getFishList(getFishType());
-
-        if(needsUpdate(fishList) || caughtFish == null){
-            caughtFish = Objects.requireNonNull(fishList).stream().filter(f -> f.DateCaught.isAfter(startDate)).collect(Collectors.toList());
+        if(caughtFish == null || needsUpdate){
+            UpdateCaughtFish();
+            UpdateWinners();
+            needsUpdate = false;
         }
-        return caughtFish;
-    }
 
-    private boolean needsUpdate(List<FishObject> fishList){
-        if(trackedFish == fishList.size()) return false;
-        trackedFish = fishList.size();
-        return true;
+        return caughtFish;
     }
 
     public void StartEvent(){
@@ -207,23 +207,7 @@ public class TournamentObject implements Serializable{
     }
 
     public boolean showTimer(){
-        return BossbarTime && getProgress() * 100 >= 100 - BossbarTimePercent;
-    }
-
-    public HashMap<OfflinePlayer, Integer> getWinnersAmount(){
-        HashMap<OfflinePlayer, Integer> winners = new HashMap<>();
-
-        List<FishObject> caughtFish = getFish();
-
-        for(var f : caughtFish){
-            OfflinePlayer p = f.getPlayer();
-            if(winners.containsKey(p)){
-                winners.put(p , winners.get(p) + 1);
-            }else
-                winners.put(p, 1);
-        }
-
-        return winners;
+        return BossbarTimer && getProgress() * 100 >= 100 - BossbarTimePercent;
     }
 
     private long getAmountCaught(UUID uuid, List<FishObject> caughtFish){
@@ -245,6 +229,7 @@ public class TournamentObject implements Serializable{
     public ItemStack getItemStack(boolean admin){
         ItemStack item = new ItemStack(Material.SALMON);
         ItemMeta m = item.getItemMeta();
+        assert m != null;
         m.setDisplayName(Formatting.formatColor(getName()));
 
         ArrayList<String> lore = new ArrayList<>();
@@ -270,14 +255,27 @@ public class TournamentObject implements Serializable{
 
         lore.add(desc);
 
-        var winners = getWinners();
         lore.add("");
 
-        if(winners.size() <= 0){
+        String amountCaught = Formatting.getMessage("Tournament.amountCaught")
+                .replace("{amount}", String.valueOf(getFish().size()));
+        lore.add(amountCaught);
+
+        lore.add("");
+
+        if(winners == null || winners.size() == 0)
+            UpdateWinners();
+
+        if(winners.size() == 0){
             lore.add(Formatting.getMessage("Tournament.noneCaughtItem"));
         }else{
             winners.forEach((rank, fish) -> {
-                lore.add(ChatColor.WHITE + "" + rank + ": " + fish.getPlayer().getName());
+                if(fish.getPlayer() != null && fish.getPlayer().getName() != null){
+                    String playerRank = Formatting.getMessage("Tournament.playerRank")
+                            .replace("{rank}", String.valueOf(rank))
+                            .replace("{player}", fish.getPlayer().getName());
+                    lore.add(playerRank);
+                }
             });
         }
 
@@ -295,7 +293,7 @@ public class TournamentObject implements Serializable{
     }
 
     public boolean isBest(FishObject fish){
-        if(!announceNewWinner || Type.equals(TournamentType.AMOUNT)){
+        if(!AnnounceNewWinner || Type.equals(TournamentType.AMOUNT)){
             return false;
         }
 
@@ -379,13 +377,12 @@ public class TournamentObject implements Serializable{
         }else
             CaughtMap.put(uuid, 1);
 
+
+        needsUpdate = true;
+
         if(isBest(fish)){
             new TournamentHandler().AnnounceBest(this, fish);
         }
-
-
-
-
 
         if(Variables.DebugMode){
 
@@ -410,64 +407,25 @@ public class TournamentObject implements Serializable{
         return duration;
     }
 
-//    public List<FishObject> getWinningFish(){
-//        List<FishObject> sortedCaughtFish = getFish();
-//
-//        switch(Type){ //Sorts the list so first place winner is ALWAYS at the top
-//            case LARGEST -> {
-//                Bukkit.broadcastMessage("Sorting by Largest!");
-//                sortedCaughtFish.sort((o1, o2) -> (int) (o2.RealSize - o1.RealSize));
-//            }
-//            case SMALLEST -> {
-//                Bukkit.broadcastMessage("Sorting by Smallest!");
-//                sortedCaughtFish.sort((o1, o2) -> (int) (o1.RealSize - o2.RealSize));
-//            }
-//            case EXPENSIVE -> {
-//                Bukkit.broadcastMessage("Sorting by Expense!");
-//                sortedCaughtFish.sort((o1, o2) -> (int) (o2.RealCost - o1.RealCost));
-//            }
-//            case CHEAPEST -> {
-//                Bukkit.broadcastMessage("Sorting by Cheapest!");
-//                sortedCaughtFish.sort((o1, o2) -> (int) (o1.RealCost - o2.RealCost));
-//            }
-//            case SCORE -> {
-//                Bukkit.broadcastMessage("Sorting by Score!");
-//                sortedCaughtFish.sort((o1, o2) -> (int) (o2.Score - o1.Score));
-//            }
-//            case AMOUNT -> {
-//                Bukkit.broadcastMessage("Sorting by Amount!");
-//                //Doesn't need to sort because of amount
-//            }
-//        }
-//
-//        return sortedCaughtFish;
-//    }
-//
-//    public List<FishObject> getRealWinners(){
-//        List<FishObject> winningFish = getWinningFish();
-//
-//        List<FishObject> finalFish = new ArrayList<>();
-//
-//        while(winningFish.size() > 0){
-//            FishObject firstFish = winningFish.get(0);
-//            finalFish.add(firstFish);
-//
-//            UUID firstUUID = firstFish.getPlayerUUID();
-//
-//            winningFish.removeIf(obj -> obj.getPlayerUUID().equals(firstUUID));
-//        }
-//
-//
-//       //TODO: Check for amount
-//
-//        return finalFish;
-//    }
-
+    public void setDuration(double _duration){
+        duration = _duration;
+    }
     public HashMap<Integer, FishObject> getWinners(){
-        if(!needsUpdate(getFish()) && winners != null) return winners;
-        winners = new HashMap<>();
-        List<FishObject> caughtFish = getFish();
+        if(winners == null || needsUpdate || winners.size() == 0){
+            UpdateWinners();
+        }
 
+        return winners;
+    }
+
+    private void UpdateWinners(){
+        winners = new HashMap<>();
+
+        if(participants == null)
+            participants = new ArrayList<>();
+
+        if(caughtFish == null)
+            UpdateCaughtFish();
 
         switch(Type){ //Sorts the list so first place winner is ALWAYS at the top
             case LARGEST -> {
@@ -487,28 +445,45 @@ public class TournamentObject implements Serializable{
             }
         }
 
-        boolean requireAmt = minimumFish > 1; //Only runs amount checker if necessary
+        boolean requireAmt = MinimumFish > 1; //Only runs amount checker if necessary
 
-        List<FishObject> winningFish = new ArrayList<>();
-        participants = new ArrayList<>();
-        //Fills winningFish with fish caught by unique players
-        for(var f: caughtFish){
+        List<FishObject> winningFish = new ArrayList<>(); //Contains a
+
+
+        for(var f: caughtFish){ //Loops through all valid fish for the tournament
             UUID uuid = f.getPlayerUUID();
-            if(winningFish.stream().anyMatch(w -> w.getPlayerUUID().equals(uuid)) || (requireAmt && getAmountCaught(uuid, caughtFish) < minimumFish)){
-                OfflinePlayer p = f.getPlayer();
-                if(!participants.contains(p)) participants.add(p);
+
+
+            if(winningFish.stream().anyMatch(w -> w.getPlayerUUID().equals(uuid)) || requireAmt && getAmountCaught(uuid, caughtFish) < MinimumFish){
+                //Skip if there is already a winning fish cuaght by the player
                 continue;
             }
+
+            OfflinePlayer p = f.getPlayer();
+
+            if(!participants.contains(p))
+                participants.add(p);
+
             winningFish.add(f);
         }
 
         for(var i = 0; i < maxRank; i++){
-            if(winningFish.size() < i) break;
-            String key = String.valueOf(i);
-            if(!Rewards.containsKey(key)) continue; //Ensures the rewards file actually contains the key
-            winners.put(i, winningFish.get(i - 1));
-        }
+            if(winningFish.size() <= i){
+                break;
+            }
 
-        return winners;
+            String key = String.valueOf(i + 1);
+
+            if(!Rewards.containsKey(key)){
+                continue;
+            }
+
+            winners.put(i + 1, winningFish.get(i));
+        }
+    }
+
+    private void UpdateCaughtFish(){
+        List<FishObject> fishList = Variables.getFishList(getFishType());
+        caughtFish = Objects.requireNonNull(fishList).stream().filter(f -> f.DateCaught.isAfter(startDate)).collect(Collectors.toList());
     }
 }

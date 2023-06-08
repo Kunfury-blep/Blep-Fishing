@@ -37,12 +37,8 @@ public class ConfigExtra {
     private FileConfiguration config;
     public void Load(FileConfiguration _config){
         config = _config;
-        if(!LoadMessages()){
-            new ConfigHandler().SendError("Out of date messages.yml file! Blep Fishing has been disabled.",
-                    "Update yours at https://kunfury-blep.github.io/Messages.html");
-            return;
-        }
 
+//        LoadMessages();
         LoadRarities();
         LoadAreas();
         LoadAllBlue();
@@ -54,7 +50,6 @@ public class ConfigExtra {
 
         String areaStr = config.getString("Endgame Area");
         EndgameVars.EndgameArea = AreaObject.FromString(areaStr);
-        Variables.setPrefix(Formatting.getMessage("System.prefix"));
     }
 
 
@@ -152,9 +147,6 @@ public class ConfigExtra {
     public void LoadTournaments(){
         if(!BlepFishing.configBase.getEnableTournaments()){ return; }
 
-        //Loads Active Tournaments from file
-        List<TournamentObject> tObjs = TournamentHandler.TournamentList;
-
         TournamentHandler.Reset(false);
         try {
             Files.createDirectories(Paths.get(BlepFishing.dataFolder + "/Data"));
@@ -184,9 +176,9 @@ public class ConfigExtra {
             BlepFishing.getPlugin().saveResource("tournaments.yml", false);
         }
 
-        FileConfiguration tourney = new YamlConfiguration();
+        var tourneyYaml = new YamlConfiguration();
         try {
-            tourney.load(tourneyConfigFile);
+            tourneyYaml.load(tourneyConfigFile);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -194,59 +186,7 @@ public class ConfigExtra {
             return;
         }
 
-        for(final String key : tourney.getKeys(false)) {
-            if(TournamentHandler.ActiveTournaments.stream().anyMatch(o -> o.getName().equals(key))){
-                continue;
-            }
-            TournamentMode mode = TournamentMode.valueOf(tourney.getString(key + ".Mode"));
-            TournamentType type = TournamentType.valueOf(tourney.getString(key + ".Type"));
-            double duration = tourney.getDouble(key + ".Duration");
-            String fishType = tourney.getString(key + ".Fish Type");
-            boolean announceWinner = tourney.getBoolean(key + ".Announce New Winner");
-
-            boolean useBossbar = tourney.getBoolean(key + ".Use Bossbar");
-            boolean bossbarTime = tourney.getBoolean(key + ".Bossbar Timer");
-            double bossbarPercent = tourney.getDouble(key + ".Bossbar Percent");
-            double bossbarTimePercent = tourney.getDouble(key + ".Bossbar Timer Percent");
-            int maxAmount = tourney.getInt(key + ".Max Amount");
-            double startDelay = tourney.getDouble(key + ".Start Delay");
-            double delay = tourney.getDouble(key + ".Cooldown");
-            int minPlayers = tourney.getInt(key + ".Minimum Players");
-            int minFish = tourney.getInt(key + ".Minimum Fish");
-
-            String barString = tourney.getString(key + ".Bossbar Color");
-            BarColor barColor = BarColor.PINK;
-
-            if(barString != null && !barString.equals("")){
-                barColor = BarColor.valueOf(barString.toUpperCase());
-            }
-
-            List<String> dayStrings = tourney.getStringList(key + ".Days");
-            List<DayOfWeek> dayList = new ArrayList<>();
-            for(var d : dayStrings){
-                dayList.add(DayOfWeek.valueOf(d));
-            }
-
-            HashMap<String, List<String>> rewards = new HashMap<>();
-
-            Map<String, Object> rewardsMap = tourney.getConfigurationSection(key + ".Rewards").getValues(false);
-            for(final String spot : rewardsMap.keySet()) {
-                List<String> items = tourney.getStringList(key + ".Rewards." + spot);
-                rewards.put(spot.toUpperCase(), items);
-            }
-
-            List<TournamentObject> foundTourn = tObjs.stream()
-                    .filter(t -> t.getName().equals(key)).toList();
-
-            LocalDateTime lastRan = LocalDateTime.MIN;
-            if(foundTourn.size() > 0){
-                lastRan = foundTourn.get(0).getLastRan();
-            }
-
-            new TournamentHandler().AddTournament(new TournamentObject(
-                    key, mode, duration, fishType, dayList, maxAmount, startDelay, minPlayers, useBossbar, bossbarPercent, barColor,
-                    delay, rewards, minFish, bossbarTime, bossbarTimePercent, type, announceWinner, lastRan));
-        }
+        TournamentHandler.RefreshTournaments(tourneyYaml);
 
         File cacheFile = new File(BlepFishing.getPlugin().getDataFolder(), "cache.json");
         if (cacheFile.exists()){
@@ -265,26 +205,6 @@ public class ConfigExtra {
         }
 
 
-    }
-
-    private boolean LoadMessages(){
-        double version = 1.4;
-
-        File messageConfigFile = new File(BlepFishing.blepFishing.getDataFolder(), "messages.yml");
-        YamlConfiguration externalYamlConfig = YamlConfiguration.loadConfiguration(messageConfigFile);
-
-        if (!messageConfigFile.exists()) {
-            BlepFishing.getPlugin().saveResource("messages.yml", false);
-        }
-
-
-        if(externalYamlConfig.getDouble("version") < version){
-            return false;
-        }
-
-
-        Formatting.messages = externalYamlConfig;
-        return true;
     }
 
     private void LoadItems(){

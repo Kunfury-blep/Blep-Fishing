@@ -41,7 +41,7 @@ public class FileHandler {
             String dictPath = BlepFishing.dataFolder + "/Data" + "/fish.data";
             ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(dictPath));
 
-            output.writeObject(Variables.FishDict);
+            output.writeObject(Variables.FishDict.clone());
             output.close();
         } catch (IOException ex) {
             ex.printStackTrace();

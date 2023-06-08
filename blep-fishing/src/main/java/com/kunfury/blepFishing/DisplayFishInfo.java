@@ -44,7 +44,7 @@ public class DisplayFishInfo {
                 objective.setDisplaySlot(DisplaySlot.SIDEBAR);
                 objective.setDisplayName(ChatColor.RED + "--" + formattedName + "--");
                 
-                Score score2 = objective.getScore(ChatColor.translateAlternateColorCodes('&', fish.Rarity));
+                Score score2 = objective.getScore(fish.getFormattedRarity());
                 score2.setScore(4);  
                 
                 Score score = objective.getScore(Formatting.getMessage("Fish Object.Scoreboard.size")
@@ -79,7 +79,7 @@ public class DisplayFishInfo {
 
 	private void ShowChat(Player p, FishObject fish){
 		String lbString = Formatting.getFormattedMesage("Fish Object.announce")
-												.replace("{rarity}", fish.Rarity)
+												.replace("{rarity}", fish.getFormattedRarity())
 												.replace("{fish}", fish.Name);
 		TextComponent mainComponent = new TextComponent (Formatting.formatColor(lbString));
 		mainComponent.setHoverEvent(new HoverEvent( HoverEvent.Action.SHOW_TEXT, fish.getHoverText()));

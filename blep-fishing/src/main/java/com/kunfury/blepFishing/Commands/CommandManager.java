@@ -31,6 +31,7 @@ public class CommandManager implements TabExecutor {
         subCommands.add(new DebugSubcommand());
         subCommands.add(new HelpSubcommand());
         subCommands.add(new QuestSubcommand());
+        subCommands.add(new IgnoreSubCommand());
     }
 
     @Override

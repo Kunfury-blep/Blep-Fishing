@@ -109,5 +109,7 @@ public class ConfigBase {
     public int getEndgameRadius(){return config.getInt("Endgame Radius");}
     public double getParrotBonus(){return config.getDouble("Parrot Treasure Bonus");}
     public double getBoatBonus(){return config.getDouble("Boat Treasure Bonus");}
-    public boolean getEnableDiscordSRV(){return config.getBoolean("Enable DiscordSRV");}
+    public boolean getEnableDiscordSRV(){
+        return config.getBoolean("Enable DiscordSRV");
+    }
 }

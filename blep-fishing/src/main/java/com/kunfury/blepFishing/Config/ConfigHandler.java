@@ -1,6 +1,7 @@
 package com.kunfury.blepFishing.Config;
 
 import com.kunfury.blepFishing.BlepFishing;
+import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -40,9 +41,9 @@ public class ConfigHandler {
         if (!questFile.exists())
             plugin.saveResource("quests.yml", false);
 
-        File fishFile = new File(plugin.getDataFolder(), "fish.yml");
-        if (!fishFile.exists())
-            plugin.saveResource("fish.yml", false);
+//        File fishFile = new File(plugin.getDataFolder(), "fish.yml");
+//        if (!fishFile.exists())
+//            plugin.saveResource("fish.yml", false);
 
         BlepFishing.configBase = new ConfigBase(plugin);
 
@@ -51,6 +52,8 @@ public class ConfigHandler {
 
         UpdateMain();
         UpdateMessages();
+
+        Variables.setPrefix(Formatting.getMessage("System.prefix"));
     }
 
     public void SendError(String error, String error2){
@@ -112,6 +115,8 @@ public class ConfigHandler {
         } catch (IOException io) {
             io.printStackTrace();
         }
+
+        Formatting.messages = externalYamlConfig;
     }
 
     /**
@@ -156,40 +161,39 @@ public class ConfigHandler {
             if(!new File(BlepFishing.dataFolder + "/config.yml").exists()){
                 return; //All below methods are only needed if a config.yml already exists
             }
-
-            File congigFile = new File(BlepFishing.blepFishing.getDataFolder(), "config.yml");
-            YamlConfiguration configYaml = YamlConfiguration.loadConfiguration(congigFile);
-
-            //Migrates fish from config.yml to fish.yml
-            if(!new File(BlepFishing.dataFolder + "/fish.yml").exists()){
-                YamlConfiguration fishYaml = new YamlConfiguration();
-                List<String> keysToRemove = new ArrayList<>();
-
-                for (String key : new ArrayList<>(configYaml.getKeys(true))) {
-                    if(key.contains("fish.")){
-                        fishYaml.set(key, configYaml.get(key));
-                        keysToRemove.add(key);
-                    }
-                }
-
-                Path fishPath = Paths.get(BlepFishing.dataFolder + "/fish.yml");
-                final BufferedWriter fishWriter = Files.newBufferedWriter(fishPath,
-                        StandardCharsets.UTF_8, StandardOpenOption.CREATE);
-
-                fishWriter.write(fishYaml.saveToString());
-                fishWriter.flush();
-
-                for(var key : keysToRemove){
-                    configYaml.set(key, null);
-                }
-
-                configYaml.set("fish", null);
-                configYaml.save(congigFile);
-                Bukkit.getLogger().warning("Updated Fish.yml");
-
-//                Files.move(Paths.get(BlepFishing.dataFolder + "/signs.data"),
-//                        Paths.get(BlepFishing.dataFolder + "/Data/" + "/signs.data"));
-            }
+//            File congigFile = new File(BlepFishing.blepFishing.getDataFolder(), "config.yml");
+//            YamlConfiguration configYaml = YamlConfiguration.loadConfiguration(congigFile);
+//
+//            //Migrates fish from config.yml to fish.yml
+//            if(!new File(BlepFishing.dataFolder + "/fish.yml").exists()){
+//                YamlConfiguration fishYaml = new YamlConfiguration();
+//                List<String> keysToRemove = new ArrayList<>();
+//
+//                for (String key : new ArrayList<>(configYaml.getKeys(true))) {
+//                    if(key.contains("fish.")){
+//                        fishYaml.set(key, configYaml.get(key));
+//                        keysToRemove.add(key);
+//                    }
+//                }
+//
+//                Path fishPath = Paths.get(BlepFishing.dataFolder + "/fish.yml");
+//                final BufferedWriter fishWriter = Files.newBufferedWriter(fishPath,
+//                        StandardCharsets.UTF_8, StandardOpenOption.CREATE);
+//
+//                fishWriter.write(fishYaml.saveToString());
+//                fishWriter.flush();
+//
+//                for(var key : keysToRemove){
+//                    configYaml.set(key, null);
+//                }
+//
+//                configYaml.set("fish", null);
+//                configYaml.save(congigFile);
+//                Bukkit.getLogger().warning("Updated Fish.yml");
+//
+////                Files.move(Paths.get(BlepFishing.dataFolder + "/signs.data"),
+////                        Paths.get(BlepFishing.dataFolder + "/Data/" + "/signs.data"));
+//            }
 
 
 

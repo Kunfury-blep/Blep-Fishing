@@ -3,10 +3,12 @@ package com.kunfury.blepFishing.Interfaces.Player;
 import com.kunfury.blepFishing.BlepFishing;
 import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
+import com.kunfury.blepFishing.Quests.QuestHandler;
 import com.kunfury.blepFishing.Tournament.TournamentHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class TournamentPanel {
 
@@ -35,6 +37,19 @@ public class TournamentPanel {
         }
 
         p.openInventory(inv);
+        new BukkitRunnable() { //Updates the items so the timers count down
+            @Override
+            public void run() {
+                if(inv.getViewers().size() == 0){
+                    cancel();
+                }
+                inv.clear();
+                for(var a : TournamentHandler.ActiveTournaments){
+                    inv.addItem(a.getItemStack(p.hasPermission("bf.admin")));
+                }
+            }
+
+        }.runTaskTimer(BlepFishing.getPlugin(), 0, 20);
     }
 
 }

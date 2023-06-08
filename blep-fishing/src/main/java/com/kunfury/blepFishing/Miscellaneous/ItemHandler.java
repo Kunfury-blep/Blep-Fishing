@@ -1,6 +1,7 @@
 package com.kunfury.blepFishing.Miscellaneous;
 
 import com.kunfury.blepFishing.BlepFishing;
+import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Tournament.Rewards;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -83,37 +84,51 @@ public class ItemHandler {
             dataType = data.substring(0, 6);
             String itemStr = data.replace(dataType, "");
             String[] infoArray = itemStr.split(" ");
-            switch(dataType){
-                case "ITEM: ":
-                    ItemStack item = new ItemStack(Material.valueOf(infoArray[0]));
-                    if(infoArray.length >= 2){
-                        item.setAmount(Integer.parseInt(infoArray[1]));
+
+            try{
+                switch (dataType) {
+                    case "ITEM: " -> {
+                        if(Material.matchMaterial(infoArray[0]) != null) {
+                            ItemStack item = new ItemStack(Material.valueOf(infoArray[0]));
+                            if (infoArray.length >= 2) {
+                                item.setAmount(Integer.parseInt(infoArray[1]));
+                            }
+                            GivePlayer(uuid, item);
+                        }else{
+                            Variables.AddError("Tried to give invalid item: " + infoArray[0]);
+                        }
+
+
                     }
-                     GivePlayer(uuid, item);
-                    break;
-                case "CASH: ":
-                    if(BlepFishing.hasEconomy()){
+                    case "CASH: " -> {
+                        if (BlepFishing.hasEconomy()) {
+                            OfflinePlayer p = Bukkit.getOfflinePlayer(uuid);
+                            int amount = Integer.parseInt(itemStr);
+                            BlepFishing.getEconomy().depositPlayer(p, amount);
+                            if (p.isOnline())
+                                p.getPlayer().sendMessage(Formatting.getFormattedMesage("Economy.received")
+                                        .replace("{value}", BlepFishing.getEconomy().format(amount)));
+                        } else {
+                            Bukkit.getLogger().warning("A player would have received currency but no economy was found. Please update the Blep Fishing config files.");
+                        }
+                    }
+                    case "BYTE: " -> {
+                        try {
+                            GivePlayer(uuid, itemStackFromBase64(itemStr));
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    case "TEXT: " -> {
                         OfflinePlayer p = Bukkit.getOfflinePlayer(uuid);
-                        int amount = Integer.parseInt(itemStr);
-                        BlepFishing.getEconomy().depositPlayer(p, amount);
-                        if(p.isOnline())
-                            p.getPlayer().sendMessage(Formatting.getFormattedMesage("Economy.received")
-                                                        .replace("{value}", BlepFishing.getEconomy().format(amount)));
-                    } else {
-                        Bukkit.getLogger().warning("A player would have received currency but no economy was found. Please update the Blep Fishing config files.");
+                        if (p.isOnline()) p.getPlayer().sendMessage(Formatting.formatColor(itemStr));
                     }
-                    break;
-                case "BYTE: ":
-                    try {
-                        GivePlayer(uuid, itemStackFromBase64(itemStr));
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                    break;
-                case "TEXT: ":
-                    OfflinePlayer p = Bukkit.getOfflinePlayer(uuid);
-                    if(p.isOnline()) p.getPlayer().sendMessage(Formatting.formatColor(itemStr));
+                }
+            }catch(Exception e){
+                Variables.AddError("Error generating item. Please check the server console for more details.");
+                e.printStackTrace();
             }
+
         }
     }
     /**

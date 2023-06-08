@@ -12,6 +12,8 @@ import com.kunfury.blepFishing.Crafting.Equipment.FishBag.UpdateBag;
 import com.kunfury.blepFishing.Events.FishCaughtEvent;
 import com.kunfury.blepFishing.Miscellaneous.BiomeHandler;
 import com.kunfury.blepFishing.Objects.*;
+import com.kunfury.blepFishing.Plugins.PluginHandler;
+import com.kunfury.blepFishing.Plugins.WorldGuardHandler;
 import com.kunfury.blepFishing.Quests.QuestHandler;
 import com.kunfury.blepFishing.Signs.FishSign;
 import com.kunfury.blepFishing.Tournament.TournamentHandler;
@@ -32,13 +34,17 @@ public class FishSwitch{
 
 	public void FishHandler(@NotNull PlayerFishEvent e) {
 		Player player = e.getPlayer();
-		if(e.getState() != PlayerFishEvent.State.CAUGHT_FISH
+		if((!player.isOp() &&  player.hasPermission("bf.ignore"))
+				|| e.getState() != PlayerFishEvent.State.CAUGHT_FISH
 				|| !(e.getCaught() instanceof Item item)
-				|| !CanFish(item, player, e )) return;
+				|| !CanFish(item, player, e )){
+			return;
+		}
 
 		AllBlueObject allBlueObj = AllBlueInfo.GetAllBlue(item.getLocation());
-		boolean allBlue = (allBlueObj != null);
 		Location itemLoc = item.getLocation();
+		boolean allBlue = (allBlueObj != null || (BlepFishing.configBase.getEnableAllBlue() && PluginHandler.HasWorldGuard() && WorldGuardHandler.GetEndgame(itemLoc)));
+
 
 		ItemStack treasure = new TreasureHandler().Perform(player, itemLoc);
 		if(treasure != null && treasure.getType() != Material.AIR){
@@ -64,6 +70,8 @@ public class FishSwitch{
 
 		item.setItemStack(fish.GenerateItemStack());
 
+		BlepFishing.stats_FishCaught++;
+
 		new DangerEvents().Trigger(player, item.getLocation());
 
 		//Checks if the player has a fishing bag. Automatically adds the fish to it if so
@@ -80,10 +88,10 @@ public class FishSwitch{
 			}
 		}
 
-		if(BlepFishing.configBase.getAnnounceLegendary() && chosenRarity.Weight <= Variables.RarityList.get(0).Weight){
+		if(BlepFishing.configBase.getAnnounceLegendary() && chosenRarity.getWeight() <= Variables.RarityList.get(0).getWeight()){
 			String message = Formatting.getMessage("System.announceCatch")
 					.replace("{player}", player.getDisplayName())
-					.replace("{rarity}", fish.Rarity)
+					.replace("{rarity}", fish.getFormattedRarity())
 					.replace("{fish}", fish.Name)
 					.replace("{size}", Formatting.DoubleFormat(fish.RealSize));
 
@@ -119,21 +127,28 @@ public class FishSwitch{
 	private BaseFishObject GetCaughtFish(Item item, boolean allBlue) {
 		Location iLoc = item.getLocation();
 
-		List<BaseFishObject> availFish = new ArrayList<>(); //Available fish to choose from
 
-		if(!allBlue) { //If in All Blue, skips the below testing and instead just returns whole list
-			List<AreaObject> areas = AreaObject.GetAreas(iLoc); //Available areas to pull fish from
-			int height = iLoc.getBlockY();
-			boolean isRaining = Bukkit.getWorlds().get(0).hasStorm();
-			long time = iLoc.getWorld().getTime();
-			boolean isNight = !(time < 12300 || time > 23850);
+		List<BaseFishObject> availFish = new ArrayList<>();//Available fish to choose from
 
-			for (var bFish : Variables.BaseFishList)
-			{
-				if(bFish.canCatch(isRaining, height, isNight, areas))
-					availFish.add(bFish);
-			}
-		} else availFish = Variables.BaseFishList;
+		if(PluginHandler.HasWorldGuard()){
+			availFish = WorldGuardHandler.GetFish(iLoc);
+		}
+
+		if(availFish.size() == 0){ //If no worldguard fish are set, run normally
+			if(!allBlue) { //If in All Blue, skips the below testing and instead just returns whole list
+				List<AreaObject> areas = AreaObject.GetAreas(iLoc); //Available areas to pull fish from
+				int height = iLoc.getBlockY();
+				boolean isRaining = Bukkit.getWorlds().get(0).hasStorm();
+				long time = iLoc.getWorld().getTime();
+				boolean isNight = !(time < 12300 || time > 23850);
+
+				for (var bFish : Variables.BaseFishList)
+				{
+					if(bFish.canCatch(isRaining, height, isNight, areas))
+						availFish.add(bFish);
+				}
+			} else availFish = Variables.BaseFishList;
+		}
 
 		availFish.sort((fish1, fish2) -> {
 			Integer newWeight1 = fish1.Weight;
@@ -153,7 +168,6 @@ public class FishSwitch{
 	}
 
 	private boolean CanFish(Item item, Player player, PlayerFishEvent e) {
-
 		if(BlepFishing.configBase.getAreaPermissions()){//Check Area
 			String biomeName = new BiomeHandler().getBiomeName(e.getHook().getLocation());
 			List<AreaObject> areas = new ArrayList<>();
@@ -169,7 +183,10 @@ public class FishSwitch{
 			}
 		}
 
-
+		if(PluginHandler.HasWorldGuard()){
+			if(!WorldGuardHandler.canFish(item.getLocation()))
+				return false;
+		}
 
 
 

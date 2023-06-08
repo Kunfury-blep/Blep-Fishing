@@ -1,4 +1,4 @@
-package com.kunfury.blepFishing.Interfaces.MenuButtons;
+package com.kunfury.blepFishing.Interfaces.MenuButtons.Admin;
 
 import com.kunfury.blepFishing.Config.ItemsConfig;
 import com.kunfury.blepFishing.Interfaces.Admin.AdminQuestMenu;
@@ -6,6 +6,7 @@ import com.kunfury.blepFishing.Interfaces.MenuButton;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Quests.QuestHandler;
 import com.kunfury.blepFishing.Quests.QuestObject;
+import com.kunfury.blepFishing.Tournament.TournamentObject;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
@@ -25,11 +26,10 @@ public class AdminQuestButton extends MenuButton {
     }
 
     @Override
-    public ItemStack getItemStack() {
-        return null;
-    }
+    public ItemStack getItemStack(Object o) {
+        if(!(o instanceof QuestObject q))
+            return null;
 
-    public ItemStack getItemStack(QuestObject q) {
         ItemStack item = new ItemStack(ItemsConfig.FishMat);
         ItemMeta m = item.getItemMeta();
         ArrayList<String> lore = new ArrayList<>();

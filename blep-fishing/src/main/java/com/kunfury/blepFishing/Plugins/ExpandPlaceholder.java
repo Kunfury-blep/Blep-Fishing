@@ -73,7 +73,7 @@ public class ExpandPlaceholder extends PlaceholderExpansion {
                 case "FISH" -> fish.Name;
                 case "SIZE" -> Formatting.DoubleFormat(fish.RealSize) + "";
                 case "COST" -> fish.RealCost + "";
-                case "RARITY" -> fish.Rarity;
+                case "RARITY" -> fish.getFormattedRarity();
                 case "DATE" -> fish.DateCaught.toString();
                 case "SCORE" -> Formatting.DoubleFormat(fish.Score) + "";
                 default -> fish.PlayerName + " : " + fish.Name + " : " + fish.RealSize;

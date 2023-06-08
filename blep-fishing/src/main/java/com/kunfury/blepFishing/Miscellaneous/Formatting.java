@@ -1,5 +1,6 @@
 package com.kunfury.blepFishing.Miscellaneous;
 
+import com.kunfury.blepFishing.BlepFishing;
 import com.kunfury.blepFishing.Config.Variables;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -7,6 +8,9 @@ import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -42,12 +46,12 @@ public class Formatting {
 
 		String result = "";
 
-		if(days > 0) result += days + "d ";
-		if(hours > 0) result += hours + "h ";
-		if(minutes > 0) result += minutes + "m ";
-		if(seconds > 0) result += seconds + "s ";
+		if(days > 0) result += "&f" + days + "&3d ";
+		if(hours > 0) result += "&f" + hours + "&3h ";
+		if(minutes > 0) result += "&f" + minutes + "&3m ";
+		result += "&f" + seconds + "&3s ";
 
-		return result;
+		return formatColor(result);
 	}
 
 	/********************************************************
@@ -112,5 +116,16 @@ public class Formatting {
 
 	public static String getFormattedMesage(String key, ChatColor color){
 		return Variables.getPrefix() + color + getMessage(key);
+	}
+
+
+	public static int getInventorySize(int baseAmt){
+
+		baseAmt = (((int) Math.ceil(baseAmt / 9.0) + 1 ) * 9);
+
+		if(baseAmt > 54)
+			baseAmt = 54;
+
+		return baseAmt;
 	}
 }

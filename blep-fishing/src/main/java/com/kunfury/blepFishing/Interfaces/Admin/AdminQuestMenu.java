@@ -1,11 +1,9 @@
 package com.kunfury.blepFishing.Interfaces.Admin;
 
-import com.kunfury.blepFishing.Interfaces.MenuButtons.AdminQuestButton;
-import com.kunfury.blepFishing.Interfaces.MenuButtons.AdminTourneyButton;
+import com.kunfury.blepFishing.Interfaces.MenuButtons.Admin.AdminQuestButton;
 import com.kunfury.blepFishing.Interfaces.MenuHandler;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Quests.QuestHandler;
-import com.kunfury.blepFishing.Tournament.TournamentHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

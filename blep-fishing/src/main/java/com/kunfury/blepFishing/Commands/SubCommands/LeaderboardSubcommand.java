@@ -92,13 +92,13 @@ public class LeaderboardSubcommand extends SubCommand {
                 fPlayer = Formatting.FixFontSize(fish.PlayerName, pLength);
                 String lbString = ChatColor.translateAlternateColorCodes('&' ,
                         Formatting.FixFontSize((i+1) + ".", 4)
-                                + fPlayer + fish.Rarity + " " + fish.Name);
+                                + fPlayer + fish.getFormattedRarity() + " " + fish.Name);
 
 
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                 TextComponent mainComponent = new TextComponent (lbString);
                 mainComponent.setHoverEvent(new HoverEvent( HoverEvent.Action.SHOW_TEXT,
-                        new Text(ChatColor.translateAlternateColorCodes('&' ,(fish.Rarity + " " + fish.Name +
+                        new Text(ChatColor.translateAlternateColorCodes('&' ,(fish.getFormattedRarity() + " " + fish.Name +
                                 "&f\nFish Size: " + Formatting.DoubleFormat(fish.RealSize) +
                                 "\nRank: " + (i + 1) +
                                 "\nCaught On: " +  formatter.format(fish.DateCaught)  +

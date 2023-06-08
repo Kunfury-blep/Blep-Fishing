@@ -32,6 +32,7 @@ public class AllBlueInfo {
 
     public static AllBlueObject GetAllBlue(Location loc){
         if(!BlepFishing.configBase.getEnableAllBlue()) return null;
+
         for (AllBlueObject obj : AllBlueList) {
 //            if(Objects.equals(obj.getLocation().getWorld(), loc.getWorld())){
 //                Bukkit.broadcastMessage("Matching Worlds - " + loc.getWorld());

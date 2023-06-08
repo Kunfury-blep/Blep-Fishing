@@ -1,7 +1,8 @@
-package com.kunfury.blepFishing.Interfaces.MenuButtons;
+package com.kunfury.blepFishing.Interfaces.MenuButtons.Admin.Tournament;
 
 import com.kunfury.blepFishing.Config.ItemsConfig;
 import com.kunfury.blepFishing.Interfaces.Admin.AdminMenu;
+import com.kunfury.blepFishing.Interfaces.Admin.AdminTournamentConfigMenu;
 import com.kunfury.blepFishing.Interfaces.Admin.AdminTournamentMenu;
 import com.kunfury.blepFishing.Interfaces.MenuButton;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
@@ -30,12 +31,11 @@ public class AdminTourneyButton extends MenuButton {
         return "bf.admin";
     }
 
-    @Override
-    public ItemStack getItemStack() {
-        return null;
-    }
 
-    public ItemStack getItemStack(TournamentObject t) {
+    @Override
+    public ItemStack getItemStack(Object o) {
+        if(!(o instanceof TournamentObject t))
+            return null;
         ItemStack item = new ItemStack(ItemsConfig.FishMat);
         ItemMeta m = item.getItemMeta();
         ArrayList<String> lore = new ArrayList<>();
@@ -57,6 +57,7 @@ public class AdminTourneyButton extends MenuButton {
             lore.add(ChatColor.RED + "Not Running");
             lore.add("");
             lore.add("Left-Click to Start");
+            lore.add("Right-Click to Edit");
         }
 
         m.setLore(lore);
@@ -85,7 +86,10 @@ public class AdminTourneyButton extends MenuButton {
         if(tourney.isRunning()){
             new TournamentHandler().Finish(tourney);
             new AdminTournamentMenu().ShowMenu(player);
+            return;
         }
+
+        new AdminTournamentConfigMenu().ShowMenu(player, tourney);
     }
 
     @Override
@@ -96,11 +100,6 @@ public class AdminTourneyButton extends MenuButton {
             new TournamentHandler().Cancel(tourney);
             new AdminTournamentMenu().ShowMenu(player);
         }
-    }
-
-    private TournamentObject getTournament(){
-
-        return TournamentHandler.FindTournament(NBTEditor.getString(ClickedItem, "blep", "item", "tourneyId"));
     }
 
 }

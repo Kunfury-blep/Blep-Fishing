@@ -53,7 +53,7 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 	 */
 	public FishObject(BaseFishObject base, RarityObject rarity, Player _player, Double _size){
 		Name = base.Name;
-		Rarity = rarity.Name;
+		Rarity = rarity.getId();
 		PlayerName = _player.getDisplayName();
 		playerUUID = _player.getUniqueId().toString();
 		DateCaught = LocalDateTime.now();
@@ -72,16 +72,16 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 		RealSize = base.getSize(false);
 
 		RarityObject rarity = RarityObject.GetRandom();
-		Rarity = rarity.Name;
+		Rarity = rarity.getId();
 		Score = CalcScore(base, rarity);
 		RealCost = CalcPrice(base, rarity);
 
 	}
 
 	private double CalcScore(BaseFishObject base, RarityObject rarity) {
-		double adjWeight = rarity.Weight;
-		if(Variables.RarityList.get(0).Weight != 1)
-			adjWeight = adjWeight / Variables.RarityList.get(0).Weight;
+		double adjWeight = rarity.getWeight();
+		if(Variables.RarityList.get(0).getWeight() != 1)
+			adjWeight = adjWeight / Variables.RarityList.get(0).getWeight();
 
 		return ((RealSize / base.MaxSize)/adjWeight) * 100;
 	}
@@ -89,7 +89,7 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 	private double CalcPrice(BaseFishObject base, RarityObject rarity) {
 		double sizeMod = RealSize/base.AvgSize;
 
-		double realCost = (base.BaseCost * sizeMod) * rarity.PriceMod;
+		double realCost = (base.BaseCost * sizeMod) * rarity.getPriceMod();
 
 		return Formatting.round(realCost, 2);
 	}
@@ -97,7 +97,7 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 	public Text getHoverText(){
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-		String content = Rarity + " " + Name;
+		String content = getFormattedRarity() + " " + Name;
 
 		content += "\n&f" + Formatting.getMessage("Fish Object.length")
 				.replace("{size}", Formatting.DoubleFormat(RealSize));
@@ -149,7 +149,7 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 
 		String dName = base.Name;
 		if(rarity != null)
-			dName = '&' + rarity.Prefix + dName;
+			dName = '&' + rarity.getPrefix() + dName;
 
 		m.setDisplayName(Formatting.formatColor(dName));
 		fishItem.setItemMeta(m);
@@ -214,6 +214,15 @@ public class FishObject implements Serializable, Comparable<FishObject>{
 		return Rarity;
 	}
 
+	public String getFormattedRarity(){
+		RarityObject rarity = RarityObject.GetRarity(Rarity);
+
+		if(rarity == null)
+			return "";
+
+
+		return Formatting.formatColor("&" + rarity.getPrefix() + rarity.getId());
+	}
 	public String getName(){
 		return Name;
 	}

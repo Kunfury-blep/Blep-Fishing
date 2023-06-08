@@ -9,6 +9,7 @@ import org.bukkit.conversations.ValidatingPrompt;
 import org.bukkit.entity.Player;
 
 import com.kunfury.blepFishing.Config.Variables;
+import org.jetbrains.annotations.NotNull;
 
 public class GetFishTypePrompt {
 	
@@ -24,7 +25,7 @@ public class GetFishTypePrompt {
 	public class InitialPrompt extends ValidatingPrompt  {
 		
 	    @Override
-	    public String getPromptText(ConversationContext context) {
+	    public @NotNull String getPromptText(@NotNull ConversationContext context) {
 	        return "Which fish will the tournament be for? Enter \"ALL\" for all fish";
 	    }
 
@@ -52,10 +53,10 @@ public class GetFishTypePrompt {
 		
 	};
 	
-	private class FishFinishPrompt extends MessagePrompt {
+	private static class FishFinishPrompt extends MessagePrompt {
 
 		@Override
-		public String getPromptText(ConversationContext context) {
+		public @NotNull String getPromptText(ConversationContext context) {
 			Player p = (Player)context.getForWhom();
 			String fish = (String)context.getSessionData("fish");
 //			new TourneyAdmin().UpdateTourney(p, null, fish, null, null);

@@ -1,9 +1,10 @@
-package com.kunfury.blepFishing.Interfaces.MenuButtons;
+package com.kunfury.blepFishing.Interfaces.MenuButtons.Admin;
 
 import com.kunfury.blepFishing.Conversations.ConversationHandler;
 import com.kunfury.blepFishing.Interfaces.MenuButton;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Objects.RarityObject;
+import com.kunfury.blepFishing.Quests.QuestObject;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -24,11 +25,10 @@ public class AdminRarityButton extends MenuButton {
     }
 
     @Override
-    public ItemStack getItemStack() {
-        return null;
-    }
+    public ItemStack getItemStack(Object o) {
+        if(!(o instanceof RarityObject r))
+            return null;
 
-    public ItemStack getItemStack(RarityObject r) {
         ItemStack item = new ItemStack(Material.EMERALD);
         ItemMeta m = item.getItemMeta();
 

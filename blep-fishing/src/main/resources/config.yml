@@ -20,7 +20,7 @@ Currency Symbol: $
 New Day Time: 00:00
 
 Enable All Blue: true
-Permanent All Blue: true #If disabled, a zone with limited fish will spawn for each compass crafted
+Permanent All Blue: true #If disfabled, a zone with limited fish will spawn for each compass crafted
 All Blue Fish: 2000 #The amount of fish available in the Endgame Zone. Not needed if permanent
 Endgame Radius: 32 #The size of the endgame zone. Larger sizes may make it more difficult to find an appropriate location
 Endgame Area: Ocean #The area for the endgame zone to generate in
@@ -29,10 +29,14 @@ Endgame Mob Chance: 2 #The chance of fishing up monsters in the endgame zone
 Allow Wandering Traders: false
 Wandering Traders Modifier: 1.5
 
-Enable Treasure: false
+Enable Treasure: true
 Treasure Chance: 5
 Parrot Treasure Bonus: 5
 Boat Treasure Bonus: 5
+
+Discord:
+  Enabled: true
+  
 
 World Whitelist: false
 Allowed Worlds:
@@ -193,6 +197,51 @@ areas:
       - nether_wastes
       - soul_sand_valley
       - warped_forest
+
+treasure:
+  Legendary Casket:
+    Weight: 5
+    Prefix: 6
+    Model Data: 1
+    Drop Table:
+      - 'CASH: 1000'
+      - 'ITEM: DIAMOND 4'
+      - 'ITEM: DIAMOND 8'
+      - 'ITEM: ANCIENT_DEBRIS 1'
+      - 'ITEM: HEART_OF_THE_SEA 1'
+  Epic Casket:
+    Weight: 30
+    Prefix: d
+    Model Data: 2
+    Drop Table:
+      - 'CASH: 1000'
+      - 'ITEM: SEA_LANTERN 1'
+      - 'ITEM: TURTLE_EGG 1'
+      - 'ITEM: DIAMOND 1'
+      - 'ITEM: DIAMOND 1'
+  Rare Casket:
+    Weight: 60
+    Prefix: b
+    Model Data: 3
+    Drop Table:
+      - 'CASH: 250'
+      - 'ITEM: SADDLE 1'
+      - 'ITEM: SPYGLASS 1'
+      - 'ITEM: SCUTE 1'
+  Common Casket:
+    Weight: 100
+    Prefix: a
+    Model Data: 4
+    Drop Table:
+      - 'CASH: 10'
+      - 'ITEM: NAUTILUS_SHELL 1'
+      - 'ITEM: DRIED_KELP 8'
+      - 'ITEM: KELP 8'
+      - 'ITEM: SEA_PICKLE 1'
+      - 'ITEM: IRON_INGOT 2'
+      - 'ITEM: GOLD_NUGGET 7'
+      - 'ITEM: INK_SAC 8'
+
 
 fish:
   Bluegill:
@@ -492,7 +541,7 @@ fish:
     Min Height: 0
     Max Height: 0
     Time: ALL
-  Electric Eel :
+  Electric Eel:
     Lore: A Shocking Discovery
     Min Size: 72
     Max Size: 130
@@ -503,47 +552,3 @@ fish:
     Min Height: 0
     Max Height: 0
     Time: ALL
-
-treasure:
-  Legendary Casket:
-    Weight: 5
-    Prefix: 6
-    Model Data: 1
-    Drop Table:
-      - 'CASH: 1000'
-      - 'ITEM: DIAMOND 4'
-      - 'ITEM: DIAMOND 8'
-      - 'ITEM: ANCIENT_DEBRIS 1'
-      - 'ITEM: HEART_OF_THE_SEA 1'
-  Epic Casket:
-    Weight: 30
-    Prefix: d
-    Model Data: 2
-    Drop Table:
-      - 'CASH: 1000'
-      - 'ITEM: SEA_LANTERN 1'
-      - 'ITEM: TURTLE_EGG 1'
-      - 'ITEM: DIAMOND 1'
-      - 'ITEM: DIAMOND 1'
-  Rare Casket:
-    Weight: 60
-    Prefix: b
-    Model Data: 3
-    Drop Table:
-      - 'CASH: 250'
-      - 'ITEM: SADDLE 1'
-      - 'ITEM: SPYGLASS 1'
-      - 'ITEM: SCUTE 1'
-  Common Casket:
-    Weight: 100
-    Prefix: a
-    Model Data: 4
-    Drop Table:
-      - 'CASH: 10'
-      - 'ITEM: NAUTILUS_SHELL 1'
-      - 'ITEM: DRIED_KELP 8'
-      - 'ITEM: KELP 8'
-      - 'ITEM: SEA_PICKLE 1'
-      - 'ITEM: IRON_INGOT 2'
-      - 'ITEM: GOLD_NUGGET 7'
-      - 'ITEM: INK_SAC 8'

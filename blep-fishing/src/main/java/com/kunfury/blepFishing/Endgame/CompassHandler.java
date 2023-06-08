@@ -196,8 +196,8 @@ public class CompassHandler {
         ArrayList<String> lore = new ArrayList<>();
 
         lore.add(Formatting.getMessage("Endgame.Compass.pieceLore"));
-        lore.add(Formatting.getMessage("Endgame.Compass.combine"));
         lore.add("");
+        lore.add(Formatting.getMessage("Endgame.Compass.combine"));
         lore.add(Formatting.getMessage("Endgame.Compass.hint"));
         return lore;
     }

@@ -40,7 +40,7 @@ public class AllBlueGeneration {
 
         if(BlepFishing.configBase.getPermanentAllBlue() && EndgameVars.AllBlueList != null && EndgameVars.AllBlueList.size() > 0) allBlue = EndgameVars.AllBlueList.get(0).getLocation();
         else{
-            Bukkit.broadcastMessage("Trying to generate new All Blue");
+            //Bukkit.broadcastMessage("Trying to generate new All Blue");
             allBlue = new BiomeLocator().FindViableOcean();
         }
 

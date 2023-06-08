@@ -1,7 +1,15 @@
 package com.kunfury.blepFishing.Interfaces;
 
+import com.kunfury.blepFishing.BlepFishing;
+import com.kunfury.blepFishing.Conversations.EditRarityConvo;
+import com.kunfury.blepFishing.Objects.RarityObject;
+import com.kunfury.blepFishing.Tournament.TournamentHandler;
+import com.kunfury.blepFishing.Tournament.TournamentObject;
+import io.github.bananapuncher714.nbteditor.NBTEditor;
+import net.minecraft.world.item.Items;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -39,7 +47,11 @@ public abstract class MenuButton {
 
     public abstract String getPermission();
 
-    public abstract ItemStack getItemStack();
+    public ItemStack getItemStack(){
+        return getItemStack(null);
+    }
+
+    public abstract ItemStack getItemStack(Object o);
 
     protected void click_left(){
 
@@ -55,5 +67,9 @@ public abstract class MenuButton {
 
     protected void click_right_shift(){
         click_right();
+    }
+
+    public TournamentObject getTournament(){
+        return TournamentHandler.FindTournament(NBTEditor.getString(ClickedItem, "blep", "item", "tourneyId"));
     }
 }

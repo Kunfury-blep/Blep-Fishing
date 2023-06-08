@@ -18,9 +18,9 @@ import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Objects.MarketObject;
 import com.kunfury.blepFishing.BlepFishing;
+import com.kunfury.blepFishing.Plugins.DiscordSRVHandler;
 import com.kunfury.blepFishing.Signs.FishSign;
 import com.kunfury.blepFishing.Tournament.TournamentHandler;
-import com.sk89q.worldedit.world.block.BlockType;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -235,14 +235,9 @@ public class EventListener implements Listener {
                     }
                 }
 
-                if(e.getView().getTitle().equals(Formatting.getMessage("Player Panel.title"))){
-                    e.setCancelled(true);
-                    new PlayerPanel().Click(e, p);
-                }
-
                 if(e.getView().getTitle().equals(Formatting.getMessage("Player Panel.quests"))){
                     e.setCancelled(true);
-                    new QuestPanel().Click(e, p);
+                    new QuestPanel().Click(e, p); //TODO: Switch to MenuButtons system
                 }
 
             }
@@ -294,15 +289,27 @@ public class EventListener implements Listener {
 
     @EventHandler
     public void onCustomFish(FishCaughtEvent e){
-        new TournamentHandler().ShowBars(e.GetWhoCaught());
+        new TournamentHandler().ShowBars(e.getWhoCaught());
+
+        if(Bukkit.getPluginManager().getPlugin("DiscordSRV") != null){
+            DiscordSRVHandler.FishCaught(e.getCaughtFish());
+        }
     }
 
 
     @EventHandler
     public void a(InventoryClickEvent e) {
+        if(e.getCurrentItem() == null){
+            return;
+        }
 
         if (e.getClickedInventory() != null && e.getClickedInventory().getType() == InventoryType.GRINDSTONE && e.getSlotType() == InventoryType.SlotType.RESULT && BagInfo.IsBag(e.getCurrentItem())) {
             e.setCancelled(true);
         }
+
+        if(e.getCurrentItem() != null){
+//            Bukkit.broadcastMessage("Item: " + e.getCurrentItem());
+        }
     }
+
 }

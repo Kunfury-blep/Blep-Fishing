@@ -1,4 +1,4 @@
-package com.kunfury.blepFishing.Interfaces.MenuButtons;
+package com.kunfury.blepFishing.Interfaces.MenuButtons.Admin.Tournament;
 
 import com.kunfury.blepFishing.BlepFishing;
 import com.kunfury.blepFishing.Endgame.EndgameVars;
@@ -35,7 +35,7 @@ public class AdminTourneyMenuButton extends MenuButton {
     }
 
     @Override
-    public ItemStack getItemStack() {
+    public ItemStack getItemStack(Object o) {
         ItemStack item = new ItemStack(Material.FISHING_ROD);
         ItemMeta m = item.getItemMeta();
         ArrayList<String> lore = new ArrayList<>();

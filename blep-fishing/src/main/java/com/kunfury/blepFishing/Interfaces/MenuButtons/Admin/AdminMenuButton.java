@@ -1,4 +1,4 @@
-package com.kunfury.blepFishing.Interfaces.MenuButtons;
+package com.kunfury.blepFishing.Interfaces.MenuButtons.Admin;
 
 import com.kunfury.blepFishing.Interfaces.Admin.AdminMenu;
 import com.kunfury.blepFishing.Interfaces.MenuButton;
@@ -20,7 +20,7 @@ public class AdminMenuButton extends MenuButton {
     }
 
     @Override
-    public ItemStack getItemStack() {
+    public ItemStack getItemStack(Object o) {
         ItemStack item = new ItemStack(Material.NETHER_STAR);
         ItemMeta m = item.getItemMeta();
 

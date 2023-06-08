@@ -2,6 +2,8 @@ package com.kunfury.blepFishing.Objects;
 
 import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Miscellaneous.BiomeHandler;
+import com.kunfury.blepFishing.Plugins.PluginHandler;
+import com.kunfury.blepFishing.Plugins.WorldGuardHandler;
 import org.bukkit.Location;
 
 import java.util.ArrayList;
@@ -36,12 +38,24 @@ public class AreaObject {
 
 		List<AreaObject> areas = new ArrayList<>();
 
+		if(PluginHandler.HasWorldGuard()){
+			areas = WorldGuardHandler.GetAreas(loc);
+
+			if(areas.size() > 0){
+				return areas;
+			}
+		}
+
+
+
+		List<AreaObject> finalAreas = areas;
 		Variables.AreaList.forEach(a -> {
 			if (a.Biomes.contains(biomeName.toUpperCase())) {
-				areas.add(a);
+				finalAreas.add(a);
 			}
 		});
-		return areas;
+
+		return finalAreas;
 	}
 	
 }

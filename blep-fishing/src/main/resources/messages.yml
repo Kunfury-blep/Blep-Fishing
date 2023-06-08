@@ -48,6 +48,8 @@ Tournament:
   noName: "Please provide the name of the tournament you would like to {action}."
   cancel: "{tournament} successfully canceled."
   notRunning: "{tournament} is not currently running."
+  amountCaught: "&bTotal Caught: &f{amount}"
+  playerRank: "&b{rank}&f: {player}"
 
 Player Panel:
   title: "Blep Panel"
@@ -57,6 +59,7 @@ Player Panel:
   quests: "Daily Quests"
   collection: "Collection Log"
   comingSoon: "Coming Soon"
+  clickView: "Click to View"
 
   Help:
     title: "&b[Blep Fishing Help]"
@@ -145,6 +148,13 @@ Endgame:
     lore: "It really does exist..."
     hint: "&bRight-Click to &o&eFocus"
     announce: "&7You feel a warm breeze in the air and hear Seagulls in the distant {direction}."
+    pieceLore: "&bA small piece of something great..."
+    combine: "&7Combine pieces at a &8&oSmithing Table"
+    Distance:
+      veryFar: "You feel extremely far from your destination."
+      far: "You feel there is still a long journey in front of you."
+      near: "You feel you are very close."
+      inside: "The compass is comfartably warm, you have reached your destination."
 
 PAPI:
   Tournament:
@@ -165,3 +175,8 @@ Quests:
   maxDesc: "{size}\" Max"
   expired: "&4Quest Expired"
   cancel: "&4Shift-Right-Click to Cancel"
+
+Discord:
+  fishCaught: "{player} just caught a {fish}"
+  tournamentStart: "The {name} Fishing Tournament has just started!"
+  tournamentEnd: "The {name} Fishing Tournament has just ended! Log in now to check your rewards!"

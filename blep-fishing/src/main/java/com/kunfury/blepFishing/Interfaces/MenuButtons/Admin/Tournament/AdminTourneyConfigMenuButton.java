@@ -1,12 +1,8 @@
-package com.kunfury.blepFishing.Interfaces.MenuButtons;
+package com.kunfury.blepFishing.Interfaces.MenuButtons.Admin.Tournament;
 
 import com.kunfury.blepFishing.BlepFishing;
-import com.kunfury.blepFishing.Interfaces.Admin.AdminQuestMenu;
 import com.kunfury.blepFishing.Interfaces.Admin.AdminTournamentMenu;
 import com.kunfury.blepFishing.Interfaces.MenuButton;
-import com.kunfury.blepFishing.Interfaces.MenuHandler;
-import com.kunfury.blepFishing.Miscellaneous.Formatting;
-import com.kunfury.blepFishing.Quests.QuestHandler;
 import com.kunfury.blepFishing.Tournament.TournamentHandler;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.ChatColor;
@@ -14,13 +10,12 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.awt.*;
 import java.util.ArrayList;
 
-public class AdminQuestMenuButton extends MenuButton {
+public class AdminTourneyConfigMenuButton extends MenuButton  {
     @Override
     public String getId() {
-        return "adminQuestMenu";
+        return "adminTournamentConfigMenu";
     }
 
     @Override
@@ -29,19 +24,20 @@ public class AdminQuestMenuButton extends MenuButton {
     }
 
     @Override
-    public ItemStack getItemStack() {
-        ItemStack item = new ItemStack(Material.EMERALD);
+    public ItemStack getItemStack(Object o) {
+        ItemStack item = new ItemStack(Material.FISHING_ROD);
         ItemMeta m = item.getItemMeta();
         ArrayList<String> lore = new ArrayList<>();
 
-        if(!BlepFishing.configBase.getEnableQuests()){
-            lore.add(ChatColor.RED + "Quests Are Disabled");
+        m.setDisplayName("Tournaments");
+
+
+        if(!BlepFishing.configBase.getEnableTournaments()){
+            lore.add(ChatColor.RED + "Tournaments Are Disabled");
             lore.add(ChatColor.YELLOW +"Right-Click to Enable");
         }
 
-        m.setDisplayName("Quests");
         m.setLore(lore);
-
         item.setItemMeta(m);
 
         item = NBTEditor.set(item, getId(),"blep", "item", "buttonId");
@@ -51,21 +47,22 @@ public class AdminQuestMenuButton extends MenuButton {
 
     @Override
     protected void click_left() {
-        if(!player.hasPermission(getPermission()) || !BlepFishing.configBase.getEnableQuests())
+        if(!player.hasPermission(getPermission()) || !BlepFishing.configBase.getEnableTournaments())
             return;
 
-        AdminQuestMenu menu = new AdminQuestMenu();
+        AdminTournamentMenu menu = new AdminTournamentMenu();
         menu.ShowMenu(player);
     }
 
     @Override
     protected void click_right(){
-        if(BlepFishing.configBase.getEnableQuests()){
+        if(BlepFishing.configBase.getEnableTournaments()){
             click_left();
             return;
         }
 
-        QuestHandler.EnableQuests(true, player);
-        new AdminQuestMenu().ShowMenu(player);
+        TournamentHandler.EnableTournaments(true, player);
+        new AdminTournamentMenu().ShowMenu(player);
     }
+
 }

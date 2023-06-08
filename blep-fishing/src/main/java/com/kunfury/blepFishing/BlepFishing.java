@@ -1,27 +1,30 @@
 package com.kunfury.blepFishing;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.Callable;
 import java.util.logging.Logger;
 
-import com.kunfury.blepFishing.Config.CacheHandler;
-import com.kunfury.blepFishing.Config.ConfigBase;
-import com.kunfury.blepFishing.Config.FileHandler;
-import com.kunfury.blepFishing.Config.Reload;
+import com.kunfury.blepFishing.Config.*;
+import com.kunfury.blepFishing.Conversations.ConversationHandler;
 import com.kunfury.blepFishing.Crafting.CraftingManager;
 import com.kunfury.blepFishing.Crafting.SmithingTableHandler;
 import com.kunfury.blepFishing.Events.EventHandler;
-import com.kunfury.blepFishing.Events.EventListener;
 import com.kunfury.blepFishing.Commands.*;
-import com.kunfury.blepFishing.Interfaces.MenuHandler;
 import com.kunfury.blepFishing.Miscellaneous.Utilities;
+import com.kunfury.blepFishing.Plugins.DiscordSRVHandler;
 import com.kunfury.blepFishing.Plugins.Metrics;
 import com.kunfury.blepFishing.Plugins.PluginHandler;
+import com.kunfury.blepFishing.Plugins.WorldGuardHandler;
+import com.kunfury.blepFishing.Quests.QuestHandler;
 import com.kunfury.blepFishing.Tournament.TournamentHandler;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import org.bstats.charts.MultiLineChart;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -34,56 +37,64 @@ public class BlepFishing extends JavaPlugin {
 	public static ConfigBase configBase;
 
 
-	public static FileConfiguration config;
+	//public static FileConfiguration config;
 	public static BlepFishing blepFishing;
 	public static File dataFolder;
 	public static boolean econEnabled = true;
-	
+
 	private static Economy econ = null;
 	private static final Logger log = Logger.getLogger("Minecraft");
-	
+
 	private static Plugin plugin;
-	 
+
+	public static int stats_FishCaught;
+	public static int stats_QuestsFinished;
+	public static int stats_TournamentsActive;
+
+	@Override
+	public void onLoad(){
+
+		Plugin wgPlugin = Bukkit.getPluginManager().getPlugin("WorldGuard");
+
+		if((wgPlugin instanceof WorldGuardPlugin))
+			new WorldGuardHandler().Load();
+	}
+
     // Fired when plugin is first enabled
     @Override
     public void onEnable() {
-    	plugin = this;
-    	blepFishing = this;
-    	dataFolder = getDataFolder();
+		plugin = this;
+		blepFishing = this;
+		dataFolder = getDataFolder();
 
-		int pluginId = 18201; // <-- Replace with the id of your plugin!
-		Metrics metrics = new Metrics(this, pluginId);
+		loadMetrics();
 
-    	if(!setupEconomy()) {
-    		log.warning(String.format("[%s] - Economy support disabled due to no Vault dependency found!", getDescription().getName()));
-    		econEnabled = false;
-    	}
+		if(!setupEconomy()) {
+			log.warning(String.format("[%s] - Economy support disabled due to no Vault dependency found!", getDescription().getName()));
+			econEnabled = false;
+		}
 
-    	plugin.saveDefaultConfig();
+		plugin.saveDefaultConfig();
 
-		GenerateFiles();
-
-    	new FishSign().LoadSigns();
+		new FishSign().LoadSigns();
 
 		new EventHandler().SetupEvents(getServer().getPluginManager());
-
 
 		new SmithingTableHandler().InitializeSmithRecipes();
 
 		new PluginHandler().InitializePlugins();
 
-    	SetupCommands();
+		new ConfigHandler().Initialize(this);
 
-		saveConfig();
-		configBase = new ConfigBase(this);
-		new Reload().ReloadPlugin(Bukkit.getConsoleSender());
+		SetupCommands();
 
-		if(Reload.success){
-			new AdminMenu().CreateStacks(); //Creates the icons for the admin panel
-			new CraftingManager().InitItems();
-		}
-
+		new AdminMenu().CreateStacks(); //Creates the icons for the admin panel
+		new CraftingManager().InitItems();
 		Utilities.RunTimers();
+
+		if(Bukkit.getPluginManager().getPlugin("DiscordSRV") != null){
+			DiscordSRVHandler.Load();
+		}
     }
 
 	@Override
@@ -134,21 +145,18 @@ public class BlepFishing extends JavaPlugin {
 		Objects.requireNonNull(this.getCommand("bf")).setExecutor(new CommandManager());
 	}
 
-	private void GenerateFiles(){
-		File tournamentFile = new File(plugin.getDataFolder(), "tournaments.yml");
-		if (!tournamentFile.exists())
-			plugin.saveResource("tournaments.yml", false);
+	private void loadMetrics() {
+		int pluginId = 18201; // <-- Replace with the id of your plugin!
+		Metrics metrics = new Metrics(this, pluginId);
 
-		File messageFile = new File(plugin.getDataFolder(), "messages.yml");
-		if (!messageFile.exists())
-			plugin.saveResource("messages.yml", false);
+		metrics.addCustomChart(new Metrics.SingleLineChart("fish_caught", () -> {
+			int stat = stats_FishCaught;
+			stats_FishCaught = 0;
+			return stat;
+		}));
 
-		File itemsFile = new File(plugin.getDataFolder(), "items.yml");
-		if (!itemsFile.exists())
-			plugin.saveResource("items.yml", false);
+		metrics.addCustomChart(new Metrics.SingleLineChart("active_quests", () -> QuestHandler.getActiveQuests().size()));
 
-		File questFile = new File(plugin.getDataFolder(), "quests.yml");
-		if (!questFile.exists())
-			plugin.saveResource("quests.yml", false);
+		metrics.addCustomChart(new Metrics.SingleLineChart("active_tournaments", () -> TournamentHandler.ActiveTournaments.size()));
 	}
 }

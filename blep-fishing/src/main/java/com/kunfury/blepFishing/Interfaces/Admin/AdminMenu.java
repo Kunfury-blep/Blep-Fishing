@@ -4,15 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.kunfury.blepFishing.BlepFishing;
 import com.kunfury.blepFishing.Commands.SubCommands.ConfigSubcommand;
 import com.kunfury.blepFishing.Commands.SubCommands.ReloadSubcommand;
-import com.kunfury.blepFishing.Interfaces.MenuButtons.AdminQuestMenuButton;
-import com.kunfury.blepFishing.Interfaces.MenuButtons.AdminRarityMenuButton;
-import com.kunfury.blepFishing.Interfaces.MenuButtons.AdminTourneyMenuButton;
+import com.kunfury.blepFishing.Interfaces.MenuButtons.Admin.AdminQuestMenuButton;
+import com.kunfury.blepFishing.Interfaces.MenuButtons.Admin.AdminRarityMenuButton;
+import com.kunfury.blepFishing.Interfaces.MenuButtons.Admin.Tournament.AdminTourneyMenuButton;
 import com.kunfury.blepFishing.Interfaces.MenuHandler;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
-import com.kunfury.blepFishing.Tournament.TournamentHandler;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -29,7 +27,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Objects.BaseFishObject;
-import com.kunfury.blepFishing.Objects.RarityObject;
 
 public class AdminMenu implements Listener {
 	
