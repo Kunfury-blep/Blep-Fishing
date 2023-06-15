@@ -381,7 +381,7 @@ public class TournamentObject implements Serializable{
         needsUpdate = true;
 
         if(isBest(fish)){
-            new TournamentHandler().AnnounceBest(this, fish);
+            new TournamentHandler().AnnounceBest(this, fish, p);
         }
 
         if(Variables.DebugMode){

@@ -198,9 +198,9 @@ public class TournamentHandler {
         }
     }
 
-    public void AnnounceBest(TournamentObject t, FishObject fish){
+    public void AnnounceBest(TournamentObject t, FishObject fish, Player player){
         String lbString = Formatting.getMessage("Tournament.newBest")
-                .replace("{player}", fish.PlayerName)
+                .replace("{player}", player.getDisplayName())
                 .replace("{tournament}", t.getName())
                 .replace("{rarity}", fish.getFormattedRarity())
                 .replace("{fish}", fish.Name);
