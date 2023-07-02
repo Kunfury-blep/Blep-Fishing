@@ -3,10 +3,13 @@ package com.kunfury.blepFishing.Commands;
 import com.kunfury.blepFishing.Commands.SubCommands.*;
 import com.kunfury.blepFishing.Interfaces.Player.PlayerPanel;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
+import io.github.bananapuncher714.nbteditor.NBTEditor;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.TabExecutor;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,7 +28,7 @@ public class CommandManager implements TabExecutor {
         subCommands.add(new SellAllSubcommand());
         subCommands.add(new TournamentSubcommand());
         subCommands.add(new ClaimSubcommand());
-        subCommands.add(new ConfigSubcommand());
+        //subCommands.add(new ConfigSubcommand());
         subCommands.add(new GetDataSubCommand());
         subCommands.add(new SpawnSubCommand());
         subCommands.add(new DebugSubcommand());
@@ -84,6 +87,13 @@ public class CommandManager implements TabExecutor {
     }
 
     private void BaseCommand(CommandSender sender){
+        ItemStack item = new ItemStack( Material.DIAMOND_HOE );
+        System.out.println( "Setting value..." );
+        item = NBTEditor.set( item, "Hello, world!", "io", "github", "bananapuncher714", "nbteditor", "test" );
+        System.out.println( "Getting value..." );
+        System.out.println( NBTEditor.getString( item, "io", "github", "bananapuncher714", "nbteditor", "test" ) );
+        System.out.println( NBTEditor.getNBTCompound( item ) );
+
         if(sender instanceof ConsoleCommandSender)
             new HelpSubcommand().perform(sender, null);
         else

@@ -2,9 +2,9 @@ package com.kunfury.blepFishing.Crafting.Equipment.FishBag;
 
 import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
+import com.kunfury.blepFishing.Miscellaneous.NBTEditor;
 import com.kunfury.blepFishing.Objects.BaseFishObject;
 import com.kunfury.blepFishing.Objects.FishObject;
-import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -159,7 +159,10 @@ public class UpdateBag {
             }
         }
 
-        String bagName = Objects.requireNonNull(bag.getItemMeta()).getDisplayName() + " - " + caughtAmount + "/" + Variables.BaseFishList.size();
+        DecimalFormat formatter = new DecimalFormat("#,###");
+        double fishCount = BagInfo.getAmount(bag);
+        double maxSize = BagInfo.getMax(bag);
+        String bagName = Objects.requireNonNull(bag.getItemMeta()).getDisplayName() + " - " + formatter.format(fishCount) + "/" + formatter.format(maxSize);
         Inventory bagInv = Bukkit.createInventory(null, 54, bagName);
 
         if(Variables.BaseFishList.size() > 45){

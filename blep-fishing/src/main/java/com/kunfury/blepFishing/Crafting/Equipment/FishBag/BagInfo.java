@@ -1,7 +1,7 @@
 package com.kunfury.blepFishing.Crafting.Equipment.FishBag;
 
 import com.kunfury.blepFishing.Config.ItemsConfig;
-import io.github.bananapuncher714.nbteditor.NBTEditor;
+import com.kunfury.blepFishing.Miscellaneous.NBTEditor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

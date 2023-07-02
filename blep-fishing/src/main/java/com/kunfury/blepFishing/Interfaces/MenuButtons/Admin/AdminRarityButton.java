@@ -5,7 +5,7 @@ import com.kunfury.blepFishing.Interfaces.MenuButton;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Objects.RarityObject;
 import com.kunfury.blepFishing.Quests.QuestObject;
-import io.github.bananapuncher714.nbteditor.NBTEditor;
+import com.kunfury.blepFishing.Miscellaneous.NBTEditor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;

@@ -5,7 +5,7 @@ import com.kunfury.blepFishing.Conversations.EditRarityConvo;
 import com.kunfury.blepFishing.Objects.RarityObject;
 import com.kunfury.blepFishing.Tournament.TournamentHandler;
 import com.kunfury.blepFishing.Tournament.TournamentObject;
-import io.github.bananapuncher714.nbteditor.NBTEditor;
+import com.kunfury.blepFishing.Miscellaneous.NBTEditor;
 import net.minecraft.world.item.Items;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;

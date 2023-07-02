@@ -4,7 +4,7 @@ import com.kunfury.blepFishing.Interfaces.Admin.AdminTournamentConfigMenu;
 import com.kunfury.blepFishing.Interfaces.MenuButtons.Admin.AdminConfigButtonBase;
 import com.kunfury.blepFishing.Tournament.TournamentHandler;
 import com.kunfury.blepFishing.Tournament.TournamentObject;
-import io.github.bananapuncher714.nbteditor.NBTEditor;
+import com.kunfury.blepFishing.Miscellaneous.NBTEditor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;

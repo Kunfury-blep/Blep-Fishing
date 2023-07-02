@@ -5,7 +5,7 @@ import com.kunfury.blepFishing.Crafting.Equipment.FishBag.BagInfo;
 import com.kunfury.blepFishing.Crafting.Equipment.FishBag.UpdateBag;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.BlepFishing;
-import io.github.bananapuncher714.nbteditor.NBTEditor;
+import com.kunfury.blepFishing.Miscellaneous.NBTEditor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -17,6 +17,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.kunfury.blepFishing.Crafting.CraftingManager.BagSetup;
 
 public class SmithingTableHandler {
 
@@ -38,31 +40,6 @@ public class SmithingTableHandler {
             default:
                 break;
         }
-    }
-
-    public ItemStack BagSetup(ItemStack oldBag, int goalTier){
-
-        ItemStack result = new ItemStack(oldBag);
-        int tier = NBTEditor.getInt(result, "blep", "item", "fishBagTier" );
-        if(tier != goalTier - 1 ) return new ItemStack(Material.AIR, 0);
-
-        result = NBTEditor.set(result, tier + 1, "blep", "item", "fishBagTier" ); //Sets the tier of the bag to 2
-
-        ItemMeta m = result.getItemMeta();
-
-        String bagName = switch(tier){
-            case 1 -> Formatting.getMessage("Equipment.Fish Bag.medBag");
-            case 2 -> Formatting.getMessage("Equipment.Fish Bag.largeBag");
-            case 3 -> Formatting.getMessage("Equipment.Fish Bag.giantBag");
-            default -> Formatting.getMessage("Equipment.Fish Bag.baseName");
-        };
-
-        m.setDisplayName(bagName);
-        m.setLore(new UpdateBag().GenerateLore(result));
-
-        result.setItemMeta(m);
-
-        return result;
     }
 
 

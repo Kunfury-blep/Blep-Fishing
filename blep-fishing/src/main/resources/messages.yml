@@ -110,7 +110,7 @@ Equipment:
     pickupEnabled: "Auto Pickup Enabled."
     pickupDisabled: "Auto Pickup Disabled."
     depositAll: "&cShift Left-Click While Holding to Toggle &e&oDepositAll"
-    upgradeReady: "Combine with a &e&o{upgrade}&f at a smithing table to upgrade!"
+    upgradeReady: "&fPlace an &e&o{upgrade}&f into the bag to upgrade!"
     upgradeHint: "Fill bag to &e&oUpgrade"
     descSmall: "Holds a small amount of fish"
     noSpace: "There is no more space in that bag."

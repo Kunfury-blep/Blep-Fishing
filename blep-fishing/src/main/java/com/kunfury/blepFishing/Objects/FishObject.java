@@ -14,7 +14,7 @@ import com.kunfury.blepFishing.Config.ItemsConfig;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.BlepFishing;
 //import com.mysql.fabric.xmlrpc.base.Value;
-import io.github.bananapuncher714.nbteditor.NBTEditor;
+import com.kunfury.blepFishing.Miscellaneous.NBTEditor;
 
 import com.kunfury.blepFishing.Config.Variables;
 import net.md_5.bungee.api.chat.hover.content.Text;

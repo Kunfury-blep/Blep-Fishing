@@ -16,12 +16,12 @@ import com.kunfury.blepFishing.Miscellaneous.FishEconomy;
 import com.kunfury.blepFishing.Interfaces.Player.PlayerPanel;
 import com.kunfury.blepFishing.Config.Variables;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
+import com.kunfury.blepFishing.Miscellaneous.NBTEditor;
 import com.kunfury.blepFishing.Objects.MarketObject;
 import com.kunfury.blepFishing.BlepFishing;
 import com.kunfury.blepFishing.Plugins.DiscordSRVHandler;
 import com.kunfury.blepFishing.Signs.FishSign;
 import com.kunfury.blepFishing.Tournament.TournamentHandler;
-import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -37,6 +37,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -243,10 +244,19 @@ public class EventListener implements Listener {
             }
             case PLAYER -> {
                 if(BagInfo.IsOpen(p, e.getInventory())) e.setCancelled(true);
-                if(item != null && item.getType() == ItemsConfig.FishMat && BagInfo.IsBag(mainHand) && NBTEditor.contains( item,"blep", "item", "fishValue" )){
-                    new UseFishBag().AddFish(mainHand, p, item, true);
-                    return;
+
+                if(item != null){
+                    if(item.getType() == ItemsConfig.FishMat && BagInfo.IsBag(mainHand) && NBTEditor.contains( item,"blep", "item", "fishId" )){
+                        new UseFishBag().AddFish(mainHand, p, item, true);
+                        return;
+                    }
+
+                    if(Arrays.stream(BagInfo.UpgradeItems).toList().contains(item.getType()) && BagInfo.IsBag(mainHand)){
+                        new UseFishBag().UpgradeBag(mainHand, item, p);
+                        return;
+                    }
                 }
+
                 if (Formatting.getMessage("Player Panel.title").equals(e.getView().getTitle())) {
                     e.setCancelled(true);
                 }

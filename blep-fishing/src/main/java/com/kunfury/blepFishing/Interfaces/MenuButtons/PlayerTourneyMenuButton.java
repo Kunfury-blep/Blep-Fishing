@@ -6,7 +6,7 @@ import com.kunfury.blepFishing.Interfaces.MenuButton;
 import com.kunfury.blepFishing.Interfaces.Player.TournamentPanel;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Tournament.TournamentHandler;
-import io.github.bananapuncher714.nbteditor.NBTEditor;
+import com.kunfury.blepFishing.Miscellaneous.NBTEditor;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

@@ -1,6 +1,3 @@
-#
-#This config was created using the Config Web Panel. Use /BF Config in game to generate your own!
-#
 Show ScoreBoard: true
 Show Chat: false
 High Priority: false
@@ -121,6 +118,7 @@ areas:
       - wooded_mountains
       - windswept_gravelly_hills
       - stony_peaks
+      - cherry_grove
 
   Jungle:
     Has Compass: true

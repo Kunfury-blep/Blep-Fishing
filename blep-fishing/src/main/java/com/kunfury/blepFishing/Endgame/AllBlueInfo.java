@@ -1,8 +1,8 @@
 package com.kunfury.blepFishing.Endgame;
 
 import com.kunfury.blepFishing.BlepFishing;
+import com.kunfury.blepFishing.Miscellaneous.NBTEditor;
 import com.kunfury.blepFishing.Objects.AllBlueObject;
-import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;

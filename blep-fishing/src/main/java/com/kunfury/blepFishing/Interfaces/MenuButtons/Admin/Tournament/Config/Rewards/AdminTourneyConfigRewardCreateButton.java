@@ -6,7 +6,7 @@ import com.kunfury.blepFishing.Interfaces.Admin.AdminTournamentRewardsValueMenu;
 import com.kunfury.blepFishing.Interfaces.MenuButton;
 import com.kunfury.blepFishing.Tournament.TournamentHandler;
 import com.kunfury.blepFishing.Tournament.TournamentObject;
-import io.github.bananapuncher714.nbteditor.NBTEditor;
+import com.kunfury.blepFishing.Miscellaneous.NBTEditor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

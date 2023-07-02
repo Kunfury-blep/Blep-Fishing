@@ -4,7 +4,7 @@ import com.kunfury.blepFishing.Config.ItemsConfig;
 import com.kunfury.blepFishing.Crafting.CraftingManager;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.BlepFishing;
-import io.github.bananapuncher714.nbteditor.NBTEditor;
+import com.kunfury.blepFishing.Miscellaneous.NBTEditor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -19,7 +19,8 @@ public class FishBagRecipe {
 
     public void SmallBag(){
         ItemStack bag = new ItemStack(ItemsConfig.BagMat, 1);
-        bag = NBTEditor.set(bag, 1, "blep", "item", "fishBagTier" ); //Sets the tier of the bag to 1
+        bag = NBTEditor.set(bag, 1, "blep", "item", "fishBagTier"); //Sets the tier of the bag to 1
+
         bag = NBTEditor.set(bag, 0, "blep", "item", "fishBagAmount" ); //Sets the current amount of the bag to 0
         bag = NBTEditor.set(bag, true, "blep", "item", "fishBagAutoPickup" ); //Sets the auto-pickup to true
 

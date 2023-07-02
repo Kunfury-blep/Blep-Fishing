@@ -30,13 +30,14 @@ public class ConfigSubcommand extends SubCommand {
     @Override
     public void perform(@NotNull CommandSender sender, String[] args) {
         if(sender.hasPermission("bf.admin")) {
-            TextComponent message = new TextComponent(Variables.getPrefix() + "Click here to open the configuration web panel." );
-            message.setClickEvent( new ClickEvent( ClickEvent.Action.OPEN_URL, "https://kunfury-blep.github.io/Config.html" ) );
-
-            if(sender instanceof Player player){
-                player.spigot().sendMessage(message);
-            }else
-                sender.sendMessage(Variables.getPrefix() + "https://kunfury-blep.github.io/Config.html");
+            sender.sendMessage(Variables.getPrefix() + "The Web Config Panel has been discontinued. Sorry for the ");
+//            TextComponent message = new TextComponent(Variables.getPrefix() + "Click here to open the configuration web panel." );
+//            message.setClickEvent( new ClickEvent( ClickEvent.Action.OPEN_URL, "https://kunfury-blep.github.io/Config.html" ) );
+//
+//            if(sender instanceof Player player){
+//                player.spigot().sendMessage(message);
+//            }else
+//                sender.sendMessage(Variables.getPrefix() + "https://kunfury-blep.github.io/Config.html");
             //sender.sendMessage(Variables.Prefix + component);
         }else new CommandManager().NoPermission(sender);
     }

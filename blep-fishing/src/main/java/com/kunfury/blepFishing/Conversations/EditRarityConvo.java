@@ -1,6 +1,5 @@
 package com.kunfury.blepFishing.Conversations;
 
-import com.gmail.nossr50.datatypes.treasure.Rarity;
 import com.kunfury.blepFishing.BlepFishing;
 import com.kunfury.blepFishing.Miscellaneous.Formatting;
 import com.kunfury.blepFishing.Objects.RarityObject;
