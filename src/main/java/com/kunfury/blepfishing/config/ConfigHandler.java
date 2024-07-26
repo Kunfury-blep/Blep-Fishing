@@ -22,6 +22,7 @@ public class ConfigHandler {
     public TournamentConfig tourneyConfig;
     public RarityConfig rarityConfig;
     public AreaConfig areaConfig;
+    public TreasureConfig treasureConfig;
 
     public void Initialize(){
         instance = this;
@@ -35,6 +36,7 @@ public class ConfigHandler {
         tourneyConfig = new TournamentConfig();
         rarityConfig = new RarityConfig();
         areaConfig = new AreaConfig();
+        treasureConfig = new TreasureConfig();
 
         UpdateMessages();
     }

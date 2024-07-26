@@ -1,6 +1,7 @@
 package com.kunfury.blepfishing.config;
 
 import com.kunfury.blepfishing.BlepFishing;
+import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.objects.TournamentType;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -20,12 +21,13 @@ public class TournamentConfig {
     private final FileConfiguration tournamentConfig;
 
     public TournamentConfig(){
+        if(!ConfigHandler.instance.baseConfig.getEnableTournaments()){
+            tournamentConfig = null;
+            return;
+        }
+
+
         File tournamentConfigFile = new File(BlepFishing.instance.getDataFolder(), "tournaments.yml");
-
-
-//        //TODO: Remove below. Only for testing
-//        BlepFishing.getPlugin().saveResource("tournaments.yml", true);
-//        tournamentConfigFile = new File(BlepFishing.instance.getDataFolder(), "tournaments.yml");
 
         if(!tournamentConfigFile.exists()){
             BlepFishing.getPlugin().saveResource("tournaments.yml", false);
@@ -86,7 +88,7 @@ public class TournamentConfig {
                         assert configList != null;
                         for(var i : configList){
                             if(!(i instanceof ItemStack)){
-                                Bukkit.getLogger().severe("BF: Tried to load invalid Itemstack from tournament: " + key);
+                                Utilities.Severe("Tried to load invalid Itemstack from tournament: " + key);
                                 continue;
                             }
                             itemList.add((ItemStack) i);

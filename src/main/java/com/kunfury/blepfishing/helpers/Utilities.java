@@ -3,6 +3,7 @@ package com.kunfury.blepfishing.helpers;
 import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.objects.TournamentObject;
 import com.kunfury.blepfishing.objects.TournamentType;
+import org.bukkit.Bukkit;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -52,9 +53,6 @@ public class Utilities {
             }.runTaskTimer(BlepFishing.getPlugin(), 0, 1200);
 
         }
-
-
-
     }
 
     public static int getInventorySize(int baseAmt){
@@ -73,5 +71,9 @@ public class Utilities {
 
     public static LocalDateTime TimeFromLong(long milli){
         return LocalDateTime.ofInstant(Instant.ofEpochMilli(milli), ZoneOffset.UTC);
+    }
+
+    public static void Severe(String message){
+        Bukkit.getLogger().severe("BlepFishing: " + message);
     }
 }

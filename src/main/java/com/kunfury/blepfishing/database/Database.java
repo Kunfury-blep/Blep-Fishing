@@ -23,7 +23,6 @@ public class Database {
         Tournaments = new TournamentTable(this, connection);
         Rods = new RodTable(this, connection);
         Rewards = new RewardsTable(this, connection);
-        
     }
 
     public void CloseConnection() throws SQLException{

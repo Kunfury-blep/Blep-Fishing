@@ -4,6 +4,7 @@ import com.kunfury.blepfishing.commands.CommandManager;
 import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.ItemParser;
+import com.kunfury.blepfishing.helpers.TreasureHandler;
 import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.items.CraftingHandler;
 import com.kunfury.blepfishing.items.ItemHandler;
@@ -51,6 +52,8 @@ public final class BlepFishing extends JavaPlugin {
 
         Utilities.RunTimers();
         new ItemParser();
+
+        new TreasureHandler().Initialize();
     }
 
     @Override

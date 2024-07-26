@@ -20,7 +20,7 @@ import java.util.Map;
 public class ItemHandler {
 
     public static NamespacedKey FishIdKey, ButtonIdKey, FishTypeId,
-            FishBagId, FishRodId, FishAreaId, TourneyTypeId, TourneyId, RarityId;
+            FishBagId, FishRodId, FishAreaId, TourneyTypeId, TourneyId, RarityId, TreasureTypeId;
 
     public static Material FishMat = Material.SALMON;
     public static Material BagMat = Material.HEART_OF_THE_SEA;
@@ -39,6 +39,7 @@ public class ItemHandler {
         TourneyId = new NamespacedKey(BlepFishing.getPlugin(), "blep.tourneyId");
 
         RarityId = new NamespacedKey(BlepFishing.getPlugin(), "blep.rarityId");
+        TreasureTypeId = new NamespacedKey(BlepFishing.getPlugin(), "blep.treasureTypeId");
     }
 
     public static boolean hasTag(ItemStack item, NamespacedKey key){

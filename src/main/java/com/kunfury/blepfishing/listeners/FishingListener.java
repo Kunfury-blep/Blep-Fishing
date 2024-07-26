@@ -4,6 +4,7 @@ import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
+import com.kunfury.blepfishing.helpers.TreasureHandler;
 import com.kunfury.blepfishing.ui.scoreboards.DisplayFishInfo;
 import com.kunfury.blepfishing.items.ItemHandler;
 import com.kunfury.blepfishing.objects.*;
@@ -48,6 +49,14 @@ public class FishingListener implements Listener {
             return;
 
         Player player = e.getPlayer();
+
+        if(TreasureHandler.instance.TreasureCaught()){
+            Bukkit.broadcastMessage("Treasure caught!");
+
+            ItemStack treasureItem = TreasureHandler.instance.GetTreasureItem();
+            item.setItemStack(treasureItem);
+            return;
+        }
 
         FishType fishType = GetCaughtFishType(item.getLocation());
 

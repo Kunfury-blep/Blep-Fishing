@@ -1,5 +1,5 @@
 Enable Fish Bags: true
+Enable Tournaments: true
+Enable Treasure: true
+
 Show Scoreboard: true
-Fishing Parties:
-  Enabled: true
-  Distance: 25

@@ -14,6 +14,14 @@ public class BaseConfig {
     public boolean getEnableFishBags(){
         return config.getBoolean("Enable Fish Bags");
     }
+    public boolean getEnableTournaments(){
+        return config.getBoolean("Enable Tournaments");
+    }
+    public boolean getEnableTreasure(){
+        return config.getBoolean("Enable Treasure");
+    }
+
+
     public boolean getShowScoreboard(){
         return config.getBoolean("Show Scoreboard");
     }
