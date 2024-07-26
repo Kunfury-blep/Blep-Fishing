@@ -40,6 +40,8 @@ public class Rarity {
         return null;
     }
 
+
+    //TODO: Is this being sorted anywhere?
     private static final HashMap<String, Rarity> Rarities = new HashMap<>();
     private static int RarityTotalWeight = 0;
     public static void AddNew(Rarity rarity){

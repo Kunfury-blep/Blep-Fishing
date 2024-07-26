@@ -8,42 +8,33 @@ legendary:
         v: 3839
         type: DIAMOND
         amount: 4
+epic:
+  Name: "&dEpic Casket"
+  Weight: 25
+  Rewards:
+    Cash: 1000.0
+    Items:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 3839
+        type: EMERALD
+        amount: 4
+rare:
+  Name: "&bRare Casket"
+  Weight: 50
+  Rewards:
+    Cash: 1000.0
+    Items:
       - ==: org.bukkit.inventory.ItemStack
         v: 3839
         type: ENDER_PEARL
         amount: 16
-      - ==: org.bukkit.inventory.ItemStack
-        v: 3839
-        type: HEART_OF_THE_SEA
-        meta:
-          ==: ItemMeta
-          meta-type: UNSPECIFIC
-          display-name: '{"text":"","extra":["Small Bag o'' Fish"]}'
-          lore:
-            - '{"text":"","extra":["Holds a small amount of fish"]}'
-            - '""'
-            - '{"text":"","extra":[{"text":"|","obfuscated":false,"italic":false,"underlined":false,"strikethrough":false,"color":"white","bold":false},{"text":"|","italic":false,"color":"white"},{"text":"|","italic":false,"color":"white"},{"text":"|","italic":false,"color":"white"},{"text":"|","italic":false,"color":"white"},{"text":"|","italic":false,"color":"white"},{"text":"|","italic":false,"color":"white"},{"text":"|","italic":false,"color":"white"},{"text":"|
-          21/256","italic":false,"color":"white"}]}'
-            - '""'
-            - '{"text":"","extra":[{"text":"Left-Click While Holding to Toggle ","obfuscated":false,"italic":false,"underlined":false,"strikethrough":false,"color":"red","bold":false},{"text":"Auto-Pickup","italic":true,"color":"yellow"}]}'
-            - '{"text":"","extra":[{"text":"Shift Left-Click While Holding to Toggle
-          ","obfuscated":false,"italic":false,"underlined":false,"strikethrough":false,"color":"red","bold":false},{"text":"DepositAll","italic":true,"color":"yellow"}]}'
-          custom-model-data: 1
-          enchants:
-            minecraft:unbreaking: 1
-          PublicBukkitValues: |-
-            {
-                "blepfishingrewrite:blep.fishbagid": 1
-            }
+common:
+  Name: "&aCommon Casket"
+  Weight: 100
+  Rewards:
+    Cash: 1000.0
+    Items:
       - ==: org.bukkit.inventory.ItemStack
         v: 3839
         type: FISHING_ROD
-        meta:
-          ==: ItemMeta
-          meta-type: UNSPECIFIC
-          display-name: '"God Rod"'
-          enchants:
-            minecraft:luck_of_the_sea: 3
-            minecraft:lure: 3
-            minecraft:mending: 1
-            minecraft:unbreaking: 3
+        amount: 1

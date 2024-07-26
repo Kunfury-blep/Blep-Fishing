@@ -2,8 +2,11 @@ package com.kunfury.blepfishing.helpers;
 
 import com.kunfury.blepfishing.config.*;
 import com.kunfury.blepfishing.objects.TreasureType;
+import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class TreasureHandler {
@@ -27,14 +30,20 @@ public class TreasureHandler {
     }
 
     private TreasureType GetTreasure(){
-        //TODO: Loop through all stored treasure objects
-        //TODO: Treasure Objects work like fishObjects, pull from config
-        //TODO: All Blue Compass Pieces inherit from treasureObject
+        //Rarity Selection
+        int randR = ThreadLocalRandom.current().nextInt(0, TreasureType.GetTotalWeight());
 
-        for(var t : TreasureType.GetAll()){
-            if(t.Rewards != null && !t.Rewards.isEmpty())
+        List<TreasureType> types = new java.util.ArrayList<>(TreasureType.GetAll().stream().toList());
+        types.sort((TreasureType t1, TreasureType t2) -> t1.Weight - t2.Weight);
+
+        for(var t : types){
+            if(randR <= t.Weight) {
                 return t;
+            }else
+                randR -= t.Weight;
         }
+
+        Bukkit.getLogger().severe("Unable to generate treasure.");
         return null;
     }
 }

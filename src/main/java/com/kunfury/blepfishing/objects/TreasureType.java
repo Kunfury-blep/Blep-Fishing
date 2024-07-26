@@ -52,6 +52,7 @@ public class TreasureType {
 
 
     private static final HashMap<String, TreasureType> ActiveTypes = new HashMap<>();
+    private static int totalWeight = 0;
 
     public static void AddNew(TreasureType treasureType) {
         if(ActiveTypes.containsKey(treasureType.Id)){
@@ -62,6 +63,11 @@ public class TreasureType {
         Bukkit.getLogger().warning("Adding new treasure: " + treasureType.Name + ". Item Count: " + treasureType.Rewards.size());
 
         ActiveTypes.put(treasureType.Id, treasureType);
+        totalWeight += treasureType.Weight;
+    }
+
+    public static int GetTotalWeight(){
+        return totalWeight;
     }
 
     public static Collection<TreasureType> GetAll(){
