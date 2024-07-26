@@ -1,0 +1,9 @@
+name: BlepFishingRewrite
+version: '${project.version}'
+main: com.kunfury.blepfishing.BlepFishing
+api-version: '1.20'
+commands:
+  bf:
+    description: The base command for the plugin
+    usage: /bf
+    aliases: [BlepFish, BF]

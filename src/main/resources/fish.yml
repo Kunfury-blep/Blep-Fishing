@@ -1,0 +1,338 @@
+tuna:
+  Name: Tuna
+  Lore: Hmm... Tastes like chicken!
+  Areas:
+    - ocean
+  Length Min: 72.0
+  Length Max: 168.0
+  Model Data: 18
+  Base Price: 10.0
+  Raining: false
+  Height Min: 0
+  Height Max: 0
+bluegill:
+  Name: Bluegill
+  Lore: Does it call me Pink Lung?
+  Description: Temp Description of Bluegill
+  Areas:
+    - temperate
+  Length Min: 5.0
+  Length Max: 15.0
+  Model Data: 1
+  Base Price: 10.0
+  Raining: false
+  Height Min: 0
+  Height Max: 0
+catfish:
+  Name: Catfish
+  Lore: I prefer a Dogfish
+  Areas:
+    - temperate
+  Length Min: 45.0
+  Length Max: 65.0
+  Model Data: 4
+  Base Price: 10.0
+  Raining: false
+  Height Min: 0
+  Height Max: 0
+tambaqui:
+  Name: Tambaqui
+  Lore: A Breath of Fresh Air
+  Areas:
+    - jungle
+  Length Min: 20.0
+  Length Max: 44.0
+  Model Data: 25
+  Base Price: 10.0
+  Raining: false
+  Height Min: 0
+  Height Max: 0
+lungfish:
+  Name: Lungfish
+  Lore: Not quite up to scale
+  Areas:
+    - dry
+  Length Min: 38.0
+  Length Max: 64.0
+  Model Data: 21
+  Base Price: 10.0
+  Raining: false
+  Height Min: 0
+  Height Max: 0
+anglerfish:
+  Name: Anglerfish
+  Lore: Go with the Glow!
+  Areas:
+    - ocean
+  Length Min: 9.0
+  Length Max: 39.0
+  Model Data: 23
+  Base Price: 10.0
+  Raining: false
+  Height Min: -256
+  Height Max: 15
+rainbow_trout:
+  Name: Rainbow Trout
+  Lore: Sharing is Caring
+  Areas:
+    - cold
+  Length Min: 23.0
+  Length Max: 45.0
+  Model Data: 16
+  Base Price: 10.0
+  Raining: false
+  Height Min: 0
+  Height Max: 0
+boulti:
+  Name: Boulti
+  Lore: Boulti Different
+  Areas:
+    - dry
+  Length Min: 7.0
+  Length Max: 24.0
+  Model Data: 20
+  Base Price: 10.0
+  Raining: false
+  Height Min: 0
+  Height Max: 0
+herring:
+  Name: Herring
+  Lore: Now to find a red one...
+  Areas:
+    - cold
+  Length Min: 8.0
+  Length Max: 15.0
+  Model Data: 13
+  Base Price: 10.0
+  Raining: false
+  Height Min: 0
+  Height Max: 0
+gar:
+  Name: Gar
+  Lore: Would make some great Gar-B-Q
+  Areas:
+    - temperate
+  Length Min: 5.0
+  Length Max: 15.0
+  Model Data: 5
+  Base Price: 10.0
+  Raining: false
+  Height Min: 0
+  Height Max: 0
+perch:
+  Name: Perch
+  Lore: Perch-ance, would you let me go?
+  Areas:
+    - temperate
+  Length Min: 8.0
+  Length Max: 20.0
+  Model Data: 8
+  Base Price: 10.0
+  Raining: false
+  Height Min: 0
+  Height Max: 0
+muskeullunge:
+  Name: Muskeullunge
+  Lore: Don?t listen to them, I think you?re fin-tastic!
+  Areas:
+    - temperate
+  Length Min: 28.0
+  Length Max: 48.0
+  Model Data: 7
+  Base Price: 10.0
+  Raining: false
+  Height Min: 0
+  Height Max: 0
+red_grouper:
+  Name: Red Grouper
+  Lore: I'm green with envy
+  Areas:
+    - ocean
+  Length Min: 26.0
+  Length Max: 50.0
+  Model Data: 17
+  Base Price: 10.0
+  Raining: false
+  Height Min: 0
+  Height Max: 0
+knifefish:
+  Name: Knifefish
+  Lore: Looking Sharp!
+  Areas:
+    - cold
+  Length Min: 8.0
+  Length Max: 24.0
+  Model Data: 10
+  Base Price: 10.0
+  Raining: false
+  Height Min: 0
+  Height Max: 0
+arapaima:
+  Name: Arapaima
+  Lore: Large and In Charge
+  Areas:
+    - jungle
+  Length Min: 60.0
+  Length Max: 130.0
+  Model Data: 24
+  Base Price: 10.0
+  Raining: false
+  Height Min: 0
+  Height Max: 0
+bayad:
+  Name: Bayad
+  Lore: I'm hooked!
+  Areas:
+    - dry
+  Length Min: 30.0
+  Length Max: 44.0
+  Model Data: 19
+  Base Price: 10.0
+  Raining: false
+  Height Min: 0
+  Height Max: 0
+pollock:
+  Name: Pollock
+  Lore: What a load of Pollocks
+  Areas:
+    - cold
+  Length Min: 10.0
+  Length Max: 21.0
+  Model Data: 15
+  Base Price: 10.0
+  Raining: false
+  Height Min: 0
+  Height Max: 0
+carp:
+  Name: Carp
+  Lore: This is a load of Carp
+  Areas:
+    - temperate
+  Length Min: 16.0
+  Length Max: 31.0
+  Model Data: 3
+  Base Price: 10.0
+  Raining: false
+  Height Min: 0
+  Height Max: 0
+electric_eel:
+  Name: Electric Eel
+  Lore: A Shocking Discovery
+  Areas:
+    - jungle
+  Length Min: 72.0
+  Length Max: 130.0
+  Model Data: 28
+  Base Price: 10.0
+  Raining: false
+  Height Min: 0
+  Height Max: 0
+armored_catfish:
+  Name: Armored Catfish
+  Lore: Quite the tough attacker
+  Areas:
+    - jungle
+  Length Min: 3.0
+  Length Max: 38.0
+  Model Data: 26
+  Base Price: 10.0
+  Raining: false
+  Height Min: 0
+  Height Max: 0
+red-bellied_piranha:
+  Name: Red-bellied Piranha
+  Lore: It's got a nice smile
+  Areas:
+    - jungle
+  Length Min: 7.0
+  Length Max: 13.0
+  Model Data: 27
+  Base Price: 10.0
+  Raining: false
+  Height Min: 0
+  Height Max: 0
+cod:
+  Name: Cod
+  Lore: Cod you pass me the salt?
+  Areas:
+    - cold
+  Length Min: 24.0
+  Length Max: 36.0
+  Model Data: 11
+  Base Price: 10.0
+  Raining: false
+  Height Min: 0
+  Height Max: 0
+halibut:
+  Name: Halibut
+  Lore: Do it for the Halibut!
+  Areas:
+    - cold
+  Length Min: 36.0
+  Length Max: 96.0
+  Model Data: 12
+  Base Price: 10.0
+  Raining: false
+  Height Min: 0
+  Height Max: 0
+brown_trout:
+  Name: Brown Trout
+  Lore: Looks more beige to me
+  Description: Temp desc of Brown Trout
+  Areas:
+    - temperate
+  Length Min: 15.0
+  Length Max: 39.0
+  Model Data: 2
+  Base Price: 10.0
+  Raining: true
+  Height Min: 0
+  Height Max: 0
+pink_salmon:
+  Name: Pink Salmon
+  Lore: Always Against the Current
+  Areas:
+    - cold
+  Length Min: 19.0
+  Length Max: 26.0
+  Model Data: 14
+  Base Price: 10.0
+  Raining: false
+  Height Min: 0
+  Height Max: 0
+synodontis:
+  Name: Synodontis
+  Lore: A bunch of Fischious Rumors
+  Areas:
+    - dry
+  Length Min: 4.0
+  Length Max: 12.0
+  Model Data: 22
+  Base Price: 10.0
+  Raining: false
+  Height Min: 0
+  Height Max: 0
+smallmouth_bass:
+  Name: Smallmouth Bass
+  Lore: Never the Guitar
+  Areas:
+    - temperate
+  Length Min: 12.0
+  Length Max: 28.0
+  Model Data: 9
+  Base Price: 10.0
+  Raining: false
+  Height Min: 0
+  Height Max: 0
+minnow:
+  Name: Minnow
+  Lore: Can you let Minnow where I am?
+  Areas:
+    - temperate
+  Length Min: 1.0
+  Length Max: 8.0
+  Model Data: 6
+  Base Price: 10.0
+  Raining: false
+  Height Min: 0
+  Height Max: 0

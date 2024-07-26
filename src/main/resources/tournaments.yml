@@ -1,0 +1,79 @@
+bluegill_bonanza:
+  Name: Bluegill Bonanza
+  Fish Types:
+    - bluegill
+    - red_grouper
+  Duration: 1
+  Villager Horn: true
+  Villager Horn Level: 1
+  Start Times:
+    MONDAY:
+      - 06:00
+    TUESDAY: []
+    WEDNESDAY:
+      - '6:00'
+      - '18:00'
+    THURSDAY: []
+    FRIDAY:
+      - 06:00
+    SATURDAY: []
+    SUNDAY: []
+    EVERYDAY:
+      - '12:00'
+  Rewards:
+    '1':
+      Cash: 1000.0
+      Items:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 3839
+          type: DIAMOND
+          amount: 4
+        - ==: org.bukkit.inventory.ItemStack
+          v: 3839
+          type: ENDER_PEARL
+          amount: 16
+        - ==: org.bukkit.inventory.ItemStack
+          v: 3839
+          type: HEART_OF_THE_SEA
+          meta:
+            ==: ItemMeta
+            meta-type: UNSPECIFIC
+            display-name: '{"text":"","extra":["Small Bag o'' Fish"]}'
+            lore:
+              - '{"text":"","extra":["Holds a small amount of fish"]}'
+              - '""'
+              - '{"text":"","extra":[{"text":"|","obfuscated":false,"italic":false,"underlined":false,"strikethrough":false,"color":"white","bold":false},{"text":"|","italic":false,"color":"white"},{"text":"|","italic":false,"color":"white"},{"text":"|","italic":false,"color":"white"},{"text":"|","italic":false,"color":"white"},{"text":"|","italic":false,"color":"white"},{"text":"|","italic":false,"color":"white"},{"text":"|","italic":false,"color":"white"},{"text":"|
+            21/256","italic":false,"color":"white"}]}'
+              - '""'
+              - '{"text":"","extra":[{"text":"Left-Click While Holding to Toggle ","obfuscated":false,"italic":false,"underlined":false,"strikethrough":false,"color":"red","bold":false},{"text":"Auto-Pickup","italic":true,"color":"yellow"}]}'
+              - '{"text":"","extra":[{"text":"Shift Left-Click While Holding to Toggle
+            ","obfuscated":false,"italic":false,"underlined":false,"strikethrough":false,"color":"red","bold":false},{"text":"DepositAll","italic":true,"color":"yellow"}]}'
+            custom-model-data: 1
+            enchants:
+              minecraft:unbreaking: 1
+            PublicBukkitValues: |-
+              {
+                  "blepfishingrewrite:blep.fishbagid": 1
+              }
+        - ==: org.bukkit.inventory.ItemStack
+          v: 3839
+          type: FISHING_ROD
+          meta:
+            ==: ItemMeta
+            meta-type: UNSPECIFIC
+            display-name: '"God Rod"'
+            enchants:
+              minecraft:luck_of_the_sea: 3
+              minecraft:lure: 3
+              minecraft:mending: 1
+              minecraft:unbreaking: 3
+    '2':
+      Cash: 250.0
+      Items:
+        - ==: org.bukkit.inventory.ItemStack
+          v: 3839
+          type: DIAMOND
+        - ==: org.bukkit.inventory.ItemStack
+          v: 3839
+          type: ENDER_PEARL
+          amount: 8

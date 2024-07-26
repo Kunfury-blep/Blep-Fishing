@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/blep-fishing/blep-fishing.iml" filepath="$PROJECT_DIR$/blep-fishing/blep-fishing.iml" />
+      <module fileurl="file://$PROJECT_DIR$/blepFishing.iml" filepath="$PROJECT_DIR$/blepFishing.iml" />
     </modules>
   </component>
 </project>

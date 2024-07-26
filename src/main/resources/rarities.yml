@@ -1,0 +1,20 @@
+legendary:
+  Name: Legendary
+  Prefix: '&6'
+  Weight: 5
+  Announce: true
+epic:
+  Name: Epic
+  Prefix: '&d'
+  Weight: 30
+  Announce: false
+rare:
+  Name: Rare
+  Prefix: '&b'
+  Weight: 60
+  Announce: false
+common:
+  Name: Common
+  Prefix: '&a'
+  Weight: 100
+  Announce: false
