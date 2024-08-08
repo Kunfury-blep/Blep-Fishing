@@ -105,7 +105,7 @@ public class TreasureHandler {
         player.openInventory(inv);
         OpenInventories.put(player, inv);
 
-        //item.setAmount(item.getAmount() - 1);
+        item.setAmount(item.getAmount() - 1);
     }
 
     public void CloseTreasure(Player player){
