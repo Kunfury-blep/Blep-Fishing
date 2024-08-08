@@ -3,3 +3,5 @@ Enable Tournaments: true
 Enable Treasure: true
 
 Show Scoreboard: true
+
+Treasure Chance: 10.0

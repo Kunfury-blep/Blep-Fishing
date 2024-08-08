@@ -5,6 +5,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.checkerframework.checker.units.qual.A;
 
 import java.math.BigDecimal;
@@ -188,6 +190,14 @@ public class Formatting {
 		}
 
 		return toLoreList(compactedLore.toString());
+	}
+
+	public static String getItemName(ItemStack item){
+		ItemMeta meta = item.getItemMeta();
+		if(meta != null && !meta.getDisplayName().isEmpty())
+			return meta.getDisplayName();
+		else
+			return item.getType().toString();
 	}
 
 }

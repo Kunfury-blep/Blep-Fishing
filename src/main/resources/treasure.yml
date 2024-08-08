@@ -1,40 +1,140 @@
 legendary:
-  Name: "&6Legendary Casket"
+  Name: '&6Legendary Casket'
   Weight: 5
+  Announce: false
   Rewards:
-    Cash: 1000.0
-    Items:
-      - ==: org.bukkit.inventory.ItemStack
-        v: 3839
+    '0':
+      Drop Chance: 10.0
+      Announce: false
+      Cash: 0.0
+      Item:
+        ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: BOW
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          enchants:
+            minecraft:flame: 1
+            minecraft:infinity: 1
+            minecraft:power: 5
+            minecraft:punch: 2
+    '1':
+      Drop Chance: 50.0
+      Announce: false
+      Cash: 0.0
+      Item:
+        ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: LILY_PAD
+        amount: 64
+    '2':
+      Drop Chance: 75.0
+      Announce: false
+      Cash: 0.0
+      Item:
+        ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: HEART_OF_THE_SEA
+    '3':
+      Drop Chance: 0.25
+      Announce: true
+      Cash: 0.0
+      Item:
+        ==: org.bukkit.inventory.ItemStack
+        v: 3953
         type: DIAMOND
-        amount: 4
+        amount: 16
+    '4':
+      Drop Chance: 0.25
+      Announce: true
+      Cash: 0.0
+      Item:
+        ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: DIAMOND
+        amount: 16
+    '5':
+      Drop Chance: 10.0
+      Announce: false
+      Cash: 0.0
+      Item:
+        ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: SADDLE
 epic:
-  Name: "&dEpic Casket"
+  Name: '&dEpic Casket'
   Weight: 25
+  Announce: false
   Rewards:
-    Cash: 1000.0
-    Items:
-      - ==: org.bukkit.inventory.ItemStack
-        v: 3839
+    '0':
+      Drop Chance: 0.25
+      Announce: true
+      Cash: 0.0
+      Item:
+        ==: org.bukkit.inventory.ItemStack
+        v: 3953
         type: EMERALD
         amount: 4
 rare:
-  Name: "&bRare Casket"
+  Name: '&bRare Casket'
   Weight: 50
+  Announce: false
   Rewards:
-    Cash: 1000.0
-    Items:
-      - ==: org.bukkit.inventory.ItemStack
-        v: 3839
+    '0':
+      Drop Chance: 50.0
+      Announce: false
+      Cash: 0.0
+      Item:
+        ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: BOWL
+        amount: 4
+    '1':
+      Drop Chance: 25.0
+      Announce: false
+      Cash: 0.0
+      Item:
+        ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: NAUTILUS_SHELL
+        amount: 4
+    '2':
+      Drop Chance: 10.0
+      Announce: true
+      Cash: 0.0
+      Item:
+        ==: org.bukkit.inventory.ItemStack
+        v: 3953
         type: ENDER_PEARL
         amount: 16
 common:
-  Name: "&aCommon Casket"
+  Name: '&aCommon Casket'
   Weight: 100
+  Announce: false
   Rewards:
-    Cash: 1000.0
-    Items:
-      - ==: org.bukkit.inventory.ItemStack
-        v: 3839
+    '0':
+      Drop Chance: 100.0
+      Announce: false
+      Cash: 0.0
+      Item:
+        ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: LILY_PAD
+    '1':
+      Drop Chance: 25.0
+      Announce: false
+      Cash: 0.0
+      Item:
+        ==: org.bukkit.inventory.ItemStack
+        v: 3953
+        type: INK_SAC
+        amount: 10
+    '2':
+      Drop Chance: 50.0
+      Announce: true
+      Cash: 0.0
+      Item:
+        ==: org.bukkit.inventory.ItemStack
+        v: 3953
         type: FISHING_ROD
-        amount: 1

@@ -1,11 +1,12 @@
 package com.kunfury.blepfishing.listeners;
 
 import com.kunfury.blepfishing.helpers.Formatting;
+import com.kunfury.blepfishing.helpers.TreasureHandler;
+import com.kunfury.blepfishing.objects.TreasureType;
 import com.kunfury.blepfishing.ui.panels.player.PlayerPanel;
 import com.kunfury.blepfishing.items.ItemHandler;
 import com.kunfury.blepfishing.items.recipes.TournamentHornRecipe;
 import com.kunfury.blepfishing.objects.FishBag;
-import com.kunfury.blepfishing.objects.FishingRod;
 import com.kunfury.blepfishing.objects.TournamentType;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -62,9 +63,21 @@ public class PlayerInteractListener implements Listener {
         }
 
         if(FishBag.IsBag(item)){
+            if(player.isSneaking()){
+                new PlayerPanel().Show(player);
+                player.playSound(player.getLocation(), Sound.ITEM_BUCKET_EMPTY_FISH, .3f, 1f);
+                return;
+            }
+
             FishBag fishBag = FishBag.GetBag(item);
             if(fishBag == null) return;
             fishBag.Use(player);
+            return;
+        }
+
+        if(TreasureType.IsTreasure(item)){
+            e.setCancelled(true);
+            TreasureHandler.instance.Open(item, player);
             return;
         }
 
@@ -100,13 +113,6 @@ public class PlayerInteractListener implements Listener {
                 fishBag.TogglePickup(e.getItem(), p);
             return;
         }
-
-        //Fishing rod triggers both left and right click on cast
-//        if(p.isSneaking() && FishingRod.IsRod(item)){
-//            e.setCancelled(true);
-//            new PlayerPanel().Show(p);
-//        }
-
     }
 
     @EventHandler

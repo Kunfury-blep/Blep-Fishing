@@ -8,24 +8,26 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class TreasureType {
-    public final String Id;
-    public final String Name;
-    public final int Weight;
-    public final List<ItemStack> Rewards;
+    public String Id;
+    public String Name;
+    public int Weight;
+//    public final List<ItemStack> OldRewards;
+    public List<TreasureReward> Rewards;
     public final double CashReward;
 
-    public TreasureType(String id, String name, int weight, List<ItemStack> rewards, double cashReward){
+    public boolean ConfirmedDelete;
+    public boolean Announce;
+
+    public TreasureType(String id, String name, int weight, boolean announce, List<TreasureReward> rewards, double cashReward){
         Id = id;
         Name = name;
         Weight = weight;
         Rewards = rewards;
         CashReward = cashReward;
+        Announce = announce;
     }
 
     public ItemStack GetItem(){
@@ -49,6 +51,10 @@ public class TreasureType {
         return  item;
     }
 
+    public static boolean IsTreasure(ItemStack item){
+        return ItemHandler.hasTag(item, ItemHandler.TreasureTypeId);
+    }
+
 
 
     private static final HashMap<String, TreasureType> ActiveTypes = new HashMap<>();
@@ -60,7 +66,7 @@ public class TreasureType {
             return;
         }
 
-        Bukkit.getLogger().warning("Adding new treasure: " + treasureType.Name + ". Item Count: " + treasureType.Rewards.size());
+        //Bukkit.getLogger().warning("Adding new treasure: " + treasureType.Name + ". Item Count: " + treasureType.Rewards.size());
 
         ActiveTypes.put(treasureType.Id, treasureType);
         totalWeight += treasureType.Weight;
@@ -72,5 +78,50 @@ public class TreasureType {
 
     public static Collection<TreasureType> GetAll(){
         return ActiveTypes.values();
+    }
+
+    public static TreasureType FromId(String typeId){
+        if(ActiveTypes.containsKey(typeId)){
+            return ActiveTypes.get(typeId);
+        }
+
+        Bukkit.getLogger().warning("Tried to get invalid Treasure with ID: " + typeId);
+        return null;
+    }
+
+    public static boolean IdExists(String id){
+        return ActiveTypes.containsKey(id);
+    }
+
+    public static void UpdateId(String oldId, TreasureType type){
+        ActiveTypes.remove(oldId);
+        ActiveTypes.put(type.Id, type);
+    }
+
+    public static void Delete(TreasureType type){
+        ActiveTypes.remove(type.Id);
+    }
+
+
+    public static class TreasureReward{
+        public double DropChance;
+        public ItemStack Item;
+        public boolean Announce;
+        public final double Cash;
+        public boolean ConfirmedDelete;
+
+        public TreasureReward(double dropChance, ItemStack item, boolean announce, double cash){
+            DropChance = dropChance;
+            Item = item;
+            Announce = announce;
+            Cash = cash;
+        }
+
+        public boolean Drops(){
+            Random rand = new Random();
+            var roll = 100 * rand.nextDouble();
+
+            return roll < DropChance;
+        }
     }
 }

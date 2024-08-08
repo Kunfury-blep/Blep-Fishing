@@ -3,6 +3,7 @@ package com.kunfury.blepfishing.ui.panels.admin;
 import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.ui.buttons.admin.areas.AdminAreasPanelBtn;
 import com.kunfury.blepfishing.ui.buttons.admin.rarities.AdminRaritiesPanelBtn;
+import com.kunfury.blepfishing.ui.buttons.admin.treasure.AdminTreasurePanelButton;
 import com.kunfury.blepfishing.ui.objects.Panel;
 import com.kunfury.blepfishing.ui.buttons.admin.fishEdit.AdminFishPanelButton;
 import com.kunfury.blepfishing.ui.buttons.admin.tournamentEdit.AdminTournamentPanelButton;
@@ -22,5 +23,7 @@ public class AdminPanel extends Panel {
         if(ConfigHandler.instance.baseConfig.getEnableTournaments())
             inv.setItem(14, new AdminTournamentPanelButton().getItemStack());
 
+        if(ConfigHandler.instance.baseConfig.getEnableTreasure())
+            inv.setItem(15, new AdminTreasurePanelButton().getItemStack());
     }
 }

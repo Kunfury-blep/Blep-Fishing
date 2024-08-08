@@ -51,7 +51,7 @@ public class FishingListener implements Listener {
         Player player = e.getPlayer();
 
         if(TreasureHandler.instance.TreasureCaught()){
-            Bukkit.broadcastMessage("Treasure caught!");
+            //Bukkit.broadcastMessage("Treasure caught!");
 
             ItemStack treasureItem = TreasureHandler.instance.GetTreasureItem();
             item.setItemStack(treasureItem);

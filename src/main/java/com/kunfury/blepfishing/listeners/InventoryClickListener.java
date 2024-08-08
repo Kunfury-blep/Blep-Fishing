@@ -23,23 +23,24 @@ public class InventoryClickListener implements Listener {
         Inventory inv = e.getInventory();
         ItemStack clickedItem = e.getCurrentItem();
         Player player = (Player) e.getWhoClicked();
-        if(clickedItem == null || !clickedItem.hasItemMeta())
+        if (clickedItem == null || !clickedItem.hasItemMeta())
             return;
 
-        if(ItemHandler.hasTag(clickedItem, ItemHandler.ButtonIdKey)){
+        if (ItemHandler.hasTag(clickedItem, ItemHandler.ButtonIdKey)) {
             String buttonId = ItemHandler.getTagString(clickedItem, ItemHandler.ButtonIdKey);
             e.setCancelled(true);
-            for(MenuButton menuButton : MenuHandler.MenuButtons.values()){
-                if(menuButton.getId().equals(buttonId)){
+            for (MenuButton menuButton : MenuHandler.MenuButtons.values()) {
+                if (menuButton.getId().equals(buttonId)) {
                     menuButton.perform(e);
                     break;
                 }
             }
         }
 
-        if(ItemHandler.hasTag(clickedItem, ItemHandler.FishIdKey)){
+
+        if (ItemHandler.hasTag(clickedItem, ItemHandler.FishIdKey)) {
             FishBagPanel fishBagPanel = FishBagPanel.GetPanelFromInventory(inv);
-            if(fishBagPanel == null)
+            if (fishBagPanel == null)
                 return;
 
             FishBag fishBag = fishBagPanel.fishBag;
@@ -48,7 +49,5 @@ public class InventoryClickListener implements Listener {
             fishBag.Deposit(clickedItem, player);
             new FishBagPanel(fishBag).Show(player);
         }
-
-
     }
 }

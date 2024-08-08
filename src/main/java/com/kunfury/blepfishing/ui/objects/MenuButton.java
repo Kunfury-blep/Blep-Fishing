@@ -1,6 +1,7 @@
 package com.kunfury.blepfishing.ui.objects;
 
 import com.kunfury.blepfishing.BlepFishing;
+import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.items.ItemHandler;
 import com.kunfury.blepfishing.objects.FishType;
 import com.kunfury.blepfishing.objects.TournamentType;
@@ -90,8 +91,20 @@ public abstract class MenuButton {
         if(name != null)
             meta.setDisplayName(name);
 
+        List<String> itemLore = new ArrayList<>();
+
         if(lore != null)
-            meta.setLore(lore);
+            itemLore = lore;
+
+        if(Utilities.DebugMode){
+            itemLore.add("");
+            itemLore.add(getId());
+        }
+
+
+
+        meta.setLore(itemLore);
+
 
         item.setItemMeta(meta);
 

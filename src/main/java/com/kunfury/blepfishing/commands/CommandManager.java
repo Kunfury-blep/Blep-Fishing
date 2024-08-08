@@ -18,18 +18,6 @@ public class CommandManager implements TabExecutor {
 //        subCommands.add(new LeaderboardSubcommand());
 //        subCommands.add(new ReloadSubcommand());
         subCommands.add(new AdminSubcommand());
-//        subCommands.add(new SellSubcommand());
-//        subCommands.add(new SellForSubcommand());
-//        subCommands.add(new SellAllSubcommand());
-//        subCommands.add(new TournamentSubcommand());
-//        subCommands.add(new ClaimSubcommand());
-//        //subCommands.add(new ConfigSubcommand());
-//        subCommands.add(new GetDataSubCommand());
-//        subCommands.add(new SpawnSubCommand());
-//        subCommands.add(new DebugSubcommand());
-//        subCommands.add(new HelpSubcommand());
-//        subCommands.add(new QuestSubcommand());
-//        subCommands.add(new IgnoreSubCommand());
     }
 
     @Override

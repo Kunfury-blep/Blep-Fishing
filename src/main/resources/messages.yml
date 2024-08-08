@@ -107,10 +107,12 @@ Admin:
 Equipment:
   Fish Bag:
     baseName: "Bag o' Fish"
-    autoPickup: "&cLeft-Click While Holding to Toggle &e&oAuto-Pickup"
+    autoPickup: "&bLeft-Click While Holding to Toggle &e&oAuto-Pickup"
     pickupEnabled: "Auto Pickup Enabled."
     pickupDisabled: "Auto Pickup Disabled."
-    depositAll: "&cShift Left-Click While Holding to Toggle &e&oDepositAll"
+    depositAll: "&bShift Left-Click While Holding to Toggle &e&oDeposit All"
+    openBag: "&bRight-Click While Holding to &e&oOpen"
+    openPanel: "&bShift Right-Click While Holding to &e&oOpen Player Panel"
     upgradeReady: "&fPlace an &e&o{upgrade}&f into the bag to upgrade!"
     upgradeHint: "Fill bag to &e&oUpgrade"
     descSmall: "Holds a small amount of fish"

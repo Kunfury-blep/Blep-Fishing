@@ -171,6 +171,8 @@ public class FishBag {
         lore.add("");
         lore.add(Formatting.getMessage("Equipment.Fish Bag.autoPickup"));
         lore.add(Formatting.getMessage("Equipment.Fish Bag.depositAll"));
+        lore.add(Formatting.getMessage("Equipment.Fish Bag.openBag"));
+        lore.add(Formatting.getMessage("Equipment.Fish Bag.openPanel"));
 
         return lore;
     }
@@ -299,6 +301,8 @@ public class FishBag {
         lore.add("");
         lore.add(Formatting.getMessage("Equipment.Fish Bag.autoPickup"));
         lore.add(Formatting.getMessage("Equipment.Fish Bag.depositAll"));
+        lore.add(Formatting.getMessage("Equipment.Fish Bag.openBag"));
+        lore.add(Formatting.getMessage("Equipment.Fish Bag.openPanel"));
 
         m.setLore(lore);
 

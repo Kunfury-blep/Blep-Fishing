@@ -22,7 +22,7 @@ public class AdminTournamentEditRewardsPlacementPanel extends Panel {
 
     @Override
     public void BuildInventory(Player player) {
-        if(!type.ItemRewards.containsKey(placement)){
+        if(!type.ItemRewards.containsKey(placement)){ //Ensures no placement values are null
             type.ItemRewards.put(placement, new ArrayList<>());
         }
         if(!type.CashRewards.containsKey(placement)){

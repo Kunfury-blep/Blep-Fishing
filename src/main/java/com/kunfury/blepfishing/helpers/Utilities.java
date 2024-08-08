@@ -5,6 +5,7 @@ import com.kunfury.blepfishing.objects.TournamentObject;
 import com.kunfury.blepfishing.objects.TournamentType;
 import org.bukkit.Bukkit;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -14,6 +15,8 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
 public class Utilities {
+
+    public static boolean DebugMode = false;
 
     public static int getFreeSlots(Inventory inventory){
         int freeSlots = 0;
@@ -75,5 +78,11 @@ public class Utilities {
 
     public static void Severe(String message){
         Bukkit.getLogger().severe("BlepFishing: " + message);
+    }
+
+    public static void GiveItem(Player player, ItemStack item, boolean drop){
+        for(var badItem : player.getInventory().addItem(item).values()){
+            player.getWorld().dropItem(player.getLocation(), badItem);
+        }
     }
 }

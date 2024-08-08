@@ -2,9 +2,7 @@ package com.kunfury.blepfishing.config;
 
 import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.helpers.Utilities;
-import com.kunfury.blepfishing.objects.Rarity;
 import com.kunfury.blepfishing.objects.TreasureType;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -14,7 +12,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 
 public class TreasureConfig {
@@ -40,59 +37,72 @@ public class TreasureConfig {
         for(final String key : treasureConfig.getValues(false).keySet()){
             String name = treasureConfig.getString(key + ".Name");
             int weight = treasureConfig.getInt(key + ".Weight");
+            boolean announce = treasureConfig.getBoolean(key + ".Announce");
 
             var rewardsConfig = treasureConfig.getConfigurationSection(key + ".Rewards");
 
-            List<ItemStack> itemRewards = new ArrayList<>();
+            List<TreasureType.TreasureReward> rewards = new ArrayList<>();
             double cashReward = 0;
 
             if(rewardsConfig != null){
-                //Get all cash rewards
-                if(rewardsConfig.contains("Cash")){
-                    cashReward = rewardsConfig.getDouble("Cash");
+                for(var i : rewardsConfig.getValues(false).keySet()){
+                    double dropChance = rewardsConfig.getDouble(i + ".Drop Chance");
+                    boolean rewardAnnounce = rewardsConfig.getBoolean(i + ".Announce");
+                    double cash = rewardsConfig.getDouble(i + ".Cash");
+                    ItemStack item = rewardsConfig.getItemStack(i + ".Item");
+                    rewards.add(new TreasureType.TreasureReward(dropChance, item, rewardAnnounce, cash));
                 }
 
+                //Get all cash rewards
+//                if(rewardsConfig.contains("Cash")){
+//                    cashReward = rewardsConfig.getDouble("Cash");
+//                }
+
                 //Get all basic item rewards
-                if(rewardsConfig.contains("Items")){
-                    var configList = rewardsConfig.getList("Items");
-                    assert configList != null;
-                    for(var i : configList){
-                        if(!(i instanceof ItemStack)){
-                            Utilities.Severe("Tried to load invalid Itemstack from treasure: " + key);
-                            continue;
-                        }
-                        itemRewards.add((ItemStack) i);
-                    }
-                }
+//                if(rewardsConfig.contains("Items")){
+//                    var configList = rewardsConfig.getList("Items");
+//                    assert configList != null;
+//                    for(var i : configList){
+//                        if(!(i instanceof ItemStack)){
+//                            Utilities.Severe("Tried to load invalid Itemstack from treasure: " + key);
+//                            continue;
+//                        }
+//                        itemRewards.add((ItemStack) i);
+//                    }
+//                }
             }
 
 
-            TreasureType treasureType = new TreasureType(key, name, weight, itemRewards, cashReward);
+            TreasureType treasureType = new TreasureType(key, name, weight, announce, rewards, cashReward);
             TreasureType.AddNew(treasureType);
         }
     }
 
     public void Save(){
-        FileConfiguration newRarityConfig = new YamlConfiguration();
+        FileConfiguration newTreasureConfig = new YamlConfiguration();
 
-        var sortedRarities = Rarity.GetAll()
-                .stream().sorted(Comparator.comparing(rarity -> rarity.Weight)).toList();
-        for(var rarity : sortedRarities){
-            String key = rarity.Id;
-            newRarityConfig.set(key + ".Name", rarity.Name);
-            newRarityConfig.set(key + ".Prefix", rarity.Prefix);
-            newRarityConfig.set(key + ".Weight", rarity.Weight);
-            newRarityConfig.set(key + ".Announce", rarity.Announce);
+        var sortedTreasures = TreasureType.GetAll()
+                .stream().sorted(Comparator.comparing(treasure -> treasure.Weight)).toList();
+        for(var type : sortedTreasures){
+            String key = type.Id;
+            newTreasureConfig.set(key + ".Name", type.Name);
+            newTreasureConfig.set(key + ".Weight", type.Weight);
+            newTreasureConfig.set(key + ".Announce", type.Announce);
+
+            for(var i : type.Rewards){
+                var path = key + ".Rewards." + type.Rewards.indexOf(i);
+                newTreasureConfig.set(path + ".Drop Chance", i.DropChance);
+                newTreasureConfig.set(path + ".Announce", i.Announce);
+                newTreasureConfig.set(path + ".Cash", i.Cash);
+                newTreasureConfig.set(path + ".Item", i.Item);
+            }
         }
         try {
-            FileWriter fileWriter = new FileWriter(BlepFishing.instance.getDataFolder() + "/rarities.yml");
-            fileWriter.write(newRarityConfig.saveToString());
+            FileWriter fileWriter = new FileWriter(BlepFishing.instance.getDataFolder() + "/treasure.yml");
+            fileWriter.write(newTreasureConfig.saveToString());
             fileWriter.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-
-
-
 }

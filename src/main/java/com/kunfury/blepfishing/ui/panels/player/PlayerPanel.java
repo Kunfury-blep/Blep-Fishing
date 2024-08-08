@@ -13,7 +13,7 @@ public class PlayerPanel extends Panel {
     @Override
     public void BuildInventory(Player player) {
         if(player.hasPermission("bf.admin"))
-            inv.setItem(8, new AdminPanelButton().getItemStack());
+            inv.setItem(4, new AdminPanelButton().getItemStack());
 
         inv.setItem(10, new PlayerTournamentPanelButton().getItemStack());
     }

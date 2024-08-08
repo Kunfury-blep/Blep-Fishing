@@ -21,7 +21,7 @@ public class BaseConfig {
         return config.getBoolean("Enable Treasure");
     }
 
-
+    public double getTreasureChance(){return config.getDouble("Treasure Chance");}
     public boolean getShowScoreboard(){
         return config.getBoolean("Show Scoreboard");
     }

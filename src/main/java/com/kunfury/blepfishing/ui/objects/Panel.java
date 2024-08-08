@@ -1,5 +1,6 @@
 package com.kunfury.blepfishing.ui.objects;
 
+import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.ui.MenuHandler;
 import com.kunfury.blepfishing.ui.buttons.footer.InfoButton;
@@ -18,7 +19,7 @@ public abstract class Panel {
     protected boolean FillInventory = true;
 
     public Panel(String title, int inventorySize){
-        Title = title;
+        Title = Formatting.formatColor(title);
         InventorySize = Utilities.getInventorySize(inventorySize);
         MenuHandler.SetupPanel(this);
     }
