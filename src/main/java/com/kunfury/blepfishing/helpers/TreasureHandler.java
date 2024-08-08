@@ -97,21 +97,26 @@ public class TreasureHandler {
 
         for(var itemDrop : treasureDrops){
             inv.addItem(itemDrop);
+            player.sendMessage(Formatting.getPrefix() +
+                    ChatColor.YELLOW + "You found " + ChatColor.AQUA + Formatting.getItemName(itemDrop) + ChatColor.YELLOW + " x" + itemDrop.getAmount());
+
         }
 
         player.openInventory(inv);
         OpenInventories.put(player, inv);
 
-        item.setAmount(item.getAmount() - 1);
+        //item.setAmount(item.getAmount() - 1);
     }
 
     public void CloseTreasure(Player player){
-        for(var item : OpenInventories.get(player).getContents()){
-            Utilities.GiveItem(player, item, true);
-            player.sendMessage(Formatting.getPrefix() +
-                    ChatColor.YELLOW + "You found " + ChatColor.AQUA + Formatting.getItemName(item) + ChatColor.YELLOW + " x" + item.getAmount());
-
+        if(!OpenInventories.get(player).isEmpty()){
+            for(var item : OpenInventories.get(player).getContents()){
+                if(item == null)
+                    continue;
+                Utilities.GiveItem(player, item, true);
+            }
         }
+
 
         OpenInventories.remove(player);
     }
