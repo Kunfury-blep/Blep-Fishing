@@ -3,14 +3,19 @@ package com.kunfury.blepfishing.helpers;
 import com.kunfury.blepfishing.config.*;
 import com.kunfury.blepfishing.items.ItemHandler;
 import com.kunfury.blepfishing.objects.TreasureType;
+import com.kunfury.blepfishing.ui.objects.Panel;
 import jdk.jshell.execution.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.text.Format;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -18,6 +23,7 @@ public class TreasureHandler {
     public boolean Enabled = ConfigHandler.instance.baseConfig.getEnableTournaments();
 
     public static TreasureHandler instance;
+    public final static HashMap<Player, Inventory> OpenInventories = new HashMap<>();
 
     public void Initialize(){
         instance = this;
@@ -71,9 +77,9 @@ public class TreasureHandler {
             Utilities.Severe(player.getDisplayName() + " tried to open a " + treasureType.Name + " which contained no drops.");
         }
 
-        int drops = 0;
+        List<ItemStack> treasureDrops = new ArrayList<>();
         int i = 0;
-        while(drops == 0){ //Ensures at least one item drops
+        while(treasureDrops.isEmpty()){ //Ensures at least one item drops
             i++;
             if(i >= 1000){
                 Utilities.Severe("No rewards found after 1,000 iterations on " + treasureType.Name);
@@ -83,15 +89,30 @@ public class TreasureHandler {
                 if(!reward.Drops())
                     continue;
 
-
-                Utilities.GiveItem(player, reward.Item, true);
-                player.sendMessage(Formatting.getPrefix() +
-                        ChatColor.YELLOW + "You found " + ChatColor.AQUA + Formatting.getItemName(reward.Item) + ChatColor.YELLOW + " x" + reward.Item.getAmount());
-                drops++;
+                treasureDrops.add(reward.Item);
             }
         }
 
-        item.setAmount(item.getAmount() - 1);
+        Inventory inv = Bukkit.createInventory(player, Utilities.getInventorySize(treasureDrops.size()), Formatting.formatColor(treasureType.Name));
 
+        for(var itemDrop : treasureDrops){
+            inv.addItem(itemDrop);
+        }
+
+        player.openInventory(inv);
+        OpenInventories.put(player, inv);
+
+        item.setAmount(item.getAmount() - 1);
+    }
+
+    public void CloseTreasure(Player player){
+        for(var item : OpenInventories.get(player).getContents()){
+            Utilities.GiveItem(player, item, true);
+            player.sendMessage(Formatting.getPrefix() +
+                    ChatColor.YELLOW + "You found " + ChatColor.AQUA + Formatting.getItemName(item) + ChatColor.YELLOW + " x" + item.getAmount());
+
+        }
+
+        OpenInventories.remove(player);
     }
 }
