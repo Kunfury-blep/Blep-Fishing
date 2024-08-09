@@ -27,18 +27,15 @@ public abstract class PaginationPanel<T> extends Panel{
         var pageContents = Contents;
         if(Contents.size() > 45){
             pageContents = getPageContents();
-            AddFooter();
+            inv.setItem(InventorySize - 7, new PageChangeBtn<>(this, false).getItemStack());
+            inv.setItem(InventorySize - 3, new PageChangeBtn<>(this, true).getItemStack());
         }
 
         for(var b : pageContents){
             AddButton(getButton(b));
         }
-    }
 
-    protected void AddFooter(){
-        inv.setItem(InventorySize - 9, new PageChangeBtn<>(this, false).getItemStack());
-        inv.setItem(InventorySize - 5, backBtn.getBackButton());
-        inv.setItem(InventorySize - 1, new PageChangeBtn<>(this, true).getItemStack());
+        inv.setItem(InventorySize - 1, backBtn.getBackButton());
     }
 
     protected List<T> getPageContents(){

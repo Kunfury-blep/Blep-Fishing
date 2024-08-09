@@ -118,4 +118,8 @@ public class FishType {
         Bukkit.getLogger().warning("Tried to get invalid fish type with ID: " + typeId);
         return null;
     }
+
+    public String getId() {
+        return Id;
+    }
 }

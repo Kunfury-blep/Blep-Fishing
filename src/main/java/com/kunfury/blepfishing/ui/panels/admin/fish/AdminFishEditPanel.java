@@ -27,6 +27,6 @@ public class AdminFishEditPanel extends Panel {
         AddButton(new FishEditHeightMaxBtn(fishType));
         AddButton(new FishEditRainingBtn(fishType));
 
-        inv.setItem(17, new AdminFishPanelButton().getBackButton());
+        inv.setItem(17, new AdminFishPanelButton(0).getBackButton());
     }
 }

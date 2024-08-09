@@ -16,7 +16,7 @@ public class AdminPanel extends Panel {
 
     @Override
     public void BuildInventory(Player player) {
-        inv.setItem(11, new AdminFishPanelButton().getItemStack());
+        inv.setItem(11, new AdminFishPanelButton(0).getItemStack());
         inv.setItem(12, new AdminRaritiesPanelBtn().getItemStack());
         inv.setItem(13, new AdminAreasPanelBtn().getItemStack());
 

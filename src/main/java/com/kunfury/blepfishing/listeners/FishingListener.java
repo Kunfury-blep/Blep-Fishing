@@ -5,6 +5,7 @@ import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.TreasureHandler;
+import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.ui.scoreboards.DisplayFishInfo;
 import com.kunfury.blepfishing.items.ItemHandler;
 import com.kunfury.blepfishing.objects.*;
@@ -142,15 +143,13 @@ public class FishingListener implements Listener {
     private void AnnounceCatch(FishObject fish){
         Player p = fish.getCatchingPlayer();
         Rarity rarity = fish.getRarity();
-        for(var s : Bukkit.getOnlinePlayers()){
-            s.sendMessage(Formatting.formatColor(
-                    p.getDisplayName() + " just caught a " + rarity.Prefix + fish.getRarity().Name + " " + fish.getType().Name + ChatColor.WHITE + "!"));
-        }
+        var message = Formatting.formatColor(p.getDisplayName() + " just caught a " +
+                rarity.Prefix + fish.getRarity().Name + " " + fish.getType().Name + ChatColor.WHITE + "!");
 
-        if(Bukkit.getServer().getVersion().contains("1.20.6")){
-            Firework fw = (Firework) p.getWorld().spawnEntity(p.getLocation(), EntityType.FIREWORK_ROCKET);
-            fw.detonate();
-        }
+        Utilities.Announce(message);
+
+        Firework fw = (Firework) p.getWorld().spawnEntity(p.getLocation(), EntityType.FIREWORK_ROCKET);
+        fw.detonate();
     }
 
     private Integer GetRodId(Player player){

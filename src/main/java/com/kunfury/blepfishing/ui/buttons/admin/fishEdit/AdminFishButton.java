@@ -19,9 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdminFishButton extends AdminFishMenuButton {
+    private final int page;
 
-    public AdminFishButton(FishType fishType) {
+    public AdminFishButton(FishType fishType, int page) {
         super(fishType);
+        this.page = page;
     }
 
     @Override
@@ -34,8 +36,14 @@ public class AdminFishButton extends AdminFishMenuButton {
         m.setCustomModelData(fishType.ModelData);
 
         List<String> lore = new ArrayList<>();
-        lore.add(fishType.Lore);
+
+        if(!fishType.Lore.isEmpty())
+            lore.add(fishType.Lore);
+        else
+            lore.add(ChatColor.RED + "No Lore Set");
+
         lore.add("");
+
         lore.add(ChatColor.BLUE + "Model Data: " + ChatColor.WHITE + fishType.ModelData);
         lore.add(ChatColor.BLUE +"Base Price: " + ChatColor.WHITE + fishType.PriceBase);
 
@@ -69,6 +77,7 @@ public class AdminFishButton extends AdminFishMenuButton {
 
         PersistentDataContainer dataContainer = m.getPersistentDataContainer();
         dataContainer.set(ItemHandler.FishTypeId, PersistentDataType.STRING, fishType.Id);
+        dataContainer.set(pageKey, PersistentDataType.INTEGER, page);
 
         item.setItemMeta(m);
 
@@ -97,6 +106,6 @@ public class AdminFishButton extends AdminFishMenuButton {
             ConfigHandler.instance.fishConfig.Save();
         }
 
-        new AdminFishPanel().Show(player);
+        new AdminFishPanel(getPage()).Show(player);
     }
 }

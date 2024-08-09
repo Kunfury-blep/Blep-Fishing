@@ -9,6 +9,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class AdminFishPanelButton extends MenuButton {
 
+    public AdminFishPanelButton(int page){
+        super();
+    }
+
     @Override
     public ItemStack buildItemStack() {
         ItemStack item = new ItemStack(Material.SALMON);
@@ -23,6 +27,6 @@ public class AdminFishPanelButton extends MenuButton {
 
     @Override
     protected void click_left() {
-        new AdminFishPanel().Show(player);
+        new AdminFishPanel(1).Show(player);
     }
 }

@@ -20,6 +20,6 @@ public class AdminFishEditAreasPanel extends Panel {
         for(var a : FishingArea.GetAll()){
             inv.addItem(new FishEditAreaChoiceBtn(a, fishType).getItemStack());
         }
-        AddFooter(new AdminFishButton(fishType), null, null);
+        AddFooter(new AdminFishButton(fishType, 1), null, null);
     }
 }

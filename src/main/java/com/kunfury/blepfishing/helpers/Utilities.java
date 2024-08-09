@@ -4,6 +4,7 @@ import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.objects.TournamentObject;
 import com.kunfury.blepfishing.objects.TournamentType;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -83,6 +84,12 @@ public class Utilities {
     public static void GiveItem(Player player, ItemStack item, boolean drop){
         for(var badItem : player.getInventory().addItem(item).values()){
             player.getWorld().dropItem(player.getLocation(), badItem);
+        }
+    }
+
+    public static void Announce(String message){
+        for(var s : Bukkit.getOnlinePlayers()){
+            s.sendMessage(message);
         }
     }
 }
