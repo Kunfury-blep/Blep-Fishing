@@ -47,7 +47,7 @@ public class InventoryClickListener implements Listener {
             e.setCancelled(true);
 
             fishBag.Deposit(clickedItem, player);
-            new FishBagPanel(fishBag).Show(player);
+            new FishBagPanel(fishBag, 1).Show(player);
         }
     }
 }

@@ -2,6 +2,8 @@ package com.kunfury.blepfishing.ui.panels;
 
 import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.helpers.Utilities;
+import com.kunfury.blepfishing.ui.objects.MenuButton;
+import com.kunfury.blepfishing.ui.objects.PaginationPanel;
 import com.kunfury.blepfishing.ui.objects.Panel;
 import com.kunfury.blepfishing.ui.MenuHandler;
 import com.kunfury.blepfishing.ui.buttons.equipment.FishBagFishButton;
@@ -17,13 +19,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class FishBagPanel extends Panel {
+public class FishBagPanel extends PaginationPanel<FishType> {
 
     public static final List<FishBagPanel> BagPanels = new ArrayList<>();
 
     public final FishBag fishBag;
-    public FishBagPanel(FishBag fishBag){
-        super("Fish Bag: " + fishBag.getAmount() + "/" + fishBag.getMax(), FishType.GetAll().size() + 9);
+    public FishBagPanel(FishBag fishBag, int page){
+        super("Fish Bag: " + fishBag.getAmount() + "/" + fishBag.getMax(),
+                FishType.GetAll().size() + 9, page, null);
         this.fishBag = fishBag;
     }
 
@@ -39,6 +42,16 @@ public class FishBagPanel extends Panel {
         Bukkit.getScheduler().runTaskAsynchronously(BlepFishing.getPlugin(), () ->{
             FillFishBag(inv);
         });
+    }
+
+    @Override
+    protected List<FishType> getContents() {
+        return List.of();
+    }
+
+    @Override
+    protected MenuButton getButton(FishType object) {
+        return null;
     }
 
     private void FillFishBag(Inventory inv){
@@ -58,7 +71,7 @@ public class FishBagPanel extends Panel {
             if(type == null)
                 continue;
 
-            bagItems.add(new FishBagFishButton().buildItemStack(fishBag, type, fishMap.get(type)));
+            bagItems.add(new FishBagFishButton(Page).buildItemStack(fishBag, type, fishMap.get(type)));
         }
 
 

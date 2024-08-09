@@ -54,7 +54,7 @@ public class FishBag {
     }
 
     public void Use(Player p){
-        new FishBagPanel(this).Show(p);
+        new FishBagPanel(this, 1).Show(p);
         p.playSound(p.getLocation(), Sound.ITEM_ARMOR_EQUIP_LEATHER, .3f, 1f);
     }
 
@@ -212,7 +212,7 @@ public class FishBag {
         }
     }
 
-    public void Withdraw(Player player, FishType type, ItemStack bagItem, boolean large, boolean single){
+    public void Withdraw(Player player, FishType type, ItemStack bagItem, boolean large, boolean single, int page){
         var filteredFishList = new ArrayList<>(getFish().stream().filter(f -> Objects.equals(f.TypeId, type.Id)).toList());
 
         if(!filteredFishList.isEmpty()){
@@ -230,7 +230,7 @@ public class FishBag {
             }
             UpdateBagItem(bagItem);
 
-            new FishBagPanel(this).Show(player);
+            new FishBagPanel(this, page).Show(player);
         }
     }
 

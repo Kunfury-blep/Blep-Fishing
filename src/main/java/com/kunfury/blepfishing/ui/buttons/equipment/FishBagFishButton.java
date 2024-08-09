@@ -19,6 +19,10 @@ import java.util.List;
 
 public class FishBagFishButton extends MenuButton {
 
+    private final int page;
+    public FishBagFishButton(int page){
+        this.page = page;
+    }
 
     @Override
     public ItemStack buildItemStack() {
@@ -35,6 +39,7 @@ public class FishBagFishButton extends MenuButton {
         PersistentDataContainer dataContainer = m.getPersistentDataContainer();
         dataContainer.set(ItemHandler.FishBagId, PersistentDataType.INTEGER, fishBag.Id);
         dataContainer.set(ItemHandler.FishTypeId, PersistentDataType.STRING, type.Id);
+        dataContainer.set(pageKey, PersistentDataType.INTEGER, page);
 
         m.setDisplayName(ChatColor.AQUA + type.Name);
 
@@ -66,22 +71,22 @@ public class FishBagFishButton extends MenuButton {
 
     @Override
     protected void click_left() {
-        getBag().Withdraw(player, getFishType(), getBagItem(), false, true);
+        getBag().Withdraw(player, getFishType(), getBagItem(), false, true, getPage());
     }
 
     @Override
     protected void click_right() {
-        getBag().Withdraw(player, getFishType(), getBagItem(), true, true);
+        getBag().Withdraw(player, getFishType(), getBagItem(), true, true, getPage());
     }
 
     @Override
     protected void click_left_shift() {
-        getBag().Withdraw(player, getFishType(), getBagItem(), false, false);
+        getBag().Withdraw(player, getFishType(), getBagItem(), false, false, getPage());
     }
 
     @Override
     protected void click_right_shift() {
-        getBag().Withdraw(player, getFishType(), getBagItem(), true, false);
+        getBag().Withdraw(player, getFishType(), getBagItem(), true, false, getPage());
     }
 
     private FishBag getBag(){
