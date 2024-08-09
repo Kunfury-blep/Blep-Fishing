@@ -30,7 +30,6 @@ public class PlayerTournamentButton extends MenuButton {
         ItemMeta m = item.getItemMeta();
 
         m.setDisplayName(ChatColor.AQUA + tournament.getType().Name);
-        m = setButtonId(m, getId());
 
         List<String> lore = new ArrayList<>();
         lore.add("");

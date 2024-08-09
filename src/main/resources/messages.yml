@@ -33,7 +33,7 @@ Tournament:
   noneCaughtItem: "No Fish Caught Yet"
   newBest: "{player} just took the top spot in the {tournament}&f with a {rarity} {fish}!"
   allFish: "Fish"
-  noneCaught: "No {fish} were caught before the tournament ended, no rewards have been given."
+  noneCaught: "No fish were caught before the tournament ended, no rewards have been given."
   start: "The {tournament} &fFishing Contest has begun!"
   leaderboard: "&l-- Tournament Leaderboard - Hover For Info --"
   noRewards: "You do not have any rewards to claim."

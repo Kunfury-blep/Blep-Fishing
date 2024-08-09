@@ -1,6 +1,7 @@
 package com.kunfury.blepfishing.objects;
 
 import com.kunfury.blepfishing.database.Database;
+import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.Utilities;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -59,11 +60,8 @@ public class TournamentObject {
     }
 
     public void Finish(){
-        Bukkit.broadcastMessage("Finishing " + getType().Name);
         active = false;
         Database.Tournaments.Update(Id, "active", false);
-
-        //TODO: Parse through winning fish
 
         List<FishObject> winningFish = new ArrayList<>();
         for(var fish : Database.Tournaments.GetWinningFish(this)){
@@ -78,18 +76,24 @@ public class TournamentObject {
             winningFish.add(fish);
         }
 
-        Bukkit.broadcastMessage("Checking Fish from finish line: " + winningFish.size());
+        if(winningFish.isEmpty()){
+            Utilities.Announce(Formatting.getMessage("Tournament.noneCaught"));
+            return;
+        }
 
+
+        //Gives out rewards
         int place = 1;
         for(var fish : winningFish){
             Player p = fish.getCatchingPlayer();
             //Bukkit.broadcastMessage(ChatColor.GOLD + "#" + place + ": " + p.getName());
             type.GiveRewards(place, fish.PlayerId);
+            Utilities.Announce("#" + place + " - " + p.getDisplayName());
         }
 
         //TODO: Announce Winners
 
-        //TODO: Send Out Rewards
+
     }
 
 
