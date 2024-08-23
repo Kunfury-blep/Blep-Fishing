@@ -1,26 +1,25 @@
 package com.kunfury.blepfishing.ui.panels.admin.treasure;
 
-import com.kunfury.blepfishing.objects.TournamentType;
-import com.kunfury.blepfishing.objects.TreasureType;
-import com.kunfury.blepfishing.ui.buttons.admin.tournamentEdit.*;
+import com.kunfury.blepfishing.objects.treasure.Casket;
+import com.kunfury.blepfishing.objects.treasure.TreasureType;
 import com.kunfury.blepfishing.ui.buttons.admin.treasure.*;
 import com.kunfury.blepfishing.ui.objects.Panel;
 import org.bukkit.entity.Player;
 
 public class AdminTreasureEditPanel extends Panel {
 
-    TreasureType type;
-    public AdminTreasureEditPanel(TreasureType type){
-        super("Edit " + type.Name, 18);
-        this.type = type;
+    Casket casket;
+    public AdminTreasureEditPanel(Casket casket){
+        super("Edit " + casket.Name, 18);
+        this.casket = casket;
     }
 
     @Override
     public void BuildInventory(Player player) {
-        AddButton(new TreasureEditNameBtn(type));
-        AddButton(new TreasureEditWeightBtn(type));
-        AddButton(new TreasureEditAnnounceBtn(type));
-        AddButton(new TreasureEditRewardsBtn(type));
+        AddButton(new TreasureEditNameBtn(casket));
+        AddButton(new TreasureEditWeightBtn(casket));
+        AddButton(new TreasureEditAnnounceBtn(casket));
+        AddButton(new TreasureEditRewardsBtn(casket));
 
         inv.setItem(17, new AdminTreasurePanelButton().getBackButton());
     }

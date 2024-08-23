@@ -1,10 +1,9 @@
 package com.kunfury.blepfishing.ui.buttons.admin.treasure;
 
 import com.kunfury.blepfishing.config.ConfigHandler;
-import com.kunfury.blepfishing.objects.TournamentType;
-import com.kunfury.blepfishing.objects.TreasureType;
+import com.kunfury.blepfishing.objects.treasure.Casket;
+import com.kunfury.blepfishing.objects.treasure.TreasureType;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
-import com.kunfury.blepfishing.ui.panels.admin.tournaments.AdminTournamentEditPanel;
 import com.kunfury.blepfishing.ui.panels.admin.treasure.AdminTreasureEditPanel;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -39,11 +38,11 @@ public class AdminTreasureCreateButton extends MenuButton {
             i++;
         }
 
-        TreasureType treasureType = new TreasureType(treasureId, treasureId, 0, false, new ArrayList<>(), 0);
-        TreasureType.AddNew(treasureType);
+        Casket casket = new Casket(treasureId, treasureId, 0, false, new ArrayList<>(), 0);
+        TreasureType.AddNew(casket);
 
         ConfigHandler.instance.treasureConfig.Save();
-        new AdminTreasureEditPanel(treasureType).Show(player);
+        new AdminTreasureEditPanel(casket).Show(player);
     }
 
 

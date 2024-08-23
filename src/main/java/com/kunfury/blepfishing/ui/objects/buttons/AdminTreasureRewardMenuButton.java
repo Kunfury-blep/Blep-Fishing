@@ -1,10 +1,9 @@
 package com.kunfury.blepfishing.ui.objects.buttons;
 
-import com.gmail.nossr50.mcmmo.kyori.adventure.util.Index;
 import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.items.ItemHandler;
-import com.kunfury.blepfishing.objects.TournamentType;
-import com.kunfury.blepfishing.objects.TreasureType;
+import com.kunfury.blepfishing.objects.treasure.Casket;
+import com.kunfury.blepfishing.objects.treasure.TreasureType;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -18,9 +17,9 @@ public abstract class AdminTreasureRewardMenuButton extends AdminTreasureMenuBut
 
 
 
-    protected final TreasureType.TreasureReward Reward;
-    public AdminTreasureRewardMenuButton(TreasureType type, TreasureType.TreasureReward reward){
-        super(type);
+    protected final Casket.TreasureReward Reward;
+    public AdminTreasureRewardMenuButton(Casket casket, Casket.TreasureReward reward){
+        super(casket);
 
         Reward = reward;
     }
@@ -32,8 +31,8 @@ public abstract class AdminTreasureRewardMenuButton extends AdminTreasureMenuBut
         assert m != null;
 
         PersistentDataContainer dataContainer = m.getPersistentDataContainer();
-        dataContainer.set(ItemHandler.TreasureTypeId, PersistentDataType.STRING, treasureType.Id);
-        dataContainer.set(IndexKey, PersistentDataType.INTEGER, treasureType.Rewards.indexOf(Reward));
+        dataContainer.set(ItemHandler.TreasureTypeId, PersistentDataType.STRING, casket.Id);
+        dataContainer.set(IndexKey, PersistentDataType.INTEGER, casket.Rewards.indexOf(Reward));
 
         m = setButtonId(m, getId());
         item.setItemMeta(m);
@@ -45,8 +44,8 @@ public abstract class AdminTreasureRewardMenuButton extends AdminTreasureMenuBut
 //        return ItemHandler.getTagInt(ClickedItem, IndexKey);
 //    }
 
-    protected TreasureType.TreasureReward getReward(){
+    protected Casket.TreasureReward getReward(){
         var index = ItemHandler.getTagInt(ClickedItem, IndexKey);
-        return getTreasureType().Rewards.get(index);
+        return getCasket().Rewards.get(index);
     }
 }

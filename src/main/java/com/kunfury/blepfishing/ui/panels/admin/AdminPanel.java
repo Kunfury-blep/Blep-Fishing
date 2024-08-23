@@ -23,7 +23,7 @@ public class AdminPanel extends Panel {
         if(ConfigHandler.instance.baseConfig.getEnableTournaments())
             inv.setItem(14, new AdminTournamentPanelButton().getItemStack());
 
-        if(ConfigHandler.instance.baseConfig.getEnableTreasure())
+        if(ConfigHandler.instance.treasureConfig.Enabled())
             inv.setItem(15, new AdminTreasurePanelButton().getItemStack());
     }
 }

@@ -2,18 +2,14 @@ package com.kunfury.blepfishing.ui.buttons.admin.treasure;
 
 import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.helpers.Formatting;
-import com.kunfury.blepfishing.items.ItemHandler;
-import com.kunfury.blepfishing.objects.TournamentType;
-import com.kunfury.blepfishing.objects.TreasureType;
-import com.kunfury.blepfishing.ui.objects.buttons.AdminTournamentRewardsMenuButton;
+import com.kunfury.blepfishing.objects.treasure.Casket;
+import com.kunfury.blepfishing.objects.treasure.TreasureType;
 import com.kunfury.blepfishing.ui.objects.buttons.AdminTreasureRewardMenuButton;
-import com.kunfury.blepfishing.ui.panels.admin.tournaments.AdminTournamentEditRewardsPlacementPanel;
 import com.kunfury.blepfishing.ui.panels.admin.treasure.AdminTreasureEditRewardsSelectionPanel;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +17,8 @@ import java.util.List;
 public class TreasureEditRewardSaveBtn extends AdminTreasureRewardMenuButton {
 
 
-    public TreasureEditRewardSaveBtn(TreasureType type, TreasureType.TreasureReward reward){
-        super(type, reward);
+    public TreasureEditRewardSaveBtn(Casket casket, Casket.TreasureReward reward){
+        super(casket, reward);
     }
 
 
@@ -47,7 +43,7 @@ public class TreasureEditRewardSaveBtn extends AdminTreasureRewardMenuButton {
     }
 
     protected void click_left() {
-        var type = getTreasureType();
+        var type = getCasket();
         var reward = getReward();
         player.sendMessage(Formatting.getPrefix() + "Saved rewards for " + type.Name);
 

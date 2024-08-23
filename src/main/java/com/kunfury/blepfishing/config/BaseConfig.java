@@ -17,11 +17,7 @@ public class BaseConfig {
     public boolean getEnableTournaments(){
         return config.getBoolean("Enable Tournaments");
     }
-    public boolean getEnableTreasure(){
-        return config.getBoolean("Enable Treasure");
-    }
 
-    public double getTreasureChance(){return config.getDouble("Treasure Chance");}
     public boolean getShowScoreboard(){
         return config.getBoolean("Show Scoreboard");
     }

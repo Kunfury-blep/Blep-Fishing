@@ -53,7 +53,7 @@ public final class BlepFishing extends JavaPlugin {
         Utilities.RunTimers();
         new ItemParser();
 
-        new TreasureHandler().Initialize();
+        new TreasureHandler();
     }
 
     @Override

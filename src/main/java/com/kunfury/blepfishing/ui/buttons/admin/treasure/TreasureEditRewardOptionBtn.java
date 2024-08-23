@@ -3,31 +3,25 @@ package com.kunfury.blepfishing.ui.buttons.admin.treasure;
 import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.helpers.Formatting;
-import com.kunfury.blepfishing.helpers.Utilities;
-import com.kunfury.blepfishing.objects.TournamentType;
-import com.kunfury.blepfishing.objects.TreasureType;
-import com.kunfury.blepfishing.ui.objects.buttons.AdminTournamentRewardsMenuButton;
-import com.kunfury.blepfishing.ui.objects.buttons.AdminTreasureMenuButton;
+import com.kunfury.blepfishing.objects.treasure.Casket;
+import com.kunfury.blepfishing.objects.treasure.TreasureType;
 import com.kunfury.blepfishing.ui.objects.buttons.AdminTreasureRewardMenuButton;
-import com.kunfury.blepfishing.ui.panels.admin.tournaments.AdminTournamentEditRewardsPlacementPanel;
 import com.kunfury.blepfishing.ui.panels.admin.treasure.AdminTreasureEditRewardsPanel;
 import com.kunfury.blepfishing.ui.panels.admin.treasure.AdminTreasureEditRewardsSelectionPanel;
-import com.kunfury.blepfishing.ui.panels.admin.treasure.AdminTreasurePanel;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.entity.Item;
+import org.bukkit.block.data.type.Cake;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class TreasureEditRewardOptionBtn extends AdminTreasureRewardMenuButton {
 
 
-    public TreasureEditRewardOptionBtn(TreasureType type, TreasureType.TreasureReward reward){
-        super(type, reward);
+    public TreasureEditRewardOptionBtn(Casket casket, Casket.TreasureReward reward){
+        super(casket, reward);
     }
 
 
@@ -83,12 +77,12 @@ public class TreasureEditRewardOptionBtn extends AdminTreasureRewardMenuButton {
     }
 
     protected void click_left() {
-        new AdminTreasureEditRewardsSelectionPanel(getTreasureType(), getReward()).Show(player);
+        new AdminTreasureEditRewardsSelectionPanel(getCasket(), getReward()).Show(player);
     }
 
     @Override
     protected void click_right_shift() {
-        TreasureType type = getTreasureType();
+        Casket casket = getCasket();
         var reward = getReward();
 
         if(!reward.ConfirmedDelete){
@@ -99,12 +93,12 @@ public class TreasureEditRewardOptionBtn extends AdminTreasureRewardMenuButton {
             } , 300);
         }
         else{
-            type.Rewards.remove(reward);
+            casket.Rewards.remove(reward);
             ConfigHandler.instance.treasureConfig.Save();
-            player.sendMessage(ChatColor.YELLOW + "Successfully Deleted Reward From " + ChatColor.WHITE + Formatting.formatColor(type.Name));
+            player.sendMessage(ChatColor.YELLOW + "Successfully Deleted Reward From " + ChatColor.WHITE + Formatting.formatColor(casket.Name));
         }
 
-        new AdminTreasureEditRewardsPanel(type).Show(player);
+        new AdminTreasureEditRewardsPanel(casket).Show(player);
     }
 
 }

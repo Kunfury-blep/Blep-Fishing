@@ -2,9 +2,8 @@ package com.kunfury.blepfishing.helpers;
 
 import com.kunfury.blepfishing.config.*;
 import com.kunfury.blepfishing.items.ItemHandler;
-import com.kunfury.blepfishing.objects.TreasureType;
-import com.kunfury.blepfishing.ui.objects.Panel;
-import jdk.jshell.execution.Util;
+import com.kunfury.blepfishing.objects.treasure.Casket;
+import com.kunfury.blepfishing.objects.treasure.TreasureType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -12,10 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.text.Format;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -25,14 +21,22 @@ public class TreasureHandler {
     public static TreasureHandler instance;
     public final static HashMap<Player, Inventory> OpenInventories = new HashMap<>();
 
-    public void Initialize(){
+    public TreasureHandler(){
+        if(instance != null){
+            Utilities.Severe("Treasure Handler Instance Already Exists");
+            return;
+        }
         instance = this;
+
+        for(var treasure : TreasureType.ActiveTypes.values()){
+            totalWeight += treasure.Weight;
+        }
     }
 
     public boolean TreasureCaught(){
         if(!Enabled) return false;
         double randR = ThreadLocalRandom.current().nextDouble(0, 100);
-        var treasureChance = ConfigHandler.instance.baseConfig.getTreasureChance();
+        var treasureChance = ConfigHandler.instance.treasureConfig.getTreasureChance();
 
 //        Bukkit.broadcastMessage("Treasure Chance: " + treasureChance);
 //        Bukkit.broadcastMessage("Roll: " + randR);
@@ -41,17 +45,25 @@ public class TreasureHandler {
     }
 
     public ItemStack GetTreasureItem(){
-        return GetTreasure().GetItem();
+        var treasure = GetTreasure();
+
+        if(treasure == null){
+            return null;
+        }
+
+        return treasure.GetItem();
     }
 
     private TreasureType GetTreasure(){
         //Rarity Selection
-        int randR = ThreadLocalRandom.current().nextInt(0, TreasureType.GetTotalWeight());
+        int randR = ThreadLocalRandom.current().nextInt(0, GetTotalWeight());
 
-        List<TreasureType> types = new java.util.ArrayList<>(TreasureType.GetAll().stream().toList());
-        types.sort((TreasureType t1, TreasureType t2) -> t1.Weight - t2.Weight);
+        var treasures = new ArrayList<>(TreasureType.ActiveTypes.values());
 
-        for(var t : types){
+        treasures.sort(Comparator.comparingInt((TreasureType t) -> t.Weight));
+
+        for(var t : treasures){
+            Bukkit.broadcastMessage(t.Id + " - " + t.Weight);
             if(randR <= t.Weight) {
                 return t;
             }else
@@ -64,17 +76,17 @@ public class TreasureHandler {
 
     public void Open(ItemStack item, Player player) {
         var treasureId = ItemHandler.getTagString(item, ItemHandler.TreasureTypeId);
-        var treasureType = TreasureType.FromId(treasureId);
+        var casket = Casket.FromId(treasureId);
 
-        if(treasureType == null){
+        if(casket == null){
             Utilities.Severe("Could not find treasure type to open with id " + treasureId);
             return;
         }
 
         player.playSound(player.getLocation(), Sound.BLOCK_CHEST_OPEN, .30f, 1f);
 
-        if(treasureType.Rewards.isEmpty()){
-            Utilities.Severe(player.getDisplayName() + " tried to open a " + treasureType.Name + " which contained no drops.");
+        if(casket.Rewards.isEmpty()){
+            Utilities.Severe(player.getDisplayName() + " tried to open a " + casket.Name + " which contained no drops.");
         }
 
         List<ItemStack> treasureDrops = new ArrayList<>();
@@ -82,10 +94,10 @@ public class TreasureHandler {
         while(treasureDrops.isEmpty()){ //Ensures at least one item drops
             i++;
             if(i >= 1000){
-                Utilities.Severe("No rewards found after 1,000 iterations on " + treasureType.Name);
+                Utilities.Severe("No rewards found after 1,000 iterations on " + casket.Name);
                 return;
             }
-            for(var reward : treasureType.Rewards){
+            for(var reward : casket.Rewards){
                 if(!reward.Drops())
                     continue;
 
@@ -93,7 +105,7 @@ public class TreasureHandler {
             }
         }
 
-        Inventory inv = Bukkit.createInventory(player, Utilities.getInventorySize(treasureDrops.size()), Formatting.formatColor(treasureType.Name));
+        Inventory inv = Bukkit.createInventory(player, Utilities.getInventorySize(treasureDrops.size()), Formatting.formatColor(casket.Name));
 
         for(var itemDrop : treasureDrops){
             inv.addItem(itemDrop);
@@ -120,4 +132,10 @@ public class TreasureHandler {
 
         OpenInventories.remove(player);
     }
+
+    private int totalWeight = 0;
+    public int GetTotalWeight(){
+        return totalWeight;
+    }
+
 }

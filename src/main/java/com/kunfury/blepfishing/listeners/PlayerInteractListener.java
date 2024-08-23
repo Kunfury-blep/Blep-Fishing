@@ -2,13 +2,12 @@ package com.kunfury.blepfishing.listeners;
 
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.TreasureHandler;
-import com.kunfury.blepfishing.objects.TreasureType;
+import com.kunfury.blepfishing.objects.treasure.TreasureType;
 import com.kunfury.blepfishing.ui.panels.player.PlayerPanel;
 import com.kunfury.blepfishing.items.ItemHandler;
 import com.kunfury.blepfishing.items.recipes.TournamentHornRecipe;
 import com.kunfury.blepfishing.objects.FishBag;
 import com.kunfury.blepfishing.objects.TournamentType;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;

@@ -1,11 +1,9 @@
 package com.kunfury.blepfishing.ui.buttons.admin.treasure;
 
 import com.kunfury.blepfishing.config.ConfigHandler;
-import com.kunfury.blepfishing.objects.TreasureType;
-import com.kunfury.blepfishing.ui.objects.buttons.AdminTreasureMenuButton;
+import com.kunfury.blepfishing.objects.treasure.Casket;
+import com.kunfury.blepfishing.objects.treasure.TreasureType;
 import com.kunfury.blepfishing.ui.objects.buttons.AdminTreasureRewardMenuButton;
-import com.kunfury.blepfishing.ui.panels.admin.treasure.AdminTreasureEditPanel;
-import com.kunfury.blepfishing.ui.panels.admin.treasure.AdminTreasureEditRewardsPanel;
 import com.kunfury.blepfishing.ui.panels.admin.treasure.AdminTreasureEditRewardsSelectionPanel;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -16,8 +14,8 @@ import java.util.ArrayList;
 
 public class TreasureEditRewardAnnounceBtn extends AdminTreasureRewardMenuButton {
 
-    public TreasureEditRewardAnnounceBtn(TreasureType type, TreasureType.TreasureReward reward) {
-        super(type, reward);
+    public TreasureEditRewardAnnounceBtn(Casket casket, Casket.TreasureReward reward) {
+        super(casket, reward);
     }
 
     @Override
@@ -32,7 +30,7 @@ public class TreasureEditRewardAnnounceBtn extends AdminTreasureRewardMenuButton
 
         m.setDisplayName("Announce Item");
         ArrayList<String> lore = new ArrayList<>();
-        if(treasureType.Announce)
+        if(casket.Announce)
             lore.add(ChatColor.GREEN + "Enabled");
         else
             lore.add(ChatColor.RED + "Disabled");
@@ -47,7 +45,7 @@ public class TreasureEditRewardAnnounceBtn extends AdminTreasureRewardMenuButton
     }
 
     protected void click_left() {
-        var treasure = getTreasureType();
+        var treasure = getCasket();
         var reward = getReward();
 
         reward.Announce = !reward.Announce;

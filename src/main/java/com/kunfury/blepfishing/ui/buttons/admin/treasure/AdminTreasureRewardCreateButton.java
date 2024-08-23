@@ -1,10 +1,8 @@
 package com.kunfury.blepfishing.ui.buttons.admin.treasure;
 
 import com.kunfury.blepfishing.config.ConfigHandler;
-import com.kunfury.blepfishing.objects.TreasureType;
-import com.kunfury.blepfishing.ui.objects.MenuButton;
-import com.kunfury.blepfishing.ui.panels.admin.treasure.AdminTreasureEditPanel;
-import com.kunfury.blepfishing.ui.panels.admin.treasure.AdminTreasureEditRewardsPanel;
+import com.kunfury.blepfishing.objects.treasure.Casket;
+import com.kunfury.blepfishing.objects.treasure.TreasureType;
 import com.kunfury.blepfishing.ui.panels.admin.treasure.AdminTreasureEditRewardsSelectionPanel;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -13,8 +11,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 
 public class AdminTreasureRewardCreateButton extends AdminTreasureButton {
-    public AdminTreasureRewardCreateButton(TreasureType treasureType) {
-        super(treasureType);
+    public AdminTreasureRewardCreateButton(Casket casket) {
+        super(casket);
     }
 
     @Override
@@ -35,13 +33,13 @@ public class AdminTreasureRewardCreateButton extends AdminTreasureButton {
     }
 
     protected void click_left() {
-        TreasureType type = getTreasureType();
+        Casket casket = getCasket();
 
-        var reward = new TreasureType.TreasureReward(0, null, false, 0);
-        type.Rewards.add(reward);
+        var reward = new Casket.TreasureReward(0, null, false, 0);
+        casket.Rewards.add(reward);
 
         ConfigHandler.instance.treasureConfig.Save();
-        new AdminTreasureEditRewardsSelectionPanel(type, reward).Show(player);
+        new AdminTreasureEditRewardsSelectionPanel(casket, reward).Show(player);
     }
 
 

@@ -1,8 +1,10 @@
 package com.kunfury.blepfishing.config;
 
 import com.kunfury.blepfishing.BlepFishing;
-import com.kunfury.blepfishing.helpers.Utilities;
-import com.kunfury.blepfishing.objects.TreasureType;
+import com.kunfury.blepfishing.objects.treasure.Casket;
+import com.kunfury.blepfishing.objects.treasure.CompassPiece;
+import com.kunfury.blepfishing.objects.treasure.TreasureType;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -16,7 +18,7 @@ import java.util.List;
 
 public class TreasureConfig {
 
-    private final FileConfiguration treasureConfig;
+    private FileConfiguration config;
 
     public TreasureConfig(){
         File treasureConfigFile = new File(BlepFishing.instance.getDataFolder(), "treasure.yml");
@@ -26,7 +28,7 @@ public class TreasureConfig {
             treasureConfigFile = new File(BlepFishing.instance.getDataFolder(), "treasure.yml");
         }
 
-        treasureConfig = YamlConfiguration.loadConfiguration(treasureConfigFile);
+        config = YamlConfiguration.loadConfiguration(treasureConfigFile);
 
         Load();
     }
@@ -34,63 +36,106 @@ public class TreasureConfig {
     private void Load(){
         //Map<String, Object> fishMap = fishConfig.getDefaultSection().getValues(false);
 
-        for(final String key : treasureConfig.getValues(false).keySet()){
-            String name = treasureConfig.getString(key + ".Name");
-            int weight = treasureConfig.getInt(key + ".Weight");
-            boolean announce = treasureConfig.getBoolean(key + ".Announce");
+        UpdateOld();
 
-            var rewardsConfig = treasureConfig.getConfigurationSection(key + ".Rewards");
+        var casketConfig = config.getConfigurationSection("Caskets");
+        var compassConfig = config.getConfigurationSection("Compasses");
 
-            List<TreasureType.TreasureReward> rewards = new ArrayList<>();
-            double cashReward = 0;
+        if(casketConfig != null){
+            for(final String key : casketConfig.getValues(false).keySet()){
+                String name = casketConfig.getString(key + ".Name");
+                int weight = casketConfig.getInt(key + ".Weight");
+                boolean announce = casketConfig.getBoolean(key + ".Announce");
 
-            if(rewardsConfig != null){
-                for(var i : rewardsConfig.getValues(false).keySet()){
-                    double dropChance = rewardsConfig.getDouble(i + ".Drop Chance");
-                    boolean rewardAnnounce = rewardsConfig.getBoolean(i + ".Announce");
-                    double cash = rewardsConfig.getDouble(i + ".Cash");
-                    ItemStack item = rewardsConfig.getItemStack(i + ".Item");
-                    rewards.add(new TreasureType.TreasureReward(dropChance, item, rewardAnnounce, cash));
+                var rewardsConfig = casketConfig.getConfigurationSection(key + ".Rewards");
+
+                List<Casket.TreasureReward> rewards = new ArrayList<>();
+                double cashReward = 0;
+
+                if(rewardsConfig != null){
+                    for(var i : rewardsConfig.getValues(false).keySet()){
+                        double dropChance = rewardsConfig.getDouble(i + ".Drop Chance");
+                        boolean rewardAnnounce = rewardsConfig.getBoolean(i + ".Announce");
+                        double cash = rewardsConfig.getDouble(i + ".Cash");
+                        ItemStack item = rewardsConfig.getItemStack(i + ".Item");
+                        rewards.add(new Casket.TreasureReward(dropChance, item, rewardAnnounce, cash));
+                    }
                 }
 
-                //Get all cash rewards
-//                if(rewardsConfig.contains("Cash")){
-//                    cashReward = rewardsConfig.getDouble("Cash");
-//                }
 
-                //Get all basic item rewards
-//                if(rewardsConfig.contains("Items")){
-//                    var configList = rewardsConfig.getList("Items");
-//                    assert configList != null;
-//                    for(var i : configList){
-//                        if(!(i instanceof ItemStack)){
-//                            Utilities.Severe("Tried to load invalid Itemstack from treasure: " + key);
-//                            continue;
-//                        }
-//                        itemRewards.add((ItemStack) i);
-//                    }
-//                }
+
+                Casket casket = new Casket(key, name, weight, announce, rewards, cashReward);
+                Casket.AddNew(casket);
             }
+            Bukkit.getLogger().warning("Caskets Found: " + Casket.GetAll().size());
+        }
+
+        if(compassConfig != null){
+            int weight = compassConfig.getInt("Weight");
+            boolean announce = casketConfig.getBoolean("Announce");
+
+            CompassPiece compassPiece = new CompassPiece("compassPiece", weight, announce);
+            CompassPiece.AddNew(compassPiece);
+        }
+    }
+
+    private void UpdateOld(){
+        if(!config.contains("Caskets")) {
+            Bukkit.getLogger().warning("Outdated Treasure Config Detected. Updating");
+            config.set("Enabled", true);
+            config.set("Treasure Chance", 10.0);
+            for (final String key : config.getValues(false).keySet()) {
+                String name = config.getString(key + ".Name");
+                int weight = config.getInt(key + ".Weight");
+                boolean announce = config.getBoolean(key + ".Announce");
+
+                var rewardsConfig = config.getConfigurationSection(key + ".Rewards");
+
+                List<Casket.TreasureReward> rewards = new ArrayList<>();
+                double cashReward = 0;
+
+                if (rewardsConfig != null) {
+                    for (var i : rewardsConfig.getValues(false).keySet()) {
+                        double dropChance = rewardsConfig.getDouble(i + ".Drop Chance");
+                        boolean rewardAnnounce = rewardsConfig.getBoolean(i + ".Announce");
+                        double cash = rewardsConfig.getDouble(i + ".Cash");
+                        ItemStack item = rewardsConfig.getItemStack(i + ".Item");
+                        rewards.add(new Casket.TreasureReward(dropChance, item, rewardAnnounce, cash));
+                    }
+                }
 
 
-            TreasureType treasureType = new TreasureType(key, name, weight, announce, rewards, cashReward);
-            TreasureType.AddNew(treasureType);
+                Casket casket = new Casket(key, name, weight, announce, rewards, cashReward);
+                TreasureType.AddNew(casket);
+            }
+            Save();
+
+            TreasureType.Clear();
+
+            File treasureConfigFile = new File(BlepFishing.instance.getDataFolder(), "treasure.yml");
+            config = YamlConfiguration.loadConfiguration(treasureConfigFile);
+
+
         }
     }
 
     public void Save(){
         FileConfiguration newTreasureConfig = new YamlConfiguration();
 
-        var sortedTreasures = TreasureType.GetAll()
-                .stream().sorted(Comparator.comparing(treasure -> treasure.Weight)).toList();
-        for(var type : sortedTreasures){
-            String key = type.Id;
-            newTreasureConfig.set(key + ".Name", type.Name);
-            newTreasureConfig.set(key + ".Weight", type.Weight);
-            newTreasureConfig.set(key + ".Announce", type.Announce);
+        newTreasureConfig.set("Enabled", Enabled());
+        newTreasureConfig.set("Treasure Chance", getTreasureChance());
 
-            for(var i : type.Rewards){
-                var path = key + ".Rewards." + type.Rewards.indexOf(i);
+        List<Casket> sortedTreasures = Casket.GetAll()
+                .stream()
+                .sorted(Comparator.comparing(treasure -> treasure.Weight)).toList();
+        for(var casket : sortedTreasures){
+            String key = "Caskets." + casket.Id;
+            newTreasureConfig.set(key + ".Name", casket.Name);
+            newTreasureConfig.set(key + ".Weight", casket.Weight);
+            newTreasureConfig.set(key + ".Announce", casket.Announce);
+
+            for(var i : casket.Rewards){
+                var path = key + ".Rewards." + casket.Rewards.indexOf(i);
                 newTreasureConfig.set(path + ".Drop Chance", i.DropChance);
                 newTreasureConfig.set(path + ".Announce", i.Announce);
                 newTreasureConfig.set(path + ".Cash", i.Cash);
@@ -105,4 +150,12 @@ public class TreasureConfig {
             throw new RuntimeException(e);
         }
     }
+
+    public boolean Enabled(){
+        return config.getBoolean("Enabled");
+    }
+    public double getTreasureChance(){return config.getDouble("Treasure Chance");}
+
+    public boolean getCompassEnabled(){return config.getBoolean("Compasses.Enabled");}
+    public int getCompassWeight(){return config.getInt("Compasses.Weight");}
 }

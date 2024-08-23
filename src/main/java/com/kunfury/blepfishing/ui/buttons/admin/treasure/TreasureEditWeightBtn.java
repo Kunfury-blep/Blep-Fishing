@@ -2,29 +2,23 @@ package com.kunfury.blepfishing.ui.buttons.admin.treasure;
 
 import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.config.ConfigHandler;
-import com.kunfury.blepfishing.config.TreasureConfig;
-import com.kunfury.blepfishing.helpers.Formatting;
-import com.kunfury.blepfishing.items.ItemHandler;
-import com.kunfury.blepfishing.objects.TournamentType;
-import com.kunfury.blepfishing.objects.TreasureType;
+import com.kunfury.blepfishing.objects.treasure.Casket;
+import com.kunfury.blepfishing.objects.treasure.TreasureType;
 import com.kunfury.blepfishing.ui.objects.buttons.AdminTreasureMenuButton;
-import com.kunfury.blepfishing.ui.panels.admin.tournaments.AdminTournamentEditPanel;
 import com.kunfury.blepfishing.ui.panels.admin.treasure.AdminTreasureEditPanel;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.conversations.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
 public class TreasureEditWeightBtn extends AdminTreasureMenuButton {
-    public TreasureEditWeightBtn(TreasureType type) {
-        super(type);
+    public TreasureEditWeightBtn(Casket casket) {
+        super(casket);
     }
 
     @Override
@@ -35,7 +29,7 @@ public class TreasureEditWeightBtn extends AdminTreasureMenuButton {
 
         m.setDisplayName("Weight");
         ArrayList<String> lore = new ArrayList<>();
-        lore.add(ChatColor.BLUE.toString() + treasureType.Weight);
+        lore.add(ChatColor.BLUE.toString() + casket.Weight);
         lore.add("");
         lore.add("The weight determines how likely it is to catch a fish of this rarity.");
         lore.add("The lower the weight, the less likely it is to be caught.");
@@ -67,7 +61,7 @@ public class TreasureEditWeightBtn extends AdminTreasureMenuButton {
         @NotNull
         @Override
         public String getPromptText(@NotNull ConversationContext context) {
-            TreasureType type = getTreasureType();
+            TreasureType type = getCasket();
             return "What should the Treasure weight be? Current: " + type.Weight;        }
 
         @Override
@@ -78,11 +72,11 @@ public class TreasureEditWeightBtn extends AdminTreasureMenuButton {
         @Nullable
         @Override
         protected Prompt acceptValidatedInput(@NotNull ConversationContext conversationContext, @NotNull Number number) {
-            TreasureType type = getTreasureType();
-            type.Weight = number.intValue();
+            Casket casket = getCasket();
+            casket.Weight = number.intValue();
 
             ConfigHandler.instance.treasureConfig.Save();
-            new AdminTreasureEditPanel(type).Show(player);
+            new AdminTreasureEditPanel(casket).Show(player);
 
             return END_OF_CONVERSATION;
         }

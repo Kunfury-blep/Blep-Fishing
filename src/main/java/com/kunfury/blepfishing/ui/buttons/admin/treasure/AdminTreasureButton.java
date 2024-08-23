@@ -1,16 +1,11 @@
 package com.kunfury.blepfishing.ui.buttons.admin.treasure;
 
-import com.gmail.nossr50.mcmmo.kyori.adventure.platform.facet.Facet;
 import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.helpers.Formatting;
-import com.kunfury.blepfishing.items.ItemHandler;
 import com.kunfury.blepfishing.objects.TournamentType;
-import com.kunfury.blepfishing.objects.TreasureType;
-import com.kunfury.blepfishing.ui.objects.buttons.AdminTournamentMenuButton;
+import com.kunfury.blepfishing.objects.treasure.Casket;
 import com.kunfury.blepfishing.ui.objects.buttons.AdminTreasureMenuButton;
-import com.kunfury.blepfishing.ui.panels.admin.tournaments.AdminTournamentEditPanel;
-import com.kunfury.blepfishing.ui.panels.admin.tournaments.AdminTournamentPanel;
 import com.kunfury.blepfishing.ui.panels.admin.treasure.AdminTreasureEditPanel;
 import com.kunfury.blepfishing.ui.panels.admin.treasure.AdminTreasurePanel;
 import org.bukkit.Bukkit;
@@ -18,16 +13,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AdminTreasureButton extends AdminTreasureMenuButton {
 
-    public AdminTreasureButton(TreasureType treasureType) {
-        super(treasureType);
+    public AdminTreasureButton(Casket casket) {
+        super(casket);
     }
 
     @Override
@@ -35,7 +28,7 @@ public class AdminTreasureButton extends AdminTreasureMenuButton {
         ItemStack item = new ItemStack(Material.CHEST);
         ItemMeta m = item.getItemMeta();
 
-        m.setDisplayName(Formatting.formatColor(treasureType.Name));
+        m.setDisplayName(Formatting.formatColor(casket.Name));
         m = setButtonId(m, getId());
 
         List<String> lore = new ArrayList<>();
@@ -43,7 +36,7 @@ public class AdminTreasureButton extends AdminTreasureMenuButton {
         int finishedRewards = 0;
         int unfinishedRewards = 0;
 
-        for(var i : treasureType.Rewards){
+        for(var i : casket.Rewards){
             if(i.Item == null && i.Cash == 0)
                 unfinishedRewards++;
             else
@@ -55,13 +48,13 @@ public class AdminTreasureButton extends AdminTreasureMenuButton {
         }else{
             if(finishedRewards > 0)
                 lore.add(ChatColor.GREEN.toString() + finishedRewards + "x Rewards");
-            if(finishedRewards > 0)
+            if(unfinishedRewards > 0)
                 lore.add(ChatColor.YELLOW.toString() + unfinishedRewards + "x Empty Rewards");
         }
 
         lore.add("");
         lore.add(ChatColor.YELLOW + "Left-Click to Edit");
-        if(!treasureType.ConfirmedDelete)
+        if(!casket.ConfirmedDelete)
             lore.add( ChatColor.RED + "Shift Right-Click to Delete");
         else
             lore.add(ChatColor.RED + "Really Delete?");
@@ -75,25 +68,25 @@ public class AdminTreasureButton extends AdminTreasureMenuButton {
 
     @Override
     protected void click_left() {
-        TreasureType type = getTreasureType();
-        new AdminTreasureEditPanel(type).Show(player);
+        Casket casket = getCasket();
+        new AdminTreasureEditPanel(casket).Show(player);
     }
 
     @Override
     protected void click_right_shift() {
-        TreasureType type = getTreasureType();
+        Casket casket = getCasket();
 
-        if(!type.ConfirmedDelete){
-            type.ConfirmedDelete = true;
+        if(!casket.ConfirmedDelete){
+            casket.ConfirmedDelete = true;
 
             Bukkit.getScheduler ().runTaskLater (BlepFishing.getPlugin(), () ->{
-                type.ConfirmedDelete = false;
+                casket.ConfirmedDelete = false;
             } , 300);
         }
         else{
-            TreasureType.Delete(type);
+            Casket.Delete(casket);
             ConfigHandler.instance.treasureConfig.Save();
-            player.sendMessage(ChatColor.YELLOW + "Successfully Deleted " + ChatColor.WHITE + Formatting.formatColor(type.Name));
+            player.sendMessage(ChatColor.YELLOW + "Successfully Deleted " + ChatColor.WHITE + Formatting.formatColor(casket.Name));
         }
 
         new AdminTreasurePanel().Show(player);
