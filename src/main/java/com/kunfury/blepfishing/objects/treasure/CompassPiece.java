@@ -4,6 +4,7 @@ import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.items.ItemHandler;
 import com.kunfury.blepfishing.objects.FishingArea;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -37,5 +38,10 @@ public class CompassPiece extends TreasureType{
         item.setItemMeta(itemMeta);
 
         return  item;
+    }
+
+    @Override
+    public boolean CanGenerate(Player player){
+        return true;
     }
 }

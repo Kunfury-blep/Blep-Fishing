@@ -2,6 +2,7 @@ package com.kunfury.blepfishing.objects.treasure;
 
 import com.kunfury.blepfishing.items.ItemHandler;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
@@ -24,6 +25,8 @@ public abstract class TreasureType {
     }
 
     public abstract ItemStack GetItem();
+
+    public abstract boolean CanGenerate(Player player);
 
     public static boolean IsTreasure(ItemStack item){
         return ItemHandler.hasTag(item, ItemHandler.TreasureTypeId);

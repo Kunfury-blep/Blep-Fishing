@@ -6,6 +6,8 @@ import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.TreasureHandler;
 import com.kunfury.blepfishing.helpers.Utilities;
+import com.kunfury.blepfishing.objects.treasure.CompassPiece;
+import com.kunfury.blepfishing.objects.treasure.TreasureType;
 import com.kunfury.blepfishing.ui.scoreboards.DisplayFishInfo;
 import com.kunfury.blepfishing.items.ItemHandler;
 import com.kunfury.blepfishing.objects.*;
@@ -52,11 +54,17 @@ public class FishingListener implements Listener {
         Player player = e.getPlayer();
 
         if(TreasureHandler.instance.TreasureCaught()){
-            //Bukkit.broadcastMessage("Treasure caught!");
+            TreasureType treasureType = TreasureHandler.instance.GetTreasure();
 
-            ItemStack treasureItem = TreasureHandler.instance.GetTreasureItem();
-            item.setItemStack(treasureItem);
-            return;
+            if(treasureType != null && treasureType.CanGenerate(player)){
+                var treasureItem = treasureType.GetItem();
+                if(treasureItem != null){ //Ensures a treasure item was found, gives a normal fish otherwise
+                    item.setItemStack(treasureItem);
+                    return;
+                }
+            }
+
+
         }
 
         FishType fishType = GetCaughtFishType(item.getLocation());
@@ -87,9 +95,6 @@ public class FishingListener implements Listener {
                 }
             }
         }
-
-
-
 
         FishObject caughtFish = fishType.GenerateFish(rarity, e.getPlayer().getUniqueId(), rodId, bagId);
 

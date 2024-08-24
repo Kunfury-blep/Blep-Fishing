@@ -38,9 +38,6 @@ public class TreasureHandler {
         double randR = ThreadLocalRandom.current().nextDouble(0, 100);
         var treasureChance = ConfigHandler.instance.treasureConfig.getTreasureChance();
 
-//        Bukkit.broadcastMessage("Treasure Chance: " + treasureChance);
-//        Bukkit.broadcastMessage("Roll: " + randR);
-
         return randR <= treasureChance;
     }
 
@@ -54,7 +51,7 @@ public class TreasureHandler {
         return treasure.GetItem();
     }
 
-    private TreasureType GetTreasure(){
+    public TreasureType GetTreasure(){
         //Rarity Selection
         int randR = ThreadLocalRandom.current().nextInt(0, GetTotalWeight());
 

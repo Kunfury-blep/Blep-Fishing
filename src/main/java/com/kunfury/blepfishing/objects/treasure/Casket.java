@@ -5,6 +5,7 @@ import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.items.ItemHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -52,6 +53,11 @@ public class Casket extends TreasureType {
         item.setItemMeta(itemMeta);
 
         return  item;
+    }
+
+    @Override
+    public boolean CanGenerate(Player player) {
+        return true;
     }
 
     public static class TreasureReward{
