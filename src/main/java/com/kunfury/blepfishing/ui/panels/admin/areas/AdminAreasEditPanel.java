@@ -3,6 +3,7 @@ package com.kunfury.blepfishing.ui.panels.admin.areas;
 import com.kunfury.blepfishing.objects.FishingArea;
 import com.kunfury.blepfishing.objects.Rarity;
 import com.kunfury.blepfishing.ui.buttons.admin.areas.AdminAreaBiomesBtn;
+import com.kunfury.blepfishing.ui.buttons.admin.areas.AdminAreaCompassBtn;
 import com.kunfury.blepfishing.ui.buttons.admin.areas.AdminAreaNameBtn;
 import com.kunfury.blepfishing.ui.buttons.admin.areas.AdminAreasPanelBtn;
 import com.kunfury.blepfishing.ui.buttons.admin.rarities.AdminRaritiesPanelBtn;
@@ -22,6 +23,7 @@ public class AdminAreasEditPanel extends Panel {
 
         AddButton(new AdminAreaNameBtn(area));
         AddButton(new AdminAreaBiomesBtn(area));
+        AddButton(new AdminAreaCompassBtn(area));
 
         inv.setItem(17, new AdminAreasPanelBtn().getBackButton());
     }

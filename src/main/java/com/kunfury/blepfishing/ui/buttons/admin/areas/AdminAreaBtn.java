@@ -38,6 +38,9 @@ public class AdminAreaBtn extends AdminAreaMenuButton {
         m = setButtonId(m, getId());
 
         List<String> lore = new ArrayList<>();
+
+        lore.add(ChatColor.BLUE + "Has Compass: " + ChatColor.YELLOW + area.HasCompassPiece);
+
         var biomeList = Formatting.toLoreList(Formatting.getCommaList(area.Biomes, ChatColor.WHITE, ChatColor.BLUE));
 
         lore.add(ChatColor.BLUE + "- Biomes -");

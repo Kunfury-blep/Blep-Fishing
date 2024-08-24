@@ -12,12 +12,15 @@ public class FishingArea {
     public String Id;
     public String Name;
     public List<String> Biomes;
+    public boolean HasCompassPiece;
 
     public boolean ConfirmedDelete;
 
-    public FishingArea(String id, String name, List<String> biomes){
+    public FishingArea(String id, String name, List<String> biomes, boolean hasCompassPiece){
         Id = id;
         Name = name;
+        HasCompassPiece = hasCompassPiece;
+
         Biomes = new ArrayList<>();
 
         biomes.forEach(b -> {

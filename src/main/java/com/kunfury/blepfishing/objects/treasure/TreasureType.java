@@ -3,6 +3,7 @@ package com.kunfury.blepfishing.objects.treasure;
 import com.kunfury.blepfishing.items.ItemHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
@@ -25,6 +26,10 @@ public abstract class TreasureType {
     }
 
     public abstract ItemStack GetItem();
+
+    public ItemStack GetItem(PlayerFishEvent e){
+        return GetItem();
+    }
 
     public abstract boolean CanGenerate(Player player);
 

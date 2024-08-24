@@ -57,7 +57,7 @@ public class FishingListener implements Listener {
             TreasureType treasureType = TreasureHandler.instance.GetTreasure();
 
             if(treasureType != null && treasureType.CanGenerate(player)){
-                var treasureItem = treasureType.GetItem();
+                var treasureItem = treasureType.GetItem(e);
                 if(treasureItem != null){ //Ensures a treasure item was found, gives a normal fish otherwise
                     item.setItemStack(treasureItem);
                     return;
