@@ -35,7 +35,7 @@ public class CraftingHandler {
     public static void CheckBagCraft(CraftItemEvent e, ItemStack item){
         if(!FishBag.IsBag(item) || FishBag.IsBag(e.getInventory().getResult())) return;
         e.setCancelled(true);
-        e.getWhoClicked().sendMessage(Formatting.getPrefix() + ChatColor.RED + "You cannot use your bag for that."); //Add to messages.yml
+        e.getWhoClicked().sendMessage(Formatting.getPrefix() + ChatColor.RED + "You cannot use your bag for that."); //TODO: Add to messages.yml
     }
 
 }

@@ -19,7 +19,7 @@ public abstract class TreasureType {
     public boolean Announce;
 
     public TreasureType(String id, int weight, boolean announce){
-        Bukkit.getLogger().warning(id + " - " + weight);
+        //Bukkit.getLogger().warning(id + " - " + weight);
         Id = id;
         Weight = weight;
         Announce = announce;

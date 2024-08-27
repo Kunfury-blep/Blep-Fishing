@@ -67,7 +67,7 @@ public class TreasureConfig {
                 Casket casket = new Casket(key, name, weight, announce, rewards, cashReward);
                 Casket.AddNew(casket);
             }
-            Bukkit.getLogger().warning("Caskets Found: " + Casket.GetAll().size());
+            //Bukkit.getLogger().warning("Caskets Found: " + Casket.GetAll().size());
         }
 
         if(compassConfig != null){

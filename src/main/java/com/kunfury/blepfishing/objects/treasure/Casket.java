@@ -24,9 +24,6 @@ public class Casket extends TreasureType {
 
     public Casket(String id, String name, int weight, boolean announce, List<TreasureReward> rewards, double cashReward) {
         super(id, weight, announce);
-
-        Bukkit.getLogger().warning(id + " - " + weight);
-
         Rewards = rewards;
         CashReward = cashReward;
         Name = name;

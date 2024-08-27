@@ -5,11 +5,13 @@ import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.items.CraftingHandler;
 import com.kunfury.blepfishing.items.ItemHandler;
 import com.kunfury.blepfishing.objects.FishBag;
+import com.kunfury.blepfishing.objects.treasure.CompassPiece;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -47,6 +49,21 @@ public class CraftItemListener implements Listener {
                 }
             }
         }
+    }
+
+    @EventHandler
+    public void onPrepareItemCraft(PrepareItemCraftEvent e){
+        if(!e.getInventory().contains(Material.PRISMARINE_SHARD))
+            return;
+
+        var matrix = e.getInventory().getMatrix();
+        for(var i : matrix){
+            if(i != null && !CompassPiece.IsPiece(i))
+                return;
+        }
+
+        e.getInventory().setResult(CompassPiece.Combine(matrix));
+
     }
 
 }
