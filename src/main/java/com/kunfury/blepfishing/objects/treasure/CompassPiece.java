@@ -6,22 +6,28 @@ import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.items.ItemHandler;
 import com.kunfury.blepfishing.objects.FishingArea;
 import org.apache.commons.lang.NotImplementedException;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.CompassMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class CompassPiece extends TreasureType{
 
+    public static List<FishingArea> CompassAreas;
+
     public CompassPiece(String id, int weight, boolean announce) {
         super(id, weight, announce);
+
+        CompassAreas = FishingArea.GetAll().stream()
+                .filter(a -> a.HasCompassPiece)
+                .toList();
     }
 
     @Override
@@ -51,31 +57,29 @@ public class CompassPiece extends TreasureType{
         var area = fishingAreas.get(0);
 
         return GeneratePiece(new FishingArea[]{area});
-
-//        ItemStack item = new ItemStack(Material.PRISMARINE_SHARD);
-//        ItemMeta itemMeta = item.getItemMeta();
-//
-//        assert itemMeta != null;
-//
-//        itemMeta.getPersistentDataContainer().set(ItemHandler.TreasureTypeId, PersistentDataType.STRING, Id);
-//        itemMeta.getPersistentDataContainer().set(ItemHandler.FishAreaId, PersistentDataType.STRING, area.Id);
-//        itemMeta.setDisplayName(Formatting.formatColor(ChatColor.AQUA + area.Name + " Compass Piece"));
-//
-//        List<String> lore = new ArrayList<>();
-//
-//        lore.add("");
-//        lore.add(Formatting.formatColor("&bRight-Click to &o&eFocus"));
-//
-//        itemMeta.setLore(lore);
-//
-//        item.setItemMeta(itemMeta);
-//
-//        return  item;
     }
 
+
+    //Checks if user has the compass piece already
     private boolean HasPiece(Player player, FishingArea area){
-        if(player.getInventory().contains(Material.PRISMARINE_SHARD))
-            return true;
+        if(!player.getInventory().contains(Material.PRISMARINE_SHARD))
+            return false;
+
+        for(var item : player.getInventory()){
+            if(item == null || item.getType() != Material.PRISMARINE_SHARD || !ItemHandler.hasTag(item, ItemHandler.FishAreaId))
+                continue;
+
+            var areaIdArray = ItemHandler.getTagString(item, ItemHandler.FishAreaId);
+            for(var areaId : areaIdArray.split(", ")){
+                var a = FishingArea.FromId(areaId);
+                if(area == null){
+                    Utilities.Severe("Invalid Area ID found in compass piece");
+                    continue;
+                }
+                if(area == a)
+                    return true;
+            }
+        }
 
         return false;
     }
@@ -112,6 +116,27 @@ public class CompassPiece extends TreasureType{
         return  item;
     }
 
+    public static ItemStack GenerateCompass(){
+        ItemStack compassItem = new ItemStack(Material.COMPASS);
+
+        CompassMeta compassMeta = (CompassMeta) compassItem.getItemMeta();
+        assert compassMeta != null;
+
+        compassMeta.setDisplayName(ChatColor.AQUA + "Compass to the All Blue");
+
+        List<String> lore = new ArrayList<>();
+
+        lore.add("");
+        lore.add(Formatting.formatColor("&bRight-Click to &e&oFocus"));
+
+        compassMeta.setLore(lore);
+
+        compassMeta.getPersistentDataContainer().set(ItemHandler.CompassKey, PersistentDataType.BOOLEAN, true);
+
+        compassItem.setItemMeta(compassMeta);
+        return compassItem;
+    }
+
     public static ItemStack Combine(ItemStack[] craftComponents){
         List<FishingArea> areas = new ArrayList<>();
         for(var item : craftComponents){
@@ -132,6 +157,9 @@ public class CompassPiece extends TreasureType{
             }
         }
 
+        if(new HashSet<>(areas).containsAll(CompassAreas))
+            return GenerateCompass();
+
         if(areas.size() <= 1) //Ensures pieces are actually being combined
             return null;
 
@@ -139,7 +167,13 @@ public class CompassPiece extends TreasureType{
     }
 
     public static boolean IsPiece(ItemStack item){
-        return item.getType() == Material.PRISMARINE_SHARD
+        return item != null && item.getType() == Material.PRISMARINE_SHARD
                 && ItemHandler.hasTag(item, ItemHandler.FishAreaId);
+    }
+
+    public static boolean isCompass(ItemStack item){
+        Bukkit.broadcastMessage("Checking for compass");
+        return item != null && item.getType() == Material.COMPASS
+                && ItemHandler.hasTag(item, ItemHandler.CompassKey);
     }
 }
