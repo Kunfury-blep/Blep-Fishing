@@ -9,8 +9,10 @@ import org.apache.commons.lang.NotImplementedException;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerFishEvent;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.CompassMeta;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -133,6 +135,9 @@ public class CompassPiece extends TreasureType{
 
         compassMeta.getPersistentDataContainer().set(ItemHandler.CompassKey, PersistentDataType.BOOLEAN, true);
 
+        compassMeta.addEnchant(Enchantment.LUCK_OF_THE_SEA, 1, false);
+        compassMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+
         compassItem.setItemMeta(compassMeta);
         return compassItem;
     }
@@ -172,7 +177,6 @@ public class CompassPiece extends TreasureType{
     }
 
     public static boolean isCompass(ItemStack item){
-        Bukkit.broadcastMessage("Checking for compass");
         return item != null && item.getType() == Material.COMPASS
                 && ItemHandler.hasTag(item, ItemHandler.CompassKey);
     }

@@ -6,7 +6,6 @@ import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.TreasureHandler;
 import com.kunfury.blepfishing.helpers.Utilities;
-import com.kunfury.blepfishing.objects.treasure.CompassPiece;
 import com.kunfury.blepfishing.objects.treasure.TreasureType;
 import com.kunfury.blepfishing.ui.scoreboards.DisplayFishInfo;
 import com.kunfury.blepfishing.items.ItemHandler;
@@ -24,7 +23,6 @@ import org.bukkit.inventory.PlayerInventory;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class FishingListener implements Listener {
@@ -52,6 +50,7 @@ public class FishingListener implements Listener {
             return;
 
         Player player = e.getPlayer();
+        Location hookLoc = item.getLocation();
 
         if(TreasureHandler.instance.TreasureCaught()){
             TreasureType treasureType = TreasureHandler.instance.GetTreasure();
@@ -67,19 +66,22 @@ public class FishingListener implements Listener {
 
         }
 
-        FishType fishType = GetCaughtFishType(item.getLocation());
+        var allBlue = Database.AllBlues.InAllBlue(hookLoc);
 
         Rarity rarity = Rarity.GetRandom();
         if(rarity == null) return;
 
+        FishType fishType = GetCaughtFishType(hookLoc, allBlue);
 
+        if(fishType == null){
+            Utilities.Severe("No Valid Fish Type Found");
+            return;
+        }
 
-        //TODO: Get Rod and Bag ID before creating fishObject
         Integer rodId = GetRodId(player);
         Integer bagId = null;
         FishBag fishBag = null;
         ItemStack bagItem = null;
-
 
         //Checks if the player has a fishing bag. Automatically adds the fish to it if so
         if(ConfigHandler.instance.baseConfig.getEnableFishBags() && player.getInventory().contains(ItemHandler.BagMat)){
@@ -96,7 +98,7 @@ public class FishingListener implements Listener {
             }
         }
 
-        FishObject caughtFish = fishType.GenerateFish(rarity, e.getPlayer().getUniqueId(), rodId, bagId);
+        FishObject caughtFish = fishType.GenerateFish(rarity, e.getPlayer().getUniqueId(), rodId, bagId, allBlue);
 
         item.setItemStack(caughtFish.CreateItemStack());
         BlepFishing.stats_FishCaught++;
@@ -113,7 +115,7 @@ public class FishingListener implements Listener {
 
     }
 
-    private FishType GetCaughtFishType(Location iLoc) {
+    private FishType GetCaughtFishType(Location iLoc, boolean allBlue) {
         List<FishType> availFish = new ArrayList<>();//Available fish to choose from
 
         var world = iLoc.getWorld();
@@ -128,12 +130,15 @@ public class FishingListener implements Listener {
         long time = world.getTime();
         boolean isNight = !(time < 12300 || time > 23850);
 
-        for (var type : FishType.GetAll())
-        {
-            if(type.canCatch(isRaining, height, isNight, fishingAreas))
-                availFish.add(type);
+        if(allBlue)
+            availFish.addAll(FishType.GetAll());
+        else{
+            for (var type : FishType.GetAll())
+            {
+                if(type.canCatch(isRaining, height, isNight, fishingAreas))
+                    availFish.add(type);
+            }
         }
-
         //Get fish where height matches.
 
         if(availFish.isEmpty()){

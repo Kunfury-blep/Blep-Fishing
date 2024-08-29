@@ -3,6 +3,7 @@ package com.kunfury.blepfishing;
 import com.kunfury.blepfishing.commands.CommandManager;
 import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.database.Database;
+import com.kunfury.blepfishing.helpers.AllBlueHandler;
 import com.kunfury.blepfishing.helpers.ItemParser;
 import com.kunfury.blepfishing.helpers.TreasureHandler;
 import com.kunfury.blepfishing.helpers.Utilities;
@@ -54,6 +55,7 @@ public final class BlepFishing extends JavaPlugin {
         new ItemParser();
 
         new TreasureHandler();
+        new AllBlueHandler();
     }
 
     @Override

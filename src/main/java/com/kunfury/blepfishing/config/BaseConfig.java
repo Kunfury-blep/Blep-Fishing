@@ -1,6 +1,7 @@
 package com.kunfury.blepfishing.config;
 
 import com.kunfury.blepfishing.BlepFishing;
+import com.kunfury.blepfishing.objects.FishingArea;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class BaseConfig {
@@ -23,4 +24,16 @@ public class BaseConfig {
     }
 
 
+    public int getAllBlueRadius() {
+        return config.getInt("All Blue.Radius");
+    }
+
+    public FishingArea getAllBlueArea(){
+        String areaId = config.getString("All Blue.Area");
+        return FishingArea.FromId(areaId);
+    }
+
+    public double getAllBlueSizeBonus(){
+        return config.getDouble("All Blue.Size Bonus");
+    }
 }

@@ -1,34 +1,37 @@
 package com.kunfury.blepfishing.listeners;
 
+import com.kunfury.blepfishing.helpers.AllBlueHandler;
 import com.kunfury.blepfishing.objects.FishBag;
+import com.kunfury.blepfishing.objects.treasure.CompassPiece;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
 import com.kunfury.blepfishing.ui.MenuHandler;
 import com.kunfury.blepfishing.items.ItemHandler;
-import com.kunfury.blepfishing.ui.objects.Panel;
 import com.kunfury.blepfishing.ui.panels.FishBagPanel;
 import org.bukkit.Bukkit;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.inventory.meta.CompassMeta;
 
 public class InventoryClickListener implements Listener {
 
     @EventHandler
     public void onClick(InventoryClickEvent e) {
         Inventory inv = e.getInventory();
-
-        if(inv instanceof CraftingInventory craftingInventory){
-            Bukkit.broadcastMessage("Clicked Slot: " + e.getSlot() + " - " + e.getSlotType());
-        }
-
         ItemStack clickedItem = e.getCurrentItem();
         Player player = (Player) e.getWhoClicked();
+
+        if(inv instanceof CraftingInventory && e.getSlotType() == InventoryType.SlotType.RESULT && CompassPiece.isCompass(clickedItem)){
+            AllBlueHandler.Instance.FinalizeCompass(clickedItem, player);
+            return;
+        }
+
         if (clickedItem == null || !clickedItem.hasItemMeta())
             return;
 

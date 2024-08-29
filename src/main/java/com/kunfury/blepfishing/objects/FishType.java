@@ -1,4 +1,5 @@
 package com.kunfury.blepfishing.objects;
+import com.kunfury.blepfishing.config.ConfigHandler;
 import org.bukkit.Bukkit;
 
 import java.util.*;
@@ -46,8 +47,12 @@ public class FishType {
     }
 
 
-    public FishObject GenerateFish(Rarity rarity, UUID playerId, Integer rodId, Integer bagId){
-        double length = ThreadLocalRandom.current().nextDouble(LengthMin, LengthMax);
+    public FishObject GenerateFish(Rarity rarity, UUID playerId, Integer rodId, Integer bagId, boolean allBlue){
+        double adjustedMax = LengthMax;
+        if(allBlue)
+            adjustedMax += LengthMax * ConfigHandler.instance.baseConfig.getAllBlueSizeBonus();
+
+        double length = ThreadLocalRandom.current().nextDouble(LengthMin, adjustedMax);
         length = (double) Math.round(length * 100) / 100;
         return new FishObject(rarity.Id, Id, length, playerId, rodId, bagId);
     }

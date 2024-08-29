@@ -1,7 +1,7 @@
 Enable Fish Bags: true
 Enable Tournaments: true
-Enable Treasure: true
-
 Show Scoreboard: true
-
-Treasure Chance: 10.0
+All Blue:
+  Radius: 32
+  Area: ocean
+  Size Bonus: 10.0

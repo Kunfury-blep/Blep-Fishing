@@ -1,5 +1,6 @@
 cold:
   Name: Cold
+  Compass Piece: true
   Biomes:
     - FROZEN_OCEAN
     - FROZEN_PEAKS
@@ -19,6 +20,7 @@ cold:
     - SNOWY_TUNDRA
 dry:
   Name: Dry
+  Compass Piece: true
   Biomes:
     - BADLANDS
     - BADLANDS_PLATEAU
@@ -37,6 +39,7 @@ dry:
     - WOODED_BADLANDS_PLATEAU
 end:
   Name: End
+  Compass Piece: false
   Biomes:
     - END_BARRENS
     - END_HIGHLANDS
@@ -46,6 +49,7 @@ end:
     - THE_VOID
 jungle:
   Name: Jungle
+  Compass Piece: true
   Biomes:
     - BAMBOO_JUNGLE
     - BAMBOO_JUNGLE_HILLS
@@ -62,6 +66,7 @@ jungle:
     - MUSHROOM_FIELDS
 nether:
   Name: Nether
+  Compass Piece: false
   Biomes:
     - BASALT_DELTAS
     - CRIMSON_FOREST
@@ -70,6 +75,7 @@ nether:
     - WARPED_FOREST
 ocean:
   Name: Ocean
+  Compass Piece: true
   Biomes:
     - BEACH
     - COLD_OCEAN
@@ -85,6 +91,7 @@ ocean:
     - STONY_SHORE
 temperate:
   Name: Temperate
+  Compass Piece: true
   Biomes:
     - BIRCH_FOREST
     - BIRCH_FOREST_HILLS

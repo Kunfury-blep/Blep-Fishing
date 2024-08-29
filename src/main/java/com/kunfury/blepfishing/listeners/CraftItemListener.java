@@ -25,8 +25,6 @@ public class CraftItemListener implements Listener {
 
         ItemStack item = e.getCurrentItem();
 
-        Bukkit.broadcastMessage("Checking Craft Item");
-
         if(FishBag.IsBag(item) && FishBag.GetId(item) == -1){
             FishBag fishBag = new FishBag();
             //FishBag.AddNew(fishBag, true);
@@ -39,11 +37,6 @@ public class CraftItemListener implements Listener {
             meta.getPersistentDataContainer().set(ItemHandler.FishBagId, PersistentDataType.INTEGER, fishBag.Id);
             item.setItemMeta(meta);
             e.setCurrentItem(item);
-            return;
-        }
-
-        if(CompassPiece.isCompass(item)){
-            Bukkit.broadcastMessage("Successfully crafted a compass to the all blue!");
             return;
         }
 

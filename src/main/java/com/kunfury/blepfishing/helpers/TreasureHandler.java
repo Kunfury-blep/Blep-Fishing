@@ -60,7 +60,7 @@ public class TreasureHandler {
         treasures.sort(Comparator.comparingInt((TreasureType t) -> t.Weight));
 
         for(var t : treasures){
-            Bukkit.broadcastMessage(t.Id + " - " + t.Weight);
+            //Bukkit.broadcastMessage(t.Id + " - " + t.Weight);
             if(randR <= t.Weight) {
                 return t;
             }else

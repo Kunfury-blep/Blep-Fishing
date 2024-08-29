@@ -163,22 +163,6 @@ public class FishObject {
     ///
     //STATIC METHODS
     ///
-//    public static void AddCaughtFish(FishObject fish){
-//        if(Database.Fish.Exists(fish.Id)){
-//            Bukkit.getLogger().severe("Attempted to create duplicate Fish with ID: " + fish.Id);
-//            return;
-//        }
-//        Database.Fish.Add(fish);
-//    }
-
-    public static Collection<FishObject> GetAllCaughtFish(){
-        return new ArrayList<>();
-    }
-
-    public static List<FishObject> GetAllCaughtFish(String typeId){
-        return new ArrayList<>();
-        //return CaughtFish.values().stream().filter(f -> f.TypeId.equals(typeId)).toList();
-    }
 
     public static FishObject GetCaughtFish(int fishId){
         return Database.Fish.Get(fishId);
