@@ -33,6 +33,8 @@ public final class BlepFishing extends JavaPlugin {
         // Plugin startup logic
         plugin = this;
 
+        loadMetrics();
+
         configHandler = new ConfigHandler();
         configHandler.Initialize();
 
