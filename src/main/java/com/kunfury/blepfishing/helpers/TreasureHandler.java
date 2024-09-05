@@ -3,6 +3,7 @@ package com.kunfury.blepfishing.helpers;
 import com.kunfury.blepfishing.config.*;
 import com.kunfury.blepfishing.items.ItemHandler;
 import com.kunfury.blepfishing.objects.treasure.Casket;
+import com.kunfury.blepfishing.objects.treasure.CompassPiece;
 import com.kunfury.blepfishing.objects.treasure.TreasureType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

@@ -27,9 +27,7 @@ public abstract class TreasureType {
 
     public abstract ItemStack GetItem();
 
-    public ItemStack GetItem(PlayerFishEvent e){
-        return GetItem();
-    }
+    public abstract ItemStack GetItem(PlayerFishEvent e);
 
     public abstract boolean CanGenerate(Player player);
 

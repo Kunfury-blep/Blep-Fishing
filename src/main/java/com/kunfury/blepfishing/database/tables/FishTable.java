@@ -3,6 +3,7 @@ package com.kunfury.blepfishing.database.tables;
 import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.objects.FishObject;
+import com.kunfury.blepfishing.objects.FishType;
 import org.apache.commons.lang.BooleanUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Utility;
@@ -98,6 +99,47 @@ public class FishTable extends DbTable<FishObject>{
             preparedStatement.setInt(2, id);
             preparedStatement.executeUpdate();
 
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public int GetCatchAmount(String typeId, String playerId){
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM fish WHERE typeId = ? AND playerId = ?");
+            preparedStatement.setString(1, typeId);
+            preparedStatement.setString(2, playerId);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            int amount = 0;
+
+            while(resultSet.next())
+                amount++;
+
+            return amount;
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public int GetTotalCatchAmount(String playerId){
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM fish WHERE playerId = ?");
+            preparedStatement.setString(1, playerId);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            int amount = 0;
+
+            while(resultSet.next())
+                amount++;
+
+            return amount;
 
         }catch (SQLException e){
             throw new RuntimeException(e);

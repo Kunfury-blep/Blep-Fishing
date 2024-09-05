@@ -1,15 +1,18 @@
 package com.kunfury.blepfishing.objects.treasure;
 
 import com.gmail.nossr50.datatypes.treasure.Treasure;
+import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.items.ItemHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -50,6 +53,15 @@ public class Casket extends TreasureType {
         item.setItemMeta(itemMeta);
 
         return  item;
+    }
+
+    @Override
+    public ItemStack GetItem(PlayerFishEvent e) {
+
+        Database.TreasureDrops.Add(new TreasureDrop
+                (Id, e.getPlayer().getUniqueId().toString(), LocalDateTime.now()));
+
+        return GetItem();
     }
 
     @Override

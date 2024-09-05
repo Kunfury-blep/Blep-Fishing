@@ -97,7 +97,7 @@ public class AllBlueTable extends DbTable<Location> {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if(!resultSet.next()) {
-                Bukkit.broadcastMessage("No result found");
+                //Bukkit.broadcastMessage("No result found");
                 return false;
             }
             return true;

@@ -66,21 +66,21 @@ public class PlayerInteractListener implements Listener {
             return;
         }
 
-        if(CompassPiece.isCompass(item)){
-            Bukkit.broadcastMessage("Using Compass");
-
-            CompassMeta cMeta = (CompassMeta) meta;
-
-            Location cLoc = cMeta.getLodestone();
-            cLoc.setY(player.getLocation().getY());
-            Location pLoc = player.getLocation();
-
-            if(cLoc.distance(pLoc) > 500){
-                player.teleport(cLoc);
-            }else{
-                Database.AllBlues.InAllBlue(player.getLocation());
-            }
-        }
+//        if(CompassPiece.isCompass(item)){
+//            Bukkit.broadcastMessage("Using Compass");
+//
+//            CompassMeta cMeta = (CompassMeta) meta;
+//
+//            Location cLoc = cMeta.getLodestone();
+//            cLoc.setY(player.getLocation().getY());
+//            Location pLoc = player.getLocation();
+//
+//            if(cLoc.distance(pLoc) > 500){
+//                player.teleport(cLoc);
+//            }else{
+//                Database.AllBlues.InAllBlue(player.getLocation());
+//            }
+//        }
 
         if(FishBag.IsBag(item)){
             if(player.isSneaking()){

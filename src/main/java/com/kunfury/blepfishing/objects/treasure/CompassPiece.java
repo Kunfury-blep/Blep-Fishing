@@ -1,6 +1,7 @@
 package com.kunfury.blepfishing.objects.treasure;
 
 import com.gmail.nossr50.skills.fishing.Fishing;
+import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.items.ItemHandler;
@@ -18,6 +19,7 @@ import org.bukkit.inventory.meta.CompassMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class CompassPiece extends TreasureType{
@@ -57,6 +59,9 @@ public class CompassPiece extends TreasureType{
             return null;
 
         var area = fishingAreas.get(0);
+
+        Database.TreasureDrops.Add(new TreasureDrop
+                ("compassPiece." + area.Id, player.getUniqueId().toString(), LocalDateTime.now()));
 
         return GeneratePiece(new FishingArea[]{area});
     }

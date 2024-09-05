@@ -3,6 +3,8 @@ package com.kunfury.blepfishing.helpers;
 import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.objects.TournamentObject;
 import com.kunfury.blepfishing.objects.TournamentType;
+import com.kunfury.blepfishing.objects.UnclaimedReward;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.enchantments.Enchantment;
@@ -31,20 +33,6 @@ public class Utilities {
     public static void RunTimers(){
         if(!running){
             running = true;
-
-//            new BukkitRunnable() {
-//                @Override
-//                public void run() {
-//                    LocalDateTime dt = LocalDateTime.now();
-////                    int hour = dt.getHour();
-////                    int minute = dt.getMinute();
-////                    int seconds = dt.getSecond();
-//
-//                    FileHandler.SaveData();
-//
-//                }
-//
-//            }.runTaskTimer(BlepFishing.getPlugin(), 0, 1200);
 
             //Tournament Checker
             new BukkitRunnable() {
@@ -82,14 +70,30 @@ public class Utilities {
     }
 
     public static void GiveItem(Player player, ItemStack item, boolean drop){
+
+        if(!player.isOnline()){
+            new UnclaimedReward(player.getUniqueId(), item);
+            return;
+        }
+
         for(var badItem : player.getInventory().addItem(item).values()){
-            player.getWorld().dropItem(player.getLocation(), badItem);
+            if(drop)
+                player.getWorld().dropItem(player.getLocation(), badItem);
+            else{
+                new UnclaimedReward(player.getUniqueId(), badItem);
+            }
         }
     }
 
     public static void Announce(String message){
-        for(var s : Bukkit.getOnlinePlayers()){
-            s.sendMessage(message);
+        for(var p : Bukkit.getOnlinePlayers()){
+            p.sendMessage(message);
+        }
+    }
+
+    public static void Announce(TextComponent textComponent){
+        for(var p : Bukkit.getOnlinePlayers()){
+            p.spigot().sendMessage(textComponent);
         }
     }
 }
