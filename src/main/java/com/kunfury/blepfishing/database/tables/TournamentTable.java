@@ -124,10 +124,16 @@ public class TournamentTable extends DbTable<TournamentObject> {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while(resultSet.next()){
-                activeTournaments.add(new TournamentObject(resultSet));
+                var tournament = new TournamentObject(resultSet);
+                if(tournament.getType() != null) //Ensures the Tournament Type is valid
+                    activeTournaments.add(tournament);
             }
         }catch (SQLException e){
             throw new RuntimeException(e);
+        }
+
+        for(var tournament : activeTournaments){
+
         }
 
         return activeTournaments;
@@ -195,9 +201,9 @@ public class TournamentTable extends DbTable<TournamentObject> {
             }
 
             //Bukkit.broadcastMessage("Found " + winningFish.size() + " viable fish for " + tournament.getType().Name);
-            if(!winningFish.isEmpty()){
-                Bukkit.broadcastMessage("Winning Fish Length: " + winningFish.get(0).Length);
-            }
+//            if(!winningFish.isEmpty()){
+//                Bukkit.broadcastMessage("Winning Fish Length: " + winningFish.get(0).Length);
+//            }
 
             return winningFish;
 

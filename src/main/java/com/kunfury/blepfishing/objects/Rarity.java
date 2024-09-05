@@ -1,5 +1,6 @@
 package com.kunfury.blepfishing.objects;
 
+import com.kunfury.blepfishing.helpers.Formatting;
 import org.bukkit.Bukkit;
 
 import java.util.Collection;
@@ -24,6 +25,11 @@ public class Rarity {
         //PriceMod = priceMod;
         Announce = announce;
     }
+
+    public String getFormattedName(){
+        return Formatting.formatColor("&" + Prefix + Name);
+    }
+
 
     public static Rarity GetRandom(){
         //Rarity Selection

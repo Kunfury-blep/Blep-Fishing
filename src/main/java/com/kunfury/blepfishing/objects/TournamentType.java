@@ -1,8 +1,11 @@
 package com.kunfury.blepfishing.objects;
 
+import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
+import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.items.ItemHandler;
+import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -116,7 +119,7 @@ public class TournamentType {
         return placements;
     }
 
-    public void GiveRewards(int place, UUID playerId){
+    public void GiveRewards(int place, Player player){
 
         List<ItemStack> items = new ArrayList<>();
         double cash = 0;
@@ -124,16 +127,15 @@ public class TournamentType {
         if(ItemRewards.containsKey(place))
             items.addAll(ItemRewards.get(place));
 
-        if(CashRewards.containsKey(place))
-            cash = CashRewards.get(place);
-
-        for(var i : items){
-            var reward = new UnclaimedReward(playerId, i);
+        if(BlepFishing.hasEconomy() && CashRewards.containsKey(place)){
+            EconomyResponse r = BlepFishing.getEconomy().depositPlayer(player, cash);
+            if(!r.transactionSuccess())
+                player.sendMessage(String.format("An error occurred: %s", r.errorMessage));
         }
 
-
-        OfflinePlayer player = Bukkit.getOfflinePlayer(playerId);
-        Bukkit.broadcastMessage("Giving " + player.getName() + "$" + cash + " and " + items.size() + " items!");
+        for(var i : items){
+            Utilities.GiveItem(player, i, false);
+        }
     }
 
     public List<String> getItemLore(){
@@ -154,7 +156,7 @@ public class TournamentType {
         }
 
         Tournaments.put(tournament.Id, tournament);
-        Bukkit.getLogger().warning("Loaded Tournament: " + tournament.Name);
+        //Bukkit.getLogger().warning("Loaded Tournament: " + tournament.Name);
     }
 
     public static void Delete(TournamentType type){

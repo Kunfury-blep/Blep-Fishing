@@ -11,9 +11,11 @@ import com.kunfury.blepfishing.items.CraftingHandler;
 import com.kunfury.blepfishing.items.ItemHandler;
 import com.kunfury.blepfishing.listeners.*;
 import com.kunfury.blepfishing.plugins.Metrics;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.sql.SQLException;
 
@@ -28,6 +30,7 @@ public final class BlepFishing extends JavaPlugin {
     }
 
     public Database Database;
+    private static Economy econ = null;
     @Override
     public void onEnable() {
         // Plugin startup logic
@@ -105,6 +108,26 @@ public final class BlepFishing extends JavaPlugin {
 //        metrics.addCustomChart(new Metrics.SingleLineChart("active_quests", () -> QuestHandler.getActiveQuests().size()));
 //
 //        metrics.addCustomChart(new Metrics.SingleLineChart("active_tournaments", () -> TournamentHandler.ActiveTournaments.size()));
+    }
+
+    public static boolean hasEconomy(){
+        return Bukkit.getPluginManager().getPlugin("Vault") != null && econ != null;
+    }
+
+    private boolean setupEconomy() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            return false;
+        }
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            return false;
+        }
+        econ = rsp.getProvider();
+        return true;
+    }
+
+    public static Economy getEconomy() {
+        return econ;
     }
 
 }

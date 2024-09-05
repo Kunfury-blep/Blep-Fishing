@@ -4,6 +4,7 @@ import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.items.ItemHandler;
+import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -15,6 +16,7 @@ import org.bukkit.persistence.PersistentDataType;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class FishObject {
@@ -157,6 +159,28 @@ public class FishObject {
             rarity = Rarity.FromId(RarityId);
         }
         return rarity;
+    }
+
+    public Text getHoverText(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+        String content = getRarity().getFormattedName() + " " + getType().Name;
+
+        content += "\n&f" + Formatting.getMessage("Fish Object.length")
+                .replace("{size}", Formatting.DoubleFormat(Length));
+
+        content += "\n&f" + Formatting.getMessage("Fish Object.caught")
+                .replace("{player}", getCatchingPlayer().getDisplayName())
+                .replace("{date}", formatter.format(DateCaught));
+
+//        if(BlepFishing.econEnabled) //Checks that an economy is installed
+//            content += "\n&f" + Formatting.getMessage("Fish Object.value")
+//                    .replace("{curr}", Variables.CurrSym)
+//                    .replace("{cost}", Formatting.DoubleFormat(RealCost));
+
+        return new Text(Formatting.formatColor(content));
+
+
     }
 
 

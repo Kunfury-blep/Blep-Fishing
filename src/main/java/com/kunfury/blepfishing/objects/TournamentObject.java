@@ -1,8 +1,12 @@
 package com.kunfury.blepfishing.objects;
 
 import com.kunfury.blepfishing.database.Database;
+import com.kunfury.blepfishing.database.tables.FishTable;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.Utilities;
+import jdk.jshell.execution.Util;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -66,6 +70,8 @@ public class TournamentObject {
         List<FishObject> winningFish = new ArrayList<>();
         for(var fish : Database.Tournaments.GetWinningFish(this)){
             int maxPlace = winningFish.size() + 1;
+
+            //Ensures that a reward exists, either item or currency
             if(!type.ItemRewards.containsKey(maxPlace) && !type.CashRewards.containsKey(maxPlace))
                 break;
 
@@ -81,21 +87,31 @@ public class TournamentObject {
             return;
         }
 
+        int pLength = 15; //Initializes the size of the chatbox
+        List<TextComponent> textComponents = new ArrayList<>();
 
         //Gives out rewards
         int place = 1;
         for(var fish : winningFish){
-            Player p = fish.getCatchingPlayer();
+            Player player = fish.getCatchingPlayer();
+            FishType fishType = fish.getType();
             //Bukkit.broadcastMessage(ChatColor.GOLD + "#" + place + ": " + p.getName());
-            type.GiveRewards(place, fish.PlayerId);
-            Utilities.Announce("#" + place + " - " + p.getDisplayName());
+            type.GiveRewards(place, player);
+
+            String pString = Formatting.FixFontSize(player.getDisplayName(), pLength);
+            String lbString = Formatting.FixFontSize("#" + place + " - ", 4) + pString + fish.getRarity().Name + " " + fishType.Name;
+            TextComponent mainComponent = new TextComponent(Formatting.formatColor(lbString));
+            mainComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, fish.getHoverText()));
+            textComponents.add(mainComponent);
         }
 
-        //TODO: Announce Winners
-
-
+        String banner = Formatting.getMessage("Tournament.leaderboard");
+        Utilities.Announce(" ");
+        Utilities.Announce(banner);
+        for(var c : textComponents){
+            Utilities.Announce(c);
+        }
     }
-
 
     public Long getTimeRemaining(){
         LocalDateTime now = LocalDateTime.now();
