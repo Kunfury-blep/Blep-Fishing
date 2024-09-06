@@ -1,6 +1,7 @@
 package com.kunfury.blepfishing.objects;
 
 import com.kunfury.blepfishing.database.Database;
+import com.kunfury.blepfishing.helpers.ItemParser;
 import com.kunfury.blepfishing.helpers.Utilities;
 import org.bukkit.inventory.ItemStack;
 
@@ -26,7 +27,7 @@ public class UnclaimedReward {
         Id = rs.getInt("id");
         PlayerId = UUID.fromString(rs.getString("playerId"));
         RewardDate = Utilities.TimeFromLong(rs.getLong("date"));
-        Item = (ItemStack) rs.getObject("itemData");
+        Item = ItemParser.stringBlobToItem(rs.getString("itemData"));
     }
 
 }

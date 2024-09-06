@@ -5,9 +5,12 @@ import com.kunfury.blepfishing.helpers.ItemParser;
 import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.objects.FishObject;
 import com.kunfury.blepfishing.objects.FishingRod;
+import com.kunfury.blepfishing.objects.TournamentObject;
 import com.kunfury.blepfishing.objects.UnclaimedReward;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RewardsTable extends DbTable<UnclaimedReward>{
 
@@ -57,8 +60,7 @@ public class RewardsTable extends DbTable<UnclaimedReward>{
                 return null;
             }
 
-            var reward = new UnclaimedReward(resultSet);
-            return reward;
+            return new UnclaimedReward(resultSet);
 
         }catch (SQLException e){
             throw new RuntimeException(e);
@@ -68,5 +70,73 @@ public class RewardsTable extends DbTable<UnclaimedReward>{
     @Override
     public void Update(int id, String field, Object value) {
 
+    }
+
+    public boolean HasRewards(String playerId){
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM "  + tableName + " WHERE playerId = ?");
+            preparedStatement.setString(1, playerId);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return resultSet.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public int GetTotalRewards(String playerId){
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM "  + tableName + " WHERE playerId = ?");
+            preparedStatement.setString(1, playerId);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            int amount = 0;
+
+            while(resultSet.next())
+                amount++;
+
+            return amount;
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<UnclaimedReward> GetRewards(String playerId){
+        List<UnclaimedReward> rewards = new ArrayList<>();
+
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM "  + tableName + " WHERE playerId = ?");
+
+            preparedStatement.setString(1, playerId);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next()){
+                var reward = new UnclaimedReward(resultSet);
+                rewards.add(reward);
+            }
+
+            return rewards;
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void Delete(int id){
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "DELETE FROM "  + tableName + " WHERE id = ?");
+            preparedStatement.setInt(1, id);
+
+            preparedStatement.executeUpdate();
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
     }
 }
