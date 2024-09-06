@@ -4,6 +4,8 @@ import com.kunfury.blepfishing.ui.objects.MenuButton;
 import com.kunfury.blepfishing.ui.panels.player.PlayerPanel;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -14,7 +16,10 @@ public class PlayerPanelButton extends MenuButton {
         ItemMeta m = item.getItemMeta();
 
         m.setDisplayName(ChatColor.AQUA + "Player Panel");
-        m = setButtonId(m, getId());
+
+        m.addEnchant(Enchantment.FORTUNE, 1, true);
+        m.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+
         item.setItemMeta(m);
 
         return item;
