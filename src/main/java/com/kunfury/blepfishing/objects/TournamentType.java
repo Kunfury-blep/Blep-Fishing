@@ -134,7 +134,8 @@ public class TournamentType {
         }
 
         for(var i : items){
-            Utilities.GiveItem(player, i, false);
+            if(!Utilities.GiveItem(player, i, false))
+                new UnclaimedReward(player.getUniqueId(), i); //Saves reward if unable to claim
         }
     }
 

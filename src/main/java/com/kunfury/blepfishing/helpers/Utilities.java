@@ -71,7 +71,6 @@ public class Utilities {
 
     public static boolean GiveItem(Player player, ItemStack item, boolean drop){
         if(!player.isOnline()){
-            new UnclaimedReward(player.getUniqueId(), item);
             return false;
         }
         for(var badItem : player.getInventory().addItem(item).values()){
@@ -79,10 +78,8 @@ public class Utilities {
                 player.getWorld().dropItem(player.getLocation(), badItem);
                 return true;
             }
-            else{
-                new UnclaimedReward(player.getUniqueId(), badItem);
+            else
                 return false;
-            }
         }
         return true;
     }
