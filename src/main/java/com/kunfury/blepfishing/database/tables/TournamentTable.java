@@ -128,15 +128,11 @@ public class TournamentTable extends DbTable<TournamentObject> {
                 if(tournament.getType() != null) //Ensures the Tournament Type is valid
                     activeTournaments.add(tournament);
             }
+
+            return activeTournaments;
         }catch (SQLException e){
             throw new RuntimeException(e);
         }
-
-        for(var tournament : activeTournaments){
-
-        }
-
-        return activeTournaments;
     }
 
     public List<FishObject> GetWinningFish(TournamentObject tournament){
