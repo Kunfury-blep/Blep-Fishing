@@ -69,20 +69,22 @@ public class Utilities {
         Bukkit.getLogger().severe("BlepFishing: " + message);
     }
 
-    public static void GiveItem(Player player, ItemStack item, boolean drop){
-
+    public static boolean GiveItem(Player player, ItemStack item, boolean drop){
         if(!player.isOnline()){
             new UnclaimedReward(player.getUniqueId(), item);
-            return;
+            return false;
         }
-
         for(var badItem : player.getInventory().addItem(item).values()){
-            if(drop)
+            if(drop){
                 player.getWorld().dropItem(player.getLocation(), badItem);
+                return true;
+            }
             else{
                 new UnclaimedReward(player.getUniqueId(), badItem);
+                return false;
             }
         }
+        return true;
     }
 
     public static void Announce(String message){
