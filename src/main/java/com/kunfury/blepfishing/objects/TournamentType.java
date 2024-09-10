@@ -122,13 +122,12 @@ public class TournamentType {
     public void GiveRewards(int place, Player player){
 
         List<ItemStack> items = new ArrayList<>();
-        double cash = 0;
 
         if(ItemRewards.containsKey(place))
             items.addAll(ItemRewards.get(place));
 
         if(BlepFishing.hasEconomy() && CashRewards.containsKey(place)){
-            EconomyResponse r = BlepFishing.getEconomy().depositPlayer(player, cash);
+            EconomyResponse r = BlepFishing.getEconomy().depositPlayer(player, CashRewards.get(place));
             if(!r.transactionSuccess())
                 player.sendMessage(String.format("An error occurred: %s", r.errorMessage));
         }
