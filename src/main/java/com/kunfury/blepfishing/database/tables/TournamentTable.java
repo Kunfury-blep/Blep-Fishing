@@ -48,7 +48,10 @@ public class TournamentTable extends DbTable<TournamentObject> {
             preparedStatement.setObject(3, tourney.Active());
             preparedStatement.executeUpdate();
 
-            return connection.prepareStatement("SELECT * FROM tournaments ORDER BY id DESC LIMIT 1").executeQuery().getInt("id");
+            var id = connection.prepareStatement("SELECT * FROM tournaments ORDER BY id DESC LIMIT 1").executeQuery().getInt("id");
+            Cache.put(id, tourney);
+
+            return id;
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -124,9 +127,21 @@ public class TournamentTable extends DbTable<TournamentObject> {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while(resultSet.next()){
+                var id = resultSet.getInt("id");
+
+                if(Cache.containsKey(id)){
+                    activeTournaments.add(Cache.get(id));
+                    continue;
+                }
+
+
                 var tournament = new TournamentObject(resultSet);
-                if(tournament.getType() != null) //Ensures the Tournament Type is valid
+                if(tournament.getType() != null){
+                    Cache.put(id, tournament);
                     activeTournaments.add(tournament);
+                    //Ensures the Tournament Type is valid
+                }
+
             }
 
             return activeTournaments;
