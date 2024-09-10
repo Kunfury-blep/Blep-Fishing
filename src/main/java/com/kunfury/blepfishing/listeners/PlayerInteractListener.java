@@ -104,7 +104,7 @@ public class PlayerInteractListener implements Listener {
         if(item.getType() == Material.GOAT_HORN && dataContainer.has(ItemHandler.TourneyTypeId)){
             var typeId = dataContainer.get(ItemHandler.TourneyTypeId, PersistentDataType.STRING);
             TournamentType type = TournamentType.FromId(typeId);
-            if(type.Start()){
+            if(type.Start() != null){
                 player.playSound(player.getLocation(), Sound.BLOCK_SCULK_BREAK, 1f, 1);
                 item.setAmount(item.getAmount() - 1);
                 return;

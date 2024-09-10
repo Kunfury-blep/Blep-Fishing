@@ -70,13 +70,13 @@ public class TournamentType {
         Start();
     }
 
-    public boolean Start(){
+    public TournamentObject Start(){
         if(Database.Tournaments.IsRunning(Id)){
-            return false;
+            return null;
         }
-        new TournamentObject(this);
+        var tournament = new TournamentObject(this);
         Bukkit.broadcastMessage("Started tournament " + Name + "!");
-        return true;
+        return tournament;
 
     }
 

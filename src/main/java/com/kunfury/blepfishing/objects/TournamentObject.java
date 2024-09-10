@@ -77,7 +77,9 @@ public class TournamentObject {
         }
 
         if(winningFish.isEmpty()){
-            Utilities.Announce(Formatting.getMessage("Tournament.noneCaught"));
+            Utilities.Announce(Formatting.getMessage("Tournament.noneCaught")
+                    .replace("{fish}", "fish"));
+            //TODO: Replace with GetFishName() method for dynamic fish name
             return;
         }
 

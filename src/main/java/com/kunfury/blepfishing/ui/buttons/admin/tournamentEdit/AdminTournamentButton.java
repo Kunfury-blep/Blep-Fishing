@@ -7,6 +7,8 @@ import com.kunfury.blepfishing.ui.panels.admin.tournaments.AdminTournamentEditPa
 import com.kunfury.blepfishing.items.ItemHandler;
 import com.kunfury.blepfishing.objects.TournamentType;
 import com.kunfury.blepfishing.ui.panels.admin.tournaments.AdminTournamentPanel;
+import com.kunfury.blepfishing.ui.panels.player.PlayerTournamentDetailPanel;
+import com.kunfury.blepfishing.ui.panels.player.PlayerTournamentPanel;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -81,6 +83,10 @@ public class AdminTournamentButton extends AdminTournamentMenuButton {
     @Override
     protected void click_left_shift() {
         TournamentType type = getTournamentType();
-        type.Start();
+        var tournament = type.Start();
+        new PlayerTournamentPanel().Show(player);
+
+        //TODO: Enable once Detail Panel Finished
+        //new PlayerTournamentDetailPanel(tournament).Show(player);
     }
 }
