@@ -1,5 +1,6 @@
 package com.kunfury.blepfishing.objects;
 
+import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.database.tables.FishTable;
 import com.kunfury.blepfishing.helpers.Formatting;
@@ -10,6 +11,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.xml.crypto.Data;
 import java.sql.Array;
@@ -30,6 +32,7 @@ public class TournamentObject {
         StartTime = LocalDateTime.now();
         active = true;
         Id = Database.Tournaments.Add(this);
+        StartTimer();
     }
 
     public TournamentObject(ResultSet rs) throws SQLException {
@@ -37,16 +40,7 @@ public class TournamentObject {
         TypeId = rs.getString("typeId");
         StartTime = Utilities.TimeFromLong(rs.getLong("startTime"));
         active = rs.getBoolean("active");
-    }
-
-    private LocalDateTime endTime;
-    public LocalDateTime getEndTime(){
-        if(endTime == null){
-            long seconds = (long) (getType().Duration * 60 * 60);
-            endTime = StartTime.plusSeconds(seconds);
-            //Bukkit.getLogger().warning("Start Time: " + StartTime + " - Duration: " + getType().Duration + " - End Time: " + endTime);
-        }
-        return endTime;
+        StartTimer();
     }
 
 
@@ -113,10 +107,37 @@ public class TournamentObject {
         }
     }
 
+    private LocalDateTime endTime;
+    public LocalDateTime getEndTime(){
+        if(endTime == null){
+            long seconds = (long) (getType().Duration * 60 * 60);
+            endTime = StartTime.plusSeconds(seconds);
+            //Bukkit.getLogger().warning("Start Time: " + StartTime + " - Duration: " + getType().Duration + " - End Time: " + endTime);
+        }
+        return endTime;
+    }
+
     public Long getTimeRemaining(){
         LocalDateTime now = LocalDateTime.now();
 
         return ChronoUnit.MILLIS.between(now, getEndTime());
+    }
+
+    private void StartTimer(){
+
+        var seconds = ChronoUnit.SECONDS.between(LocalDateTime.now(), getEndTime()) + 2;
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if(CanFinish())
+                    Finish();
+            }
+
+        }.runTaskLater(BlepFishing.getPlugin(), seconds * 20);
+    }
+
+    public boolean CanFinish(){
+        return LocalDateTime.now().isAfter(getEndTime());
     }
 
 
@@ -127,11 +148,10 @@ public class TournamentObject {
     ///
     public static void CheckActive(){
         //Bukkit.broadcastMessage("Checking Active Tournaments");
-        LocalDateTime now = LocalDateTime.now();
         for(var t : Database.Tournaments.GetActive()){
             Database.Tournaments.GetWinningFish(t);
             //t.getCaughtFish();
-            if(now.isAfter(t.getEndTime())){
+            if(t.CanFinish()){
                 t.Finish();
             }
         }
