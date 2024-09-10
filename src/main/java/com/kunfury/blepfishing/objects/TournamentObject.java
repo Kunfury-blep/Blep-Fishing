@@ -2,19 +2,13 @@ package com.kunfury.blepfishing.objects;
 
 import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.database.Database;
-import com.kunfury.blepfishing.database.tables.FishTable;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.Utilities;
-import jdk.jshell.execution.Util;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import javax.xml.crypto.Data;
-import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
