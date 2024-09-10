@@ -1,5 +1,6 @@
 package com.kunfury.blepfishing.ui.buttons.player.tournament;
 
+import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
 import com.kunfury.blepfishing.ui.panels.admin.tournaments.AdminTournamentEditPanel;
@@ -7,6 +8,7 @@ import com.kunfury.blepfishing.items.ItemHandler;
 import com.kunfury.blepfishing.objects.FishType;
 import com.kunfury.blepfishing.objects.TournamentObject;
 import com.kunfury.blepfishing.objects.TournamentType;
+import com.kunfury.blepfishing.ui.panels.player.PlayerTournamentDetailPanel;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -67,7 +69,12 @@ public class PlayerTournamentButton extends MenuButton {
 
     @Override
     protected void click_left() {
-        TournamentType type = getTournamentType();
-        new AdminTournamentEditPanel(type).Show(player);
+        TournamentObject tournament = getTournament();
+        new PlayerTournamentDetailPanel(tournament).Show(player);
+    }
+
+    protected TournamentObject getTournament(){
+        int tourneyId = ItemHandler.getTagInt(ClickedItem, ItemHandler.TourneyId);
+        return Database.Tournaments.Get(tourneyId);
     }
 }

@@ -34,8 +34,9 @@ public class AreaConfig {
             String name = areaConfig.getString(key + ".Name");
             List<String> biomes = areaConfig.getStringList(key + ".Biomes");
             boolean compassPiece = areaConfig.getBoolean(key + ".Compass Piece");
+            String compassHint = areaConfig.getString(key + ".Compass Hint");
 
-            FishingArea fishingArea = new FishingArea(key, name, biomes, compassPiece);
+            FishingArea fishingArea = new FishingArea(key, name, biomes, compassPiece, compassHint);
             FishingArea.AddArea(fishingArea);
         }
     }
@@ -50,6 +51,10 @@ public class AreaConfig {
             String key = area.Id;
             newAreaConfig.set(key + ".Name", area.Name);
             newAreaConfig.set(key +".Compass Piece", area.HasCompassPiece);
+            if(area.HasCompassPiece)
+                newAreaConfig.set(key + ".Compass Hint", area.CompassHint);
+
+
             newAreaConfig.set(key + ".Biomes", area.Biomes);
         }
         try {

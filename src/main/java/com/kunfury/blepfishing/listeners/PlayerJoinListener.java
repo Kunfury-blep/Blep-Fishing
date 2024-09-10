@@ -15,14 +15,15 @@ public class PlayerJoinListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e)
     {
-        Player p = e.getPlayer();
-        if(ConfigHandler.instance.baseConfig.getEnableFishBags()) p.discoverRecipe(CraftingHandler.FishBagCraftKey);
+        Player player = e.getPlayer();
+
+        CraftingHandler.LearnRecipes(player);
 
         //new TournamentHandler().ShowBars(p);
 
-        if(p.hasPermission("bf.admin") && !ConfigHandler.instance.ErrorMessages.isEmpty()){
+        if(player.hasPermission("bf.admin") && !ConfigHandler.instance.ErrorMessages.isEmpty()){
             ConfigHandler.instance.ErrorMessages.forEach(er ->
-                    p.sendMessage(Formatting.formatColor(Formatting.getPrefix() + ChatColor.RED + er)));
+                    player.sendMessage(Formatting.formatColor(Formatting.getPrefix() + ChatColor.RED + er)));
         }
     }
 }

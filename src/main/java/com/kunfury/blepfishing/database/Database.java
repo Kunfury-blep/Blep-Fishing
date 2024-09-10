@@ -1,6 +1,7 @@
 package com.kunfury.blepfishing.database;
 
 import com.kunfury.blepfishing.database.tables.*;
+import com.kunfury.blepfishing.objects.FishingJournal;
 
 import java.sql.*;
 
@@ -14,6 +15,7 @@ public class Database {
     public static RewardsTable Rewards;
     public static AllBlueTable AllBlues;
     public static TreasureDropsTable TreasureDrops;
+    public static JournalTable FishingJournals;
 
     public Database(String path) throws SQLException {
         connection = DriverManager.getConnection("jdbc:sqlite:" + path);
@@ -25,6 +27,7 @@ public class Database {
         Rewards = new RewardsTable(this, connection);
         AllBlues = new AllBlueTable(this, connection);
         TreasureDrops = new TreasureDropsTable(this, connection);
+        FishingJournals = new JournalTable(this, connection);
     }
 
     public void CloseConnection() throws SQLException{

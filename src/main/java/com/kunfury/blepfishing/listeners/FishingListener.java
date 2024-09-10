@@ -64,8 +64,6 @@ public class FishingListener implements Listener {
                     return;
                 }
             }
-
-
         }
 
         var allBlue = Database.AllBlues.InAllBlue(hookLoc);
@@ -114,6 +112,14 @@ public class FishingListener implements Listener {
             fishBag.NeedsRefresh = true;
             fishBag.UpdateBagItem(bagItem);
         }
+
+        var playerId = player.getUniqueId();
+        if(!Database.FishingJournals.HasJournal(playerId.toString())
+                && Utilities.getFreeSlots(player.getInventory()) > 0){
+            FishingJournal journal = new FishingJournal(playerId);
+            Utilities.GiveItem(player, journal.GetItemStack(), false);
+        }
+
 
     }
 

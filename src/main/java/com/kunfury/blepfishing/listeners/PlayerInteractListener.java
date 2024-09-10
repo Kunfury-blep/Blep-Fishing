@@ -3,6 +3,7 @@ package com.kunfury.blepfishing.listeners;
 import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.TreasureHandler;
+import com.kunfury.blepfishing.objects.FishingJournal;
 import com.kunfury.blepfishing.objects.treasure.CompassPiece;
 import com.kunfury.blepfishing.objects.treasure.TreasureType;
 import com.kunfury.blepfishing.ui.panels.player.PlayerPanel;
@@ -27,6 +28,8 @@ import org.bukkit.inventory.meta.CompassMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+
+import java.util.Objects;
 
 public class PlayerInteractListener implements Listener {
 
@@ -92,6 +95,23 @@ public class PlayerInteractListener implements Listener {
             FishBag fishBag = FishBag.GetBag(item);
             if(fishBag == null) return;
             fishBag.Use(player);
+            return;
+        }
+
+        if(FishingJournal.IsJournal(item)){
+            FishingJournal journal = FishingJournal.Get(item);
+
+            if(journal == null || e.getHand() == null)
+                return;
+
+            //e.getItem() = journal.GetItemStack();
+
+            if(Objects.equals(player.getInventory().getItem(e.getHand()), item))
+                player.getInventory().setItem(e.getHand(), journal.GetItemStack());
+            else
+                Bukkit.broadcastMessage("Error confirming item in hand");
+
+            //Bukkit.broadcastMessage("Opening Journal: " + journal.Id + " in hand: " + e.getHand());
             return;
         }
 

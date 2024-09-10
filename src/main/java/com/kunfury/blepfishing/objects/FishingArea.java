@@ -12,14 +12,19 @@ public class FishingArea {
     public String Id;
     public String Name;
     public List<String> Biomes;
+
     public boolean HasCompassPiece;
+    public String CompassHint;
 
     public boolean ConfirmedDelete;
 
-    public FishingArea(String id, String name, List<String> biomes, boolean hasCompassPiece){
+    public FishingArea(String id, String name, List<String> biomes, boolean hasCompassPiece, String compassHint){
         Id = id;
         Name = name;
         HasCompassPiece = hasCompassPiece;
+        if(compassHint == null)
+            compassHint = "";
+        CompassHint = compassHint;
 
         Biomes = new ArrayList<>();
 

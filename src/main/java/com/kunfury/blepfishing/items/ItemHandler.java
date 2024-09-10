@@ -21,7 +21,7 @@ public class ItemHandler {
 
     public static NamespacedKey FishIdKey, ButtonIdKey, FishTypeId,
             FishBagId, FishRodId, FishAreaId, TourneyTypeId, TourneyId, RarityId, TreasureTypeId,
-            CompassKey;
+            CompassKey, FishJournalId;
 
     public static Material FishMat = Material.SALMON;
     public static Material BagMat = Material.HEART_OF_THE_SEA;
@@ -43,6 +43,8 @@ public class ItemHandler {
         TreasureTypeId = new NamespacedKey(BlepFishing.getPlugin(), "blep.treasureTypeId");
 
         CompassKey = new NamespacedKey(BlepFishing.getPlugin(), "blep.compass");
+
+        FishJournalId = new NamespacedKey(BlepFishing.getPlugin(), "blep.fishJournalId");
     }
 
     public static boolean hasTag(ItemStack item, NamespacedKey key){

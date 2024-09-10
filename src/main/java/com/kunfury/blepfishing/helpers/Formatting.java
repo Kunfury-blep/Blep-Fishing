@@ -165,7 +165,7 @@ public class Formatting {
 
 
 
-			lore.add(found);
+			lore.add(ChatColor.WHITE + found);
 
 			if(str.length() > pos + 1)
 				str = str.substring(pos+1);

@@ -77,4 +77,18 @@ public class TreasureDropsTable extends DbTable<TreasureDrop> {
     public void Update(int id, String field, Object value) {
 
     }
+
+    public boolean HasTreasure(String treasureId, String playerId){
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM "  + tableName + " WHERE treasureId = ? AND playerId = ?");
+            preparedStatement.setString(1, treasureId);
+            preparedStatement.setString(2, playerId);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return resultSet.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

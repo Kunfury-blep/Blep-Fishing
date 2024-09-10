@@ -5,9 +5,11 @@ import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.items.CraftingHandler;
 import com.kunfury.blepfishing.items.ItemHandler;
 import com.kunfury.blepfishing.objects.FishBag;
+import com.kunfury.blepfishing.objects.FishingJournal;
 import com.kunfury.blepfishing.objects.treasure.CompassPiece;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.CraftItemEvent;
@@ -22,7 +24,7 @@ public class CraftItemListener implements Listener {
     @EventHandler
     public void onCraftItem(CraftItemEvent e) {
         CraftingInventory inv = e.getInventory();
-
+        Player player = (Player) e.getWhoClicked();
         ItemStack item = e.getCurrentItem();
 
         if(FishBag.IsBag(item) && FishBag.GetId(item) == -1){
@@ -37,6 +39,12 @@ public class CraftItemListener implements Listener {
             meta.getPersistentDataContainer().set(ItemHandler.FishBagId, PersistentDataType.INTEGER, fishBag.Id);
             item.setItemMeta(meta);
             e.setCurrentItem(item);
+            return;
+        }
+
+        if(FishingJournal.IsJournal(item) && FishingJournal.GetId(item) == -1){
+            FishingJournal journal = new FishingJournal(player.getUniqueId());
+            e.setCurrentItem(journal.GetItemStack());
             return;
         }
 

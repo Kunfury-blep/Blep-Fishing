@@ -268,7 +268,6 @@ public class FishBag {
         if(FishBags.containsKey(bagId))
             return FishBags.get(bagId);
 
-        var db = BlepFishing.getDatabase();
         if(!Database.FishBags.Exists(bagId))
             return null;
 

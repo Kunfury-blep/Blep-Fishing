@@ -1,5 +1,6 @@
 package com.kunfury.blepfishing.ui.buttons.admin.tournamentEdit;
 
+import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.ui.objects.buttons.AdminTournamentMenuButton;
 import com.kunfury.blepfishing.ui.panels.admin.tournaments.AdminTournamentEditFishTypesPanel;
 import com.kunfury.blepfishing.items.ItemHandler;
@@ -13,6 +14,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TournamentEditFishTypesBtn extends AdminTournamentMenuButton {
     public TournamentEditFishTypesBtn(TournamentType tournamentType) {
@@ -29,19 +31,16 @@ public class TournamentEditFishTypesBtn extends AdminTournamentMenuButton {
 
         ArrayList<String> lore = new ArrayList<>();
 
-        StringBuilder sb = new StringBuilder();
-        int i = 1;
+
+        List<String> fishNames = new ArrayList<>();
         for(var typeId : tournament.FishTypeIds){
             var fishType = FishType.FromId(typeId);
             assert fishType != null;
-
-            sb.append(ChatColor.WHITE).append(fishType.Name);
-            if(i < tournament.FishTypeIds.size())
-                sb.append(ChatColor.BLUE).append(", ");
-
-            i++;
+            fishNames.add(fishType.Name);
         }
-        lore.add(sb.toString());
+
+
+        lore.addAll(Formatting.toLoreList(Formatting.getCommaList(fishNames, ChatColor.WHITE, ChatColor.BLUE)));
 
         m.setLore(lore);
 
