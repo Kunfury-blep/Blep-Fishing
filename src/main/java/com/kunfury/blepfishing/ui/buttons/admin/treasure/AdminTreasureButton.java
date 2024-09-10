@@ -91,10 +91,4 @@ public class AdminTreasureButton extends AdminTreasureMenuButton {
 
         new AdminTreasurePanel().Show(player);
     }
-
-    @Override
-    protected void click_left_shift() {
-        TournamentType type = getTournamentType();
-        type.Start();
-    }
 }
