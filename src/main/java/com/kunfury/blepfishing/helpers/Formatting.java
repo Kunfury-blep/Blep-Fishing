@@ -51,6 +51,9 @@ public class Formatting {
 		if(minutes > 0) result += "&f" + minutes + color + "m ";
 		if(seconds > 0) result += "&f" + seconds + color + "s ";
 
+		if(result.isEmpty())
+			result = "&f" + 0 + color + "s";
+
 		return formatColor(result);
 	}
 
