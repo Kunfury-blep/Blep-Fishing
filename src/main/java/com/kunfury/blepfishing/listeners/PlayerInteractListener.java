@@ -99,12 +99,17 @@ public class PlayerInteractListener implements Listener {
         }
 
         if(FishingJournal.IsJournal(item)){
+            if(player.isSneaking()){
+                e.setCancelled(true);
+                new PlayerPanel().Show(player);
+                player.playSound(player.getLocation(), Sound.ITEM_BUCKET_EMPTY_FISH, .3f, 1f);
+                return;
+            }
+
             FishingJournal journal = FishingJournal.Get(item);
 
             if(journal == null || e.getHand() == null)
                 return;
-
-            //e.getItem() = journal.GetItemStack();
 
             if(Objects.equals(player.getInventory().getItem(e.getHand()), item))
                 player.getInventory().setItem(e.getHand(), journal.GetItemStack());

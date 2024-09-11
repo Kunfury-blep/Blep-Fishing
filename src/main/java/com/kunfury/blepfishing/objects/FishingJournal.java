@@ -3,6 +3,7 @@ package com.kunfury.blepfishing.objects;
 import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.database.Database;
+import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.items.ItemHandler;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -139,8 +140,16 @@ public class FishingJournal {
             bookMeta.spigot().addPage(new BaseComponent[]{fishPage});
         }
 
-        bookMeta.setTitle("Fishing Journal");
+        bookMeta.setTitle(ChatColor.AQUA + "Fishing Journal");
         bookMeta.setAuthor(player.getDisplayName());
+
+        List<String> lore = new ArrayList<>();
+
+        lore.add("");
+        lore.add(Formatting.formatColor("&bRight-Click to &o&eRead"));
+        lore.add(Formatting.formatColor("&bShift Right-Click to &o&eOpen Panel"));
+
+        bookMeta.setLore(lore);
 
         bookItem.setItemMeta(bookMeta);
         return bookItem;
@@ -162,20 +171,24 @@ public class FishingJournal {
     public static ItemStack GetRecipeItem(){
         ItemStack journal = new ItemStack(Material.WRITTEN_BOOK, 1);
 
-        BookMeta m = (BookMeta) journal.getItemMeta();
-        assert m != null;
+        BookMeta bookMeta = (BookMeta) journal.getItemMeta();
+        assert bookMeta != null;
 
-        PersistentDataContainer dataContainer = m.getPersistentDataContainer();
+        PersistentDataContainer dataContainer = bookMeta.getPersistentDataContainer();
         dataContainer.set(ItemHandler.FishJournalId, PersistentDataType.INTEGER, -1);
 
-        m.setDisplayName(ChatColor.AQUA + "Fishing Journal");
+        bookMeta.setDisplayName(ChatColor.AQUA + "Fishing Journal");
 
-        //List<String> lore = new ArrayList<>();
+        List<String> lore = new ArrayList<>();
 
+        lore.add("");
+        lore.add(Formatting.formatColor("&bRight-Click to &o&eRead"));
+        lore.add(Formatting.formatColor("&bShift Right-Click to &o&eOpen Panel"));
 
+        bookMeta.setLore(lore);
 
-        m.setCustomModelData(1);
-        journal.setItemMeta(m);
+        bookMeta.setCustomModelData(1);
+        journal.setItemMeta(bookMeta);
 
         return journal;
     }
