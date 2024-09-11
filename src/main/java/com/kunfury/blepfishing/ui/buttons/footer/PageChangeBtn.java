@@ -3,17 +3,13 @@ package com.kunfury.blepfishing.ui.buttons.footer;
 import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.items.ItemHandler;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
-import com.kunfury.blepfishing.ui.objects.PaginationPanel;
-import org.bukkit.Bukkit;
+import com.kunfury.blepfishing.ui.objects.panels.PaginationPanel;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-
-import java.util.List;
 
 public class PageChangeBtn<T> extends MenuButton {
 

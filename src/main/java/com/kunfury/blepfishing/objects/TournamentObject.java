@@ -133,7 +133,7 @@ public class TournamentObject {
     }
 
     public boolean CanFinish(){
-        return LocalDateTime.now().isAfter(getEndTime());
+        return active && LocalDateTime.now().isAfter(getEndTime());
     }
 
 

@@ -1,11 +1,8 @@
 package com.kunfury.blepfishing.ui.panels;
 
 import com.kunfury.blepfishing.BlepFishing;
-import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
-import com.kunfury.blepfishing.ui.objects.PaginationPanel;
-import com.kunfury.blepfishing.ui.objects.Panel;
-import com.kunfury.blepfishing.ui.MenuHandler;
+import com.kunfury.blepfishing.ui.objects.panels.PaginationPanel;
 import com.kunfury.blepfishing.ui.buttons.equipment.FishBagFishButton;
 import com.kunfury.blepfishing.objects.FishBag;
 import com.kunfury.blepfishing.objects.FishObject;

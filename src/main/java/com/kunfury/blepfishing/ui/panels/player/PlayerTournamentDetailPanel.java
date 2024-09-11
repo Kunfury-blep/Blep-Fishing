@@ -6,6 +6,7 @@ import com.kunfury.blepfishing.objects.FishType;
 import com.kunfury.blepfishing.objects.TournamentObject;
 import com.kunfury.blepfishing.objects.TournamentType;
 import com.kunfury.blepfishing.ui.buttons.player.tournament.PlayerTournamentButton;
+import com.kunfury.blepfishing.ui.buttons.player.tournament.PlayerTournamentPanelButton;
 import com.kunfury.blepfishing.ui.objects.Panel;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -48,6 +49,6 @@ public class PlayerTournamentDetailPanel extends Panel {
     @Override
     public void BuildInventory(Player player) {
 //
-//        AddFooter(new PlayerPanelButton(), null, null);
+        AddFooter(new PlayerTournamentPanelButton(), null, null);
     }
 }

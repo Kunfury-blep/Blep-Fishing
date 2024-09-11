@@ -99,6 +99,12 @@ public class CompassPiece extends TreasureType{
 
         StringBuilder areaIds = new StringBuilder();
 
+        itemMeta.getPersistentDataContainer().set(ItemHandler.TreasureTypeId, PersistentDataType.STRING, "compassPiece");
+        itemMeta.getPersistentDataContainer().set(ItemHandler.FishAreaId, PersistentDataType.STRING, areaIds.toString());
+        itemMeta.setDisplayName(Formatting.formatColor(ChatColor.AQUA + "Compass Piece"));
+
+
+
         List<String> lore = new ArrayList<>();
 
         for(var a : areas){
@@ -109,12 +115,9 @@ public class CompassPiece extends TreasureType{
             areaIds.append(a.Id);
         }
 
-        itemMeta.getPersistentDataContainer().set(ItemHandler.TreasureTypeId, PersistentDataType.STRING, "compassPiece");
-        itemMeta.getPersistentDataContainer().set(ItemHandler.FishAreaId, PersistentDataType.STRING, areaIds.toString());
-        itemMeta.setDisplayName(Formatting.formatColor(ChatColor.AQUA + "Compass Piece"));
 
-        lore.add("");
-        lore.add(Formatting.formatColor("&bRight-Click to &e&oFocus"));
+        //lore.add("");
+        //lore.add(Formatting.formatColor("&bRight-Click to &e&oFocus"));
 
         itemMeta.setLore(lore);
 

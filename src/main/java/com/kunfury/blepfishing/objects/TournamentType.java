@@ -66,7 +66,7 @@ public class TournamentType {
         && (!StartTimes.containsKey(TournamentDay.EVERYDAY) || !StartTimes.get(TournamentDay.EVERYDAY).contains(time)))
             return;
 
-        Bukkit.broadcastMessage("Starting Tourney: " + Name);
+        //Bukkit.broadcastMessage("Starting Tourney: " + Name);
         Start();
     }
 
@@ -75,7 +75,9 @@ public class TournamentType {
             return null;
         }
         var tournament = new TournamentObject(this);
-        Bukkit.broadcastMessage("Started tournament " + Name + "!");
+
+        Utilities.Announce(Formatting.getMessage("Tournament.start")
+                .replace("{tournament}", Name));
         return tournament;
 
     }
@@ -142,6 +144,21 @@ public class TournamentType {
         List<String> lore = new ArrayList<>();
         lore.add("Tournament Details");
         return lore;
+    }
+
+    //TODO: Generate this once and reuse
+    public List<String> getFormattedCatchList(){
+
+        List<String> fishNames = new ArrayList<>();
+        for(var typeId : FishTypeIds){
+            var fishType = FishType.FromId(typeId);
+            assert fishType != null;
+            fishNames.add(fishType.Name);
+        }
+
+
+        return Formatting.toLoreList(Formatting.getCommaList(fishNames, ChatColor.WHITE, ChatColor.BLUE));
+
     }
 
     ///

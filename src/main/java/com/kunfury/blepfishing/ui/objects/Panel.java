@@ -1,5 +1,6 @@
 package com.kunfury.blepfishing.ui.objects;
 
+import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.ui.MenuHandler;
@@ -8,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
 
@@ -17,6 +19,7 @@ public abstract class Panel {
     protected String Title;
     protected int InventorySize;
     protected boolean FillInventory = true;
+    protected boolean Refresh = false; //If enabled, refreshes the panel every second
 
     public Panel(String title, int inventorySize){
         Title = Formatting.formatColor(title);
@@ -39,6 +42,25 @@ public abstract class Panel {
             }
         }
         player.openInventory(inv);
+
+        if(Refresh){
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    if(!player.getOpenInventory().getTitle().equals(Title)){
+                        cancel();
+                        return;
+                    }
+
+                    inv = Bukkit.createInventory(player, InventorySize, Title);
+                    BuildInventory(player);
+                    player.openInventory(inv);
+                }
+
+            }.runTaskTimer(BlepFishing.getPlugin(), 0, 20);
+        }
+
+
     }
 
     public void Show(CommandSender sender){

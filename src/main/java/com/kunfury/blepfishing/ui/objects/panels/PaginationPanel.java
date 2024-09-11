@@ -1,12 +1,13 @@
-package com.kunfury.blepfishing.ui.objects;
+package com.kunfury.blepfishing.ui.objects.panels;
 
 import com.kunfury.blepfishing.ui.buttons.footer.PageChangeBtn;
-import org.bukkit.Bukkit;
+import com.kunfury.blepfishing.ui.objects.MenuButton;
+import com.kunfury.blepfishing.ui.objects.Panel;
 import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class PaginationPanel<T> extends Panel{
+public abstract class PaginationPanel<T> extends Panel {
 
     public int Page;
     protected final List<T> Contents;

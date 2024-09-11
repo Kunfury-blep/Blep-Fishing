@@ -31,28 +31,14 @@ public class PlayerTournamentButton extends MenuButton {
         ItemStack item = new ItemStack(Material.SALMON);
         ItemMeta m = item.getItemMeta();
 
-        m.setDisplayName(ChatColor.AQUA + tournament.getType().Name);
+        var duration = Formatting.asTime(tournament.getTimeRemaining(), ChatColor.BLUE);
+        m.setDisplayName(ChatColor.AQUA + tournament.getType().Name +
+                ChatColor.BLUE  + " | " + duration);
 
         List<String> lore = new ArrayList<>();
         lore.add("");
 
-        StringBuilder sb = new StringBuilder(ChatColor.BLUE + "Catch: ");
-        int i = 1;
-        for(var typeId : tournament.getType().FishTypeIds){
-            var type = FishType.FromId(typeId);
-            assert type != null;
-
-            sb.append(ChatColor.WHITE).append(type.Name);
-            if(i < tournament.getType().FishTypeIds.size())
-                sb.append(ChatColor.BLUE).append(", ");
-
-            i++;
-        }
-
-        lore.add(sb.toString());
-
-        var timeRemaining = tournament.getTimeRemaining();
-        lore.add(ChatColor.BLUE + "Duration: " + ChatColor.WHITE + Formatting.asTime(tournament.getTimeRemaining(), ChatColor.BLUE));
+        lore.addAll(tournament.getType().getFormattedCatchList());
 
         lore.add("");
         lore.add(ChatColor.YELLOW + "Left-Click to View");

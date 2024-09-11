@@ -3,11 +3,8 @@ package com.kunfury.blepfishing.ui.panels.admin.areas;
 import com.kunfury.blepfishing.objects.FishingArea;
 import com.kunfury.blepfishing.ui.buttons.admin.areas.*;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
-import com.kunfury.blepfishing.ui.objects.PaginationPanel;
-import com.kunfury.blepfishing.ui.objects.Panel;
-import org.bukkit.Bukkit;
+import com.kunfury.blepfishing.ui.objects.panels.PaginationPanel;
 import org.bukkit.block.Biome;
-import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.Comparator;
