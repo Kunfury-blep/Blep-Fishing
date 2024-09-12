@@ -3,6 +3,7 @@ package com.kunfury.blepfishing.config;
 import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.helpers.Formatting;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -10,8 +11,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Objects;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 public class ConfigHandler {
 
@@ -23,6 +27,8 @@ public class ConfigHandler {
     public RarityConfig rarityConfig;
     public AreaConfig areaConfig;
     public TreasureConfig treasureConfig;
+
+    public List<String> Translations;
 
     public void Initialize(){
         instance = this;
@@ -39,6 +45,7 @@ public class ConfigHandler {
         treasureConfig = new TreasureConfig();
 
         UpdateMessages();
+        LoadTranslations();
     }
 
     public List<String> ErrorMessages = new ArrayList<>();
@@ -59,7 +66,7 @@ public class ConfigHandler {
         File messageConfigFile = new File(BlepFishing.instance.getDataFolder(), "messages.yml");
         YamlConfiguration externalYamlConfig = YamlConfiguration.loadConfiguration(messageConfigFile);
 
-        InputStreamReader internalConfigFileStream = new InputStreamReader(Objects.requireNonNull(BlepFishing.getPlugin().getResource("messages.yml")), StandardCharsets.UTF_8);
+        InputStreamReader internalConfigFileStream = new InputStreamReader(Objects.requireNonNull(BlepFishing.getPlugin().getResource("messages.yml")));
         YamlConfiguration internalYamlConfig = YamlConfiguration.loadConfiguration(internalConfigFileStream);
 
         for (String string : internalYamlConfig.getKeys(true)) {
@@ -78,4 +85,24 @@ public class ConfigHandler {
         Formatting.messages = externalYamlConfig;
     }
 
+    private void LoadTranslations(){
+        final File jarFile = new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
+        Translations = new ArrayList<>();
+
+        try {
+            if(jarFile.isFile()) {  // Run with JAR file
+                final JarFile jar = new JarFile(jarFile);
+                final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+                while(entries.hasMoreElements()) {
+                    final String name = entries.nextElement().getName();
+                    if (name.startsWith("translations/") && !name.equals("translations/")) { //filter according to the path
+                        Translations.add(name);
+                    }
+                }
+                jar.close();
+            }
+        }catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
