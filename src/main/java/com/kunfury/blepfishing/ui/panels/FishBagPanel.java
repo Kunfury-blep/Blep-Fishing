@@ -1,6 +1,7 @@
 package com.kunfury.blepfishing.ui.panels;
 
 import com.kunfury.blepfishing.BlepFishing;
+import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
 import com.kunfury.blepfishing.ui.objects.panels.PaginationPanel;
 import com.kunfury.blepfishing.ui.buttons.equipment.FishBagFishButton;
@@ -13,6 +14,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,7 +24,9 @@ public class FishBagPanel extends PaginationPanel<FishType> {
 
     public final FishBag fishBag;
     public FishBagPanel(FishBag fishBag, int page){
-        super("Fish Bag: " + fishBag.getAmount() + "/" + fishBag.getMax(),
+        super(Formatting.GetLanguageString("UI.Player.Panels.fishBag")
+                        .replace("{amount}", String.valueOf(fishBag.getAmount()))
+                        .replace("{max}", String.valueOf(fishBag.getMax())),
                 FishType.GetAll().size() + 9, page, null);
         this.fishBag = fishBag;
     }
@@ -53,8 +57,8 @@ public class FishBagPanel extends PaginationPanel<FishType> {
 
     private void FillFishBag(Inventory inv){
         final List<FishObject> parsedFish = BlepFishing.getDatabase().FishBags.GetAllFish(fishBag.Id);
-        HashMap<FishType, List<FishObject>> fishMap = new HashMap<>();
 
+        HashMap<FishType, List<FishObject>> fishMap = new HashMap<>();
         for(var f : parsedFish){
             FishType type = f.getType();
             if(!fishMap.containsKey(f.getType())){
@@ -64,7 +68,10 @@ public class FishBagPanel extends PaginationPanel<FishType> {
         }
         List<ItemStack> bagItems = new ArrayList<>();
 
-        for(var type : fishMap.keySet()){
+        var fishTypes = fishMap.keySet()
+                .stream().sorted(Comparator.comparing(fish -> fish.Name)).toList();
+
+        for(var type : fishTypes){
             if(type == null)
                 continue;
 
