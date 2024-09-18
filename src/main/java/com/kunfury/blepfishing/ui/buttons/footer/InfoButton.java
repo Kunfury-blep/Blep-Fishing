@@ -1,5 +1,6 @@
 package com.kunfury.blepfishing.ui.buttons.footer;
 
+import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -22,7 +23,7 @@ public class InfoButton extends MenuButton {
         ItemMeta m = item.getItemMeta();
         assert m != null;
 
-        m.setDisplayName(ChatColor.AQUA + "Information");
+        m.setDisplayName(Formatting.GetLanguageString("UI.System.Buttons.info"));
         m.setLore(info);
 
         item.setItemMeta(m);

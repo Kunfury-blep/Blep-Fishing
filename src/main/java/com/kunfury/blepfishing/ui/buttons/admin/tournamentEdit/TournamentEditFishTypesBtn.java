@@ -31,16 +31,7 @@ public class TournamentEditFishTypesBtn extends AdminTournamentMenuButton {
 
         ArrayList<String> lore = new ArrayList<>();
 
-
-        List<String> fishNames = new ArrayList<>();
-        for(var typeId : tournament.FishTypeIds){
-            var fishType = FishType.FromId(typeId);
-            assert fishType != null;
-            fishNames.add(fishType.Name);
-        }
-
-
-        lore.addAll(Formatting.toLoreList(Formatting.getCommaList(fishNames, ChatColor.WHITE, ChatColor.BLUE)));
+        lore.addAll(tournament.getFormattedCatchList());
 
         m.setLore(lore);
 
@@ -48,7 +39,6 @@ public class TournamentEditFishTypesBtn extends AdminTournamentMenuButton {
 
         PersistentDataContainer dataContainer = m.getPersistentDataContainer();
         dataContainer.set(ItemHandler.TourneyTypeId, PersistentDataType.STRING, tournament.Id);
-
 
         item.setItemMeta(m);
 

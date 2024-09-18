@@ -34,7 +34,7 @@ public class DisplayFishInfo {
             Score score2 = objective.getScore(Formatting.formatColor(rarity.Prefix + rarity.Name));
             score2.setScore(0);
 
-            Score score = objective.getScore(Formatting.getMessage("Fish Object.Scoreboard.size")
+            Score score = objective.getScore(Formatting.GetLanguageString("Fish.Scoreboard.size")
                     .replace("{size}", Formatting.DoubleFormat(fish.Length)));
             score.setScore(1);
 

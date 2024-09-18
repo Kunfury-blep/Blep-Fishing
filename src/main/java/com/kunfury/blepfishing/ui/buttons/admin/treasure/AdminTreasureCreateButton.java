@@ -1,6 +1,7 @@
 package com.kunfury.blepfishing.ui.buttons.admin.treasure;
 
 import com.kunfury.blepfishing.config.ConfigHandler;
+import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.objects.treasure.Casket;
 import com.kunfury.blepfishing.objects.treasure.TreasureType;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
@@ -20,7 +21,7 @@ public class AdminTreasureCreateButton extends MenuButton {
         ItemMeta m = item.getItemMeta();
         assert m != null;
 
-        m.setDisplayName("Create New Treasure");
+        m.setDisplayName(Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.createNew"));
         ArrayList<String> lore = new ArrayList<>();
         m.setLore(lore);
         m = setButtonId(m, getId());

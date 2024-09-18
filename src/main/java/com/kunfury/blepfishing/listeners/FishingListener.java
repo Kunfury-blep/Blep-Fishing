@@ -6,7 +6,6 @@ import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.TreasureHandler;
 import com.kunfury.blepfishing.helpers.Utilities;
-import com.kunfury.blepfishing.objects.treasure.TreasureDrop;
 import com.kunfury.blepfishing.objects.treasure.TreasureType;
 import com.kunfury.blepfishing.ui.scoreboards.DisplayFishInfo;
 import com.kunfury.blepfishing.items.ItemHandler;
@@ -21,7 +20,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -182,7 +180,7 @@ public class FishingListener implements Listener {
         }else if(offHand.getType() == Material.FISHING_ROD){
             rodItem = offHand;
         }else{
-            Bukkit.getLogger().severe(Formatting.getPrefix() + player.getDisplayName() + " is fishing without a held rod.");
+            Bukkit.getLogger().severe(Formatting.GetMessagePrefix() + player.getDisplayName() + " is fishing without a held rod.");
             return null;
         }
 
@@ -195,7 +193,7 @@ public class FishingListener implements Listener {
 
 
         if(fishingRod == null){
-            Bukkit.getLogger().severe(Formatting.getPrefix() + "Null fishing rod.");
+            Bukkit.getLogger().severe(Formatting.GetMessagePrefix() + "Null fishing rod.");
             return null;
         }
         fishingRod.UpdateRodItem(rodItem);

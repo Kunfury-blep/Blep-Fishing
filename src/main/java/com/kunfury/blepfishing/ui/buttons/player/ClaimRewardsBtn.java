@@ -3,11 +3,8 @@ package com.kunfury.blepfishing.ui.buttons.player;
 import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.Utilities;
-import com.kunfury.blepfishing.objects.UnclaimedReward;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
 import com.kunfury.blepfishing.ui.panels.player.PlayerPanel;
-import com.kunfury.blepfishing.ui.panels.player.PlayerTournamentPanel;
-import jdk.jshell.execution.Util;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -36,15 +33,14 @@ public class ClaimRewardsBtn extends MenuButton {
         m.addEnchant(Enchantment.FORTUNE, 1, true);
         m.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 
-        var name = ChatColor.AQUA + "Claim Rewards";
-
-
         List<String> lore = new ArrayList<>();
 
-        lore.add(ChatColor.BLUE + "Total Rewards: " + ChatColor.WHITE + Database.Rewards.GetTotalRewards(player.getUniqueId().toString()));
+        lore.add(Formatting.GetLanguageString("UI.Player.Buttons.Base.Claim Rewards.lore")
+                .replace("{amount}",
+                        String.valueOf(Database.Rewards.GetTotalRewards(player.getUniqueId().toString()))));
 
         m.setLore(lore);
-        m.setDisplayName(name);
+        m.setDisplayName(Formatting.GetLanguageString("UI.Player.Buttons.Base.Claim Rewards.name"));
         item.setItemMeta(m);
 
         return item;
@@ -67,7 +63,8 @@ public class ClaimRewardsBtn extends MenuButton {
         }
 
         if(undropped > 0){
-            var msg = Formatting.getPrefix() + "Unable to give " + ChatColor.AQUA + undropped + ChatColor.WHITE + " items";
+            var msg = Formatting.GetMessagePrefix() + Formatting.GetLanguageString("UI.Player.Buttons.Base.Claim Rewards.name")
+                    .replace("{amount}", String.valueOf(undropped));
             player.sendMessage(msg);
         }
 

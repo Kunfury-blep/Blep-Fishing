@@ -13,6 +13,7 @@ import org.bukkit.inventory.meta.MusicInstrumentMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.sql.Array;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -76,7 +77,7 @@ public class TournamentType {
         }
         var tournament = new TournamentObject(this);
 
-        Utilities.Announce(Formatting.getMessage("Tournament.start")
+        Utilities.Announce(Formatting.GetLanguageString("Tournament.start")
                 .replace("{tournament}", Name));
         return tournament;
 
@@ -88,18 +89,26 @@ public class TournamentType {
 
         MusicInstrumentMeta m = (MusicInstrumentMeta)item.getItemMeta();
         assert m != null;
-        m.setDisplayName(ChatColor.AQUA + Name + " Horn");
+        m.setDisplayName(Formatting.GetLanguageString("Equipment.Tournament Horn.name")
+                        .replace("{tournament}", Name));
 
         List<String> lore = new ArrayList<>();
-        lore.add(ChatColor.BLUE + "Duration: " + ChatColor.WHITE + Formatting.asTime(Duration, ChatColor.BLUE));
-        StringBuilder sb = new StringBuilder();
-        sb.append(ChatColor.BLUE + "Types: ");
-        for(var f : FishTypeIds){
-            sb.append(ChatColor.WHITE).append(f).append(ChatColor.BLUE).append(", ");
-        }
-        lore.add(sb.toString());
-        m.setLore(lore);
+        lore.add(Formatting.GetLanguageString("Equipment.Tournament Horn.duration")
+                .replace("{time}", Formatting.asTime(Duration)));
 
+        List<String> fishList = new ArrayList<>();
+        for(var f : getFishTypes()){
+            fishList.add(f.Name);
+        }
+
+        String commaString = Formatting.ToCommaList(fishList, ChatColor.WHITE, ChatColor.BLUE);
+
+        List<String> finalLoreList = Formatting.ToLoreList(Formatting.GetLanguageString("Equipment.Tournament Horn.tournamentFish")
+                .replace("{fish}", commaString));
+
+        lore.addAll(finalLoreList);
+
+        m.setLore(lore);
         m.setInstrument(MusicInstrument.SING_GOAT_HORN);
 
         PersistentDataContainer dataContainer = m.getPersistentDataContainer();
@@ -108,6 +117,22 @@ public class TournamentType {
         item.setItemMeta(m);
 
         return item;
+    }
+
+    private List<FishType> fishTypes;
+    public List<FishType> getFishTypes(){
+        if(fishTypes == null || fishTypes.isEmpty()){
+            fishTypes = new ArrayList<>();
+            for(var typeId : FishTypeIds){
+                var fishType = FishType.FromId(typeId);
+                if(fishType == null){
+                    Utilities.Severe("Invalid Fish Type Found By Id");
+                    continue;
+                }
+                fishTypes.add(fishType);
+            }
+        }
+        return fishTypes;
     }
 
     public List<Integer> getPlacements(){
@@ -146,19 +171,28 @@ public class TournamentType {
         return lore;
     }
 
-    //TODO: Generate this once and reuse
+
+    private List<String> formattedCatchList;
     public List<String> getFormattedCatchList(){
+        if(formattedCatchList == null || formattedCatchList.isEmpty()){
+            if(new HashSet<>(getFishTypes()).containsAll(FishType.GetAll())){
+                formattedCatchList = Collections.singletonList(
+                        Formatting.GetLanguageString("Tournament.allFish"));
+                return formattedCatchList;
+            }
 
-        List<String> fishNames = new ArrayList<>();
-        for(var typeId : FishTypeIds){
-            var fishType = FishType.FromId(typeId);
-            assert fishType != null;
-            fishNames.add(fishType.Name);
+            formattedCatchList = new ArrayList<>();
+            for(var fishType : getFishTypes()){
+                formattedCatchList.add(fishType.Name);
+            }
+            formattedCatchList = Formatting.ToCommaLoreList(formattedCatchList, ChatColor.WHITE, ChatColor.BLUE);
         }
+        return formattedCatchList;
+    }
 
-
-        return Formatting.toLoreList(Formatting.getCommaList(fishNames, ChatColor.WHITE, ChatColor.BLUE));
-
+    public void ResetCatchList(){
+        formattedCatchList = null;
+        fishTypes = null;
     }
 
     ///
@@ -168,13 +202,10 @@ public class TournamentType {
     private static final HashMap<String, TournamentType> Tournaments = new HashMap<>();
     public static void AddNew(TournamentType tournament){
         if(Tournaments.containsKey(tournament.Id)){
-            Bukkit.getLogger().warning("Attempted to create duplicate Tournament with ID: " + tournament.Id);
+            Utilities.Severe("Attempted to create duplicate Tournament with ID: " + tournament.Id);
             return;
         }
-
-        Tournaments.put(tournament.Id, tournament);
-        //Bukkit.getLogger().warning("Loaded Tournament: " + tournament.Name);
-    }
+        Tournaments.put(tournament.Id, tournament);}
 
     public static void Delete(TournamentType type){
         Tournaments.remove(type.Id);
@@ -189,8 +220,7 @@ public class TournamentType {
         if(Tournaments.containsKey(tourneyId)){
             return Tournaments.get(tourneyId);
         }
-
-        Bukkit.getLogger().warning("Tried to get invalid Tournament with ID: " + tourneyId);
+        Utilities.Severe("Tried to get invalid Tournament with ID: " + tourneyId);
         return null;
     }
 
@@ -208,7 +238,6 @@ public class TournamentType {
 
         DayOfWeek dayOfWeek = dateTime.getDayOfWeek();
         String time = dateTime.getHour() + ":" + dateTime.getMinute();
-        //Bukkit.broadcastMessage("Trying to Start " + GetTournaments().size() + " Tournaments: " + time);
         for(var t : GetTournaments()){
             t.TryStart(dayOfWeek, time);
         }

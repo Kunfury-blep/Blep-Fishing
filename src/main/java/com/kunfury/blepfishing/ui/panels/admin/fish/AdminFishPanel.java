@@ -25,7 +25,7 @@ public class AdminFishPanel extends PaginationPanel<FishType> {
     }
 
     @Override
-    protected List<FishType> getContents() {
+    protected List<FishType> loadContents() {
         return FishType.GetAll().stream()
                 .sorted(Comparator.comparing(FishType::getId, String.CASE_INSENSITIVE_ORDER))
                 .toList();

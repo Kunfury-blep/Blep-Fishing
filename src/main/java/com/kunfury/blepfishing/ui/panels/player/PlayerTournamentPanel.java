@@ -2,6 +2,7 @@ package com.kunfury.blepfishing.ui.panels.player;
 
 import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.database.Database;
+import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.ui.buttons.player.PlayerPanelButton;
 import com.kunfury.blepfishing.ui.objects.Panel;
 import com.kunfury.blepfishing.ui.buttons.player.tournament.PlayerTournamentButton;
@@ -18,7 +19,7 @@ import java.util.List;
 public class PlayerTournamentPanel extends Panel {
 
     public PlayerTournamentPanel() {
-        super("Fishing Tournaments", FishType.GetAll().size() + 9);
+        super(Formatting.GetLanguageString("UI.Player.Panels.tournaments"), FishType.GetAll().size() + 9);
         Refresh = true;
     }
 

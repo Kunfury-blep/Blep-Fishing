@@ -1,18 +1,12 @@
 package com.kunfury.blepfishing.ui.buttons.admin.areas;
 
-import com.gmail.nossr50.skills.fishing.Fishing;
 import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.helpers.Formatting;
-import com.kunfury.blepfishing.objects.FishType;
 import com.kunfury.blepfishing.objects.FishingArea;
-import com.kunfury.blepfishing.objects.Rarity;
 import com.kunfury.blepfishing.ui.objects.buttons.AdminAreaMenuButton;
-import com.kunfury.blepfishing.ui.objects.buttons.AdminRarityMenuButton;
 import com.kunfury.blepfishing.ui.panels.admin.areas.AdminAreasEditPanel;
 import com.kunfury.blepfishing.ui.panels.admin.areas.AdminAreasPanel;
-import com.kunfury.blepfishing.ui.panels.admin.fish.AdminFishEditPanel;
-import com.kunfury.blepfishing.ui.panels.admin.rarities.AdminRarityPanel;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -45,7 +39,7 @@ public class AdminAreaBtn extends AdminAreaMenuButton {
 
         lore.add("");
 
-        var biomeList = Formatting.toLoreList(Formatting.getCommaList(area.Biomes, ChatColor.WHITE, ChatColor.BLUE));
+        var biomeList = Formatting.ToLoreList(Formatting.ToCommaList(area.Biomes, ChatColor.WHITE, ChatColor.BLUE));
 
         lore.add(ChatColor.BLUE + "- Biomes -");
         //lore.add(Formatting.getCommaString(i, ChatColor.WHITE, ChatColor.BLUE));

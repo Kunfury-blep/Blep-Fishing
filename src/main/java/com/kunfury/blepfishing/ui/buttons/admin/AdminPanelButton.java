@@ -1,5 +1,6 @@
 package com.kunfury.blepfishing.ui.buttons.admin;
 
+import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
 import com.kunfury.blepfishing.ui.panels.admin.AdminPanel;
 import org.bukkit.ChatColor;
@@ -14,7 +15,7 @@ public class AdminPanelButton extends MenuButton {
         ItemStack item = new ItemStack(Material.NETHER_STAR);
         ItemMeta m = item.getItemMeta();
 
-        m.setDisplayName(ChatColor.AQUA + "Admin Panel");
+        m.setDisplayName(Formatting.GetLanguageString("UI.Admin.Buttons.panel"));
         m = setButtonId(m, getId());
         item.setItemMeta(m);
 

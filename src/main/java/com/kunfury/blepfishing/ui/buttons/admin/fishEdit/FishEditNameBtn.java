@@ -74,7 +74,7 @@ public class FishEditNameBtn extends AdminFishMenuButton {
         @Override
         protected boolean isInputValid(@NotNull ConversationContext conversationContext, @NotNull String s) {
             if(getFishType().Name.equals(s)) return true;
-            return !FishType.IdExists(Formatting.getIdFromName(s));
+            return !FishType.IdExists(Formatting.GetIdFromNames(s));
         }
 
         @Nullable
@@ -89,7 +89,7 @@ public class FishEditNameBtn extends AdminFishMenuButton {
 
             type.Name = s;
 
-            type.Id = Formatting.getIdFromName(s);
+            type.Id = Formatting.GetIdFromNames(s);
 
             FishType.UpdateId(oldId, type);
 

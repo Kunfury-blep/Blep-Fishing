@@ -46,6 +46,10 @@ public class FishType {
 
     }
 
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 
     public FishObject GenerateFish(Rarity rarity, UUID playerId, Integer rodId, Integer bagId, boolean allBlue){
         double adjustedMax = LengthMax;

@@ -25,7 +25,7 @@ public class AdminAreaBiomesBtn extends AdminAreaMenuButton {
         assert m != null;
 
         m.setDisplayName(ChatColor.AQUA + "Biomes");
-        var biomeList = Formatting.toLoreList(Formatting.getCommaList(area.Biomes, ChatColor.WHITE, ChatColor.BLUE));
+        var biomeList = Formatting.ToLoreList(Formatting.ToCommaList(area.Biomes, ChatColor.WHITE, ChatColor.BLUE));
 
         ArrayList<String> lore = new ArrayList<>(biomeList);
         m.setLore(lore);

@@ -4,15 +4,11 @@ import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.objects.FishingArea;
-import com.kunfury.blepfishing.objects.Rarity;
 import com.kunfury.blepfishing.ui.objects.buttons.AdminAreaMenuButton;
-import com.kunfury.blepfishing.ui.objects.buttons.AdminRarityMenuButton;
 import com.kunfury.blepfishing.ui.panels.admin.areas.AdminAreasEditPanel;
-import com.kunfury.blepfishing.ui.panels.admin.rarities.AdminRarityEditPanel;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.conversations.*;
-import org.bukkit.entity.Fish;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
@@ -69,7 +65,7 @@ public class AdminAreaNameBtn extends AdminAreaMenuButton {
         @Override
         protected boolean isInputValid(@NotNull ConversationContext conversationContext, @NotNull String s) {
             if(getArea().Name.equals(s)) return true;
-            return !FishingArea.IdExists(Formatting.getIdFromName(s));
+            return !FishingArea.IdExists(Formatting.GetIdFromNames(s));
         }
 
         @Nullable
@@ -86,7 +82,7 @@ public class AdminAreaNameBtn extends AdminAreaMenuButton {
 
 
             area.Name = s;
-            area.Id = Formatting.getIdFromName(s);
+            area.Id = Formatting.GetIdFromNames(s);
 
             FishingArea.UpdateId(oldId, area);
 

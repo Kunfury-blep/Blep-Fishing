@@ -1,5 +1,6 @@
 package com.kunfury.blepfishing.ui.buttons.admin.rarities;
 
+import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
 import com.kunfury.blepfishing.ui.panels.admin.rarities.AdminRarityPanel;
 import com.kunfury.blepfishing.ui.panels.admin.tournaments.AdminTournamentPanel;
@@ -15,7 +16,7 @@ public class AdminRaritiesPanelBtn extends MenuButton {
         ItemStack item = new ItemStack(Material.EMERALD);
         ItemMeta m = item.getItemMeta();
 
-        m.setDisplayName(ChatColor.AQUA + "Edit Rarities");
+        m.setDisplayName(Formatting.GetLanguageString("UI.Admin.Buttons.Base.rarities"));
 
         item.setItemMeta(m);
 

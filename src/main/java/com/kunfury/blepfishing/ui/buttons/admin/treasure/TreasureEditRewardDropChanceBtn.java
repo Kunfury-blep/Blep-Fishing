@@ -2,6 +2,7 @@ package com.kunfury.blepfishing.ui.buttons.admin.treasure;
 
 import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.config.ConfigHandler;
+import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.objects.treasure.Casket;
 import com.kunfury.blepfishing.objects.treasure.TreasureType;
 import com.kunfury.blepfishing.ui.objects.buttons.AdminTreasureRewardMenuButton;
@@ -29,9 +30,10 @@ public class TreasureEditRewardDropChanceBtn extends AdminTreasureRewardMenuButt
 
         m.setDisplayName("Drop Chance");
         ArrayList<String> lore = new ArrayList<>();
-        lore.add(ChatColor.WHITE + "Current: " + ChatColor.BLUE + Reward.DropChance + ChatColor.WHITE + "%");
+        lore.add(Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.Rewards.Drop Chance.current")
+                .replace("{amount}", String.valueOf(Reward.DropChance)));
         lore.add("");
-        lore.add("The percent chance the item will be given when this treasure is opened");
+        lore.add(Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.Rewards.Announce.lore"));
         m.setLore(lore);
         m = setButtonId(m, getId());
 
@@ -60,8 +62,9 @@ public class TreasureEditRewardDropChanceBtn extends AdminTreasureRewardMenuButt
         @NotNull
         @Override
         public String getPromptText(@NotNull ConversationContext context) {
-            TreasureType type = getCasket();
-            return "What should the Item Drop Chance be? Current: " + getReward().DropChance;        }
+            return Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.Rewards.Drop Chance.prompt")
+                    .replace("{amount}", String.valueOf(getReward().DropChance));
+        }
 
         @Override
         protected boolean isNumberValid(@NotNull ConversationContext context, @NotNull Number input) {

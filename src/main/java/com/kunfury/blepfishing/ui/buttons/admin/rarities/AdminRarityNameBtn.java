@@ -65,7 +65,7 @@ public class AdminRarityNameBtn extends AdminRarityMenuButton {
         @Override
         protected boolean isInputValid(@NotNull ConversationContext conversationContext, @NotNull String s) {
             if(getRarity().Name.equals(s)) return true;
-            return !Rarity.IdExists(Formatting.getIdFromName(s));
+            return !Rarity.IdExists(Formatting.GetIdFromNames(s));
         }
 
         @Nullable
@@ -82,7 +82,7 @@ public class AdminRarityNameBtn extends AdminRarityMenuButton {
 
 
             rarity.Name = s;
-            rarity.Id = Formatting.getIdFromName(s);
+            rarity.Id = Formatting.GetIdFromNames(s);
 
             Rarity.UpdateId(oldId, rarity);
 

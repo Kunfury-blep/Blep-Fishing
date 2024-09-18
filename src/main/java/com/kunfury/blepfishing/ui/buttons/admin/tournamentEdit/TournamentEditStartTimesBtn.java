@@ -53,7 +53,7 @@ public class TournamentEditStartTimesBtn extends AdminTournamentMenuButton {
             if(times.isEmpty())
                 sb.append(ChatColor.RED + "n/a");
             else
-                sb.append(Formatting.getCommaList(times, ChatColor.WHITE, ChatColor.BLUE));
+                sb.append(Formatting.ToCommaList(times, ChatColor.WHITE, ChatColor.BLUE));
 
             lore.add(sb.toString());
         }
@@ -72,5 +72,4 @@ public class TournamentEditStartTimesBtn extends AdminTournamentMenuButton {
     protected void click_left() {
         new AdminTournamentEditStartTimesDaysPanel(getTournamentType()).Show(player);
     }
-
 }

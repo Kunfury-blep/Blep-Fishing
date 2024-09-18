@@ -1,0 +1,159 @@
+Fish:
+  length: "&8Length: {size}in."
+  caught: "&8Caught By: {player} on {date}"
+  Scoreboard:
+    size: "&b{size}\""
+
+Treasure:
+  Casket:
+    use: "&bRight-Click to &e&oOpen"
+    result: "You found {item} &finside the {casket}&f!"
+  Compass Piece:
+    name: "&3Compass Piece"
+  Compass:
+    name: "&3Compass to the All Blue"
+    use: "&bRight-Click to &e&oFocus"
+    lore: "It really does exist..."
+
+Equipment:
+  Fish Bag:
+    autoPickup: "&bLeft-Click While Holding to Toggle &e&oAuto-Pickup"
+    pickupEnabled: "Auto Pickup Enabled."
+    pickupDisabled: "Auto Pickup Disabled."
+    depositAll: "&bShift Left-Click While Holding to Toggle &e&oDeposit All"
+    openBag: "&bRight-Click While Holding to &e&oOpen"
+    openPanel: "&bShift Right-Click While Holding to &e&oOpen Player Panel"
+    descSmall: "Holds a small amount of fish"
+    noSpace: "There is no more space in that bag."
+    noFish: "No fish found in inventory."
+    addFish: "Added {amount} to the bag."
+    smallBag: "Small Bag o' Fish"
+    medBag: "Medium Bag o' Fish"
+    largeBag: "Large Bag o' Fish"
+    giantBag: "Giant Bag o' Fish"
+  Fishing Rod:
+    caughtAmount: "&bFish Caught: &f{amount}"
+  Fishing Journal:
+    name: "&bFishing Journal"
+    read: "&bRight-Click to &o&eRead"
+    panel: "&bShift Right-Click to &o&eOpen Panel"
+    Content:
+      Player:
+        totalCaught: "Total Fish Caught {amount}"
+      Compass:
+        title: " -- Compass Pieces --"
+        amount: "{found}/{total} Found"
+        hint: "&oHover Piece For Hint"
+      Fish:
+        totalCaught: "Total Caught {amount}"
+        largestCaught: "Largest: {size}\""
+        smallestCaught: "Smallest: {size}\""
+  Tournament Horn:
+    name: "&3{tournament} Horn"
+    duration: "&9Duration: &f{time}"
+    tournamentFish: "&9Fish: {fish}"
+
+Tournament:
+  alreadyRunning: "{tournament} is already running."
+  noneCaught: "No fish were caught before the tournament ended, no rewards have been given."
+  leaderboard: "&l-- {tournament}&l Leaderboard - Hover For Info --"
+  start: "The {tournament}&f Fishing Contest has begun!"
+  allFish: "&fAll Fish"
+
+System:
+  prefix: "&b[BF]&f "
+  deleted: "&eSuccessfully Deleted &c{item}&e."
+
+UI:
+  Player:
+    Panels:
+      base: "Player Panel"
+      tournaments: "Fishing Tournaments"
+      fishBag: "Fish Bag: {amount}/{max}"
+      tournamentDetail: "{name} - {amount} Caught"
+    Buttons:
+      panel: "&bPlayer Panel"
+      Fish Bag:
+        stored: "&bAmount Stored: &f{amount}"
+        largest: "&bLargest Fish: &f{size}\""
+        withdrawSmall: "Left-Click to Withdraw &e&oSmallest"
+        withdrawLarge: "Right-Click to Withdraw &e&oLargest"
+        shift: "&c&oHold Shift to Withdraw &eAll"
+      Base:
+        Claim Rewards:
+          name: "&bClaim Rewards"
+          lore: "&9Total Rewards: &f{amount}"
+          error: "Unable to give &b{amount}&f items."
+        Tournaments:
+          name: "&bTournaments : {amount} Running"
+          tournament: "&9{name} - &f{time}"
+          empty: "&cNo Active Tournaments"
+      Tournaments:
+        name: "&9{name} - &f{time}"
+        view: "&bLeft-Click to &e&oView"
+  System:
+    Buttons:
+      goBack: "&cGo Back"
+      pageNext: "&bNext Page"
+      pageBack: "&bPrevious Page"
+      info: "&bInformation"
+      edit: "&bLeft-Click to &e&oEdit"
+      delete: "&bShift Right-Click &bto &c&oDelete"
+      deleteConfirm: "&4&lReally Delete?"
+      enabled: "&aEnabled"
+      disabled: "&cDisabled"
+  Admin:
+    Panels:
+      base: "Admin Panel"
+      translations: "Translations"
+      Treasure:
+        base: "Treasure Admin Panel"
+        editCasket: "Edit {casket}"
+    Buttons:
+      panel: "&bAdmin Panel"
+      Base:
+        Translations:
+          name: "&bTranslations"
+          lore: "&f{amount} Available"
+        treasure: "&bEdit Treasure"
+        tournaments: "&bEdit Tournaments"
+        areas: "&bEdit Areas"
+        fish: "&bEdit Fish"
+        rarities: "&bEdit Rarities"
+      Translations:
+        select: "&bLeft-Click to &e&oSelect"
+        author: "&9Author: &f{name}"
+        Info:
+          name: "&bInfo"
+          lore: "&fWant to contribute to the Translations available? &e&oClick for Discord"
+          click: "&bClick For Discord"
+      Treasure:
+        Base:
+          rewards: "&a{amount}x Rewards"
+          noRewards: "&cNo Rewards Set"
+          unfinishedRewards: "&e{amount}x Unfinished Rewards"
+        editRewards: "&bEdit Rewards"
+        Announce:
+          name: "&bAnnounce Treasure Catch"
+          lore: "Announces Catch To World"
+        Weight:
+          name: "&bWeight"
+          lore: "Higher Weight, Easier to Catch"
+          prompt: "What should the Treasure Weight be? Current: {amount}"
+        Name:
+          name: "&bName"
+          lore: "&9{name}"
+          prompt: "What should the Name of the Treasure be? Current: {name}"
+        Rewards:
+          create: "&bCreate New Reward"
+          Announce:
+            name: "&bAnnounce Reward"
+            lore: "Announce Reward To World"
+          Drop Chance:
+            name: "&bDrop Chance"
+            lore: "The percent chance the item will drop from casket"
+            current: "&9Current: &f{amount}&9%"
+            prompt: "What should the Item Drop Chance be? Current: {amount}"
+        createNew: "&bCreate New Treasure"
+
+Author: "Kunfury"

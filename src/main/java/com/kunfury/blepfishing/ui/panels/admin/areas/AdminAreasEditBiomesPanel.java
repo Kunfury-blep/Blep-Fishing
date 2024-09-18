@@ -22,7 +22,7 @@ public class AdminAreasEditBiomesPanel extends PaginationPanel<Biome> {
     }
 
     @Override
-    protected List<Biome> getContents() {
+    protected List<Biome> loadContents() {
         return sortedBiomes;
     }
 

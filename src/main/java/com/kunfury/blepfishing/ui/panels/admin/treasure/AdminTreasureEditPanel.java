@@ -1,5 +1,6 @@
 package com.kunfury.blepfishing.ui.panels.admin.treasure;
 
+import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.objects.treasure.Casket;
 import com.kunfury.blepfishing.objects.treasure.TreasureType;
 import com.kunfury.blepfishing.ui.buttons.admin.treasure.*;
@@ -10,7 +11,8 @@ public class AdminTreasureEditPanel extends Panel {
 
     Casket casket;
     public AdminTreasureEditPanel(Casket casket){
-        super("Edit " + casket.Name, 18);
+        super(Formatting.GetLanguageString("UI.Admin.Panels.Treasure.editCasket")
+                .replace("{casket}", casket.Name), 18);
         this.casket = casket;
     }
 

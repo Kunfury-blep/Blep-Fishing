@@ -1,6 +1,7 @@
 package com.kunfury.blepfishing.ui.buttons.admin.treasure;
 
 import com.kunfury.blepfishing.config.ConfigHandler;
+import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.objects.treasure.Casket;
 import com.kunfury.blepfishing.objects.treasure.TreasureType;
 import com.kunfury.blepfishing.ui.objects.buttons.AdminTreasureRewardMenuButton;
@@ -28,15 +29,14 @@ public class TreasureEditRewardAnnounceBtn extends AdminTreasureRewardMenuButton
         ItemMeta m = item.getItemMeta();
         assert m != null;
 
-        m.setDisplayName("Announce Item");
+        m.setDisplayName(Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.Rewards.Announce.name"));
         ArrayList<String> lore = new ArrayList<>();
         if(casket.Announce)
-            lore.add(ChatColor.GREEN + "Enabled");
+            Formatting.GetLanguageString("UI.System.Buttons.enabled");
         else
-            lore.add(ChatColor.RED + "Disabled");
-
+            Formatting.GetLanguageString("UI.System.Buttons.disabled");
         lore.add("");
-        lore.add("If enabled, announces to the world when a player gets this item from the treasure.");
+        lore.add(Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.Rewards.Announce.lore"));
 
         m.setLore(lore);
 

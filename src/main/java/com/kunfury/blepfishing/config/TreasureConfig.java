@@ -125,22 +125,26 @@ public class TreasureConfig {
         newTreasureConfig.set("Enabled", Enabled());
         newTreasureConfig.set("Treasure Chance", getTreasureChance());
 
-        List<Casket> sortedTreasures = Casket.GetAll()
-                .stream()
-                .sorted(Comparator.comparing(treasure -> treasure.Weight)).toList();
-        for(var casket : sortedTreasures){
-            String key = "Caskets." + casket.Id;
-            newTreasureConfig.set(key + ".Name", casket.Name);
-            newTreasureConfig.set(key + ".Weight", casket.Weight);
-            newTreasureConfig.set(key + ".Announce", casket.Announce);
+        for(var t : TreasureType.ActiveTypes.values()){
+            String key;
+            if(t instanceof CompassPiece){
+                key = "Compasses";
+                newTreasureConfig.set(key + ".Enabled", getCompassEnabled());
+            }else if(t instanceof  Casket casket){
+                key = "Caskets." + casket.Id;
+                newTreasureConfig.set(key + ".Name", casket.Name);
+                for(var i : casket.Rewards){
+                    var path = key + ".Rewards." + casket.Rewards.indexOf(i);
+                    newTreasureConfig.set(path + ".Drop Chance", i.DropChance);
+                    newTreasureConfig.set(path + ".Announce", i.Announce);
+                    newTreasureConfig.set(path + ".Cash", i.Cash);
+                    newTreasureConfig.set(path + ".Item", i.Item);
+                }
+            }else
+                continue;
 
-            for(var i : casket.Rewards){
-                var path = key + ".Rewards." + casket.Rewards.indexOf(i);
-                newTreasureConfig.set(path + ".Drop Chance", i.DropChance);
-                newTreasureConfig.set(path + ".Announce", i.Announce);
-                newTreasureConfig.set(path + ".Cash", i.Cash);
-                newTreasureConfig.set(path + ".Item", i.Item);
-            }
+            newTreasureConfig.set(key + ".Weight", t.Weight);
+            newTreasureConfig.set(key + ".Announce", t.Announce);
         }
         try {
             FileWriter fileWriter = new FileWriter(BlepFishing.instance.getDataFolder() + "/treasure.yml");

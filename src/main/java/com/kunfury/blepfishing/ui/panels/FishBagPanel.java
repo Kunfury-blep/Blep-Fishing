@@ -46,7 +46,7 @@ public class FishBagPanel extends PaginationPanel<FishType> {
     }
 
     @Override
-    protected List<FishType> getContents() {
+    protected List<FishType> loadContents() {
         return List.of();
     }
 

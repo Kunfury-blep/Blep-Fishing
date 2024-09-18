@@ -1,6 +1,5 @@
 package com.kunfury.blepfishing.objects;
 
-import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
@@ -19,12 +18,10 @@ import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.io.ObjectInputFilter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class FishingJournal {
 
@@ -72,13 +69,14 @@ public class FishingJournal {
         dataContainer.set(ItemHandler.FishJournalId, PersistentDataType.INTEGER, Id);
 
         TextComponent playerPage = new TextComponent(player.getDisplayName() + "\n\n");
-        playerPage.addExtra("Total Caught: " + Database.Fish.GetTotalCatchAmount(PlayerId.toString()));
+        playerPage.addExtra(Formatting.GetLanguageString("Equipment.Fishing Journal.Content.Player.totalCaught")
+                        .replace("{amount}", Database.Fish.GetTotalCatchAmount(PlayerId.toString()) + ""));
 
         bookMeta.spigot().addPage(new BaseComponent[]{playerPage});
 
         if(ConfigHandler.instance.treasureConfig.getCompassEnabled()){
-            TextComponent compassPage = new TextComponent(" -- Compass Pieces --\n");
-
+            TextComponent compassPage = new TextComponent(
+                    Formatting.GetLanguageString("Equipment.Fishing Journal.Content.Compass.title") + "\n");
 
             TextComponent compassPieceDetails = new TextComponent();
 
@@ -114,11 +112,14 @@ public class FishingJournal {
                 i++;
             }
 
-            compassPage.addExtra(foundPieces + "/" + totalPieces + " Found\n\n");
+            compassPage.addExtra(Formatting.GetLanguageString("Equipment.Fishing Journal.Content.Compass.amount")
+                    .replace("{found}", foundPieces + "")
+                    .replace("{total}", totalPieces + "") + "\n\n");
+
             compassPage.addExtra(compassPieceDetails);
 
             compassPage.addExtra("\n");
-            compassPage.addExtra(ChatColor.ITALIC + "Hover Piece For Hint");
+            compassPage.addExtra(Formatting.GetLanguageString("Equipment.Fishing Journal.Content.Compass.hint"));
 
             bookMeta.spigot().addPage(new BaseComponent[]{compassPage});
         }
@@ -133,21 +134,24 @@ public class FishingJournal {
 
             TextComponent fishPage = new TextComponent(fish.Name + "\n\n");
 
-            fishPage.addExtra("Total Caught: " + catchAmt + "\n");
-            fishPage.addExtra("Largest: " + fish.LengthMax + "\n");
-            fishPage.addExtra("Smallest: " + fish.LengthMin + "\n");
+            fishPage.addExtra(Formatting.GetLanguageString("Equipment.Fishing Journal.Content.Fish.totalCaught")
+                    .replace("{amount}", catchAmt + "") + "\n");
+            fishPage.addExtra(Formatting.GetLanguageString("Equipment.Fishing Journal.Content.Fish.largestCaught")
+                    .replace("{size}", fish.LengthMax + "") + "\n");
+            fishPage.addExtra(Formatting.GetLanguageString("Equipment.Fishing Journal.Content.Fish.smallestCaught")
+                    .replace("{size}", fish.LengthMin + "") + "\n");
 
             bookMeta.spigot().addPage(new BaseComponent[]{fishPage});
         }
 
-        bookMeta.setTitle(ChatColor.AQUA + "Fishing Journal");
+        bookMeta.setTitle(Formatting.GetLanguageString("Equipment.Fishing Journal.name"));
         bookMeta.setAuthor(player.getDisplayName());
 
         List<String> lore = new ArrayList<>();
 
         lore.add("");
-        lore.add(Formatting.formatColor("&bRight-Click to &o&eRead"));
-        lore.add(Formatting.formatColor("&bShift Right-Click to &o&eOpen Panel"));
+        lore.add(Formatting.GetLanguageString("Equipment.Fishing Journal.read"));
+        lore.add(Formatting.GetLanguageString("Equipment.Fishing Journal.panel"));
 
         bookMeta.setLore(lore);
 
@@ -177,13 +181,13 @@ public class FishingJournal {
         PersistentDataContainer dataContainer = bookMeta.getPersistentDataContainer();
         dataContainer.set(ItemHandler.FishJournalId, PersistentDataType.INTEGER, -1);
 
-        bookMeta.setDisplayName(ChatColor.AQUA + "Fishing Journal");
+        bookMeta.setTitle(Formatting.GetLanguageString("Equipment.Fishing Journal.name"));
 
         List<String> lore = new ArrayList<>();
 
         lore.add("");
-        lore.add(Formatting.formatColor("&bRight-Click to &o&eRead"));
-        lore.add(Formatting.formatColor("&bShift Right-Click to &o&eOpen Panel"));
+        lore.add(Formatting.GetLanguageString("Equipment.Fishing Journal.read"));
+        lore.add(Formatting.GetLanguageString("Equipment.Fishing Journal.panel"));
 
         bookMeta.setLore(lore);
 

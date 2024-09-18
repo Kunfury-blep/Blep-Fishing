@@ -6,14 +6,12 @@ import com.kunfury.blepfishing.items.ItemHandler;
 import com.kunfury.blepfishing.objects.FishBag;
 import com.kunfury.blepfishing.objects.FishObject;
 import com.kunfury.blepfishing.objects.FishType;
-import com.kunfury.blepfishing.ui.objects.buttons.AdminFishMenuButton;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,16 +49,16 @@ public class FishBagFishButton extends MenuButton {
 
         FishObject biggestFish = availFish.get(availFish.size() - 1);
 
-        lore.add(Formatting.getMessage("Equipment.Fish Bag.stored")
+        lore.add(Formatting.GetLanguageString("UI.Player.Buttons.Fish Bag.stored")
                 .replace("{amount}", String.valueOf(availFish.size())));
-        lore.add(Formatting.getMessage("Equipment.Fish Bag.largest")
+        lore.add(Formatting.GetLanguageString("UI.Player.Buttons.Fish Bag.largest")
                 .replace("{size}", String.valueOf(biggestFish.Length)));
 
         lore.add("");
-        lore.add(Formatting.getMessage("Equipment.Fish Bag.withdrawSmall"));
-        lore.add(Formatting.getMessage("Equipment.Fish Bag.withdrawLarge"));
+        lore.add(Formatting.GetLanguageString("UI.Player.Buttons.Fish Bag.withdrawSmall"));
+        lore.add(Formatting.GetLanguageString("UI.Player.Buttons.Fish Bag.withdrawLarge"));
         lore.add("");
-        lore.add(Formatting.getMessage("Equipment.Fish Bag.shift"));
+        lore.add(Formatting.GetLanguageString("UI.Player.Buttons.Fish Bag.shift"));
         m.setLore(lore);
 
         m.setCustomModelData(type.ModelData);

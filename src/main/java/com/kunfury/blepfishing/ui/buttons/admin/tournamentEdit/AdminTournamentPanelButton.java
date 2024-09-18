@@ -1,5 +1,6 @@
 package com.kunfury.blepfishing.ui.buttons.admin.tournamentEdit;
 
+import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
 import com.kunfury.blepfishing.ui.panels.admin.tournaments.AdminTournamentPanel;
 import org.bukkit.ChatColor;
@@ -14,7 +15,7 @@ public class AdminTournamentPanelButton extends MenuButton {
         ItemStack item = new ItemStack(Material.FISHING_ROD);
         ItemMeta m = item.getItemMeta();
 
-        m.setDisplayName(ChatColor.AQUA + "Edit Tournaments");
+        m.setDisplayName(Formatting.GetLanguageString("UI.Admin.Buttons.Base.tournaments"));
         m = setButtonId(m, getId());
         item.setItemMeta(m);
 

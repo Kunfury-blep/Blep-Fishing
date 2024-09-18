@@ -1,6 +1,7 @@
 package com.kunfury.blepfishing.ui.buttons.admin.translations;
 
 import com.kunfury.blepfishing.config.ConfigHandler;
+import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
 import com.kunfury.blepfishing.ui.panels.admin.AdminTranslationsPanel;
 import org.bukkit.ChatColor;
@@ -18,12 +19,12 @@ public class AdminTranslationPanelBtn extends MenuButton {
         ItemStack item = new ItemStack(Material.WRITABLE_BOOK);
         ItemMeta m = item.getItemMeta();
 
-        m.setDisplayName(ChatColor.AQUA + "Translations");
+        m.setDisplayName(Formatting.GetLanguageString("UI.Admin.Buttons.Base.Translations.name"));
 
         List<String> lore = new ArrayList<>();
 
-        lore.add(ChatColor.WHITE + "" + ConfigHandler.instance.Translations.size() + " Available");
-
+        lore.add(Formatting.GetLanguageString("UI.Admin.Buttons.Base.Translations.lore")
+                .replace("{amount}", String.valueOf(ConfigHandler.instance.Translations.size())));
 
         m.setLore(lore);
 

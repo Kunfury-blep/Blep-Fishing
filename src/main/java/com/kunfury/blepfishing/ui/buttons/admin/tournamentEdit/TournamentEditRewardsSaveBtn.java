@@ -11,7 +11,6 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +46,7 @@ public class TournamentEditRewardsSaveBtn extends AdminTournamentRewardsMenuButt
     protected void click_left() {
         var type = getTournamentType();
         var placement = getPlacement();
-        player.sendMessage(Formatting.getPrefix() + "Saved rewards for " + type.Name);
+        player.sendMessage(Formatting.GetMessagePrefix() + "Saved rewards for " + type.Name);
 
         var trackedItems = getTrackedItems(player.getOpenInventory().getTopInventory().getContents());
 

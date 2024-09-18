@@ -1,7 +1,6 @@
 package com.kunfury.blepfishing.objects;
 
 
-import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.Utilities;
@@ -81,14 +80,11 @@ public class FishBag {
         player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
 
         if(Pickup){
-            if(Bukkit.getServer().getVersion().contains("1.20.6"))
-                bag.addUnsafeEnchantment(Enchantment.UNBREAKING, 1);
-
-            player.sendMessage(Formatting.getFormattedMessage("Equipment.Fish Bag.pickupEnabled"));
+            bag.addUnsafeEnchantment(Enchantment.UNBREAKING, 1);
+            player.sendMessage(Formatting.GetFormattedMessage("Equipment.Fish Bag.pickupEnabled"));
         }else{
-            if(Bukkit.getServer().getVersion().contains("1.20.6"))
-                bag.removeEnchantment(Enchantment.UNBREAKING);
-            player.sendMessage(Formatting.getFormattedMessage("Equipment.Fish Bag.pickupDisabled"));
+            bag.removeEnchantment(Enchantment.UNBREAKING);
+            player.sendMessage(Formatting.GetFormattedMessage("Equipment.Fish Bag.pickupDisabled"));
         }
 
         player.getInventory().setItemInMainHand(bag);
@@ -107,13 +103,13 @@ public class FishBag {
         }
 
         if(fillAmt > 0){
-            player.sendMessage(Formatting.getFormattedMessage("Equipment.Fish Bag.addFish")
+            player.sendMessage(Formatting.GetFormattedMessage("Equipment.Fish Bag.addFish")
                     .replace("{amount}", String.valueOf(fillAmt)));
         }else{
             if(getAmount() >= getMax())
-                player.sendMessage(Formatting.getFormattedMessage("Equipment.Fish Bag.noSpace"));
+                player.sendMessage(Formatting.GetFormattedMessage("Equipment.Fish Bag.noSpace"));
             else
-                player.sendMessage(Formatting.getFormattedMessage("Equipment.Fish Bag.noFish"));
+                player.sendMessage(Formatting.GetFormattedMessage("Equipment.Fish Bag.noFish"));
         }
         UpdateBagItem(bag);
     }
@@ -137,7 +133,7 @@ public class FishBag {
 
         ArrayList<String> lore = new ArrayList<>();
 
-        lore.add(Formatting.getMessage("Equipment.Fish Bag.descSmall")); //TODO: Change to dynamic based on size of bag
+        lore.add(Formatting.GetLanguageString("Equipment.Fish Bag.descSmall")); //TODO: Change to dynamic based on size of bag
         lore.add("");
 
 
@@ -158,21 +154,11 @@ public class FishBag {
 
         lore.add(progressBar + " " + formatter.format(amount) + "/" + formatter.format(maxSize));
 
-//        if(tier < CraftingHandler.UpgradeItems.length){
-//            lore.add("");
-//            if (isFull()) {
-//                lore.add(Formatting.getMessage("Equipment.Fish Bag.upgradeReady")
-//                        .replace("{upgrade}", getUpgradeComp(bag).getType().name().replace("_", " ")));
-//            } else{
-//                lore.add(Formatting.getMessage("Equipment.Fish Bag.upgradeHint"));
-//            }
-//        }
-
         lore.add("");
-        lore.add(Formatting.getMessage("Equipment.Fish Bag.autoPickup"));
-        lore.add(Formatting.getMessage("Equipment.Fish Bag.depositAll"));
-        lore.add(Formatting.getMessage("Equipment.Fish Bag.openBag"));
-        lore.add(Formatting.getMessage("Equipment.Fish Bag.openPanel"));
+        lore.add(Formatting.GetLanguageString("Equipment.Fish Bag.autoPickup"));
+        lore.add(Formatting.GetLanguageString("Equipment.Fish Bag.depositAll"));
+        lore.add(Formatting.GetLanguageString("Equipment.Fish Bag.openBag"));
+        lore.add(Formatting.GetLanguageString("Equipment.Fish Bag.openPanel"));
 
         return lore;
     }
@@ -241,20 +227,6 @@ public class FishBag {
     ///
     //Static Methods
     ///
-
-
-//    public static void AddNew(FishBag fishBag, boolean requestSave){
-//        if(FishBags.containsKey(fishBag.Id)){
-//            Bukkit.getLogger().warning("Attempted to create duplicate Fish Bag with ID: " + fishBag.Id);
-//            return;
-//        }
-//
-//        //FishBags.put(fishBag.Id, fishBag);
-//        if(requestSave) FileHandler.Equipment = true;
-//    }
-//    public static Collection<FishBag> GetAll(){
-//        return FishBags.values();
-//    }
     public static FishBag GetBag(int bagId){
         return Database.FishBags.Get(bagId);
     }
@@ -293,15 +265,15 @@ public class FishBag {
 
         PersistentDataContainer dataContainer = m.getPersistentDataContainer();
         dataContainer.set(ItemHandler.FishBagId, PersistentDataType.INTEGER, -1);
-        m.setDisplayName(Formatting.getMessage("Equipment.Fish Bag.smallBag"));
+        m.setDisplayName(Formatting.GetLanguageString("Equipment.Fish Bag.smallBag"));
 
         List<String> lore = new ArrayList<>();
-        lore.add(Formatting.getMessage("Equipment.Fish Bag.descSmall")); //TODO: Change to dynamic based on size of bag
+        lore.add(Formatting.GetLanguageString("Equipment.Fish Bag.descSmall")); //TODO: Change to dynamic based on size of bag
         lore.add("");
-        lore.add(Formatting.getMessage("Equipment.Fish Bag.autoPickup"));
-        lore.add(Formatting.getMessage("Equipment.Fish Bag.depositAll"));
-        lore.add(Formatting.getMessage("Equipment.Fish Bag.openBag"));
-        lore.add(Formatting.getMessage("Equipment.Fish Bag.openPanel"));
+        lore.add(Formatting.GetLanguageString("Equipment.Fish Bag.autoPickup"));
+        lore.add(Formatting.GetLanguageString("Equipment.Fish Bag.depositAll"));
+        lore.add(Formatting.GetLanguageString("Equipment.Fish Bag.openBag"));
+        lore.add(Formatting.GetLanguageString("Equipment.Fish Bag.openPanel"));
 
         m.setLore(lore);
 
@@ -309,15 +281,12 @@ public class FishBag {
         m.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         bag.setItemMeta(m);
 
-        var version = Bukkit.getServer().getVersion();
-        if(version.contains("1.20.6"))
-            bag.addUnsafeEnchantment(Enchantment.UNBREAKING, 1);
+        bag.addUnsafeEnchantment(Enchantment.UNBREAKING, 1);
 
         return bag;
     }
 
     public static Integer GetId(ItemStack bag){
-        ItemMeta m = bag.getItemMeta();
         return ItemHandler.getTagInt(bag, ItemHandler.FishBagId);
     }
 

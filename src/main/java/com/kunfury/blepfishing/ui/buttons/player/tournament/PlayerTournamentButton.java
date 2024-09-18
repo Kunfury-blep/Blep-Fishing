@@ -41,7 +41,7 @@ public class PlayerTournamentButton extends MenuButton {
         lore.addAll(tournament.getType().getFormattedCatchList());
 
         lore.add("");
-        lore.add(ChatColor.YELLOW + "Left-Click to View");
+        lore.add(Formatting.GetLanguageString("UI.Player.Buttons.Tournaments.view"));
 
         m.setLore(lore);
 
@@ -56,7 +56,7 @@ public class PlayerTournamentButton extends MenuButton {
     @Override
     protected void click_left() {
         TournamentObject tournament = getTournament();
-        new PlayerTournamentDetailPanel(tournament).Show(player);
+        new PlayerTournamentDetailPanel(tournament, 1).Show(player);
     }
 
     protected TournamentObject getTournament(){

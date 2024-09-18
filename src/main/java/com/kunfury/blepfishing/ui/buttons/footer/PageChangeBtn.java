@@ -1,6 +1,7 @@
 package com.kunfury.blepfishing.ui.buttons.footer;
 
 import com.kunfury.blepfishing.BlepFishing;
+import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.items.ItemHandler;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
 import com.kunfury.blepfishing.ui.objects.panels.PaginationPanel;
@@ -26,16 +27,16 @@ public class PageChangeBtn<T> extends MenuButton {
     @Override
     public ItemStack buildItemStack() {
         ItemStack item = new ItemStack(Material.ORANGE_CANDLE);
-        String displayName = "Previous Page";
-        if(next){
-            item.setType(Material.GREEN_CANDLE);
-            displayName = "Next Page";
-        }
-
         ItemMeta m = item.getItemMeta();
         assert m != null;
 
-        m.setDisplayName(ChatColor.AQUA + displayName);
+        if(next){
+            item.setType(Material.GREEN_CANDLE);
+            m.setDisplayName(Formatting.GetLanguageString("UI.System.Buttons.pageNExt"));
+        }else
+            m.setDisplayName(Formatting.GetLanguageString("UI.System.Buttons.pageBack"));
+
+
         getDataContainer(m).set(pageKey, PersistentDataType.INTEGER, panel.Page);
         getDataContainer(m).set(panelKey, PersistentDataType.STRING, panel.getId());
         getDataContainer(m).set(nextKey, PersistentDataType.BOOLEAN, next);

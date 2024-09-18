@@ -72,7 +72,7 @@ public class TournamentEditNameBtn extends AdminTournamentMenuButton {
         @Override
         protected boolean isInputValid(@NotNull ConversationContext conversationContext, @NotNull String s) {
             if(getTournamentType().Name.equals(s)) return true;
-            return !TournamentType.IdExists(Formatting.getIdFromName(s));
+            return !TournamentType.IdExists(Formatting.GetIdFromNames(s));
         }
 
         @Nullable
@@ -87,7 +87,7 @@ public class TournamentEditNameBtn extends AdminTournamentMenuButton {
 
             type.Name = s;
 
-            type.Id = Formatting.getIdFromName(s);
+            type.Id = Formatting.GetIdFromNames(s);
 
             TournamentType.UpdateId(oldId, type);
 

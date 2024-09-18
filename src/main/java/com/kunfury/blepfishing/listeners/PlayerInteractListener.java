@@ -1,18 +1,14 @@
 package com.kunfury.blepfishing.listeners;
 
-import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
-import com.kunfury.blepfishing.helpers.TreasureHandler;
+import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.objects.FishingJournal;
-import com.kunfury.blepfishing.objects.treasure.CompassPiece;
 import com.kunfury.blepfishing.objects.treasure.TreasureType;
 import com.kunfury.blepfishing.ui.panels.player.PlayerPanel;
 import com.kunfury.blepfishing.items.ItemHandler;
 import com.kunfury.blepfishing.items.recipes.TournamentHornRecipe;
 import com.kunfury.blepfishing.objects.FishBag;
 import com.kunfury.blepfishing.objects.TournamentType;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
@@ -24,7 +20,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.CompassMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
@@ -114,15 +109,13 @@ public class PlayerInteractListener implements Listener {
             if(Objects.equals(player.getInventory().getItem(e.getHand()), item))
                 player.getInventory().setItem(e.getHand(), journal.GetItemStack());
             else
-                Bukkit.broadcastMessage("Error confirming item in hand");
-
-            //Bukkit.broadcastMessage("Opening Journal: " + journal.Id + " in hand: " + e.getHand());
+                Utilities.Severe("Error confirming item in hand");
             return;
         }
 
         if(TreasureType.IsTreasure(item)){
             e.setCancelled(true);
-            TreasureHandler.instance.Open(item, player);
+            TreasureType.UseItem(item, player);
             return;
         }
 
@@ -135,9 +128,8 @@ public class PlayerInteractListener implements Listener {
                 return;
             }
 
-            var running = Formatting.getFormattedMessage("Tournament.alreadyRunning");
-            running = running.replace("{tournament}", type.Name);
-            player.sendMessage(running);
+            player.sendMessage(Formatting.GetFormattedMessage("Tournament.alreadyRunning")
+                    .replace("{tournament", type.Name));
             return;
         }
     }

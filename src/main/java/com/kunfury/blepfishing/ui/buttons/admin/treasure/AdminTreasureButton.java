@@ -44,20 +44,22 @@ public class AdminTreasureButton extends AdminTreasureMenuButton {
         }
 
         if(finishedRewards == 0 && unfinishedRewards == 0){
-            lore.add(ChatColor.RED + "No Rewards Set");
+            lore.add(Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.Base.noRewards"));
         }else{
             if(finishedRewards > 0)
-                lore.add(ChatColor.GREEN.toString() + finishedRewards + "x Rewards");
+                lore.add(Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.Base.rewards")
+                        .replace("{amount}", String.valueOf(finishedRewards)));
             if(unfinishedRewards > 0)
-                lore.add(ChatColor.YELLOW.toString() + unfinishedRewards + "x Empty Rewards");
+                lore.add(Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.Base.unfinishedRewards")
+                        .replace("{amount}", String.valueOf(unfinishedRewards)));
         }
 
         lore.add("");
-        lore.add(ChatColor.YELLOW + "Left-Click to Edit");
+        lore.add(Formatting.GetLanguageString("UI.System.Buttons.edit"));
         if(!casket.ConfirmedDelete)
-            lore.add( ChatColor.RED + "Shift Right-Click to Delete");
+            lore.add(Formatting.GetLanguageString("UI.System.Buttons.delete"));
         else
-            lore.add(ChatColor.RED + "Really Delete?");
+            lore.add(Formatting.GetLanguageString("UI.System.Buttons.deleteConfirm"));
 
         m.setLore(lore);
 
@@ -86,7 +88,8 @@ public class AdminTreasureButton extends AdminTreasureMenuButton {
         else{
             Casket.Delete(casket);
             ConfigHandler.instance.treasureConfig.Save();
-            player.sendMessage(ChatColor.YELLOW + "Successfully Deleted " + ChatColor.WHITE + Formatting.formatColor(casket.Name));
+            player.sendMessage(Formatting.GetMessagePrefix() + Formatting.GetLanguageString("System.deleted")
+                    .replace("{item}", casket.Id));
         }
 
         new AdminTreasurePanel().Show(player);

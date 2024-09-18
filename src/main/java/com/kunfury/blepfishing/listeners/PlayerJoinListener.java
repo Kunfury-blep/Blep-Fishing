@@ -9,8 +9,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import java.io.ObjectInputFilter;
-
 public class PlayerJoinListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e)
@@ -23,7 +21,7 @@ public class PlayerJoinListener implements Listener {
 
         if(player.hasPermission("bf.admin") && !ConfigHandler.instance.ErrorMessages.isEmpty()){
             ConfigHandler.instance.ErrorMessages.forEach(er ->
-                    player.sendMessage(Formatting.formatColor(Formatting.getPrefix() + ChatColor.RED + er)));
+                    player.sendMessage(Formatting.formatColor(Formatting.GetMessagePrefix() + ChatColor.RED + er)));
         }
     }
 }

@@ -1,20 +1,16 @@
 package com.kunfury.blepfishing.objects;
 
-import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.items.ItemHandler;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-import javax.xml.crypto.Data;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.*;
 
 public class FishingRod {
@@ -32,12 +28,6 @@ public class FishingRod {
         FishCaught = _amount;
     }
 
-    public FishingRod(int id, int fishCaught, Player player){
-        Id = id;
-        FishCaught = fishCaught;
-        PlayerId = player.getUniqueId();
-    }
-
     public void UpdateRodItem(ItemStack rodItem){
         ItemMeta m = rodItem.getItemMeta();
         assert m != null;
@@ -49,7 +39,7 @@ public class FishingRod {
         List<String> lore = new ArrayList<>();
 
         lore.add("");
-        lore.add(Formatting.getMessage("Equipment.Fishing Rod.caughtAmount")
+        lore.add(Formatting.GetLanguageString("Equipment.Fishing Rod.caughtAmount")
                 .replace("{amount}", String.valueOf(FishCaught)));
 
         return lore;

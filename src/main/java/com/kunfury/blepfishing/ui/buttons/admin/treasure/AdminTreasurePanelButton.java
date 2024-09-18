@@ -1,5 +1,6 @@
 package com.kunfury.blepfishing.ui.buttons.admin.treasure;
 
+import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
 import com.kunfury.blepfishing.ui.panels.admin.tournaments.AdminTournamentPanel;
 import com.kunfury.blepfishing.ui.panels.admin.treasure.AdminTreasurePanel;
@@ -15,7 +16,7 @@ public class AdminTreasurePanelButton extends MenuButton {
         ItemStack item = new ItemStack(Material.CHEST);
         ItemMeta m = item.getItemMeta();
 
-        m.setDisplayName(ChatColor.AQUA + "Edit Treasure");
+        m.setDisplayName(Formatting.GetLanguageString("UI.Admin.Buttons.Base.treasure"));
         m = setButtonId(m, getId());
         item.setItemMeta(m);
 

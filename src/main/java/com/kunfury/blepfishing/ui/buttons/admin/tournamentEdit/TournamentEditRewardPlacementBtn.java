@@ -4,7 +4,6 @@ import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.objects.TournamentType;
 import com.kunfury.blepfishing.ui.objects.buttons.AdminTournamentRewardsMenuButton;
 import com.kunfury.blepfishing.ui.panels.admin.tournaments.AdminTournamentEditRewardsPlacementPanel;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -49,7 +48,7 @@ public class TournamentEditRewardPlacementBtn extends AdminTournamentRewardsMenu
                 rewardStrings.add(rItem.getAmount() + "x " + itemName);
             }
         }
-        lore.add("" + ChatColor.GOLD + Placement + ChatColor.BLUE + ": " + Formatting.getCommaList(rewardStrings, ChatColor.WHITE, ChatColor.BLUE));
+        lore.add("" + ChatColor.GOLD + Placement + ChatColor.BLUE + ": " + Formatting.ToCommaList(rewardStrings, ChatColor.WHITE, ChatColor.BLUE));
 
 
         m.setLore(lore);

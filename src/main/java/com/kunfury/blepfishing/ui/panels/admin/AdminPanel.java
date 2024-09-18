@@ -1,6 +1,7 @@
 package com.kunfury.blepfishing.ui.panels.admin;
 
 import com.kunfury.blepfishing.config.ConfigHandler;
+import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.ui.buttons.admin.areas.AdminAreasPanelBtn;
 import com.kunfury.blepfishing.ui.buttons.admin.rarities.AdminRaritiesPanelBtn;
 import com.kunfury.blepfishing.ui.buttons.admin.translations.AdminTranslationPanelBtn;
@@ -13,7 +14,7 @@ import org.bukkit.entity.Player;
 
 public class AdminPanel extends Panel {
     public AdminPanel() {
-        super("Admin Panel", 27);
+        super(Formatting.GetLanguageString("UI.Admin.Panels.base"), 27);
     }
 
     @Override

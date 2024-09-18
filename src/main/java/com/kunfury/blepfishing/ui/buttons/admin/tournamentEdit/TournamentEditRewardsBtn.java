@@ -2,7 +2,6 @@ package com.kunfury.blepfishing.ui.buttons.admin.tournamentEdit;
 
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.ui.objects.buttons.AdminTournamentMenuButton;
-import com.kunfury.blepfishing.ui.objects.buttons.AdminTournamentRewardsMenuButton;
 import com.kunfury.blepfishing.items.ItemHandler;
 import com.kunfury.blepfishing.objects.TournamentType;
 import com.kunfury.blepfishing.ui.panels.admin.tournaments.AdminTournamentEditRewardsPanel;
@@ -52,7 +51,7 @@ public class TournamentEditRewardsBtn extends AdminTournamentMenuButton {
                     rewardStrings.add(rItem.getAmount() + "x " + itemName);
                 }
             }
-            lore.add(ChatColor.GOLD + "#" + i + ChatColor.BLUE + ": " + Formatting.getCommaList(rewardStrings, ChatColor.WHITE, ChatColor.BLUE));
+            lore.add(ChatColor.GOLD + "#" + i + ChatColor.BLUE + ": " + Formatting.ToCommaList(rewardStrings, ChatColor.WHITE, ChatColor.BLUE));
         }
 
         if(tournament.getPlacements().isEmpty()){

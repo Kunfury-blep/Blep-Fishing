@@ -89,8 +89,11 @@ public class FishObject {
         List<String> lore = new ArrayList<>();
 
         lore.add(ChatColor.DARK_PURPLE + getType().Lore);
-        lore.add(ChatColor.GRAY + "Length: " + Length);
-        lore.add(ChatColor.GRAY + "Caught By: " + getCatchingPlayer().getName() + " on " + DateCaught.toLocalDate().toString());
+        lore.add(Formatting.GetLanguageString("Fish.length")
+                .replace("{size}", Formatting.DoubleFormat(Length)));
+        lore.add(Formatting.GetLanguageString("Fish.caught")
+                .replace("{player}", getCatchingPlayer().getDisplayName())
+                .replace("{date}", Formatting.dateToString(DateCaught)));
 
         return lore;
     }
@@ -98,10 +101,6 @@ public class FishObject {
     public void setFishBagId(Integer bagId){
         FishBagId = bagId;
         Database.Fish.Update(Id, "fishBagId", bagId);
-    }
-
-    public Integer getFishBagId(){
-        return FishBagId;
     }
 
     public ItemStack CreateItemStack(){
@@ -162,25 +161,17 @@ public class FishObject {
     }
 
     public Text getHoverText(){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-
         String content = getRarity().getFormattedName() + " " + getType().Name;
 
-        content += "\n&f" + Formatting.getMessage("Fish Object.length")
+        content += "\n" + Formatting.GetLanguageString("Fish.length")
                 .replace("{size}", Formatting.DoubleFormat(Length));
 
-        content += "\n&f" + Formatting.getMessage("Fish Object.caught")
+        content += "\n" + Formatting.GetLanguageString("Fish.caught")
                 .replace("{player}", getCatchingPlayer().getDisplayName())
-                .replace("{date}", formatter.format(DateCaught));
+                .replace("{date}", Formatting.dateToString(DateCaught));
 
-//        if(BlepFishing.econEnabled) //Checks that an economy is installed
-//            content += "\n&f" + Formatting.getMessage("Fish Object.value")
-//                    .replace("{curr}", Variables.CurrSym)
-//                    .replace("{cost}", Formatting.DoubleFormat(RealCost));
 
         return new Text(Formatting.formatColor(content));
-
-
     }
 
 

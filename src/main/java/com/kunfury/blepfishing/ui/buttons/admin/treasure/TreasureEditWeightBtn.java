@@ -2,6 +2,7 @@ package com.kunfury.blepfishing.ui.buttons.admin.treasure;
 
 import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.config.ConfigHandler;
+import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.objects.treasure.Casket;
 import com.kunfury.blepfishing.objects.treasure.TreasureType;
 import com.kunfury.blepfishing.ui.objects.buttons.AdminTreasureMenuButton;
@@ -27,12 +28,11 @@ public class TreasureEditWeightBtn extends AdminTreasureMenuButton {
         ItemMeta m = item.getItemMeta();
         assert m != null;
 
-        m.setDisplayName("Weight");
+        m.setDisplayName(Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.Weight.name"));
         ArrayList<String> lore = new ArrayList<>();
         lore.add(ChatColor.BLUE.toString() + casket.Weight);
         lore.add("");
-        lore.add("The weight determines how likely it is to catch a fish of this rarity.");
-        lore.add("The lower the weight, the less likely it is to be caught.");
+        lore.add(Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.Weight.lore"));
         m.setLore(lore);
         m = setButtonId(m, getId());
 
@@ -62,7 +62,9 @@ public class TreasureEditWeightBtn extends AdminTreasureMenuButton {
         @Override
         public String getPromptText(@NotNull ConversationContext context) {
             TreasureType type = getCasket();
-            return "What should the Treasure weight be? Current: " + type.Weight;        }
+            return Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.Weight.prompt")
+                    .replace("{amount}", String.valueOf(type.Weight));
+        }
 
         @Override
         protected boolean isNumberValid(@NotNull ConversationContext context, @NotNull Number input) {

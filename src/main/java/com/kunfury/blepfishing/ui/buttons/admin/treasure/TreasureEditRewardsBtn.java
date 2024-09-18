@@ -1,5 +1,6 @@
 package com.kunfury.blepfishing.ui.buttons.admin.treasure;
 
+import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.objects.treasure.Casket;
 import com.kunfury.blepfishing.objects.treasure.TreasureType;
 import com.kunfury.blepfishing.ui.objects.buttons.AdminTreasureMenuButton;
@@ -24,7 +25,7 @@ public class TreasureEditRewardsBtn extends AdminTreasureMenuButton {
         ItemMeta m = item.getItemMeta();
         assert m != null;
 
-        m.setDisplayName("Rewards");
+        m.setDisplayName(Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.editRewards"));
 
         ArrayList<String> lore = new ArrayList<>();
 
@@ -39,12 +40,15 @@ public class TreasureEditRewardsBtn extends AdminTreasureMenuButton {
         }
 
         if(finishedRewards == 0 && unfinishedRewards == 0){
-            lore.add(ChatColor.RED + "No Rewards Set");
+
+            lore.add(Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.Base.noRewards"));
         }else{
             if(finishedRewards > 0)
-                lore.add(ChatColor.GREEN.toString() + finishedRewards + "x Rewards");
+                lore.add(Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.Base.rewards")
+                        .replace("{amount}", String.valueOf(finishedRewards)));
             if(unfinishedRewards > 0)
-                lore.add(ChatColor.YELLOW.toString() + unfinishedRewards + "x Empty Rewards");
+                lore.add(Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.Base.unfinishedRewards")
+                        .replace("{amount}", String.valueOf(unfinishedRewards)));
         }
 
 

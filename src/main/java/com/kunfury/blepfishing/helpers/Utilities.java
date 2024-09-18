@@ -70,7 +70,7 @@ public class Utilities {
     }
 
     public static boolean GiveItem(Player player, ItemStack item, boolean drop){
-        if(!player.isOnline()){
+        if(player == null || !player.isOnline()){
             return false;
         }
         for(var badItem : player.getInventory().addItem(item).values()){

@@ -42,7 +42,7 @@ public class TournamentEditStartTimesDayBtn extends MenuButton {
         if(tournamentType.StartTimes.get(day).isEmpty())
             lore.add(ChatColor.RED + "n/a");
         else
-            lore.add(Formatting.getCommaList(tournamentType.StartTimes.get(day), ChatColor.WHITE, ChatColor.BLUE));
+            lore.add(Formatting.ToCommaList(tournamentType.StartTimes.get(day), ChatColor.WHITE, ChatColor.BLUE));
 
         m.setLore(lore);
 

@@ -76,9 +76,6 @@ public abstract class Panel {
     }
 
     protected void AddFooter(MenuButton backButton, MenuButton createButton, MenuButton deleteButton){
-        if(getInfo() != null)
-            inv.setItem(InventorySize - 5, new InfoButton(getInfo()).getItemStack());
-
         if(createButton != null)
             inv.setItem(InventorySize - 9, createButton.getItemStack());
 
@@ -88,8 +85,9 @@ public abstract class Panel {
         inv.setItem(InventorySize - 1, backButton.getBackButton());
     }
 
-    protected List<String> getInfo(){
-        return null;
-    }
+    protected void AddFooter(MenuButton backButton, MenuButton createButton, MenuButton deleteButton, MenuButton infoButton){
+        AddFooter(backButton, createButton, deleteButton);
 
+        inv.setItem(InventorySize - 3, infoButton.getItemStack());
+    }
 }

@@ -1,23 +1,24 @@
 package com.kunfury.blepfishing.objects.treasure;
 
-import com.gmail.nossr50.datatypes.treasure.Treasure;
 import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
+import com.kunfury.blepfishing.helpers.TreasureHandler;
+import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.items.ItemHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerFishEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 public class Casket extends TreasureType {
 
@@ -46,7 +47,8 @@ public class Casket extends TreasureType {
         List<String> lore = new ArrayList<>();
 
         lore.add("");
-        lore.add(Formatting.formatColor("&bRight-Click to &o&eOpen"));
+
+        lore.add(Formatting.GetLanguageString("Treasure.Casket.use"));
 
         itemMeta.setLore(lore);
 
@@ -67,6 +69,48 @@ public class Casket extends TreasureType {
     @Override
     public boolean CanGenerate(Player player) {
         return true;
+    }
+
+    @Override
+    protected void Use(ItemStack item, Player player) {
+        player.playSound(player.getLocation(), Sound.BLOCK_CHEST_OPEN, .30f, 1f);
+
+        if(Rewards.isEmpty()){
+            Utilities.Severe(player.getDisplayName() + " tried to open " + Id + " Casket which contained no drops.");
+        }
+
+        List<ItemStack> treasureDrops = new ArrayList<>();
+        int i = 0;
+        while(treasureDrops.isEmpty()){ //Ensures at least one item drops
+            i++;
+            if(i >= 1000){
+                Utilities.Severe("No rewards found after 1,000 iterations on " + Id);
+                return;
+            }
+            for(var reward : Rewards){
+                if(!reward.Drops())
+                    continue;
+
+                treasureDrops.add(reward.Item);
+            }
+        }
+
+        Inventory inv = Bukkit.createInventory(player, Utilities.getInventorySize(treasureDrops.size()), Formatting.formatColor(Name));
+
+        for(var itemDrop : treasureDrops){
+            inv.addItem(itemDrop);
+
+            player.sendMessage(Formatting.GetLanguageString("Treasure.Casket.result")
+                    .replace("{item}", Formatting.GetItemName(itemDrop) + " x" + itemDrop.getAmount())
+                    .replace("{casket}", Name));
+        }
+
+        item.setAmount(item.getAmount() - 1);
+
+        player.openInventory(inv);
+        TreasureHandler.OpenInventories.put(player, inv);
+
+
     }
 
     public static class TreasureReward{

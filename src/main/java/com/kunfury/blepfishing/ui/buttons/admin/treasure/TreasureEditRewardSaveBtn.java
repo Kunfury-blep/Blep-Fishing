@@ -3,7 +3,6 @@ package com.kunfury.blepfishing.ui.buttons.admin.treasure;
 import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.objects.treasure.Casket;
-import com.kunfury.blepfishing.objects.treasure.TreasureType;
 import com.kunfury.blepfishing.ui.objects.buttons.AdminTreasureRewardMenuButton;
 import com.kunfury.blepfishing.ui.panels.admin.treasure.AdminTreasureEditRewardsSelectionPanel;
 import org.bukkit.ChatColor;
@@ -45,7 +44,7 @@ public class TreasureEditRewardSaveBtn extends AdminTreasureRewardMenuButton {
     protected void click_left() {
         var type = getCasket();
         var reward = getReward();
-        player.sendMessage(Formatting.getPrefix() + "Saved rewards for " + type.Name);
+        player.sendMessage(Formatting.GetMessagePrefix() + "Saved rewards for " + type.Name);
 
         var panel = player.getOpenInventory().getTopInventory();
         reward.Item = panel.getItem(4);

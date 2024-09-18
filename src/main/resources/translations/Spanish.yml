@@ -1,1 +1,6 @@
-Test: Test Spanish!
+UI:
+  Admin:
+    Panels:
+      translations: "Translations - Spanish"
+
+Author: "CooliusJulius"

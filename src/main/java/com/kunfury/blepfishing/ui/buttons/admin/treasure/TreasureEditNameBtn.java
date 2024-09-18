@@ -29,9 +29,10 @@ public class TreasureEditNameBtn extends AdminTreasureMenuButton {
         ItemMeta m = item.getItemMeta();
         assert m != null;
 
-        m.setDisplayName("Name");
+        m.setDisplayName(Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.Name.name"));
         ArrayList<String> lore = new ArrayList<>();
-        lore.add(ChatColor.BLUE + casket.Name);
+        lore.add(Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.Name.lore")
+                .replace("{name}", casket.Name));
         m.setLore(lore);
         m = setButtonId(m, getId());
 
@@ -61,13 +62,14 @@ public class TreasureEditNameBtn extends AdminTreasureMenuButton {
         @NotNull
         @Override
         public String getPromptText(@NotNull ConversationContext context) {
-            return "What should the name of the treasure be? Current: " + getCasket().Name;
+            return Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.Name.prompt")
+                    .replace("{name}", getCasket().Name);
         }
 
         @Override
         protected boolean isInputValid(@NotNull ConversationContext conversationContext, @NotNull String s) {
             if(getCasket().Name.equals(s)) return true;
-            return !TreasureType.IdExists(Formatting.getIdFromName(s));
+            return !TreasureType.IdExists(Formatting.GetIdFromNames(s));
         }
 
         @Nullable
@@ -82,7 +84,7 @@ public class TreasureEditNameBtn extends AdminTreasureMenuButton {
 
             casket.Name = s;
 
-            casket.Id = Formatting.getIdFromName(s);
+            casket.Id = Formatting.GetIdFromNames(s);
 
             TreasureType.UpdateId(oldId, casket);
 

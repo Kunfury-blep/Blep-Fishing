@@ -1,6 +1,7 @@
 package com.kunfury.blepfishing.ui.objects;
 
 import com.kunfury.blepfishing.BlepFishing;
+import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.items.ItemHandler;
 import com.kunfury.blepfishing.objects.FishType;
@@ -112,7 +113,7 @@ public abstract class MenuButton {
     }
 
     public ItemStack getBackButton(){
-        return getCustomItemStack(ChatColor.RED + "Go Back", new ArrayList<>(), Material.REDSTONE);
+        return getCustomItemStack(Formatting.GetLanguageString("UI.System.Buttons.goBack"), new ArrayList<>(), Material.REDSTONE);
     }
 
     protected void click_left(){

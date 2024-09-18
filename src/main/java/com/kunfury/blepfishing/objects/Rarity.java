@@ -4,6 +4,7 @@ import com.kunfury.blepfishing.helpers.Formatting;
 import org.bukkit.Bukkit;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -27,7 +28,7 @@ public class Rarity {
     }
 
     public String getFormattedName(){
-        return Formatting.formatColor("&" + Prefix + Name);
+        return Formatting.formatColor(Prefix + Name);
     }
 
 
@@ -46,8 +47,6 @@ public class Rarity {
         return null;
     }
 
-
-    //TODO: Is this being sorted anywhere?
     private static final HashMap<String, Rarity> Rarities = new HashMap<>();
     private static int RarityTotalWeight = 0;
     public static void AddNew(Rarity rarity){
@@ -61,7 +60,8 @@ public class Rarity {
     }
 
     public static Collection<Rarity> GetAll(){
-        return Rarities.values();
+        return Rarities.values()
+                .stream().sorted(Comparator.comparing(rarity -> rarity.Weight)).toList();
     }
 
     public static Rarity FromId(String rarityId){

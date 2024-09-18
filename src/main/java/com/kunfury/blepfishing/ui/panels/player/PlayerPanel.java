@@ -1,6 +1,7 @@
 package com.kunfury.blepfishing.ui.panels.player;
 
 import com.kunfury.blepfishing.database.Database;
+import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.ui.buttons.admin.AdminPanelButton;
 import com.kunfury.blepfishing.ui.buttons.player.ClaimRewardsBtn;
 import com.kunfury.blepfishing.ui.objects.Panel;
@@ -9,7 +10,7 @@ import org.bukkit.entity.Player;
 
 public class PlayerPanel extends Panel {
     public PlayerPanel() {
-        super("Player Panel", 27);
+        super(Formatting.GetLanguageString("UI.Player.Panels.base"), 27);
         Refresh = true;
     }
 

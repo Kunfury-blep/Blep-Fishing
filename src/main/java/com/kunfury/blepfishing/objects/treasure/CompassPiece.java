@@ -1,13 +1,11 @@
 package com.kunfury.blepfishing.objects.treasure;
 
-import com.gmail.nossr50.skills.fishing.Fishing;
 import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.items.ItemHandler;
 import com.kunfury.blepfishing.objects.FishingArea;
 import org.apache.commons.lang.NotImplementedException;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -42,6 +40,11 @@ public class CompassPiece extends TreasureType{
     @Override
     public boolean CanGenerate(Player player){
         return true;
+    }
+
+    @Override
+    protected void Use(ItemStack item, Player player) {
+        //TODO: Implement focusing towards the next piece
     }
 
     @Override
@@ -101,7 +104,7 @@ public class CompassPiece extends TreasureType{
 
         itemMeta.getPersistentDataContainer().set(ItemHandler.TreasureTypeId, PersistentDataType.STRING, "compassPiece");
         itemMeta.getPersistentDataContainer().set(ItemHandler.FishAreaId, PersistentDataType.STRING, areaIds.toString());
-        itemMeta.setDisplayName(Formatting.formatColor(ChatColor.AQUA + "Compass Piece"));
+        itemMeta.setDisplayName(Formatting.GetLanguageString("Treasure.Compass Piece.name"));
 
 
 
@@ -114,10 +117,6 @@ public class CompassPiece extends TreasureType{
                 areaIds.append(", ");
             areaIds.append(a.Id);
         }
-
-
-        //lore.add("");
-        //lore.add(Formatting.formatColor("&bRight-Click to &e&oFocus"));
 
         itemMeta.setLore(lore);
 
@@ -132,12 +131,13 @@ public class CompassPiece extends TreasureType{
         CompassMeta compassMeta = (CompassMeta) compassItem.getItemMeta();
         assert compassMeta != null;
 
-        compassMeta.setDisplayName(ChatColor.AQUA + "Compass to the All Blue");
+        compassMeta.setDisplayName(Formatting.GetLanguageString("Treasure.Compass.name"));
 
         List<String> lore = new ArrayList<>();
 
+        lore.add(Formatting.GetLanguageString("Treasure.Compass.lore"));
         lore.add("");
-        lore.add(Formatting.formatColor("&bRight-Click to &e&oFocus"));
+        lore.add(Formatting.GetLanguageString("Treasure.Compass.use"));
 
         compassMeta.setLore(lore);
 

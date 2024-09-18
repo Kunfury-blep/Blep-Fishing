@@ -4,10 +4,8 @@ import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.objects.Rarity;
-import com.kunfury.blepfishing.objects.TournamentType;
 import com.kunfury.blepfishing.ui.objects.buttons.AdminRarityMenuButton;
 import com.kunfury.blepfishing.ui.panels.admin.rarities.AdminRarityEditPanel;
-import com.kunfury.blepfishing.ui.panels.admin.tournaments.AdminTournamentEditPanel;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.conversations.*;
@@ -17,7 +15,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class AdminRarityWeightBtn extends AdminRarityMenuButton {
 
@@ -37,7 +34,7 @@ public class AdminRarityWeightBtn extends AdminRarityMenuButton {
         lore.add("");
         String example = "The weight determines how likely it is to catch a fish of this rarity. The lower the weight, the less likely it is to be caught. ";
 
-        for(var s : Formatting.toLoreList(example)){
+        for(var s : Formatting.ToLoreList(example)){
             lore.add(ChatColor.ITALIC + s);
         }
 

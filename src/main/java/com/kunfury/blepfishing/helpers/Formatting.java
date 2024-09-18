@@ -1,23 +1,20 @@
 package com.kunfury.blepfishing.helpers;
 
-import com.gmail.nossr50.runnables.skills.MasterAnglerTask;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.checkerframework.checker.units.qual.A;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.regex.Pattern;
 
 public class Formatting {
 
@@ -35,6 +32,11 @@ public class Formatting {
 			e.printStackTrace();
 		}
 		return(df.format(number));
+	}
+
+	private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+	public static String dateToString(LocalDateTime dateTime){
+		return dateTimeFormatter.format(dateTime);
 	}
 
 	public static String asTime(long milli, ChatColor color) {
@@ -55,6 +57,10 @@ public class Formatting {
 			result = "&f" + 0 + color + "s";
 
 		return formatColor(result);
+	}
+
+	public static String asTime(double hours){
+		return asTime(hours, ChatColor.BLUE);
 	}
 
 	public static String asTime(double hours, ChatColor color){
@@ -94,50 +100,52 @@ public class Formatting {
 		return bd.doubleValue();
 	}
 
-	private static final Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
-
-	public static boolean isNumeric(String strNum) {
-		if (strNum == null) {
-			return false;
-		}
-		return pattern.matcher(strNum).matches();
-	}
-
 	public static String formatColor(String msg){
 		return ChatColor.translateAlternateColorCodes('&', msg);
 	}
 
 
-	public static FileConfiguration messages = new YamlConfiguration();
+	public static YamlConfiguration languageYaml = new YamlConfiguration();
 
-	public static String getMessage(String key){
-		if(messages.contains(key)){
-			return formatColor(messages.getString(key));
+	/**
+	 * @param key Key for language file
+	 * @return Color formatted String from Language YAYamlConfiguration
+	 */
+	public static String GetLanguageString(String key){
+		if(languageYaml.contains(key)){
+			return formatColor(languageYaml.getString(key));
 		}else{
 			return ChatColor.RED + "Message Not Found - " + key;
 		}
 	}
 
 	private static String prefix;
-	public static String getPrefix() {
+	public static String GetMessagePrefix() {
 		if(prefix == null)
 			prefix = formatColor("&b[BF]&f ");
 		return prefix;
 	}
 
-	public static String getFormattedMessage(String key){
-		return getPrefix() + getMessage(key);
+	/**
+	 * Used for sending Player Messages in Chat
+	 * @param key Key for language file
+	 * @return Prefix attached to getMessage(key)
+	 */
+	public static String GetFormattedMessage(String key){
+		return GetMessagePrefix() + GetLanguageString(key);
 	}
 
-	public static String getFormattedMessage(String key, ChatColor color){
-		return getPrefix() + color + getMessage(key);
-	}
-
-	public static String getIdFromName(String name){
+	public static String GetIdFromNames(String name){
 		return name.toLowerCase().replace(" ", "_");
 	}
 
-	public static String getCommaList(List<String> values, ChatColor textColor, ChatColor commaColor){
+	/**
+	 * @param values The values to format to a String
+	 * @param textColor The color of the values
+	 * @param commaColor The color of the comma between values
+	 * @return String containing a comma separated formatted list of all objects
+	 */
+	public static String ToCommaList(List<String> values, ChatColor textColor, ChatColor commaColor){
 		int i = 1;
 		StringBuilder sb = new StringBuilder();
 		for(var value : values){
@@ -149,53 +157,46 @@ public class Formatting {
 		return sb.toString();
 	}
 
-	public static String getCommaString(String value, ChatColor textColor, ChatColor commaColor){
-		value = textColor + value;
-		value = value.replace(" ", commaColor + ", " + textColor);
 
-		return value;
-	}
-
-	public static List<String> toLoreList(String str){
+	/**
+	 * Fits a String to in-game Item Lore window
+	 * @param input The string to be converted
+	 * @return List meant to be used with itemLore.addAll()
+	 */
+	public static List<String> ToLoreList(String input){
 		List<String> lore = new ArrayList<>();
 
-		while(!str.isEmpty()){
-			int pos = str.lastIndexOf(" ", 40);
+		while(!input.isEmpty()){
+			int pos = input.lastIndexOf(" ", 40);
 			if (pos == -1) {
-				pos = str.length();
+				pos = input.length();
 			}
-			String found = str.substring(0, pos);
+			String found = input.substring(0, pos);
 
 
 
 			lore.add(ChatColor.WHITE + found);
 
-			if(str.length() > pos + 1)
-				str = str.substring(pos+1);
+			if(input.length() > pos + 1)
+				input = input.substring(pos+1);
 			else
-				str = "";
+				input = "";
 		}
-
-
-
-
 		return lore;
 	}
 
-	public static List<String> toLoreList(List<String> textList){
-		StringBuilder compactedLore = new StringBuilder();
-		for(var t : textList){
-			if(compactedLore.isEmpty()){
-				compactedLore.append(t);
-				continue;
-			}
-			compactedLore.append(" ").append(t);
-		}
-
-		return toLoreList(compactedLore.toString());
+	/**
+	 * Quick combination of toCommaList and toLoreList
+	 * @param values The values to format to a String
+	 * @param textColor The color of the values
+	 * @param commaColor The color of the comma between values
+	 * @return Comma Separated List meant to be used with itemLore.addAll()
+	 */
+	public static List<String> ToCommaLoreList(List<String> values, ChatColor textColor, ChatColor commaColor){
+		return ToLoreList(ToCommaList(values, textColor, commaColor));
 	}
 
-	public static String getItemName(ItemStack item){
+	public static String GetItemName(ItemStack item){
 		ItemMeta meta = item.getItemMeta();
 		if(meta != null && !meta.getDisplayName().isEmpty())
 			return meta.getDisplayName();
