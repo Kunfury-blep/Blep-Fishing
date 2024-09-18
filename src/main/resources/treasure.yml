@@ -1,11 +1,9 @@
 Enabled: true
 Treasure Chance: 15.0
-
 Compasses:
   Enabled: true
   Weight: 20
   Announce: false
-
 Caskets:
   legendary:
     Name: '&6Legendary Casket'
@@ -13,55 +11,142 @@ Caskets:
     Announce: false
     Rewards:
       '0':
-        Drop Chance: 10.0
+        Drop Chance: 25.0
         Announce: false
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3953
-          type: BOW
-          meta:
-            ==: ItemMeta
-            meta-type: UNSPECIFIC
-            enchants:
-              minecraft:flame: 1
-              minecraft:infinity: 1
-              minecraft:power: 5
-              minecraft:punch: 2
+          v: 3955
+          type: LILY_PAD
+          amount: 64
       '1':
         Drop Chance: 50.0
         Announce: false
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3953
-          type: LILY_PAD
-          amount: 64
+          v: 3955
+          type: HEART_OF_THE_SEA
       '2':
-        Drop Chance: 75.0
+        Drop Chance: 10.0
         Announce: false
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3953
-          type: HEART_OF_THE_SEA
-      '3':
-        Drop Chance: 0.25
-        Announce: true
-        Cash: 0.0
-        Item:
-          ==: org.bukkit.inventory.ItemStack
-          v: 3953
+          v: 3955
           type: DIAMOND
           amount: 16
+      '3':
+        Drop Chance: 10.0
+        Announce: false
+        Cash: 0.0
+        Item:
+          ==: org.bukkit.inventory.ItemStack
+          v: 3955
+          type: SADDLE
       '4':
-        Drop Chance: 0.25
+        Drop Chance: 2.5
         Announce: true
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3953
-          type: DIAMOND
+          v: 3955
+          type: FISHING_ROD
+          meta:
+            ==: ItemMeta
+            meta-type: UNSPECIFIC
+            enchants:
+              minecraft:lure: 3
+              minecraft:mending: 1
+              minecraft:unbreaking: 3
+      '5':
+        Drop Chance: 15.0
+        Announce: false
+        Cash: 0.0
+        Item:
+          ==: org.bukkit.inventory.ItemStack
+          v: 3955
+          type: EXPERIENCE_BOTTLE
+          amount: 32
+      '6':
+        Drop Chance: 5.0
+        Announce: false
+        Cash: 0.0
+        Item:
+          ==: org.bukkit.inventory.ItemStack
+          v: 3955
+          type: DIAMOND_BLOCK
+          amount: 4
+      '7':
+        Drop Chance: 10.0
+        Announce: false
+        Cash: 0.0
+        Item:
+          ==: org.bukkit.inventory.ItemStack
+          v: 3955
+          type: IRON_BLOCK
+          amount: 32
+      '8':
+        Drop Chance: 7.5
+        Announce: false
+        Cash: 0.0
+        Item:
+          ==: org.bukkit.inventory.ItemStack
+          v: 3955
+          type: GOLD_BLOCK
+          amount: 32
+  epic:
+    Name: '&dEpic Casket'
+    Weight: 25
+    Announce: false
+    Rewards:
+      '0':
+        Drop Chance: 10.0
+        Announce: false
+        Cash: 0.0
+        Item:
+          ==: org.bukkit.inventory.ItemStack
+          v: 3955
+          type: EMERALD
+          amount: 4
+      '1':
+        Drop Chance: 2.5
+        Announce: true
+        Cash: 0.0
+        Item:
+          ==: org.bukkit.inventory.ItemStack
+          v: 3955
+          type: FISHING_ROD
+          meta:
+            ==: ItemMeta
+            meta-type: UNSPECIFIC
+            enchants:
+              minecraft:lure: 3
+              minecraft:unbreaking: 3
+      '2':
+        Drop Chance: 15.0
+        Announce: false
+        Cash: 0.0
+        Item:
+          ==: org.bukkit.inventory.ItemStack
+          v: 3955
+          type: SADDLE
+      '3':
+        Drop Chance: 5.0
+        Announce: false
+        Cash: 0.0
+        Item:
+          ==: org.bukkit.inventory.ItemStack
+          v: 3955
+          type: AXOLOTL_BUCKET
+      '4':
+        Drop Chance: 17.5
+        Announce: false
+        Cash: 0.0
+        Item:
+          ==: org.bukkit.inventory.ItemStack
+          v: 3955
+          type: EXPERIENCE_BOTTLE
           amount: 16
       '5':
         Drop Chance: 10.0
@@ -69,81 +154,239 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3953
-          type: SADDLE
-  epic:
-    Name: '&dEpic Casket'
-    Weight: 25
-    Announce: false
-    Rewards:
-      '0':
-        Drop Chance: 0.25
-        Announce: true
+          v: 3955
+          type: TURTLE_EGG
+          amount: 4
+      '6':
+        Drop Chance: 5.0
+        Announce: false
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3953
-          type: EMERALD
-          amount: 4
+          v: 3955
+          type: IRON_BLOCK
+          amount: 8
+      '7':
+        Drop Chance: 2.5
+        Announce: false
+        Cash: 0.0
+        Item:
+          ==: org.bukkit.inventory.ItemStack
+          v: 3955
+          type: RAW_IRON_BLOCK
+          amount: 32
+      '8':
+        Drop Chance: 5.0
+        Announce: false
+        Cash: 0.0
+        Item:
+          ==: org.bukkit.inventory.ItemStack
+          v: 3955
+          type: ENDER_PEARL
+          amount: 16
   rare:
     Name: '&bRare Casket'
     Weight: 50
     Announce: false
     Rewards:
       '0':
-        Drop Chance: 50.0
-        Announce: false
-        Cash: 0.0
-        Item:
-          ==: org.bukkit.inventory.ItemStack
-          v: 3953
-          type: BOWL
-          amount: 4
-      '1':
         Drop Chance: 25.0
         Announce: false
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3953
+          v: 3955
           type: NAUTILUS_SHELL
           amount: 4
-      '2':
-        Drop Chance: 10.0
+      '1':
+        Drop Chance: 5.0
         Announce: true
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3953
+          v: 3955
           type: ENDER_PEARL
-          amount: 16
+          amount: 8
+      '2':
+        Drop Chance: 2.5
+        Announce: true
+        Cash: 0.0
+        Item:
+          ==: org.bukkit.inventory.ItemStack
+          v: 3955
+          type: FISHING_ROD
+          meta:
+            ==: ItemMeta
+            meta-type: UNSPECIFIC
+            enchants:
+              minecraft:lure: 2
+              minecraft:unbreaking: 2
+      '3':
+        Drop Chance: 15.0
+        Announce: false
+        Cash: 0.0
+        Item:
+          ==: org.bukkit.inventory.ItemStack
+          v: 3955
+          type: EXPERIENCE_BOTTLE
+          amount: 8
+      '4':
+        Drop Chance: 25.0
+        Announce: false
+        Cash: 0.0
+        Item:
+          ==: org.bukkit.inventory.ItemStack
+          v: 3955
+          type: GLOW_INK_SAC
+          amount: 8
+      '5':
+        Drop Chance: 10.0
+        Announce: false
+        Cash: 0.0
+        Item:
+          ==: org.bukkit.inventory.ItemStack
+          v: 3955
+          type: TURTLE_HELMET
+      '6':
+        Drop Chance: 10.0
+        Announce: false
+        Cash: 0.0
+        Item:
+          ==: org.bukkit.inventory.ItemStack
+          v: 3955
+          type: TURTLE_EGG
+      '7':
+        Drop Chance: 10.0
+        Announce: false
+        Cash: 0.0
+        Item:
+          ==: org.bukkit.inventory.ItemStack
+          v: 3955
+          type: SPYGLASS
+      '8':
+        Drop Chance: 15.0
+        Announce: false
+        Cash: 0.0
+        Item:
+          ==: org.bukkit.inventory.ItemStack
+          v: 3955
+          type: IRON_INGOT
+          amount: 32
+      '9':
+        Drop Chance: 5.0
+        Announce: false
+        Cash: 0.0
+        Item:
+          ==: org.bukkit.inventory.ItemStack
+          v: 3955
+          type: RAW_IRON_BLOCK
+          amount: 4
   common:
     Name: '&aCommon Casket'
     Weight: 100
     Announce: false
     Rewards:
       '0':
-        Drop Chance: 100.0
+        Drop Chance: 50.0
         Announce: false
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3953
+          v: 3955
           type: LILY_PAD
+          amount: 8
       '1':
+        Drop Chance: 10.0
+        Announce: false
+        Cash: 0.0
+        Item:
+          ==: org.bukkit.inventory.ItemStack
+          v: 3955
+          type: RAW_IRON
+          amount: 16
+      '2':
+        Drop Chance: 15.0
+        Announce: false
+        Cash: 0.0
+        Item:
+          ==: org.bukkit.inventory.ItemStack
+          v: 3955
+          type: IRON_INGOT
+          amount: 8
+      '3':
+        Drop Chance: 10.0
+        Announce: false
+        Cash: 0.0
+        Item:
+          ==: org.bukkit.inventory.ItemStack
+          v: 3955
+          type: GOLD_INGOT
+          amount: 4
+      '4':
+        Drop Chance: 7.5
+        Announce: false
+        Cash: 0.0
+        Item:
+          ==: org.bukkit.inventory.ItemStack
+          v: 3955
+          type: RAW_GOLD
+          amount: 8
+      '5':
+        Drop Chance: 50.0
+        Announce: false
+        Cash: 0.0
+        Item:
+          ==: org.bukkit.inventory.ItemStack
+          v: 3955
+          type: SEA_PICKLE
+          amount: 8
+      '6':
+        Drop Chance: 50.0
+        Announce: false
+        Cash: 0.0
+        Item:
+          ==: org.bukkit.inventory.ItemStack
+          v: 3955
+          type: KELP
+          amount: 8
+      '7':
+        Drop Chance: 2.5
+        Announce: true
+        Cash: 0.0
+        Item:
+          ==: org.bukkit.inventory.ItemStack
+          v: 3955
+          type: DIAMOND
+      '8':
+        Drop Chance: 2.5
+        Announce: false
+        Cash: 0.0
+        Item:
+          ==: org.bukkit.inventory.ItemStack
+          v: 3955
+          type: FISHING_ROD
+          meta:
+            ==: ItemMeta
+            meta-type: UNSPECIFIC
+            display-name: '"Rod of the Gentle Sea"'
+            enchants:
+              minecraft:lure: 1
+              minecraft:unbreaking: 1
+      '9':
+        Drop Chance: 15.0
+        Announce: false
+        Cash: 0.0
+        Item:
+          ==: org.bukkit.inventory.ItemStack
+          v: 3955
+          type: EXPERIENCE_BOTTLE
+          amount: 4
+      '10':
         Drop Chance: 25.0
         Announce: false
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3953
+          v: 3955
           type: INK_SAC
-          amount: 10
-      '2':
-        Drop Chance: 50.0
-        Announce: true
-        Cash: 0.0
-        Item:
-          ==: org.bukkit.inventory.ItemStack
-          v: 3953
-          type: FISHING_ROD
+          amount: 16
