@@ -51,6 +51,9 @@ public class TreasureDropsTable extends DbTable<TreasureDrop> {
 
     @Override
     public TreasureDrop Get(int id) {
+        if(Cache.containsKey(id))
+            return Cache.get(id);
+
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "SELECT * FROM " + tableName + " WHERE id = ?");

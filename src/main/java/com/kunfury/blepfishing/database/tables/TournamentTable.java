@@ -60,6 +60,9 @@ public class TournamentTable extends DbTable<TournamentObject> {
 
     @Override
     public TournamentObject Get(int id) {
+        if(Cache.containsKey(id))
+            return Cache.get(id);
+
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(
                     """
