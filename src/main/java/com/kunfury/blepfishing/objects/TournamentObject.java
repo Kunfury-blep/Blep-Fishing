@@ -26,7 +26,7 @@ public class TournamentObject {
         StartTime = LocalDateTime.now();
         active = true;
         Id = Database.Tournaments.Add(this);
-        StartTimer();
+        StartTimer(this);
     }
 
     public TournamentObject(ResultSet rs) throws SQLException {
@@ -34,7 +34,7 @@ public class TournamentObject {
         TypeId = rs.getString("typeId");
         StartTime = Utilities.TimeFromLong(rs.getLong("startTime"));
         active = rs.getBoolean("active");
-        StartTimer();
+        StartTimer(this);
     }
 
 
@@ -51,12 +51,19 @@ public class TournamentObject {
         return type;
     }
 
+    public List<FishObject> getWinningFish(){
+        return Database.Tournaments.GetWinningFish(this);
+    }
+
     public void Finish(){
+        if(!active)
+            return;
+
         active = false;
         Database.Tournaments.Update(Id, "active", false);
 
         List<FishObject> winningFish = new ArrayList<>();
-        for(var fish : Database.Tournaments.GetWinningFish(this)){
+        for(var fish : getWinningFish()){
             int maxPlace = winningFish.size() + 1;
 
             //Ensures that a reward exists, either item or currency
@@ -71,7 +78,7 @@ public class TournamentObject {
         }
 
         if(winningFish.isEmpty()){
-            Utilities.Announce(Formatting.getMessage("Tournament.noneCaught")
+            Utilities.Announce(Formatting.GetLanguageString("Tournament.noneCaught")
                     .replace("{fish}", "fish"));
             //TODO: Replace with GetFishName() method for dynamic fish name
             return;
@@ -95,7 +102,8 @@ public class TournamentObject {
             textComponents.add(mainComponent);
         }
 
-        String banner = Formatting.getMessage("Tournament.leaderboard");
+        String banner = Formatting.GetLanguageString("Tournament.leaderboard")
+                .replace("{tournament}", getType().Name);
         Utilities.Announce(" ");
         Utilities.Announce(banner);
         for(var c : textComponents){
@@ -119,19 +127,6 @@ public class TournamentObject {
         return ChronoUnit.MILLIS.between(now, getEndTime());
     }
 
-    private void StartTimer(){
-
-        var seconds = ChronoUnit.SECONDS.between(LocalDateTime.now(), getEndTime()) + 2;
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if(CanFinish())
-                    Finish();
-            }
-
-        }.runTaskLater(BlepFishing.getPlugin(), seconds * 20);
-    }
-
     public boolean CanFinish(){
         return active && LocalDateTime.now().isAfter(getEndTime());
     }
@@ -151,5 +146,26 @@ public class TournamentObject {
                 t.Finish();
             }
         }
+    }
+
+    private static final HashMap<Integer, TournamentObject> TournamentTimers = new HashMap<>();
+    public static boolean StartTimer(TournamentObject tournament){
+        if(TournamentTimers.containsKey(tournament.Id))
+            return false;
+
+        TournamentTimers.put(tournament.Id, tournament);
+
+        var seconds = ChronoUnit.SECONDS.between(LocalDateTime.now(), tournament.getEndTime()) + 2;
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if(tournament.CanFinish())
+                    tournament.Finish();
+
+                TournamentTimers.remove(tournament.Id);
+            }
+
+        }.runTaskLater(BlepFishing.getPlugin(), seconds * 20);
+        return  true;
     }
 }
