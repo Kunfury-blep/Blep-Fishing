@@ -10,7 +10,7 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class TreasureHandler {
-    public boolean Enabled = ConfigHandler.instance.baseConfig.getEnableTournaments();
+    public boolean Enabled = ConfigHandler.instance.tourneyConfig.Enabled();
 
     public static TreasureHandler instance;
     public final static HashMap<Player, Inventory> OpenInventories = new HashMap<>();

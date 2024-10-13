@@ -102,10 +102,13 @@ UI:
       deleteConfirm: "&4&lReally Delete?"
       enabled: "&aEnabled"
       disabled: "&cDisabled"
+      toggle: "&bShift Left-Click to &c&oToggle"
+
   Admin:
     Panels:
       base: "Admin Panel"
       translations: "Translations"
+      general: "General Settings"
       Treasure:
         base: "Treasure Admin Panel"
         editCasket: "Edit {casket}"
@@ -116,10 +119,11 @@ UI:
           name: "&bTranslations"
           lore: "&f{amount} Available"
         treasure: "&bEdit Treasure"
-        tournaments: "&bEdit Tournaments"
         areas: "&bEdit Areas"
         fish: "&bEdit Fish"
         rarities: "&bEdit Rarities"
+        general: "&bGeneral Settings"
+        tournaments: "&bEdit Tournaments"
       Translations:
         select: "&bLeft-Click to &e&oSelect"
         author: "&9Author: &f{name}"
@@ -128,11 +132,11 @@ UI:
           lore: "&fWant to contribute to the Translations available? &e&oClick for Discord"
           click: "&bClick For Discord"
       Treasure:
+        name: "&bEdit Rewards"
         Base:
           rewards: "&a{amount}x Rewards"
           noRewards: "&cNo Rewards Set"
           unfinishedRewards: "&e{amount}x Unfinished Rewards"
-        editRewards: "&bEdit Rewards"
         Announce:
           name: "&bAnnounce Treasure Catch"
           lore: "Announces Catch To World"
@@ -155,5 +159,9 @@ UI:
             current: "&9Current: &f{amount}&9%"
             prompt: "What should the Item Drop Chance be? Current: {amount}"
         createNew: "&bCreate New Treasure"
+      General:
+        showScoreboard: "&bShow Scoreboard"
+        enableFishBags: "&bEnable Fish Bags"
+
 
 Author: "Kunfury"

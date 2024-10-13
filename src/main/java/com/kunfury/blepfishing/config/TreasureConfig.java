@@ -18,7 +18,7 @@ import java.util.List;
 
 public class TreasureConfig {
 
-    private FileConfiguration config;
+    public FileConfiguration config;
 
     public TreasureConfig(){
         File treasureConfigFile = new File(BlepFishing.instance.getDataFolder(), "treasure.yml");
@@ -72,7 +72,7 @@ public class TreasureConfig {
 
         if(compassConfig != null){
             int weight = compassConfig.getInt("Weight");
-            boolean announce = casketConfig.getBoolean("Announce");
+            boolean announce = compassConfig.getBoolean("Announce");
 
             CompassPiece compassPiece = new CompassPiece("compassPiece", weight, announce);
             CompassPiece.AddNew(compassPiece);
@@ -122,8 +122,8 @@ public class TreasureConfig {
     public void Save(){
         FileConfiguration newTreasureConfig = new YamlConfiguration();
 
-        newTreasureConfig.set("Enabled", Enabled());
-        newTreasureConfig.set("Treasure Chance", getTreasureChance());
+        newTreasureConfig.set("Settings.Enabled", Enabled());
+        newTreasureConfig.set("Settings.Treasure Chance", getTreasureChance());
 
         for(var t : TreasureType.ActiveTypes.values()){
             String key;
@@ -156,10 +156,9 @@ public class TreasureConfig {
     }
 
     public boolean Enabled(){
-        return config.getBoolean("Enabled");
+        return config.getBoolean("Settings.Enabled");
     }
-    public double getTreasureChance(){return config.getDouble("Treasure Chance");}
+    public double getTreasureChance(){return config.getDouble("Settings.Treasure Chance");}
 
     public boolean getCompassEnabled(){return config.getBoolean("Compasses.Enabled");}
-    public int getCompassWeight(){return config.getInt("Compasses.Weight");}
 }

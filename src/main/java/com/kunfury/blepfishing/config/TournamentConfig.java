@@ -3,7 +3,6 @@ package com.kunfury.blepfishing.config;
 import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.objects.TournamentType;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -18,15 +17,9 @@ import java.util.List;
 
 public class TournamentConfig {
 
-    private final FileConfiguration tournamentConfig;
+    public final FileConfiguration config;
 
     public TournamentConfig(){
-        if(!ConfigHandler.instance.baseConfig.getEnableTournaments()){
-            tournamentConfig = null;
-            return;
-        }
-
-
         File tournamentConfigFile = new File(BlepFishing.instance.getDataFolder(), "tournaments.yml");
 
         if(!tournamentConfigFile.exists()){
@@ -34,20 +27,25 @@ public class TournamentConfig {
             tournamentConfigFile = new File(BlepFishing.instance.getDataFolder(), "tournaments.yml");
         }
 
-        tournamentConfig = YamlConfiguration.loadConfiguration(tournamentConfigFile);
+        config = YamlConfiguration.loadConfiguration(tournamentConfigFile);
 
         LoadTournaments();
     }
 
     private void LoadTournaments(){
-        for(final String key : tournamentConfig.getValues(false).keySet()){
-            String name = tournamentConfig.getString(key + ".Name");
-            List<String> fishTypes = tournamentConfig.getStringList(key + ".Fish Types");
-            double duration = tournamentConfig.getDouble(key + ".Duration");
-            boolean villagerHorn = tournamentConfig.getBoolean(key + ".Villager Horn");
+        for(final String key : config.getValues(false).keySet()){
+
+            if(key.equals("Settings"))
+                continue;
+
+
+            String name = config.getString(key + ".Name");
+            List<String> fishTypes = config.getStringList(key + ".Fish Types");
+            double duration = config.getDouble(key + ".Duration");
+            boolean villagerHorn = config.getBoolean(key + ".Villager Horn");
             int hornLevel = 1;
-            if(villagerHorn && tournamentConfig.contains(key + ".Villager Horn Level"))
-                hornLevel = tournamentConfig.getInt(key + ".Villager Horn Level");
+            if(villagerHorn && config.contains(key + ".Villager Horn Level"))
+                hornLevel = config.getInt(key + ".Villager Horn Level");
 
 
             HashMap<TournamentType.TournamentDay, List<String>> startTimes = new HashMap<>();
@@ -56,10 +54,10 @@ public class TournamentConfig {
             var sortedStartTimes = Arrays.stream(TournamentType.TournamentDay.values()).toList().stream()
                     .sorted(Enum::compareTo).toList();
             for(var d : sortedStartTimes){
-                if(!tournamentConfig.contains(key + ".Start Times." + d))
+                if(!config.contains(key + ".Start Times." + d))
                     continue;
 
-                List<String> times = tournamentConfig.getStringList(key + ".Start Times." + d);
+                List<String> times = config.getStringList(key + ".Start Times." + d);
 
                 //Bukkit.getLogger().warning(d + " Loaded Times: " + times);
 
@@ -67,7 +65,7 @@ public class TournamentConfig {
             }
 
 
-            var rewardsConfig = tournamentConfig.getConfigurationSection(key + ".Rewards");
+            var rewardsConfig = config.getConfigurationSection(key + ".Rewards");
 
             HashMap<Integer, Double> cashRewards = new HashMap<>();
             HashMap<Integer, List<ItemStack>> itemRewards = new HashMap<>();
@@ -111,6 +109,10 @@ public class TournamentConfig {
 
     public void Save(){
         FileConfiguration newTourneyConfig = new YamlConfiguration();
+
+        newTourneyConfig.set("Settings.Enabled", Enabled());
+
+
         for(var type : TournamentType.GetTournaments()){
             String key = type.Id;
             newTourneyConfig.set(key + ".Name", type.Name);
@@ -142,5 +144,9 @@ public class TournamentConfig {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public boolean Enabled(){
+        return config.getBoolean("Settings.Enabled");
     }
 }

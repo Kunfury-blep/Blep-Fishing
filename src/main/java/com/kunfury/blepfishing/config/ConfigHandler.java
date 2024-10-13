@@ -29,11 +29,6 @@ public class ConfigHandler {
 
     public void Initialize(){
         instance = this;
-
-        BlepFishing plugin = BlepFishing.instance;
-        plugin.saveDefaultConfig();
-        plugin.saveConfig();
-
         baseConfig = new BaseConfig();
         fishConfig = new FishConfig();
         tourneyConfig = new TournamentConfig();

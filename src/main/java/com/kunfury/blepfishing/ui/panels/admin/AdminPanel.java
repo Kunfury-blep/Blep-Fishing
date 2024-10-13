@@ -3,6 +3,7 @@ package com.kunfury.blepfishing.ui.panels.admin;
 import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.ui.buttons.admin.areas.AdminAreasPanelBtn;
+import com.kunfury.blepfishing.ui.buttons.admin.general.AdminGeneralPanelBtn;
 import com.kunfury.blepfishing.ui.buttons.admin.rarities.AdminRaritiesPanelBtn;
 import com.kunfury.blepfishing.ui.buttons.admin.translations.AdminTranslationPanelBtn;
 import com.kunfury.blepfishing.ui.buttons.admin.treasure.AdminTreasurePanelButton;
@@ -25,12 +26,11 @@ public class AdminPanel extends Panel {
         inv.setItem(12, new AdminRaritiesPanelBtn().getItemStack());
         inv.setItem(13, new AdminAreasPanelBtn().getItemStack());
 
-        if(ConfigHandler.instance.baseConfig.getEnableTournaments())
-            inv.setItem(14, new AdminTournamentPanelButton().getItemStack());
+        inv.setItem(14, new AdminTournamentPanelButton().getItemStack());
 
-        if(ConfigHandler.instance.treasureConfig.Enabled())
-            inv.setItem(15, new AdminTreasurePanelButton().getItemStack());
+        inv.setItem(15, new AdminTreasurePanelButton().getItemStack());
 
-        inv.setItem(22, new AdminTranslationPanelBtn().getItemStack());
+        inv.setItem(21, new AdminTranslationPanelBtn().getItemStack());
+        inv.setItem(22, new AdminGeneralPanelBtn().getItemStack());
     }
 }

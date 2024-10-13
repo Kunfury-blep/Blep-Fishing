@@ -1,0 +1,157 @@
+Fish:
+  length: '&8Długość: {size} cali.'
+  caught: '&8Złapany przez: {player} w {date}'
+  Scoreboard:
+    size: '&b{size}"'
+
+Treasure:
+  Casket:
+    use: '&bPrawy-Przycisk Myszki żeby &e&oOtworzyć'
+    result: Znalazłeś {item} &fw {casket}&f!
+  Compass Piece:
+    name: '&Część do Kompasu'
+  Compass:
+    name: '&Kompas do All Blue'
+    use: '&bLewy-Przycisk Myszki żeby &e&ofokusować'
+    lore: Te miejsce naprawde istnieje...
+
+Equipment:
+  Fish Bag:
+    autoPickup: '&bLewy-Przycisk Myszki podczas trzymania aby przełączyć &e&oAuto-Zieranie'
+    pickupEnabled: Auto-Zieranie Włączone.
+    pickupDisabled: Auto-Zieranie Wyłączone.
+    depositAll: '&bShift Lewy-Przycisk Myszki podczas trzymania aby przełączyć &e&oDepozyt Wszystkiego'
+    openBag: '&bPrawy-Przycisk Myszki podczas trzymania aby &e&oOtworzyć'
+    openPanel: '&bShift Prawy-Przycisk Myszki podczas trzymania zeby &e&oOtworzyć Panel Gracza'
+    descSmall: Zawiera małą ilość ryb
+    noSpace: Nie ma miejsca w tej torbie.
+    noFish: Nie znaleziono ryb w inwentarzu.
+    addFish: Dodano {amount} do torby.
+    smallBag: Mała Torba dla Ryb
+    medBag: Średnia Torba dla Ryb
+    largeBag: Wielka Torba dla Ryb
+    giantBag: Gigantyczna Torba dla Ryb
+  Fishing Rod:
+    caughtAmount: '&Ilość Ryb Złapanych: &f{amount}'
+  Fishing Journal:
+    name: '&bDziennik Rybaka'
+    read: '&bPrawy-Przycisk Myszki żeby &o&ePrzeczytać'
+    panel: '&bShift Prawy-Przycisk Myszki żeby &o&eOtworzyć Panel'
+    Content:
+      Player:
+        totalCaught: Suma Złapanych Ryb {amount}
+      Compass:
+        title: ' -- Części Kompasu --'
+        amount: '{found}/{total} Znaleziono'
+        hint: '&oNajedz Myszką aby dostać podpowiedz'
+      Fish:
+        totalCaught: Suma Ryb Złapanych {amount}
+        largestCaught: 'Największa: {size}"'
+        smallestCaught: 'Najmniejsza: {size}"'
+  Tournament Horn:
+    name: '&3{tournament} Róg'
+    duration: '&9Trwa: &f{time}'
+    tournamentFish: '&9Ryba: {fish}'
+
+Tournament:
+  alreadyRunning: '{tournament} już się odbywa'
+  noneCaught: Nikt nie złowił ryb przed zakończeniem turnieju; nikt nie dostał nagrody
+  leaderboard: '&l-- {tournament}&l Tabela - Najedz Myszką po Informacje --'
+  start: '{tournament}&f Turniej Rybaków rozpoczął się!'
+
+System:
+  prefix: '&b[BF]&f '
+  deleted: '&eUdało się usunać &c{item}&e.'
+
+UI:
+  Player:
+    Panels:
+      base: Panel Graczy
+      tournaments: Turniej Rybaków
+      fishBag: 'Rybia Torba: {amount}/{max}'
+    Buttons:
+      panel: '&Panel Gracza'
+      Fish Bag:
+        stored: '&bSuma Zachowanych Ryb: &f{amount}'
+        largest: '&bNajwiększa Ryba: &f{size}"'
+        withdrawSmall: Lewy-Przycisk Myszki żeby wybrać &e&oNajmniejszą
+        withdrawLarge: Prawy-Przycisk Myszki żeby wybrać &e&oNajwiekszą
+        shift: '&c&oPrzytrzymaj Shift żeby wybrać &eWszystko'
+      Base:
+        Claim Rewards:
+          name: '&bOdbierz Nagrody'
+          lore: '&9Suma Nagród: &f{amount}'
+          error: Nieudało to give &b{amount}&f items.
+        Tournaments:
+          name: '&Turniej : {amount} Trwał'
+          tournament: '&9{name} - &f{time}'
+          empty: '&cNie ma aktywnych Turniejów '
+      Tournaments:
+        name: '&9{name} - &f{time}'
+        view: '&bPrawy-Przycisk Myszki żeby &e&oSprawdzić'
+  System:
+    Buttons:
+      goBack: '&cWruć'
+      pageNext: '&bNastępna Kartka'
+      pageBack: '&bPoprzednia Kartka'
+      info: '&bInformacja'
+      edit: '&bLewy-Przycisk Myszki żeby &e&oEdytowac'
+      delete: '&bShift Prawy-Przycisk Myszki &bżeby &c&oUsunąć'
+      deleteConfirm: '&4&lNapewno chcesz Usunąć?'
+      enabled: '&aWłączone'
+      disabled: '&cWyłączone'
+  Admin:
+    Panels:
+      base: Panel Administratorów
+      translations: Tłumaczenia - Angielski
+      Treasure:
+        base: Panel Administratorów dla Skarbów
+        editCasket: Edytuj {casket}
+    Buttons:
+      panel: '&bPanel Administratorów'
+      Base:
+        Translations:
+          name: '&Tłumaczenia'
+          lore: '&f{amount} dostępne'
+        treasure: '&bEdytuj Skarb'
+        tournaments: '&bEdytuj Turnieje'
+        areas: '&bEdytuj Tereny'
+        fish: '&bEdytuj Rybę'
+        rarities: '&bEdytuj Rzadkość'
+      Translations:
+        select: '&bPrawy-Przycisk Myszki żeby &e&oWybrać'
+        Info:
+          name: '&bInformacja'
+
+          lore: '&fChcesz pomoć w przytłumaczeniu? Dołącz do społecznośći na Discordzie'
+          click: '&bKliknij Tutaj aby Dołączyć'
+      Treasure:
+        Base:
+          rewards: '&a{amount}x Nagród'
+          noRewards: '&cNie Ustawiono Nagród'
+          unfinishedRewards: '&e{amount}x Nie Ukończone Nagrody'
+        editRewards: '&bEdytuj Nagrody'
+        Announce:
+          name: '&Ogłoś Złapanie Skarbu'
+          lore: Ogłasza na swiat że złapałeś skarb
+        Weight:
+          name: '&Waga'
+          lore: Tym wyższa waga tym włatwiej sie złapie
+          prompt: 'Ile powinien skarb ważyć? Aktualnie: {amount}'
+        Name:
+          name: '&bNazwa'
+          lore: '&9{name}'
+          prompt: 'Jak powinien się ten skarb nazywać? Aktualnie: {name}'
+        Rewards:
+          create: '&Stwórz Nową Nagrode'
+          Announce:
+            name: '&Ogłoś Nagrode'
+            lore: Ogłasza na swiat że otrzymałeś nagrode
+          Drop Chance:
+            name: '&bSzansa na drop'
+            lore: Procent szansy że rzecz wypadnie z szkatułki
+            current: '&9Aktualnie: &f{amount}&9%'
+            prompt: 'Jaka powina być szansa na drop? Aktualnie: {amount}'
+        createNew: '&bStwórz Nowy Skarb'
+
+Author: "RedMan"

@@ -1,9 +1,12 @@
-Enabled: true
-Treasure Chance: 15.0
+Settings:
+  Enabled: true
+  Treasure Chance: 15.0
+
 Compasses:
   Enabled: true
   Weight: 20
   Announce: false
+
 Caskets:
   legendary:
     Name: '&6Legendary Casket'
