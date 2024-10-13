@@ -11,6 +11,8 @@ import com.kunfury.blepfishing.ui.scoreboards.DisplayFishInfo;
 import com.kunfury.blepfishing.items.ItemHandler;
 import com.kunfury.blepfishing.objects.*;
 import com.kunfury.blepfishing.plugins.McMMO;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -101,6 +103,8 @@ public class FishingListener implements Listener {
         item.setItemStack(caughtFish.CreateItemStack());
         BlepFishing.stats_FishCaught++;
         DisplayFishInfo.ShowFish(caughtFish, player);
+        TournamentObject.CheckWinning(caughtFish);
+
         if(rarity.Announce)
             AnnounceCatch(caughtFish);
 
@@ -157,14 +161,19 @@ public class FishingListener implements Listener {
     }
 
     private void AnnounceCatch(FishObject fish){
-        Player p = fish.getCatchingPlayer();
-        Rarity rarity = fish.getRarity();
-        var message = Formatting.formatColor(p.getDisplayName() + " just caught a " +
-                rarity.Prefix + fish.getRarity().Name + " " + fish.getType().Name + ChatColor.WHITE + "!");
+        Player player = fish.getCatchingPlayer();
 
-        Utilities.Announce(message);
 
-        Firework fw = (Firework) p.getWorld().spawnEntity(p.getLocation(), EntityType.FIREWORK_ROCKET);
+        TextComponent textComponent = new TextComponent(Formatting.formatColor(Formatting.GetLanguageString("Fish.announce")
+                .replace("{player}", player.getDisplayName())
+                .replace("{rarity}", fish.getRarity().getFormattedName())
+                .replace("{fish}", fish.getType().Name)));
+        textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, fish.getHoverText()));
+
+
+        Utilities.Announce(textComponent);
+
+        Firework fw = (Firework) player.getWorld().spawnEntity(player.getLocation(), EntityType.FIREWORK_ROCKET);
         fw.detonate();
     }
 

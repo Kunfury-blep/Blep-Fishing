@@ -3,6 +3,7 @@ Fish:
   caught: "&8Caught By: {player} on {date}"
   Scoreboard:
     size: "&b{size}\""
+  announce: "{player} &fjust caught a {rarity} {fish}!&f"
 
 Treasure:
   Casket:
@@ -59,6 +60,7 @@ Tournament:
   leaderboard: "&l-- {tournament}&l Leaderboard - Hover For Info --"
   start: "The {tournament}&f Fishing Contest has begun!"
   allFish: "&fAll Fish"
+  newBest: "{player} just took the top spot in the {tournament}&f with a {rarity} {fish}!"
 
 System:
   prefix: "&b[BF]&f "

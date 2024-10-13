@@ -20,6 +20,8 @@ public class TournamentObject {
     public final String TypeId;
     public final LocalDateTime StartTime;
 
+    private FishObject bestFish;
+
 
     public TournamentObject(TournamentType type){
         TypeId = type.Id;
@@ -53,6 +55,23 @@ public class TournamentObject {
 
     public List<FishObject> getWinningFish(){
         return Database.Tournaments.GetWinningFish(this);
+    }
+
+    private void checkAgainstWinner(FishObject fish){
+        if(bestFish != null && bestFish.Length > fish.Length)
+            return;
+
+        bestFish = fish;
+
+        TextComponent mainComponent = new TextComponent(Formatting.formatColor(Formatting.GetLanguageString("Tournament.newBest")
+                .replace("{player}", fish.getCatchingPlayer().getDisplayName())
+                .replace("{tournament}", getType().Name)
+                .replace("{rarity}", fish.getRarity().getFormattedName())
+                .replace("{fish}", fish.getType().Name)));
+        mainComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, fish.getHoverText()));
+
+
+        Utilities.Announce(mainComponent);
     }
 
     public void Finish(){
@@ -167,5 +186,16 @@ public class TournamentObject {
 
         }.runTaskLater(BlepFishing.getPlugin(), seconds * 20);
         return  true;
+    }
+
+    public static void CheckWinning(FishObject fish){
+        FishType fishType = fish.getType();
+
+        for(var t : Database.Tournaments.GetActive()){
+            if(!t.getType().getFishTypes().contains(fishType))
+                continue;
+
+            t.checkAgainstWinner(fish);
+        }
     }
 }
