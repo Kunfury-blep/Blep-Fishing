@@ -61,17 +61,19 @@ public class TournamentObject {
         if(bestFish != null && bestFish.Length > fish.Length)
             return;
 
+        if(bestFish == null || bestFish.getCatchingPlayer() != fish.getCatchingPlayer()){
+            TextComponent mainComponent = new TextComponent(Formatting.formatColor(Formatting.GetLanguageString("Tournament.newBest")
+                    .replace("{player}", fish.getCatchingPlayer().getDisplayName())
+                    .replace("{tournament}", getType().Name)
+                    .replace("{rarity}", fish.getRarity().getFormattedName())
+                    .replace("{fish}", fish.getType().Name)));
+            mainComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, fish.getHoverText()));
+
+
+            Utilities.Announce(mainComponent);
+        }
+
         bestFish = fish;
-
-        TextComponent mainComponent = new TextComponent(Formatting.formatColor(Formatting.GetLanguageString("Tournament.newBest")
-                .replace("{player}", fish.getCatchingPlayer().getDisplayName())
-                .replace("{tournament}", getType().Name)
-                .replace("{rarity}", fish.getRarity().getFormattedName())
-                .replace("{fish}", fish.getType().Name)));
-        mainComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, fish.getHoverText()));
-
-
-        Utilities.Announce(mainComponent);
     }
 
     public void Finish(){
