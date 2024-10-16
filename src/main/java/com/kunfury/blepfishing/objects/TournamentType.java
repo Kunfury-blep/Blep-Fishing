@@ -7,6 +7,7 @@ import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.items.ItemHandler;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.*;
+import org.bukkit.boss.BarColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.MusicInstrumentMeta;
@@ -28,10 +29,15 @@ public class TournamentType {
     public HashMap<TournamentDay, List<String>> StartTimes = new HashMap<>();
     public HashMap<Integer, Double> CashRewards;
     public HashMap<Integer, List<ItemStack>> ItemRewards;
-    public Grading Grading = LONGEST;
 
     public boolean VillagerHorn;
     public int HornLevel = 1;
+
+    //Not in editor yet
+    public Grading Grading = LONGEST;
+    public boolean HasBossBar = true;
+    public BarColor BossBarColor = BarColor.BLUE;
+
 
     public boolean ConfirmedDelete;
 
@@ -146,22 +152,25 @@ public class TournamentType {
         return placements;
     }
 
-    public void GiveRewards(int place, Player player){
+    public void GiveRewards(int place, UUID playerUUID){
 
         List<ItemStack> items = new ArrayList<>();
 
         if(ItemRewards.containsKey(place))
             items.addAll(ItemRewards.get(place));
 
+        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(playerUUID);
+
+
         if(BlepFishing.hasEconomy() && CashRewards.containsKey(place)){
-            EconomyResponse r = BlepFishing.getEconomy().depositPlayer(player, CashRewards.get(place));
+            EconomyResponse r = BlepFishing.getEconomy().depositPlayer(offlinePlayer, CashRewards.get(place));
             if(!r.transactionSuccess())
-                player.sendMessage(String.format("An error occurred: %s", r.errorMessage));
+                Utilities.Severe(r.errorMessage);
         }
 
         for(var i : items){
-            if(!Utilities.GiveItem(player, i, false))
-                new UnclaimedReward(player.getUniqueId(), i); //Saves reward if unable to claim
+            if(!Utilities.GiveItem(offlinePlayer.getPlayer(), i, false))
+                new UnclaimedReward(playerUUID, i); //Saves reward if unable to claim
         }
     }
 

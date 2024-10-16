@@ -18,6 +18,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class PlayerTournamentButton extends MenuButton {
 
@@ -42,11 +43,19 @@ public class PlayerTournamentButton extends MenuButton {
 
         lore.add("");
         lore.add(Formatting.GetLanguageString("UI.Player.Buttons.Tournaments.view"));
+        lore.add(Formatting.GetLanguageString("UI.Player.Buttons.Tournaments.bossBar"));
+
 
         m.setLore(lore);
 
         PersistentDataContainer dataContainer = m.getPersistentDataContainer();
         dataContainer.set(ItemHandler.TourneyId, PersistentDataType.INTEGER, tournament.Id);
+
+        var fishTypes = tournament.getType().getFishTypes();
+
+        var randomType = fishTypes.get(ThreadLocalRandom.current().nextInt(fishTypes.size()));
+        m.setCustomModelData(randomType.ModelData);
+
 
         item.setItemMeta(m);
 
@@ -57,6 +66,12 @@ public class PlayerTournamentButton extends MenuButton {
     protected void click_left() {
         TournamentObject tournament = getTournament();
         new PlayerTournamentDetailPanel(tournament, 1).Show(player);
+    }
+
+    @Override
+    protected void click_left_shift() {
+        TournamentObject tournament = getTournament();
+        tournament.ToggleBossBar(player);
     }
 
     protected TournamentObject getTournament(){

@@ -6,11 +6,17 @@ import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.Utilities;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -29,6 +35,7 @@ public class TournamentObject {
         active = true;
         Id = Database.Tournaments.Add(this);
         StartTimer(this);
+        SetupBossBar();
     }
 
     public TournamentObject(ResultSet rs) throws SQLException {
@@ -37,7 +44,51 @@ public class TournamentObject {
         StartTime = Utilities.TimeFromLong(rs.getLong("startTime"));
         active = rs.getBoolean("active");
         StartTimer(this);
+        SetupBossBar();
     }
+
+    BossBar bossBar;
+    public void SetupBossBar(){
+
+        if(!getType().HasBossBar)
+            return;
+
+        bossBar = Bukkit.createBossBar(Formatting.formatColor(getType().Name), getType().BossBarColor, BarStyle.SEGMENTED_10);
+        bossBar.setVisible(false);
+
+        for(var p : Bukkit.getOnlinePlayers()){
+            bossBar.addPlayer(p);
+        }
+
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                bossBar.setVisible(true);
+                String title = getType().Name + ChatColor.WHITE + " - " + Formatting.asTime(getTimeRemaining(), ChatColor.WHITE);
+                bossBar.setTitle(title);
+                bossBar.setProgress(getBossBarProgress());
+
+            }
+
+        }.runTaskTimer(BlepFishing.getPlugin(), 0, 20);
+    }
+
+    public void ToggleBossBar(Player player){
+        if(bossBar.getPlayers().contains(player))
+            bossBar.removePlayer(player);
+        else
+            bossBar.addPlayer(player);
+    }
+
+    private double getBossBarProgress(){
+        Duration d = Duration.between(StartTime, LocalDateTime.now());
+        double elapsed = d.toSeconds() / 60.0 / 60.0;
+        double progress = elapsed/getType().Duration;
+        if(progress > 1) progress = 1;
+        return progress;
+    }
+
 
 
     private boolean active;
@@ -63,7 +114,7 @@ public class TournamentObject {
 
         if(bestFish == null || bestFish.getCatchingPlayer() != fish.getCatchingPlayer()){
             TextComponent mainComponent = new TextComponent(Formatting.formatColor(Formatting.GetLanguageString("Tournament.newBest")
-                    .replace("{player}", fish.getCatchingPlayer().getDisplayName())
+                    .replace("{player}", fish.getCatchingPlayer().getName())
                     .replace("{tournament}", getType().Name)
                     .replace("{rarity}", fish.getRarity().getFormattedName())
                     .replace("{fish}", fish.getType().Name)));
@@ -111,12 +162,14 @@ public class TournamentObject {
         //Gives out rewards
         int place = 1;
         for(var fish : winningFish){
-            Player player = fish.getCatchingPlayer();
+            //Player player = fish.getCatchingPlayer();
             FishType fishType = fish.getType();
             //Bukkit.broadcastMessage(ChatColor.GOLD + "#" + place + ": " + p.getName());
-            type.GiveRewards(place, player);
+            type.GiveRewards(place, fish.PlayerId);
 
-            String pString = Formatting.FixFontSize(player.getDisplayName(), pLength);
+            OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(fish.PlayerId);
+
+            String pString = Formatting.FixFontSize(offlinePlayer.getName(), pLength);
             String lbString = Formatting.FixFontSize("#" + place + " - ", 4) + pString + fish.getRarity().Name + " " + fishType.Name;
             TextComponent mainComponent = new TextComponent(Formatting.formatColor(lbString));
             mainComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, fish.getHoverText()));

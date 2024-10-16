@@ -1,8 +1,10 @@
 package com.kunfury.blepfishing.listeners;
 
 import com.kunfury.blepfishing.config.ConfigHandler;
+import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.items.CraftingHandler;
+import com.kunfury.blepfishing.objects.TournamentObject;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

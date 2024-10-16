@@ -93,6 +93,7 @@ UI:
       Tournaments:
         name: "&9{name} - &f{time}"
         view: "&bLeft-Click to &e&oView"
+        bossBar: "&bShift Left-Click to &e&oToggle Bar"
   System:
     Buttons:
       goBack: "&cGo Back"
