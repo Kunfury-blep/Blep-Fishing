@@ -35,7 +35,7 @@ public class PlayerTournamentFishBtn extends MenuButton {
         lore.add(Formatting.GetLanguageString("Fish.length")
                 .replace("{size}", Formatting.DoubleFormat(fish.Length)));
         lore.add(Formatting.GetLanguageString("Fish.caught")
-                .replace("{player}", fish.getCatchingPlayer().getDisplayName())
+                .replace("{player}", fish.getCatchingPlayer().getName())
                 .replace("{date}", Formatting.dateToString(fish.DateCaught)));
 
         m.setLore(lore);

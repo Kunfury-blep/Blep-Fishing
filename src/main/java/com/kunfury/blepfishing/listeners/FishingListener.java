@@ -161,7 +161,10 @@ public class FishingListener implements Listener {
     }
 
     private void AnnounceCatch(FishObject fish){
-        Player player = fish.getCatchingPlayer();
+        Player player = fish.getCatchingPlayer().getPlayer();
+
+        if(player == null)
+            return;
 
 
         TextComponent textComponent = new TextComponent(Formatting.formatColor(Formatting.GetLanguageString("Fish.announce")

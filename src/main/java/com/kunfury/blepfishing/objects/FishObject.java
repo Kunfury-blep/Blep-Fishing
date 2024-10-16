@@ -8,6 +8,7 @@ import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -92,7 +93,7 @@ public class FishObject {
         lore.add(Formatting.GetLanguageString("Fish.length")
                 .replace("{size}", Formatting.DoubleFormat(Length)));
         lore.add(Formatting.GetLanguageString("Fish.caught")
-                .replace("{player}", getCatchingPlayer().getDisplayName())
+                .replace("{player}", getCatchingPlayer().getName())
                 .replace("{date}", Formatting.dateToString(DateCaught)));
 
         return lore;
@@ -121,10 +122,10 @@ public class FishObject {
         return fishItem;
     }
 
-    private Player player;
-    public Player getCatchingPlayer(){
+    private OfflinePlayer player;
+    public OfflinePlayer getCatchingPlayer(){
         if(player == null)
-            player = Bukkit.getPlayer(PlayerId);
+            player = Bukkit.getOfflinePlayer(PlayerId);
 
         return player;
     }
@@ -167,7 +168,7 @@ public class FishObject {
                 .replace("{size}", Formatting.DoubleFormat(Length));
 
         content += "\n" + Formatting.GetLanguageString("Fish.caught")
-                .replace("{player}", getCatchingPlayer().getDisplayName())
+                .replace("{player}", getCatchingPlayer().getName())
                 .replace("{date}", Formatting.dateToString(DateCaught));
 
 
