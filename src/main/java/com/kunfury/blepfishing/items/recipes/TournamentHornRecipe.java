@@ -34,33 +34,37 @@ public class TournamentHornRecipe {
     }
 
     public static void UpdateFishermanTrades(Villager fisherman){
-        PersistentDataContainer dataContainer = fisherman.getPersistentDataContainer();
+        PersistentDataContainer fishermanData = fisherman.getPersistentDataContainer();
 
-        if(dataContainer.has(entityKey))
+        if(fishermanData.has(entityKey))
             return;
 
         int profLevel = fisherman.getVillagerLevel();
 
-        if(dataContainer.has(ItemHandler.TourneyTypeId)){
-            var tournament = TournamentType.FromId(dataContainer.get(ItemHandler.TourneyTypeId, PersistentDataType.STRING));
+        if(fishermanData.has(ItemHandler.TourneyTypeId)){
+            var tournament = TournamentType.FromId(fishermanData.get(ItemHandler.TourneyTypeId, PersistentDataType.STRING));
             if(tournament == null || profLevel < tournament.HornLevel|| !tournament.VillagerHorn)
                 return;
 
-            GiveRecipe(fisherman, dataContainer, tournament);
+            GiveRecipe(fisherman, fishermanData, tournament);
 
             return;
         }
 
         Random rand = new Random();
         var hornList = TournamentType.GetHornTournaments();
+
+        if(hornList.isEmpty())
+            return;
+
         var hornTournament  = hornList.get(rand.nextInt(hornList.size()));
 
         if(profLevel >= hornTournament.HornLevel){
-            GiveRecipe(fisherman, dataContainer, hornTournament);
+            GiveRecipe(fisherman, fishermanData, hornTournament);
             return;
         }
 
-        dataContainer.set(ItemHandler.TourneyTypeId, PersistentDataType.STRING, hornTournament.Id);
+        fishermanData.set(ItemHandler.TourneyTypeId, PersistentDataType.STRING, hornTournament.Id);
 
 
     }
