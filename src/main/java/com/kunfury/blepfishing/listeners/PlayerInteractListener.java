@@ -1,5 +1,6 @@
 package com.kunfury.blepfishing.listeners;
 
+import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.objects.FishingJournal;
@@ -9,6 +10,7 @@ import com.kunfury.blepfishing.items.ItemHandler;
 import com.kunfury.blepfishing.items.recipes.TournamentHornRecipe;
 import com.kunfury.blepfishing.objects.FishBag;
 import com.kunfury.blepfishing.objects.TournamentType;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
@@ -158,9 +160,24 @@ public class PlayerInteractListener implements Listener {
             return;
 
         Villager villager = (Villager) e.getRightClicked();
+        Player player = e.getPlayer();
 
         if(villager.getProfession() != Villager.Profession.FISHERMAN)
             return;
+
+        if(BlepFishing.hasEconomy()){
+            ItemStack item = player.getInventory().getItemInMainHand();
+
+            if(item.getType() == Material.SALMON && ItemHandler.hasTag(item, ItemHandler.FishIdKey)){
+                if(player.isSneaking())
+                    Utilities.SellAllFish(player);
+                else
+                    Utilities.SellFish(player);
+
+                e.setCancelled(true);
+                return;
+            }
+        }
 
         TournamentHornRecipe.UpdateFishermanTrades(villager);
     }

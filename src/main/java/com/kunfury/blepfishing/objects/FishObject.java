@@ -5,6 +5,7 @@ import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.items.ItemHandler;
+import net.md_5.bungee.api.chat.hover.content.Item;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -16,6 +17,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.Format;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -167,6 +169,10 @@ public class FishObject {
         return rarity;
     }
 
+    public String getFormattedName(){
+        return Formatting.formatColor(getRarity().Prefix + getType().Name);
+    }
+
     public Text getHoverText(){
         String content = getRarity().getFormattedName() + " " + getType().Name;
 
@@ -188,6 +194,14 @@ public class FishObject {
 
     public static FishObject GetCaughtFish(int fishId){
         return Database.Fish.Get(fishId);
+    }
+
+    public static FishObject GetFromItem(ItemStack fishItem){
+        if(!ItemHandler.hasTag(fishItem, ItemHandler.FishIdKey))
+            return null;
+
+        int fishId = ItemHandler.getTagInt(fishItem, ItemHandler.FishIdKey);
+        return GetCaughtFish(fishId);
     }
 
 }
