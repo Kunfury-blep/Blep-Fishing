@@ -50,20 +50,33 @@ public class ConfigHandler {
 
 
     private final static File messageFile = new File(BlepFishing.instance.getDataFolder(), "messages.yml");
-    private void UpdateMessages(){
-        if(!messageFile.exists()){ //Loads base language if none found
+    private void UpdateMessages() {
+        if (!messageFile.exists()) { //Loads base language if none found
             LoadLanguage("English");
             return;
         }
 
         File messageFile = new File(BlepFishing.instance.getDataFolder() + "/messages.yml");
-        Formatting.languageYaml = YamlConfiguration.loadConfiguration(messageFile);
+        var savedMessageConfig = YamlConfiguration.loadConfiguration(messageFile);
 
-//        File messageConfigFile = new File(BlepFishing.instance.getDataFolder(), "messages.yml");
-//        YamlConfiguration messageYaml = YamlConfiguration.loadConfiguration(messageConfigFile);
-//
-//        if(messageYaml.contains("Language"))
-//            language = messageYaml.getString("Language");
+        InputStream languageResource = BlepFishing.instance.getResource("translations/English.yml");
+        YamlConfiguration internalYaml = YamlConfiguration.loadConfiguration(new InputStreamReader(languageResource));
+
+
+        for (String string : internalYaml.getKeys(true)) {
+            // Checks if the external file contains the key already.
+            if (!savedMessageConfig.contains(string)) {
+                // If it doesn't contain the key, we set the key based off what was found inside the plugin jar
+                savedMessageConfig.set(string, internalYaml.get(string));
+            }
+        }
+        try {
+            savedMessageConfig.save(messageFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        Formatting.languageYaml = savedMessageConfig;
     }
 
     private void LoadTranslations(){
