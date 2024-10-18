@@ -131,9 +131,9 @@ perch:
   Raining: false
   Height Min: 0
   Height Max: 0
-muskeullunge:
-  Name: Muskeullunge
-  Lore: Don?t listen to them, I think you?re fin-tastic!
+muskellunge:
+  Name: Muskellunge
+  Lore: Don't listen to them, I think you're fin-tastic!
   Areas:
     - temperate
   Length Min: 28.0
