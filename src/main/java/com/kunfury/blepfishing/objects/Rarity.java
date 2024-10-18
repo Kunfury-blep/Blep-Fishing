@@ -13,17 +13,17 @@ public class Rarity {
     public String Name;
     public String Prefix;
     public int Weight;
-    //public final double PriceMod;
+    public double ValueMod;
 
     public boolean ConfirmedDelete;
     public boolean Announce;
 
-    public Rarity(String id, String name, String prefix, int weight, boolean announce){
+    public Rarity(String id, String name, String prefix, int weight, boolean announce, double valueMod){
         Id = id;
         Name = name;
         Prefix = prefix;
         Weight = weight;
-        //PriceMod = priceMod;
+        ValueMod = valueMod;
         Announce = announce;
     }
 

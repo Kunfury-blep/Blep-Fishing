@@ -21,6 +21,7 @@ public class AdminRarityEditPanel extends Panel {
         AddButton(new AdminRarityPrefixBtn(rarity));
         AddButton(new AdminRarityWeightBtn(rarity));
         AddButton(new AdminRarityAnnounceBtn(rarity));
+        AddButton(new AdminRarityValueModBtn(rarity));
 
         inv.setItem(17, new AdminRaritiesPanelBtn().getBackButton());
     }

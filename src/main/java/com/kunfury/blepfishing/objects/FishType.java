@@ -92,6 +92,10 @@ public class FishType {
             AreaIds.add(areaId);
     }
 
+    public double getAverageLength(){
+        return (LengthMin + LengthMax)/2;
+    }
+
 
     private static final HashMap<String, FishType> ActiveTypes = new HashMap<>();
     public static void AddFishType(FishType fishType){

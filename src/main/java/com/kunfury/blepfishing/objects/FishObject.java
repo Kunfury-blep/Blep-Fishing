@@ -1,5 +1,6 @@
 package com.kunfury.blepfishing.objects;
 
+import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.Utilities;
@@ -9,7 +10,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -17,7 +17,6 @@ import org.bukkit.persistence.PersistentDataType;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class FishObject {
@@ -30,6 +29,7 @@ public class FishObject {
     public final LocalDateTime DateCaught;
     public final double Score;
     public final Integer RodId;
+    public final double Value;
 
     public Integer FishBagId;
 
@@ -47,6 +47,7 @@ public class FishObject {
         FishBagId = bagId;
 
         Id = Database.Fish.Add(this);
+        Value = CalcValue();
     }
 
 
@@ -59,6 +60,7 @@ public class FishObject {
         Length = length;
         Score = score;
         RodId = null;
+        Value = CalcValue();
     }
 
     public FishObject(ResultSet rs) throws SQLException {
@@ -71,6 +73,7 @@ public class FishObject {
         DateCaught = Utilities.TimeFromLong(rs.getLong("dateCaught"));
         FishBagId = (Integer) rs.getObject("fishBagId");
         RodId = (Integer) rs.getObject("rodId");
+        Value = CalcValue();
     }
 
     @Override
@@ -78,12 +81,24 @@ public class FishObject {
         return Id + " : " + TypeId + " : " + RarityId + " : " + Length + " : " + DateCaught + " : " + PlayerId;
     }
 
+    private double CalcValue(){
+        double sizeMod = Length/getType().getAverageLength();
+        double value = (getType().PriceBase * sizeMod) * getRarity().ValueMod;
+
+        return Formatting.round(value, 2);    }
+
     public List<String> getItemLore(){
         List<String> lore = new ArrayList<>();
 
         lore.add(ChatColor.DARK_PURPLE + getType().Lore);
         lore.add(Formatting.GetLanguageString("Fish.length")
                 .replace("{size}", Formatting.DoubleFormat(Length)));
+        if(BlepFishing.hasEconomy()){
+            lore.add(Formatting.GetLanguageString("Fish.value")
+                    .replace("{value}", Formatting.DoubleFormat(Value)));
+        }
+
+
         lore.add(Formatting.GetLanguageString("Fish.caught")
                 .replace("{player}", getCatchingPlayer().getName())
                 .replace("{date}", Formatting.dateToString(DateCaught)));

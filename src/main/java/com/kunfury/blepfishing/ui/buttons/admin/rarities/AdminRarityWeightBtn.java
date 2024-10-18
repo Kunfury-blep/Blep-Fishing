@@ -24,7 +24,7 @@ public class AdminRarityWeightBtn extends AdminRarityMenuButton {
 
     @Override
     public ItemStack buildItemStack() {
-        ItemStack item = new ItemStack(Material.NAME_TAG);
+        ItemStack item = new ItemStack(Material.ANVIL);
         ItemMeta m = item.getItemMeta();
         assert m != null;
 
@@ -32,11 +32,8 @@ public class AdminRarityWeightBtn extends AdminRarityMenuButton {
         ArrayList<String> lore = new ArrayList<>();
         lore.add(ChatColor.BLUE.toString() + rarity.Weight);
         lore.add("");
-        String example = "The weight determines how likely it is to catch a fish of this rarity. The lower the weight, the less likely it is to be caught. ";
-
-        for(var s : Formatting.ToLoreList(example)){
-            lore.add(ChatColor.ITALIC + s);
-        }
+        String desc = "The weight determines how likely it is to catch a fish of this rarity. The lower the weight, the less likely it is to be caught. ";
+        lore.addAll(Formatting.ToLoreList(desc));
 
         m.setLore(lore);
 

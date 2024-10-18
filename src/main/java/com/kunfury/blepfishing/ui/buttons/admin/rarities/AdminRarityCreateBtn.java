@@ -42,7 +42,7 @@ public class AdminRarityCreateBtn extends MenuButton {
 
 
         Rarity rarity = new Rarity(
-                rarityId, rarityId, "", 100,false);
+                rarityId, rarityId, "", 100,false, 1.0);
         Rarity.AddNew(rarity);
 
         ConfigHandler.instance.rarityConfig.Save();

@@ -34,14 +34,15 @@ public class AdminRarityBtn extends AdminRarityMenuButton {
     public ItemStack buildItemStack() {
         ItemStack item = new ItemStack(Material.EMERALD);
         ItemMeta m = item.getItemMeta();
+        assert m != null;
 
-        m.setDisplayName(ChatColor.AQUA + rarity.Name);
-        m = setButtonId(m, getId());
+        setButtonTitle(m, rarity.Name);
 
         List<String> lore = new ArrayList<>();
         lore.add(ChatColor.BLUE + "Prefix: " + ChatColor.WHITE + rarity.Prefix);
         lore.add(ChatColor.BLUE +"Weight: " + ChatColor.WHITE + rarity.Weight);
         lore.add(ChatColor.BLUE +"Announce: " + ChatColor.WHITE + rarity.Announce);
+        lore.add(ChatColor.BLUE +"Value Mod: " + ChatColor.WHITE + rarity.ValueMod);
 
 
         lore.add("");

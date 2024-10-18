@@ -1,9 +1,10 @@
 Fish:
-  length: "&8Length: {size}in."
+  length: "&9Length: {size}in."
   caught: "&8Caught By: {player} on {date}"
   Scoreboard:
     size: "&b{size}\""
   announce: "{player} &fjust caught a {rarity} {fish}!&f"
+  value: "&9Value: ${value}"
 
 Treasure:
   Casket:
@@ -76,10 +77,10 @@ UI:
     Buttons:
       panel: "&bPlayer Panel"
       Fish Bag:
-        stored: "&bAmount Stored: &f{amount}"
-        largest: "&bLargest Fish: &f{size}\""
-        withdrawSmall: "Left-Click to Withdraw &e&oSmallest"
-        withdrawLarge: "Right-Click to Withdraw &e&oLargest"
+        stored: "&9Amount Stored: &f{amount}"
+        largest: "&9Largest Fish: &f{size}\""
+        withdrawSmall: "&bLeft-Click to Withdraw &e&oSmallest"
+        withdrawLarge: "&bRight-Click to Withdraw &e&oLargest"
         shift: "&c&oHold Shift to Withdraw &eAll"
       Base:
         Claim Rewards:

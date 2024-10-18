@@ -40,6 +40,10 @@ public abstract class MenuButton {
         MenuHandler.SetupButton(this);
     }
 
+    protected void setButtonTitle(ItemMeta m, String title){
+        m.setDisplayName(ChatColor.AQUA + title);
+    }
+
 
     public void perform(InventoryClickEvent e){
         ClickedItem = e.getCurrentItem();

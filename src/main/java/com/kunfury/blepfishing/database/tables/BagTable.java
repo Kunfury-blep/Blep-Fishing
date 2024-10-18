@@ -3,6 +3,7 @@ package com.kunfury.blepfishing.database.tables;
 import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.objects.FishBag;
 import com.kunfury.blepfishing.objects.FishObject;
+import com.kunfury.blepfishing.objects.FishType;
 import org.apache.commons.lang.BooleanUtils;
 import org.bukkit.Bukkit;
 
@@ -105,6 +106,9 @@ public class BagTable extends DbTable<FishBag> {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while(resultSet.next()){
+                var typeId = resultSet.getString("typeId");
+                if(!FishType.IdExists(typeId))
+                    continue;
                 fishList.add(new FishObject(resultSet));
             }
         }catch (SQLException e){

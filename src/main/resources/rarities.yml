@@ -3,18 +3,22 @@ legendary:
   Prefix: '&6'
   Weight: 5
   Announce: true
+  ValueMod: 2.0
 epic:
   Name: Epic
   Prefix: '&d'
   Weight: 30
   Announce: false
+  ValueMod: 1.5
 rare:
   Name: Rare
   Prefix: '&b'
   Weight: 60
   Announce: false
+  ValueMod: 1.25
 common:
   Name: Common
   Prefix: '&a'
   Weight: 100
   Announce: false
+  ValueMod: 1.0

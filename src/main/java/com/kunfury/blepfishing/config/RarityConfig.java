@@ -37,9 +37,12 @@ public class RarityConfig {
             int weight = rarityConfig.getInt(key + ".Weight");
             String prefix = rarityConfig.getString(key + ".Prefix");
             boolean announce = rarityConfig.getBoolean(key + ".Announce");
+            double valueMod = rarityConfig.getDouble(key + ".ValueMod");
+            if(valueMod == 0)
+                valueMod = 1.0;
 
 
-            Rarity rarity = new Rarity(key, name, prefix, weight, announce);
+            Rarity rarity = new Rarity(key, name, prefix, weight, announce, valueMod);
             Rarity.AddNew(rarity);
         }
     }
@@ -55,6 +58,7 @@ public class RarityConfig {
             newRarityConfig.set(key + ".Prefix", rarity.Prefix);
             newRarityConfig.set(key + ".Weight", rarity.Weight);
             newRarityConfig.set(key + ".Announce", rarity.Announce);
+            newRarityConfig.set(key + ".ValueMod", rarity.ValueMod);
         }
         try {
             FileWriter fileWriter = new FileWriter(BlepFishing.instance.getDataFolder() + "/rarities.yml");
