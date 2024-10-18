@@ -1,30 +1,16 @@
 package com.kunfury.blepfishing.commands;
 
 import com.kunfury.blepfishing.commands.subCommands.AdminSubcommand;
-import com.kunfury.blepfishing.helpers.Utilities;
-import com.kunfury.blepfishing.objects.FishType;
-import com.kunfury.blepfishing.objects.FishingArea;
-import com.kunfury.blepfishing.objects.FishingJournal;
+import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.ui.panels.player.PlayerPanel;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.chat.hover.content.Text;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.BookMeta;
 
-import javax.lang.model.type.ArrayType;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class CommandManager implements TabExecutor {
     private final ArrayList<SubCommand> subCommands = new ArrayList<>();
@@ -45,7 +31,7 @@ public class CommandManager implements TabExecutor {
                     return true;
                 }
             }
-           // sender.sendMessage(Formatting.getFormattedMesage("System.noComm"));
+           sender.sendMessage(Formatting.GetLanguageString("System.noCommand"));
         }else BaseCommand(sender);
 
         return true;

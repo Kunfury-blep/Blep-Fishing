@@ -66,6 +66,12 @@ Tournament:
 System:
   prefix: "&b[BF]&f "
   deleted: "&eSuccessfully Deleted &c{item}&e."
+  noCommand: "&4Command not recognized."
+
+Economy:
+  soldFish: "&bSold &f{fish}&b for &f${value}."
+  soldAllFish: "&bSold &f{amount}&b fish for &f${value}."
+
 
 UI:
   Player:
