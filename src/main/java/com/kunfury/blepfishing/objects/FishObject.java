@@ -36,7 +36,6 @@ public class FishObject {
 
     public FishObject(String rarity, String type,  double length, UUID playerId,
                         Integer rodId, Integer bagId){
-        //Id = GenerateId();
         PlayerId = playerId;
         DateCaught = LocalDateTime.now();
         TypeId = type;
