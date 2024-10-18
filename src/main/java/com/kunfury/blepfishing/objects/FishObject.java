@@ -73,14 +73,6 @@ public class FishObject {
         RodId = (Integer) rs.getObject("rodId");
     }
 
-    public void AssignId(int id){
-        if(Id != -1){
-            Bukkit.getLogger().severe("Tried to overwrite fish of id " + Id);
-            return;
-        }
-        Id = id;
-    }
-
     @Override
     public String toString() {
         return Id + " : " + TypeId + " : " + RarityId + " : " + Length + " : " + DateCaught + " : " + PlayerId;
