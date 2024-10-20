@@ -220,6 +220,10 @@ public class TournamentType {
         Tournaments.remove(type.Id);
     }
 
+    public static void Clear(){
+        Tournaments.clear();
+    }
+
     public static Collection<TournamentType> GetTournaments(){
         return Tournaments.values();
     }

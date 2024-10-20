@@ -33,6 +33,7 @@ public class TournamentConfig {
     }
 
     private void LoadTournaments(){
+        TournamentType.Clear();
         for(final String key : config.getValues(false).keySet()){
 
             if(key.equals("Settings"))
@@ -95,10 +96,6 @@ public class TournamentConfig {
                     }
                 }
             }
-
-
-
-
 
             TournamentType tournamentType = new TournamentType(
                     key, name, duration, fishTypes, startTimes, cashRewards,

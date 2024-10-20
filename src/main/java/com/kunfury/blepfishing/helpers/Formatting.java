@@ -15,6 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 public class Formatting {
 
@@ -204,4 +205,11 @@ public class Formatting {
 			return item.getType().toString();
 	}
 
+	private static final Pattern numericPattern = Pattern.compile("-?\\d+(\\.\\d+)?");
+	public static boolean isNumeric(String arg) {
+		if (arg == null) {
+			return false;
+		}
+		return numericPattern.matcher(arg).matches();
+	}
 }

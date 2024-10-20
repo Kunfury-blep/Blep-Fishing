@@ -30,8 +30,7 @@ public class RarityConfig {
     }
 
     private void Load(){
-        //Map<String, Object> fishMap = fishConfig.getDefaultSection().getValues(false);
-
+        Rarity.Clear();
         for(final String key : rarityConfig.getValues(false).keySet()){
             String name = rarityConfig.getString(key + ".Name");
             int weight = rarityConfig.getInt(key + ".Weight");

@@ -4,11 +4,15 @@ import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.objects.FishObject;
 import com.kunfury.blepfishing.objects.FishType;
+import com.kunfury.blepfishing.objects.TournamentObject;
 import org.apache.commons.lang.BooleanUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Utility;
+import org.checkerframework.checker.units.qual.A;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FishTable extends DbTable<FishObject>{
     public FishTable(Database _db, Connection _connection) throws SQLException {
@@ -108,18 +112,13 @@ public class FishTable extends DbTable<FishObject>{
     public int GetCatchAmount(String typeId, String playerId){
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM fish WHERE typeId = ? AND playerId = ?");
+                    "SELECT COUNT(*) AS total FROM fish WHERE typeId = ? AND playerId = ?");
             preparedStatement.setString(1, typeId);
             preparedStatement.setString(2, playerId);
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            int amount = 0;
-
-            while(resultSet.next())
-                amount++;
-
-            return amount;
+            return resultSet.getInt("total");
 
         }catch (SQLException e){
             throw new RuntimeException(e);
@@ -129,17 +128,46 @@ public class FishTable extends DbTable<FishObject>{
     public int GetTotalCatchAmount(String playerId){
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT COUNT(*) AS total FROM fish WHERE playerId = ?");
+            preparedStatement.setString(1, playerId);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            return resultSet.getInt("total");
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<FishObject> GetCaught(String playerId){
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(
                     "SELECT * FROM fish WHERE playerId = ?");
             preparedStatement.setString(1, playerId);
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            int amount = 0;
+            List<FishObject> caughtFish = new ArrayList<>();
+            while(resultSet.next()){
+                var id = resultSet.getInt("id");
 
-            while(resultSet.next())
-                amount++;
+                if(Cache.containsKey(id)){
+                    caughtFish.add(Cache.get(id));
+                    continue;
+                }
 
-            return amount;
+                var typeId = resultSet.getString("typeId");
+                if(!FishType.IdExists(typeId))
+                    continue;
+
+                var fish = new FishObject(resultSet);
+                Cache.put(id, fish);
+                caughtFish.add(fish);
+
+            }
+
+            return caughtFish;
 
         }catch (SQLException e){
             throw new RuntimeException(e);

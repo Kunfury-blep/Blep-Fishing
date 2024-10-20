@@ -24,6 +24,7 @@ public final class BlepFishing extends JavaPlugin {
     public static BlepFishing instance;
     private static Plugin plugin;
     public ConfigHandler configHandler;
+    public boolean DebugMode;
 
     public BlepFishing(){
         instance = this;

@@ -9,11 +9,10 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.text.Format;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayerTournamentPanelButton extends MenuButton {
+public class PlayerTournamentPanelBtn extends MenuButton {
     @Override
     public ItemStack buildItemStack() {
         ItemStack item = new ItemStack(Material.FISHING_ROD);

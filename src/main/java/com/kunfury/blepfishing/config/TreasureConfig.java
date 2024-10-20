@@ -34,7 +34,7 @@ public class TreasureConfig {
     }
 
     private void Load(){
-        //Map<String, Object> fishMap = fishConfig.getDefaultSection().getValues(false);
+        TreasureType.Clear();
 
         UpdateOld();
 
@@ -110,12 +110,8 @@ public class TreasureConfig {
             }
             Save();
 
-            TreasureType.Clear();
-
             File treasureConfigFile = new File(BlepFishing.instance.getDataFolder(), "treasure.yml");
             config = YamlConfiguration.loadConfiguration(treasureConfigFile);
-
-
         }
     }
 

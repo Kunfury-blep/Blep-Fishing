@@ -28,6 +28,7 @@ public class FishConfig {
     }
 
     private void LoadFishTypes(){
+        FishType.Clear();
         for(final String key : fishConfig.getValues(false).keySet()){
             String name = fishConfig.getString(key + ".Name");
             String lore = fishConfig.getString(key + ".Lore");

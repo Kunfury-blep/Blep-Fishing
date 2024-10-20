@@ -139,4 +139,16 @@ public class ConfigHandler {
             throw new RuntimeException(e);
         }
     }
+
+    public void Reload() {
+        baseConfig = new BaseConfig();
+        fishConfig = new FishConfig();
+        tourneyConfig = new TournamentConfig();
+        rarityConfig = new RarityConfig();
+        areaConfig = new AreaConfig();
+        treasureConfig = new TreasureConfig();
+
+        UpdateMessages();
+        LoadTranslations();
+    }
 }

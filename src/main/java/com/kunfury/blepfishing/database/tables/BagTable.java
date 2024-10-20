@@ -106,10 +106,20 @@ public class BagTable extends DbTable<FishBag> {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while(resultSet.next()){
+                var id = resultSet.getInt("id");
+
+                if(Database.Fish.Cache.containsKey(id)){
+                    fishList.add(Database.Fish.Cache.get(id));
+                    continue;
+                }
+
                 var typeId = resultSet.getString("typeId");
                 if(!FishType.IdExists(typeId))
                     continue;
-                fishList.add(new FishObject(resultSet));
+
+                var fish = new FishObject(resultSet);
+                Database.Fish.Cache.put(id, fish);
+                fishList.add(fish);
             }
         }catch (SQLException e){
             throw new RuntimeException(e);

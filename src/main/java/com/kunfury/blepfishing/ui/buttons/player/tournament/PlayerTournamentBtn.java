@@ -3,11 +3,8 @@ package com.kunfury.blepfishing.ui.buttons.player.tournament;
 import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
-import com.kunfury.blepfishing.ui.panels.admin.tournaments.AdminTournamentEditPanel;
 import com.kunfury.blepfishing.items.ItemHandler;
-import com.kunfury.blepfishing.objects.FishType;
 import com.kunfury.blepfishing.objects.TournamentObject;
-import com.kunfury.blepfishing.objects.TournamentType;
 import com.kunfury.blepfishing.ui.panels.player.PlayerTournamentDetailPanel;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -20,10 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class PlayerTournamentButton extends MenuButton {
+public class PlayerTournamentBtn extends MenuButton {
 
     TournamentObject tournament;
-    public PlayerTournamentButton(TournamentObject tournament){
+    public PlayerTournamentBtn(TournamentObject tournament){
         this.tournament = tournament;
     }
 

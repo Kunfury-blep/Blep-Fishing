@@ -66,7 +66,11 @@ Tournament:
 System:
   prefix: "&b[BF]&f "
   deleted: "&eSuccessfully Deleted &c{item}&e."
-  noCommand: "&4Command not recognized."
+  noCommand: "&cCommand Not Found"
+  noPermission: "&cYou don't have permission for that"
+  noPlayer: "&cPlayer Not Found"
+  reload: "Reload Complete"
+  noFish: "&cNo Fish Found"
 
 Economy:
   soldFish: "&bSold &f{fish}&b for &f${value}."
@@ -80,6 +84,7 @@ UI:
       tournaments: "Fishing Tournaments"
       fishBag: "Fish Bag: {amount}/{max}"
       tournamentDetail: "{name} - {amount} Caught"
+      fish: "Caught Fish"
     Buttons:
       panel: "&bPlayer Panel"
       Fish Bag:
@@ -97,6 +102,11 @@ UI:
           name: "&bTournaments : {amount} Running"
           tournament: "&9{name} - &f{time}"
           empty: "&cNo Active Tournaments"
+        Fish:
+          name: "&bFish"
+          total: "&9Total Caught: &f{amount}"
+          noneCaught: "&cNot Caught"
+          area: "&9Found In: {areas}"
       Tournaments:
         name: "&9{name} - &f{time}"
         view: "&bLeft-Click to &e&oView"

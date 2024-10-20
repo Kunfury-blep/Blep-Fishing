@@ -111,6 +111,10 @@ public class FishType {
         ActiveTypes.remove(fishType.Id);
     }
 
+    public static void Clear() {
+        ActiveTypes.clear();
+    }
+
     public static void UpdateId(String oldId, FishType fishType){
         ActiveTypes.remove(oldId);
         ActiveTypes.put(fishType.Id, fishType);

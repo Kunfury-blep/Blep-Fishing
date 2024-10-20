@@ -30,6 +30,7 @@ public class AreaConfig {
     }
 
     private void Load(){
+        FishingArea.Clear();
         for(final String key : areaConfig.getValues(false).keySet()){
             String name = areaConfig.getString(key + ".Name");
             List<String> biomes = areaConfig.getStringList(key + ".Biomes");

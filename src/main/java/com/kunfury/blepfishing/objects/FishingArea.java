@@ -82,4 +82,8 @@ public class FishingArea {
         ActiveAreas.remove(oldId);
         ActiveAreas.put(area.Id, area);
     }
+
+    public static void Clear() {
+        ActiveAreas.clear();
+    }
 }

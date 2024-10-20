@@ -81,6 +81,10 @@ public class Rarity {
         Rarities.remove(rarity.Id);
     }
 
+    public static void Clear() {
+        Rarities.clear();
+    }
+
     public static void UpdateId(String oldId, Rarity rarity){
         Rarities.remove(oldId);
         Rarities.put(rarity.Id, rarity);

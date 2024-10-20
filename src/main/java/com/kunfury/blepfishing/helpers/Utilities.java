@@ -11,6 +11,7 @@ import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
+import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -101,6 +102,14 @@ public class Utilities {
         }
     }
 
+    public static void SendPlayerMessage(Player player, String message) {
+        player.sendMessage(Formatting.GetMessagePrefix() + message);
+    }
+
+    public static void SendPlayerMessage(CommandSender sender, String message) {
+        sender.sendMessage(Formatting.GetMessagePrefix() + message);
+    }
+
     public static void SellAllFish(Player player) {
         double totalValue = 0;
         int count = 0;
@@ -118,9 +127,10 @@ public class Utilities {
             count++;
         }
 
-        if(totalValue <= 0)
+        if(count == 0){
+            Utilities.SendPlayerMessage(player, Formatting.GetLanguageString("System.noFish"));
             return;
-
+        }
 
         EconomyResponse r = BlepFishing.getEconomy().depositPlayer(player, totalValue);
         if(!r.transactionSuccess())
@@ -138,7 +148,7 @@ public class Utilities {
         FishObject fish = FishObject.GetFromItem(fishItem);
 
         if(fish == null){
-            Severe("Tried to sell invalid fish");
+            Utilities.SendPlayerMessage(player, Formatting.GetLanguageString("System.noFish"));
             return;
         }
         fishItem.setAmount(0);
