@@ -1,5 +1,6 @@
 package com.kunfury.blepfishing.helpers;
 
+import com.kunfury.blepfishing.ui.objects.Panel;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -166,6 +167,11 @@ public class Formatting {
 	 */
 	public static List<String> ToLoreList(String input){
 		List<String> lore = new ArrayList<>();
+
+		if(input.length() <= 40){
+			lore.add(input);
+			return lore;
+		}
 
 		while(!input.isEmpty()){
 			int pos = input.lastIndexOf(" ", 40);

@@ -6,6 +6,7 @@ import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.items.ItemHandler;
 import com.kunfury.blepfishing.objects.FishingArea;
 import org.apache.commons.lang.NotImplementedException;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -17,6 +18,7 @@ import org.bukkit.inventory.meta.CompassMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.nio.channels.NotYetBoundException;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -34,7 +36,7 @@ public class CompassPiece extends TreasureType{
 
     @Override
     public ItemStack GetItem() {
-        throw new NotImplementedException();
+        throw new NotYetBoundException();
     }
 
     @Override
@@ -102,12 +104,6 @@ public class CompassPiece extends TreasureType{
 
         StringBuilder areaIds = new StringBuilder();
 
-        itemMeta.getPersistentDataContainer().set(ItemHandler.TreasureTypeId, PersistentDataType.STRING, "compassPiece");
-        itemMeta.getPersistentDataContainer().set(ItemHandler.FishAreaId, PersistentDataType.STRING, areaIds.toString());
-        itemMeta.setDisplayName(Formatting.GetLanguageString("Treasure.Compass Piece.name"));
-
-
-
         List<String> lore = new ArrayList<>();
 
         for(var a : areas){
@@ -117,6 +113,10 @@ public class CompassPiece extends TreasureType{
                 areaIds.append(", ");
             areaIds.append(a.Id);
         }
+
+        itemMeta.getPersistentDataContainer().set(ItemHandler.TreasureTypeId, PersistentDataType.STRING, "compassPiece");
+        itemMeta.getPersistentDataContainer().set(ItemHandler.FishAreaId, PersistentDataType.STRING, areaIds.toString());
+        itemMeta.setDisplayName(Formatting.GetLanguageString("Treasure.Compass Piece.name"));
 
         itemMeta.setLore(lore);
 
@@ -175,6 +175,7 @@ public class CompassPiece extends TreasureType{
 
         if(areas.size() <= 1) //Ensures pieces are actually being combined
             return null;
+
 
         return GeneratePiece(areas.toArray(new FishingArea[0]));
     }

@@ -63,6 +63,8 @@ Tournament:
   allFish: "&fAll Fish"
   newBest: "{player} just took the top spot in the {tournament}&f with a {rarity} {fish}!"
 
+
+
 System:
   prefix: "&b[BF]&f "
   deleted: "&eSuccessfully Deleted &c{item}&e."

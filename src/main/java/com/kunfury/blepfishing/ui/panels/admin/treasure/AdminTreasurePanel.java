@@ -20,7 +20,7 @@ public class AdminTreasurePanel extends Panel {
     public void BuildInventory(Player player) {
         int i = 0;
 
-        var sortedTreasures = TreasureType.ActiveTypes.values()
+        var sortedTreasures = TreasureType.ActiveTreasureTypes.values()
                 .stream().sorted(Comparator.comparing(treasure -> treasure.Weight)).toList();
 
         var sortedCaskets = Casket.GetAll()

@@ -8,6 +8,7 @@ import com.kunfury.blepfishing.ui.panels.FishBagPanel;
 import com.kunfury.blepfishing.items.ItemHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -23,18 +24,17 @@ import java.text.DecimalFormat;
 import java.util.*;
 
 public class FishBag {
-    public int Id = -1;
+    public final int Id;
     public boolean Pickup = true;
     private int amount;
     private int tier;
 
-    public FishBag(){}
+    public FishBag(){
+        amount = 0;
+        tier = 1;
+        Pickup = true;
 
-    public FishBag(int id, int amount, int tier, boolean pickup){
-        Id = id;
-        this.amount = amount;
-        this.tier = tier;
-        Pickup = pickup;
+        Id = Database.FishBags.Add(this);
     }
 
     public FishBag(ResultSet rs, int _amount) throws SQLException {
@@ -42,14 +42,6 @@ public class FishBag {
         tier = rs.getInt("tier");
         Pickup = rs.getBoolean("pickup");
         amount = _amount;
-    }
-
-    public void AssignId(int id){
-        if(Id != -1){
-            Bukkit.getLogger().severe("Tried to overwrite fishing bag of id " + Id);
-            return;
-        }
-        Id = id;
     }
 
     public void Use(Player p){
@@ -127,8 +119,8 @@ public class FishBag {
         amount++;
     }
 
+    DecimalFormat formatter = new DecimalFormat("#,###");
     public ArrayList<String> GenerateLore() {
-        DecimalFormat formatter = new DecimalFormat("#,###");
         double maxSize = getMax();
 
         ArrayList<String> lore = new ArrayList<>();
@@ -218,6 +210,26 @@ public class FishBag {
 
             new FishBagPanel(this, page).Show(player);
         }
+    }
+
+    public ItemStack GetItem() {
+        ItemStack item = new ItemStack(ItemHandler.BagMat);
+        ItemMeta itemMeta = item.getItemMeta();
+
+        assert itemMeta != null;
+
+        itemMeta.getPersistentDataContainer().set(ItemHandler.FishBagId, PersistentDataType.INTEGER, Id);
+        itemMeta.setDisplayName(Formatting.GetLanguageString("Equipment.Fish Bag.smallBag"));
+
+        itemMeta.setLore(GenerateLore());
+
+        itemMeta.setCustomModelData(ItemHandler.BagModelData);
+        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+
+
+        item.setItemMeta(itemMeta);
+
+        return  item;
     }
 
 

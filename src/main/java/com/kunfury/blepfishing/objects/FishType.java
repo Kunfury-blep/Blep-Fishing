@@ -1,6 +1,8 @@
 package com.kunfury.blepfishing.objects;
 import com.kunfury.blepfishing.config.ConfigHandler;
+import com.kunfury.blepfishing.helpers.Utilities;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -92,10 +94,24 @@ public class FishType {
             AreaIds.add(areaId);
     }
 
+    public String getId() {
+        return Id;
+    }
+
     public double getAverageLength(){
         return (LengthMin + LengthMax)/2;
     }
 
+    public void Spawn(Player player){
+        FishObject fish = GenerateFish(Rarity.GetRandom(), null, null, null, false);
+
+        Utilities.GiveItem(player, fish.CreateItemStack(), true);
+    }
+
+
+    ///
+    // Static Methods
+    ///
 
     private static final HashMap<String, FishType> ActiveTypes = new HashMap<>();
     public static void AddFishType(FishType fishType){
@@ -120,6 +136,10 @@ public class FishType {
         ActiveTypes.put(fishType.Id, fishType);
     }
 
+    public static FishType GetRandom(){
+        return ActiveTypes.values().stream().toList().get(ThreadLocalRandom.current().nextInt(ActiveTypes.size()));
+    }
+
     public static boolean IdExists(String id){
         return ActiveTypes.containsKey(id);
     }
@@ -134,9 +154,5 @@ public class FishType {
 
         Bukkit.getLogger().warning("Tried to get invalid fish type with ID: " + typeId);
         return null;
-    }
-
-    public String getId() {
-        return Id;
     }
 }

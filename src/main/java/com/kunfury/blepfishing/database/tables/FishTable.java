@@ -40,8 +40,12 @@ public class FishTable extends DbTable<FishObject>{
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO fish (playerId, typeId, rarityId, length, score, dateCaught, fishBagId, rodId) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            //preparedStatement.setString(1, fish.Id);
-            preparedStatement.setString(1, fish.PlayerId.toString());
+
+            String playerId = "";
+            if(fish.PlayerId != null)
+                playerId = fish.PlayerId.toString();
+
+            preparedStatement.setString(1, playerId);
             preparedStatement.setString(2, fish.TypeId);
             preparedStatement.setString(3, fish.RarityId);
             preparedStatement.setDouble(4, fish.Length);

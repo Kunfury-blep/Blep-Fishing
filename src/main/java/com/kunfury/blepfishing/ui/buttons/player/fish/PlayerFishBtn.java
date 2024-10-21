@@ -7,6 +7,7 @@ import com.kunfury.blepfishing.objects.FishObject;
 import com.kunfury.blepfishing.objects.FishType;
 import com.kunfury.blepfishing.objects.FishingArea;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -55,7 +56,6 @@ public class PlayerFishBtn extends MenuButton {
                         .replace("{areas}", Formatting.ToCommaList(areaNames, ChatColor.WHITE, ChatColor.BLUE));
 
         lore.addAll(Formatting.ToLoreList(areaLore));
-        lore.add("");
 
         lore.add(Formatting.GetLanguageString("UI.Player.Buttons.Base.Fish.total")
                 .replace("{amount}", String.valueOf(caughtFish.size())));

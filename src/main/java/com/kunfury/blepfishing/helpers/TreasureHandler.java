@@ -22,7 +22,7 @@ public class TreasureHandler {
         }
         instance = this;
 
-        for(var treasure : TreasureType.ActiveTypes.values()){
+        for(var treasure : TreasureType.ActiveTreasureTypes.values()){
             totalWeight += treasure.Weight;
         }
     }
@@ -36,10 +36,9 @@ public class TreasureHandler {
     }
 
     public TreasureType GetTreasure(){
-        //Rarity Selection
         int randR = ThreadLocalRandom.current().nextInt(0, GetTotalWeight());
 
-        var treasures = new ArrayList<>(TreasureType.ActiveTypes.values());
+        var treasures = new ArrayList<>(TreasureType.ActiveTreasureTypes.values());
 
         treasures.sort(Comparator.comparingInt((TreasureType t) -> t.Weight));
 

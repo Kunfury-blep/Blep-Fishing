@@ -17,8 +17,10 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Casket extends TreasureType {
 
@@ -113,6 +115,57 @@ public class Casket extends TreasureType {
 
     }
 
+
+
+    private static List<Casket> Caskets;
+    private static int TotalCasketWeight = 0;
+
+    public static List<Casket> GetAll(){
+        if(Caskets != null)
+            return Caskets;
+
+        Caskets = new ArrayList<>();
+        TotalCasketWeight = 0;
+        for(var t : ActiveTreasureTypes.values()){
+            if(!(t instanceof Casket))
+                continue;
+
+            Caskets.add((Casket)t);
+            TotalCasketWeight += t.Weight;
+        }
+
+        return Caskets;
+    }
+
+    public static Casket RollCasket(){
+        int randR = ThreadLocalRandom.current().nextInt(0, TotalCasketWeight);
+
+        var treasures = new ArrayList<>(TreasureType.ActiveTreasureTypes.values());
+
+        treasures.sort(Comparator.comparingInt((TreasureType t) -> t.Weight));
+
+        for(var casket : GetAll()){
+            if(randR <= casket.Weight) {
+                return casket;
+            }else
+                randR -= casket.Weight;
+        }
+        Utilities.Severe("Error when rolling Treasure Casket");
+        return null;
+    }
+
+    public static Casket FromId(String typeId){
+        var treasureType = TreasureType.FromId(typeId);
+
+        if(treasureType instanceof Casket)
+            return (Casket)treasureType;
+
+        Bukkit.getLogger().warning("Tried to get invalid Casket with ID: " + typeId);
+        return null;
+    }
+
+
+
     public static class TreasureReward{
         public double DropChance;
         public ItemStack Item;
@@ -133,31 +186,6 @@ public class Casket extends TreasureType {
 
             return roll < DropChance;
         }
-    }
-
-
-
-    public static List<Casket> GetAll(){
-        List<Casket> caskets = new ArrayList<>();
-
-        for(var t : ActiveTypes.values()){
-            if(!(t instanceof Casket))
-                continue;
-
-            caskets.add((Casket)t);
-        }
-
-        return caskets;
-    }
-
-    public static Casket FromId(String typeId){
-        var treasureType = TreasureType.FromId(typeId);
-
-        if(treasureType instanceof Casket)
-            return (Casket)treasureType;
-
-        Bukkit.getLogger().warning("Tried to get invalid Casket with ID: " + typeId);
-        return null;
     }
 
 }

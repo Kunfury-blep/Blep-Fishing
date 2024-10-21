@@ -40,18 +40,18 @@ public abstract class TreasureType {
         return ItemHandler.hasTag(item, ItemHandler.TreasureTypeId);
     }
 
-    public static final HashMap<String, TreasureType> ActiveTypes = new HashMap<>();
+    public static final HashMap<String, TreasureType> ActiveTreasureTypes = new HashMap<>();
     public static void AddNew(TreasureType treasureType) {
-        if(ActiveTypes.containsKey(treasureType.Id)){
+        if(ActiveTreasureTypes.containsKey(treasureType.Id)){
             Utilities.Severe("Attempted to create duplicate Treasure Type with ID: " + treasureType.Id);
             return;
         }
-        ActiveTypes.put(treasureType.Id, treasureType);
+        ActiveTreasureTypes.put(treasureType.Id, treasureType);
     }
 
     public static TreasureType FromId(String typeId){
-        if(ActiveTypes.containsKey(typeId)){
-            return ActiveTypes.get(typeId);
+        if(ActiveTreasureTypes.containsKey(typeId)){
+            return ActiveTreasureTypes.get(typeId);
         }
 
         Utilities.Severe("Tried to get invalid Treasure with ID: " + typeId);
@@ -59,20 +59,20 @@ public abstract class TreasureType {
     }
 
     public static boolean IdExists(String id){
-        return ActiveTypes.containsKey(id);
+        return ActiveTreasureTypes.containsKey(id);
     }
 
     public static void UpdateId(String oldId, TreasureType type){
-        ActiveTypes.remove(oldId);
-        ActiveTypes.put(type.Id, type);
+        ActiveTreasureTypes.remove(oldId);
+        ActiveTreasureTypes.put(type.Id, type);
     }
 
     public static void Delete(TreasureType type){
-        ActiveTypes.remove(type.Id);
+        ActiveTreasureTypes.remove(type.Id);
     }
 
     public static void Clear(){
-        ActiveTypes.clear();
+        ActiveTreasureTypes.clear();
     }
 
     public static void UseItem(ItemStack item, Player player){

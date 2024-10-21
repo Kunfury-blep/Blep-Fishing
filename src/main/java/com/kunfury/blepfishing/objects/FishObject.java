@@ -100,9 +100,12 @@ public class FishObject {
         }
 
 
-        lore.add(Formatting.GetLanguageString("Fish.caught")
-                .replace("{player}", getCatchingPlayer().getName())
-                .replace("{date}", Formatting.dateToString(DateCaught)));
+        if(PlayerId != null){
+            lore.add(Formatting.GetLanguageString("Fish.caught")
+                    .replace("{player}", getCatchingPlayer().getName())
+                    .replace("{date}", Formatting.dateToString(DateCaught)));
+        }
+
 
         return lore;
     }
@@ -179,9 +182,13 @@ public class FishObject {
         content += "\n" + Formatting.GetLanguageString("Fish.length")
                 .replace("{size}", Formatting.DoubleFormat(Length));
 
-        content += "\n" + Formatting.GetLanguageString("Fish.caught")
-                .replace("{player}", getCatchingPlayer().getName())
-                .replace("{date}", Formatting.dateToString(DateCaught));
+        if(PlayerId != null){
+            content += "\n" + Formatting.GetLanguageString("Fish.caught")
+                    .replace("{player}", getCatchingPlayer().getName())
+                    .replace("{date}", Formatting.dateToString(DateCaught));
+        }
+
+
 
 
         return new Text(Formatting.formatColor(content));

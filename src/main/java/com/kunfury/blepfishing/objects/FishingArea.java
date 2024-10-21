@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class FishingArea {
     public String Id;
@@ -85,5 +86,9 @@ public class FishingArea {
 
     public static void Clear() {
         ActiveAreas.clear();
+    }
+
+    public static FishingArea GetRandom(){
+        return ActiveAreas.values().stream().toList().get(ThreadLocalRandom.current().nextInt(ActiveAreas.size()));
     }
 }

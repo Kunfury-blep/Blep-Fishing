@@ -13,7 +13,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public class TreasureConfig {
@@ -121,7 +120,7 @@ public class TreasureConfig {
         newTreasureConfig.set("Settings.Enabled", Enabled());
         newTreasureConfig.set("Settings.Treasure Chance", getTreasureChance());
 
-        for(var t : TreasureType.ActiveTypes.values()){
+        for(var t : TreasureType.ActiveTreasureTypes.values()){
             String key;
             if(t instanceof CompassPiece){
                 key = "Compasses";

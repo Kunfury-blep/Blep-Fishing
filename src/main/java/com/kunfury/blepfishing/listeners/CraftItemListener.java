@@ -31,7 +31,6 @@ public class CraftItemListener implements Listener {
             FishBag fishBag = new FishBag();
             //FishBag.AddNew(fishBag, true);
 
-            fishBag.AssignId(Database.FishBags.Add(fishBag));
 
             ItemMeta meta = item.getItemMeta();
             assert meta != null;
@@ -65,11 +64,15 @@ public class CraftItemListener implements Listener {
 
         var matrix = e.getInventory().getMatrix();
         for(var i : matrix){
-            if(i != null && !CompassPiece.IsPiece(i))
+            if(i != null && !CompassPiece.IsPiece(i)) //Checks if there are any non-compass pieces in the inventory
                 return;
         }
+        Bukkit.broadcastMessage("Compass Piece Found");
 
-        e.getInventory().setResult(CompassPiece.Combine(matrix));
+        ItemStack item = CompassPiece.Combine(matrix);
+        Bukkit.broadcastMessage("Compass Piece: " + item);
+
+        e.getInventory().setResult(item);
 
     }
 
