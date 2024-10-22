@@ -197,6 +197,8 @@ UI:
       General:
         showScoreboard: "&bShow Scoreboard"
         enableFishBags: "&bEnable Fish Bags"
+      Tournament:
+        noTimes: "&cNo Start Times"
 
 
 Author: "Kunfury"

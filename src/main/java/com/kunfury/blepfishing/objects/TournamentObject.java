@@ -74,11 +74,19 @@ public class TournamentObject {
         }.runTaskTimer(BlepFishing.getPlugin(), 0, 20);
     }
 
+
+    private final Map<UUID, Boolean> playerBossBars = new HashMap<>();
     public void ToggleBossBar(Player player){
-        if(bossBar.getPlayers().contains(player))
-            bossBar.removePlayer(player);
-        else
+        UUID pUUID = player.getUniqueId();
+        Bukkit.broadcastMessage("Toggling BossBar. Contains: " + playerBossBars.containsKey(pUUID));
+        boolean show = !(playerBossBars.getOrDefault(pUUID, false));
+
+        playerBossBars.put(pUUID, show);
+
+        if(show)
             bossBar.addPlayer(player);
+        else
+            bossBar.removePlayer(player);
     }
 
     private double getBossBarProgress(){
@@ -87,6 +95,21 @@ public class TournamentObject {
         double progress = elapsed/getType().Duration;
         if(progress > 1) progress = 1;
         return progress;
+    }
+
+    //Handles persistence of bossBar state for player across sessions
+    public void BossBarJoin(Player player){
+        if(!getType().ForceBossBar)
+            return;
+
+        if(!playerBossBars.containsKey(player.getUniqueId())){
+            ToggleBossBar(player);
+            return;
+        }
+
+        if(playerBossBars.get(player.getUniqueId()))
+            bossBar.addPlayer(player);
+
     }
 
 

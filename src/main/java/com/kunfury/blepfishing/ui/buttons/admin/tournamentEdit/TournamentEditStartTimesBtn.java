@@ -36,26 +36,24 @@ public class TournamentEditStartTimesBtn extends AdminTournamentMenuButton {
         for(var key : sortedStartTimes){
 
 
-            StringBuilder formattedKey = new StringBuilder();
+            StringBuilder timeStrBuilder = new StringBuilder();
 
             if(key == TournamentType.TournamentDay.SATURDAY || key == TournamentType.TournamentDay.SUNDAY)
-                formattedKey.insert(0,ChatColor.GOLD).append(key).append(ChatColor.BLUE).append(": ");
+                timeStrBuilder.insert(0,ChatColor.GOLD).append(key).append(ChatColor.BLUE).append(": ");
             else
-                formattedKey.insert(0,ChatColor.YELLOW).append(key).append(ChatColor.BLUE).append(": ");
+                timeStrBuilder.insert(0,ChatColor.YELLOW).append(key).append(ChatColor.BLUE).append(": ");
 
-            while(formattedKey.length() < 12){
-                formattedKey.append(" ");
+            while(timeStrBuilder.length() < 12){
+                timeStrBuilder.append(" ");
             }
-
-            StringBuilder sb = new StringBuilder(formattedKey);
 
             var times = tournament.StartTimes.get(key);
             if(times.isEmpty())
-                sb.append(ChatColor.RED + "n/a");
+                timeStrBuilder.append(ChatColor.RED).append("n/a");
             else
-                sb.append(Formatting.ToCommaList(times, ChatColor.WHITE, ChatColor.BLUE));
+                timeStrBuilder.append(Formatting.ToCommaList(times, ChatColor.WHITE, ChatColor.BLUE));
 
-            lore.add(sb.toString());
+            lore.add(timeStrBuilder.toString());
         }
 
         m.setLore(lore);

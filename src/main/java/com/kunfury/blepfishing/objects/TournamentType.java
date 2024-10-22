@@ -8,6 +8,7 @@ import com.kunfury.blepfishing.items.ItemHandler;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.*;
 import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BossBar;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.MusicInstrumentMeta;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -30,9 +31,11 @@ public class TournamentType {
 
     public boolean VillagerHorn;
     public int HornLevel = 1;
+    public GradingType Grading = LONGEST;
+
 
     //Not in editor yet
-    public GradingType Grading = LONGEST;
+    public boolean ForceBossBar = true;
     public boolean HasBossBar = true;
     public BarColor BossBarColor = BarColor.BLUE;
 
@@ -170,12 +173,6 @@ public class TournamentType {
             if(!Utilities.GiveItem(offlinePlayer.getPlayer(), i, false))
                 new UnclaimedReward(playerUUID, i); //Saves reward if unable to claim
         }
-    }
-
-    public List<String> getItemLore(){
-        List<String> lore = new ArrayList<>();
-        lore.add("Tournament Details");
-        return lore;
     }
 
 

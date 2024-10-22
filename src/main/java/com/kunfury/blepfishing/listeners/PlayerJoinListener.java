@@ -19,7 +19,9 @@ public class PlayerJoinListener implements Listener {
 
         CraftingHandler.LearnRecipes(player);
 
-        //new TournamentHandler().ShowBars(p);
+        for(var t : Database.Tournaments.GetActive()){
+            t.BossBarJoin(player);
+        }
 
         if(player.hasPermission("bf.admin") && !ConfigHandler.instance.ErrorMessages.isEmpty()){
             ConfigHandler.instance.ErrorMessages.forEach(er ->
