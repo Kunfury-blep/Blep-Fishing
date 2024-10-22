@@ -58,11 +58,7 @@ public class TournamentConfig {
                 if(!config.contains(key + ".Start Times." + d))
                     continue;
 
-                List<String> times = config.getStringList(key + ".Start Times." + d);
-
-                //Bukkit.getLogger().warning(d + " Loaded Times: " + times);
-
-                startTimes.put(d, times);
+                startTimes.put(d, config.getStringList(key + ".Start Times." + d));
             }
 
 

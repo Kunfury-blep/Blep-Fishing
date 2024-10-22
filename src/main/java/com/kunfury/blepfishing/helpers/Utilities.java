@@ -48,7 +48,7 @@ public class Utilities {
                     TournamentObject.CheckActive();
                 }
 
-            }.runTaskTimer(BlepFishing.getPlugin(), 0, 1200);
+            }.runTaskTimer(BlepFishing.getPlugin(), 0, 1200); //Runs every 60 seconds
 
         }
     }

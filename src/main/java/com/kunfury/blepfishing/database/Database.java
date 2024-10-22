@@ -1,7 +1,6 @@
 package com.kunfury.blepfishing.database;
 
 import com.kunfury.blepfishing.database.tables.*;
-import com.kunfury.blepfishing.objects.FishingJournal;
 
 import java.sql.*;
 

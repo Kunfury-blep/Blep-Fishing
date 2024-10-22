@@ -1,4 +1,4 @@
-package com.kunfury.blepfishing.objects;
+package com.kunfury.blepfishing.objects.equipment;
 
 import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;

@@ -1,19 +1,12 @@
 package com.kunfury.blepfishing.database.tables;
 
 import com.kunfury.blepfishing.database.Database;
-import com.kunfury.blepfishing.objects.FishBag;
 
-import javax.xml.crypto.Data;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.util.Dictionary;
 import java.util.HashMap;
-import java.util.List;
 
 public abstract class DbTable<T>{
 

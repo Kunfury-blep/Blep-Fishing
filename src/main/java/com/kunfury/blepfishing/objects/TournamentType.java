@@ -8,18 +8,16 @@ import com.kunfury.blepfishing.items.ItemHandler;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.*;
 import org.bukkit.boss.BarColor;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.MusicInstrumentMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.sql.Array;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static com.kunfury.blepfishing.objects.TournamentType.Grading.LONGEST;
+import static com.kunfury.blepfishing.objects.TournamentType.GradingType.LONGEST;
 
 public class TournamentType {
     public String Id;
@@ -34,7 +32,7 @@ public class TournamentType {
     public int HornLevel = 1;
 
     //Not in editor yet
-    public Grading Grading = LONGEST;
+    public GradingType Grading = LONGEST;
     public boolean HasBossBar = true;
     public BarColor BossBarColor = BarColor.BLUE;
 
@@ -69,11 +67,11 @@ public class TournamentType {
 
     public void TryStart(DayOfWeek dayOfWeek, String time){
         TournamentDay tDay = TournamentDay.valueOf(dayOfWeek.toString());
+
         if((!StartTimes.containsKey( tDay) || !StartTimes.get(tDay).contains(time))
         && (!StartTimes.containsKey(TournamentDay.EVERYDAY) || !StartTimes.get(TournamentDay.EVERYDAY).contains(time)))
             return;
 
-        //Bukkit.broadcastMessage("Starting Tourney: " + Name);
         Start();
     }
 
@@ -250,9 +248,13 @@ public class TournamentType {
         LocalDateTime dateTime = LocalDateTime.now();
 
         DayOfWeek dayOfWeek = dateTime.getDayOfWeek();
-        String time = dateTime.getHour() + ":" + dateTime.getMinute();
+
+
+        String timeStr = Formatting.asTime(dateTime);
+
+//        Bukkit.broadcastMessage(dayOfWeek + " - " + timeStr);
         for(var t : GetTournaments()){
-            t.TryStart(dayOfWeek, time);
+            t.TryStart(dayOfWeek, timeStr);
         }
     }
 
@@ -262,7 +264,7 @@ public class TournamentType {
                 .toList();
     }
 
-    public enum Grading{
+    public enum GradingType {
         LONGEST,
         SHORTEST,
         SCORE_HIGH,

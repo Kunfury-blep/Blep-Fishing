@@ -1,14 +1,15 @@
-package com.kunfury.blepfishing.objects;
+package com.kunfury.blepfishing.objects.equipment;
 
 
 import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.Utilities;
+import com.kunfury.blepfishing.objects.FishObject;
+import com.kunfury.blepfishing.objects.FishType;
 import com.kunfury.blepfishing.ui.panels.FishBagPanel;
 import com.kunfury.blepfishing.items.ItemHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;

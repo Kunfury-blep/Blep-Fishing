@@ -1,26 +1,18 @@
 package com.kunfury.blepfishing.commands.subCommands;
 
-import com.gmail.nossr50.skills.fishing.Fishing;
 import com.kunfury.blepfishing.commands.SubCommand;
 import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.helpers.Formatting;
-import com.kunfury.blepfishing.helpers.TreasureHandler;
 import com.kunfury.blepfishing.helpers.Utilities;
-import com.kunfury.blepfishing.objects.FishBag;
+import com.kunfury.blepfishing.objects.equipment.FishBag;
 import com.kunfury.blepfishing.objects.FishType;
 import com.kunfury.blepfishing.objects.FishingArea;
 import com.kunfury.blepfishing.objects.treasure.Casket;
 import com.kunfury.blepfishing.objects.treasure.CompassPiece;
-import com.kunfury.blepfishing.objects.treasure.TreasureType;
-import jdk.jshell.execution.Util;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
-import java.text.Format;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 

@@ -1,10 +1,12 @@
-package com.kunfury.blepfishing.objects;
+package com.kunfury.blepfishing.objects.equipment;
 
 import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.items.ItemHandler;
+import com.kunfury.blepfishing.objects.FishType;
+import com.kunfury.blepfishing.objects.FishingArea;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;

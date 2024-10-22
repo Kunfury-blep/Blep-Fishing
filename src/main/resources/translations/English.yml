@@ -62,6 +62,19 @@ Tournament:
   start: "The {tournament}&f Fishing Contest has begun!"
   allFish: "&fAll Fish"
   newBest: "{player} just took the top spot in the {tournament}&f with a {rarity} {fish}!"
+  Grading:
+    Longest:
+      title: "Longest"
+      desc: "The player who catches the longest fish will win, regardless of Rarity."
+    Shortest:
+      title: "Shortest"
+      desc: "The player who catches the shortest fish will win, regardless of Rarity."
+    ScoreHigh:
+      title: "Best"
+      desc: "The player who catches the best fish will win. Determined by Fish Length and Rarity Weight"
+    ScoreLow:
+      title: "Worst"
+      desc: "The player who catches the worst fish will win. Determined by Fish Length and Rarity Weight"
 
 
 

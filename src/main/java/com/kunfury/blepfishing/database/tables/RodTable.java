@@ -1,8 +1,7 @@
 package com.kunfury.blepfishing.database.tables;
 
 import com.kunfury.blepfishing.database.Database;
-import com.kunfury.blepfishing.objects.FishingRod;
-import com.kunfury.blepfishing.objects.TournamentObject;
+import com.kunfury.blepfishing.objects.equipment.FishingRod;
 import org.bukkit.Bukkit;
 
 import java.sql.*;

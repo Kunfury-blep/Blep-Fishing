@@ -3,9 +3,6 @@ package com.kunfury.blepfishing.database.tables;
 import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.ItemParser;
 import com.kunfury.blepfishing.helpers.Utilities;
-import com.kunfury.blepfishing.objects.FishObject;
-import com.kunfury.blepfishing.objects.FishingRod;
-import com.kunfury.blepfishing.objects.TournamentObject;
 import com.kunfury.blepfishing.objects.UnclaimedReward;
 
 import java.sql.*;

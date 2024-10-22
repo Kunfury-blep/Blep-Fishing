@@ -70,6 +70,24 @@ public class Formatting {
 		return asTime(milli, color);
 	}
 
+	public static String asTime(LocalDateTime dateTime){
+		int hour = dateTime.getHour();
+		int minute = dateTime.getMinute();
+		String timeStr = "";
+
+		if(hour < 10)
+			timeStr += "0";
+
+		timeStr += hour + ":";
+
+		if(minute < 10)
+			timeStr += "0";
+
+		timeStr += minute;
+
+		return timeStr;
+	}
+
 	/********************************************************
     * Fix string spaces to align text in minecraft chat
     *

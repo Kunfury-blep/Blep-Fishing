@@ -24,6 +24,7 @@ public class AdminTournamentEditPanel extends Panel {
         AddButton(new TournamentEditHornTradeBtn(type));
         if(type.VillagerHorn)
             AddButton(new TournamentEditHornLevelBtn(type));
+        AddButton(new AdminTournamentGradingBtn(type));
 
         inv.setItem(17, new AdminTournamentPanelButton().getBackButton());
     }

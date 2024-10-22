@@ -1,7 +1,7 @@
 package com.kunfury.blepfishing.database.tables;
 
 import com.kunfury.blepfishing.database.Database;
-import com.kunfury.blepfishing.objects.FishBag;
+import com.kunfury.blepfishing.objects.equipment.FishBag;
 import com.kunfury.blepfishing.objects.FishObject;
 import com.kunfury.blepfishing.objects.FishType;
 import org.apache.commons.lang.BooleanUtils;
