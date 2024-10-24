@@ -1,0 +1,214 @@
+Fish:
+  length: "&9Length: {size}in."
+  caught: "&8Caught By: {player} on {date}"
+  Scoreboard:
+    size: "&b{size}\""
+  announce: "{player} &fjust caught a {rarity} {fish}!&f"
+  value: "&9Value: ${value}"
+
+Treasure:
+  Casket:
+    use: "&bRight-Click to &e&oOpen"
+    result: "You found {item} &finside the {casket}&f!"
+  Compass Piece:
+    name: "&bCompass Piece"
+    nameMulti: "&bCompass Pieces &e{amount}&b/&e{total}&b"
+  Compass:
+    name: "&3Compass to the All Blue"
+    use: "&bRight-Click to &e&oFocus"
+    lore: "It really does exist..."
+    error: "&cThis world is not suitable"
+    announce: "&7The wind picks up around you, carrying sounds of &b&oThe Sea &7from the {direction}"
+    announceNether: "&7Though surrounded by hellfire itself, you faintly hear &b&oThe Sea"
+    announceEnd: "&7From the vast nothingness that surrounds you, &b&oThe Sea"
+
+Equipment:
+  Fish Bag:
+    autoPickup: "&bLeft-Click While Holding to Toggle &e&oAuto-Pickup"
+    pickupEnabled: "Auto Pickup Enabled."
+    pickupDisabled: "Auto Pickup Disabled."
+    depositAll: "&bShift Left-Click While Holding to Toggle &e&oDeposit All"
+    openBag: "&bRight-Click While Holding to &e&oOpen"
+    openPanel: "&bShift Right-Click While Holding to &e&oOpen Player Panel"
+    descSmall: "Holds a small amount of fish"
+    noSpace: "There is no more space in that bag."
+    noFish: "No fish found in inventory."
+    addFish: "Added {amount} to the bag."
+    smallBag: "Small Bag o' Fish"
+    medBag: "Medium Bag o' Fish"
+    largeBag: "Large Bag o' Fish"
+    giantBag: "Giant Bag o' Fish"
+  Fishing Rod:
+    caughtAmount: "&bFish Caught: &f{amount}"
+  Fishing Journal:
+    name: "&bFishing Journal"
+    read: "&bRight-Click to &o&eRead"
+    panel: "&bShift Right-Click to &o&eOpen Panel"
+    Content:
+      Player:
+        totalCaught: "Total Fish Caught {amount}"
+      Compass:
+        title: " -- Compass Pieces --"
+        amount: "{found}/{total} Found"
+        hint: "&oHover Piece For Hint"
+      Fish:
+        totalCaught: "Total Caught {amount}"
+        largestCaught: "Largest: {size}\""
+        smallestCaught: "Smallest: {size}\""
+  Tournament Horn:
+    name: "&3{tournament} Horn"
+    duration: "&9Duration: &f{time}"
+    tournamentFish: "&9Fish: {fish}"
+
+Tournament:
+  alreadyRunning: "{tournament} is already running."
+  noneCaught: "No fish were caught before the tournament ended, no rewards have been given."
+  leaderboard: "&l-- {tournament}&l Leaderboard - Hover For Info --"
+  start: "The {tournament}&f Fishing Contest has begun!"
+  allFish: "&fAll Fish"
+  newBest: "{player} just took the top spot in the {tournament}&f with a {rarity} {fish}!"
+  Grading:
+    Longest:
+      title: "Longest"
+      desc: "The player who catches the longest fish will win, regardless of Rarity."
+    Shortest:
+      title: "Shortest"
+      desc: "The player who catches the shortest fish will win, regardless of Rarity."
+    ScoreHigh:
+      title: "Best"
+      desc: "The player who catches the best fish will win. Determined by Fish Length and Rarity Weight"
+    ScoreLow:
+      title: "Worst"
+      desc: "The player who catches the worst fish will win. Determined by Fish Length and Rarity Weight"
+
+
+
+System:
+  prefix: "&b[BF]&f "
+  deleted: "&eSuccessfully Deleted &c{item}&e."
+  noCommand: "&cCommand Not Found"
+  noPermission: "&cYou don't have permission for that"
+  noPlayer: "&cPlayer Not Found"
+  reload: "Reload Complete"
+  noFish: "&cNo Fish Found"
+  north: "North"
+  south: "South"
+  east: "East"
+  west: "West"
+
+
+Economy:
+  soldFish: "&bSold &f{fish}&b for &f${value}."
+  soldAllFish: "&bSold &f{amount}&b fish for &f${value}."
+
+
+UI:
+  Player:
+    Panels:
+      base: "Player Panel"
+      tournaments: "Fishing Tournaments"
+      fishBag: "Fish Bag: {amount}/{max}"
+      tournamentDetail: "{name} - {amount} Caught"
+      fish: "Caught Fish"
+    Buttons:
+      panel: "&bPlayer Panel"
+      Fish Bag:
+        stored: "&9Amount Stored: &f{amount}"
+        largest: "&9Largest Fish: &f{size}\""
+        withdrawSmall: "&bLeft-Click to Withdraw &e&oSmallest"
+        withdrawLarge: "&bRight-Click to Withdraw &e&oLargest"
+        shift: "&c&oHold Shift to Withdraw &eAll"
+      Base:
+        Claim Rewards:
+          name: "&bClaim Rewards"
+          lore: "&9Total Rewards: &f{amount}"
+          error: "Unable to give &b{amount}&f items."
+        Tournaments:
+          name: "&bTournaments : {amount} Running"
+          tournament: "&9{name} - &f{time}"
+          empty: "&cNo Active Tournaments"
+        Fish:
+          name: "&bFish"
+          total: "&9Total Caught: &f{amount}"
+          noneCaught: "&cNot Caught"
+          area: "&9Found In: {areas}"
+      Tournaments:
+        name: "&9{name} - &f{time}"
+        view: "&bLeft-Click to &e&oView"
+        bossBar: "&bShift Left-Click to &e&oToggle Bar"
+  System:
+    Buttons:
+      goBack: "&cGo Back"
+      pageNext: "&bNext Page"
+      pageBack: "&bPrevious Page"
+      info: "&bInformation"
+      edit: "&bLeft-Click to &e&oEdit"
+      delete: "&bShift Right-Click &bto &c&oDelete"
+      deleteConfirm: "&4&lReally Delete?"
+      enabled: "&aEnabled"
+      disabled: "&cDisabled"
+      toggle: "&bShift Left-Click to &c&oToggle"
+
+  Admin:
+    Panels:
+      base: "Admin Panel"
+      translations: "Translations"
+      general: "General Settings"
+      Treasure:
+        base: "Treasure Admin Panel"
+        editCasket: "Edit {casket}"
+    Buttons:
+      panel: "&bAdmin Panel"
+      Base:
+        Translations:
+          name: "&bTranslations"
+          lore: "&f{amount} Available"
+        treasure: "&bEdit Treasure"
+        areas: "&bEdit Areas"
+        fish: "&bEdit Fish"
+        rarities: "&bEdit Rarities"
+        general: "&bGeneral Settings"
+        tournaments: "&bEdit Tournaments"
+      Translations:
+        select: "&bLeft-Click to &e&oSelect"
+        author: "&9Author: &f{name}"
+        Info:
+          name: "&bInfo"
+          lore: "&fWant to contribute to the Translations available? &e&oClick for Discord"
+          click: "&bClick For Discord"
+      Treasure:
+        name: "&bEdit Rewards"
+        Base:
+          rewards: "&a{amount}x Rewards"
+          noRewards: "&cNo Rewards Set"
+          unfinishedRewards: "&e{amount}x Unfinished Rewards"
+        Announce:
+          name: "&bAnnounce Treasure Catch"
+          lore: "Announces Catch To World"
+        Weight:
+          name: "&bWeight"
+          lore: "Higher Weight, Easier to Catch"
+          prompt: "What should the Treasure Weight be? Current: {amount}"
+        Name:
+          name: "&bName"
+          lore: "&9{name}"
+          prompt: "What should the Name of the Treasure be? Current: {name}"
+        Rewards:
+          create: "&bCreate New Reward"
+          Announce:
+            name: "&bAnnounce Reward"
+            lore: "Announce Reward To World"
+          Drop Chance:
+            name: "&bDrop Chance"
+            lore: "The percent chance the item will drop from casket"
+            current: "&9Current: &f{amount}&9%"
+            prompt: "What should the Item Drop Chance be? Current: {amount}"
+        createNew: "&bCreate New Treasure"
+      General:
+        showScoreboard: "&bShow Scoreboard"
+        enableFishBags: "&bEnable Fish Bags"
+      Tournament:
+        noTimes: "&cNo Start Times"
+
+
+Author: "Kunfury"

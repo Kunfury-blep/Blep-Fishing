@@ -1,0 +1,155 @@
+Fish:
+  length: '&8Länge: {size}in.'
+  caught: '&8Gefangen Von: {player} am {date}'
+  Scoreboard:
+    size: '&b{size}"'
+
+Treasure:
+  Casket:
+    use: '&bRechts-Klick um &e&oZu Öffnen'
+    result: Du hast {item} &fim {casket}&f gefunden!
+  Compass Piece:
+    name: '&3Kompassstück'
+  Compass:
+    name: '&3Kompass zum All Blue'
+    use: '&bRechts-Klick um &e&oFokus zu setzen'
+    lore: Es existiert wirklich...
+
+Equipment:
+  Fish Bag:
+    autoPickup: '&bLinks-Klick während Halten um &e&oAuto-Aufnehmen zu aktivieren'
+    pickupEnabled: Auto-Aufnehmen aktiviert.
+    pickupDisabled: Auto-Aufnehmen deaktiviert.
+    depositAll: '&bShift Links-Klick während Halten um &e&oAlles Einzahlen zu aktivieren'
+    openBag: '&bRechts-Klick während Halten um &e&oÖffnen'
+    openPanel: '&bShift Rechts-Klick während Halten um &e&oSpieler-Panel zu öffnen'
+    descSmall: Hält eine kleine Menge Fisch
+    noSpace: Es ist kein Platz mehr in dieser Tasche.
+    noFish: Kein Fisch im Inventar gefunden.
+    addFish: Es wurden {amount} hinzugefügt.
+    smallBag: Kleine Fisch-Tasche
+    medBag: Mittelgroße Fisch-Tasche
+    largeBag: Große Fisch-Tasche
+    giantBag: Riesige Fisch-Tasche
+  Fishing Rod:
+    caughtAmount: '&bGefangene Fische: &f{amount}'
+  Fishing Journal:
+    name: '&bAngel-Journal'
+    read: '&bRechts-Klick um &o&eZu Lesen'
+    panel: '&bShift Rechts-Klick um &o&ePanel zu Öffnen'
+    Content:
+      Player:
+        totalCaught: Gesamt gefangene Fische {amount}
+      Compass:
+        title: ' -- Kompassstücke --'
+        amount: '{found}/{total} Gefunden'
+        hint: '&oHover Stück für Hinweis'
+      Fish:
+        totalCaught: Gesamt gefangene {amount}
+        largestCaught: 'Größter: {size}"'
+        smallestCaught: 'Kleinster: {size}"'
+  Tournament Horn:
+    name: '&3{tournament} Horn'
+    duration: '&9Dauer: &f{time}'
+    tournamentFish: '&9Fische: {fish}'
+
+Tournament:
+  alreadyRunning: '{tournament} läuft bereits.'
+  noneCaught: Keine Fische wurden vor Ende des Turniers gefangen, es wurden keine Belohnungen vergeben.
+  leaderboard: '&l-- {tournament}&l Bestenliste - Hover für Infos --'
+  start: Der {tournament}&f Angelwettbewerb hat begonnen!
+
+System:
+  prefix: '&b[BF]&f '
+  deleted: '&eErfolgreich gelöscht &c{item}&e.'
+
+UI:
+  Player:
+    Panels:
+      base: Spieler-Panel
+      tournaments: Angel-Turniere
+      fishBag: 'Fisch-Tasche: {amount}/{max}'
+    Buttons:
+      panel: '&bSpieler-Panel'
+      Fish Bag:
+        stored: '&bGespeicherte Menge: &f{amount}'
+        largest: '&bGrößter Fisch: &f{size}"'
+        withdrawSmall: Links-Klick um &e&oKleinsten abzuheben'
+        withdrawLarge: Rechts-Klick um &e&oGrößten abzuheben'
+        shift: '&c&oShift halten um &eAlles abzuheben'
+      Base:
+        Claim Rewards:
+          name: '&bBelohnungen beanspruchen'
+          lore: '&9Gesamtbelohnungen: &f{amount}'
+          error: Kann &b{amount}&f Gegenstände nicht geben.
+        Tournaments:
+          name: '&bTurniere : {amount} Laufen'
+          tournament: '&9{name} - &f{time}'
+          empty: '&cKeine aktiven Turniere'
+      Tournaments:
+        name: '&9{name} - &f{time}'
+        view: '&bRechts-Klick um &e&oAnzuzeigen'
+  System:
+    Buttons:
+      goBack: '&cZurück'
+      pageNext: '&bNächste Seite'
+      pageBack: '&bVorherige Seite'
+      info: '&bInformation'
+      edit: '&bLinks-Klick um &e&oBearbeiten'
+      delete: '&bShift Rechts-Klick um &c&oLöschen'
+      deleteConfirm: '&4&lWirklich löschen?'
+      enabled: '&aAktiviert'
+      disabled: '&cDeaktiviert'
+  Admin:
+    Panels:
+      base: Admin-Panel
+      translations: 'Übersetzungen'
+      Treasure:
+        base: Schatz-Admin-Panel
+        editCasket: Casket {casket} bearbeiten
+    Buttons:
+      panel: '&bAdmin-Panel'
+      Base:
+        Translations:
+          name: '&bÜbersetzungen'
+          lore: '&f{amount} Verfügbar'
+        treasure: '&bSchatz bearbeiten'
+        tournaments: '&bTurniere bearbeiten'
+        areas: '&bBereiche bearbeiten'
+        fish: '&bFische bearbeiten'
+        rarities: '&bSeltenheiten bearbeiten'
+      Translations:
+        select: '&bLinks-Klick um &e&oAuswählen'
+        Info:
+          name: '&bInfo'
+          lore: '&fMöchten Sie zu den verfügbaren Übersetzungen beitragen? &e&oKlicken Sie für Discord'
+          click: '&bKlicken für Discord'
+      Treasure:
+        Base:
+          rewards: '&a{amount}x Belohnungen'
+          noRewards: '&cKeine Belohnungen festgelegt'
+          unfinishedRewards: '&e{amount}x Unvollendete Belohnungen'
+        editRewards: '&bBelohnungen bearbeiten'
+        Announce:
+          name: '&bSchatz-Fund ankündigen'
+          lore: Gibt den Fund in der Welt bekannt
+        Weight:
+          name: '&bGewicht'
+          lore: Höheres Gewicht, leichter zu fangen
+          prompt: 'Wie hoch soll das Schatzgewicht sein? Aktuell: {amount}'
+        Name:
+          name: '&bName'
+          lore: '&9{name}'
+          prompt: 'Wie soll der Name des Schatzes sein? Aktuell: {name}'
+        Rewards:
+          create: '&bNeue Belohnung erstellen'
+          Announce:
+            name: '&bBelohnung ankündigen'
+            lore: Belohnung in der Welt bekanntgeben
+          Drop Chance:
+            name: '&bDrop-Chance'
+            lore: Die Prozentchance, dass der Gegenstand aus der Truhe fällt
+            current: '&9Aktuell: &f{amount}&9%'
+            prompt: 'Wie hoch soll die Drop-Chance des Gegenstands sein? Aktuell: {amount}'
+        createNew: '&bNeuen Schatz erstellen'
+Author: "Bebusch"

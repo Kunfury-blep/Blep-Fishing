@@ -1,0 +1,151 @@
+Fish:
+  length: "&8Tamaño: {size}in."
+  caught: "&8Capturado Por: {player} on {date}"
+  Scoreboard:
+    size: "&b{size}\""
+
+Treasure:
+  Casket:
+    use: "&bClic Derecho para &e&oAbrir"
+    result: "Encontraste {item} &fadentro del {casket}&f!"
+  Compass Piece:
+    name: "&3Pieza de Brújula"
+  Compass:
+    name: "&3Brújula al Todo Azul"
+    use: "&bClic Derecho para &e&oEnfocarse"
+    lore: "Realmente existe..."
+
+Equipment:
+  Fish Bag:
+    autoPickup: "&bClic Izquierdo mientras sujetando para activar la &e&oRecojida Automática"
+    pickupEnabled: "Recogida Automática Activada."
+    pickupDisabled: "Recogida Automática Desactivada."
+    depositAll: "&bShift Clic Izquierdo Mientras Sujetando para &e&oDepositar Todo"
+    openBag: "&bClic Derecho Mientras Sujetando para &e&oAbrir"
+    openPanel: "&bClic Derecho Mientras Sujetando para &e&oAbrir el Panel de Jugadores"
+    descSmall: "Tiene poca cantidad de pescado."
+    noSpace: "No hay más espacio en esa bolsa."
+    noFish: "No se encontraron peces en el inventario."
+    addFish: "Se agregaron {amount} a la bolsa."
+    smallBag: "Pequeña Bolsa de Pescado "
+    medBag: "Bolsa Mediana de Pescado"
+    largeBag: "Bolsa Grande de Pescado"
+    giantBag: "Bolsa Gigante de Pescado"
+  Fishing Rod:
+    caughtAmount: "&bPescados Capturado: &f{amount}"
+  Fishing Journal:
+    name: "&3Diario de Pescado"
+    read: "&bClic Derecho para &o&eLeer"
+    panel: "&bShift Clic Derecho para &o&eAbrir Panel"
+    Content:
+      Player:
+        totalCaught: "Pescado Total Capturado {amount}"
+      Compass:
+        title: " -- Peiza de Brújula --"
+        amount: "{found}/{total} Encontrado"
+        hint: "&oFlota Cursor sobre la pieza para una pista  "
+      Fish:
+        totalCaught: "Total Capturado {amount}"
+        largestCaught: "Lo mas Grande: {size}\""
+        smallestCaught: "Lo mas Pequeño: {size}\""
+  Tournament Horn:
+    name: "&3{tournament} Cuerno"
+    duration: "&9Duración: &f{time}"
+    tournamentFish: "&9Pescado: {fish}"
+
+Tournament:
+  alreadyRunning: "{tournament} El Torneo está en progreso."
+  noneCaught: "No pescados capturado antes de la conclusión del Torneo, nel premio no se distribuyó"
+  leaderboard: "&l-- {tournament}&l Tabla de Clasificación - Flota Cursor para mas Informacion --"
+  start: "El {tournament}&f Torneo Empezo!"
+
+System:
+  prefix: "&b[BF]&f "
+  deleted: "&eEliminado &c{item}&e."
+
+UI:
+  Player:
+    Panels:
+      base: "Panel de Jugadores"
+      tournaments: "Torneo de Pesca"
+      fishBag: "Bolsa de Pescado: {amount}/{max}"
+    Buttons:
+      panel: "&bPanel de Jugadores"
+      Fish Bag:
+        stored: "&bMonte en Reserva: &f{amount}"
+        largest: "&bPez más Grande: &f{size}\""
+        withdrawSmall: "Clic Izquierdo para retirar el mas &e&oPequeño"
+        withdrawLarge: "Clic Derecho para Retirar el mas&e&oGrande"
+        shift: "&c&oSujeta Shift para Retirar &eTodo"
+      Base:
+        Claim Rewards:
+          name: "&bReclamar Recompensas"
+          lore: "&9Recompensas Total: &f{amount}"
+          error: "No es possible retirar&b{amount}&f inventario."
+        Tournaments:
+          name: "&bTorneo : {amount} en Progreso"
+          tournament: "&9{name} - &f{time}"
+          empty: "&cNo Torneo Activos"
+      Tournaments:
+        name: "&9{name} - &f{time}"
+        view: "&bClic Izquierdo para &e&oVer"
+  System:
+    Buttons:
+      goBack: "&cIr para tras"
+      pageNext: "&bProxima página"
+      pageBack: "&bPágina Antes"
+      info: "&bInformación"
+      edit: "&bClic Izquierdo para &e&oEditar"
+      delete: "&bShift Clic Dereco &bpara &c&oBorrar"
+      deleteConfirm: "&4&lEn serio? Quieres borrarlo?"
+      enabled: "&aPermitat"
+      disabled: "&cDesactivar"
+  Admin:
+    Panels:
+      base: "Panel de Administrador"
+      translations: "Traducción - Inglés"
+      Treasure:
+        base: "Panel de administración del Tesoro"
+        editCasket: "Editar {casket}"
+    Buttons:
+      panel: "&bPanel de Administrador"
+      Base:
+        Translations:
+          name: "&bTraducciónes"
+          lore: "&f{amount} Disponible"
+        treasure: "&bEditar Tesoro"
+        tournaments: "&bEditar Torneos"
+        areas: "&bEditar Area"
+        fish: "&bEdit Pes"
+        rarities: "&bEdit Rareza"
+      Translations:
+        select: "&bClic Izquierdo para &e&oSeleccionar"
+      Treasure:
+        Base:
+          rewards: "&a{amount}x Recompensas"
+          noRewards: "&cNo Recompensas Puesta"
+          unfinishedRewards: "&e{amount}x Recompensas incocluso"
+        editRewards: "&bEditar Recompensas"
+        Announce:
+          name: "&bAnunciar Captura del Tesoro"
+          lore: "Anuncia Captura al Mundo"
+        Weight:
+          name: "&bPeso"
+          lore: "Mayor Peso, más Fácil de Atrapar"
+          prompt: "¿Cuál Debería ser el Peso del Tesoro? Actual: {amount}"
+        Name:
+          name: "&bNombre"
+          lore: "&9{name}"
+          prompt: "¿Cuál debería ser el nombre del tesoro? Actual: {name}"
+        Rewards:
+          create: "&bCrear Nueva Recompensa"
+          Announce:
+            name: "&bAnunciar Recompensas"
+            lore: "Anuncia Recompensas al Mundo"
+          Drop Chance:
+            name: "&bProbabilidad de caída"
+            lore: "El porcentaje de probabilidad de que el artículo caiga del ataúd."
+            current: "&9Actual: &f{amount}&9%"
+            prompt: "¿Cuál debería ser la probabilidad de caída del artículo? Actual: {amount}"
+        createNew: "&bCrear Nuevo Tesoro"
+Author: "CooliusJulius"
