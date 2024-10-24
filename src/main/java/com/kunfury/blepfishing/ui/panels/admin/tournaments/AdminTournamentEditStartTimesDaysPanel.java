@@ -1,5 +1,6 @@
 package com.kunfury.blepfishing.ui.panels.admin.tournaments;
 
+import com.kunfury.blepfishing.ui.buttons.admin.tournamentEdit.TournamentEditStartTimesBtn;
 import com.kunfury.blepfishing.ui.objects.Panel;
 import com.kunfury.blepfishing.ui.buttons.admin.tournamentEdit.AdminTournamentButton;
 import com.kunfury.blepfishing.ui.buttons.admin.tournamentEdit.TournamentEditStartTimesDayBtn;
@@ -20,6 +21,6 @@ public class AdminTournamentEditStartTimesDaysPanel extends Panel {
             inv.addItem(new TournamentEditStartTimesDayBtn(type, day).getItemStack());
         }
 
-        AddFooter(new AdminTournamentButton(type), null, null);
+        AddFooter(new TournamentEditStartTimesBtn(type), null, null);
     }
 }

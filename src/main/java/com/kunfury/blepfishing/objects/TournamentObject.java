@@ -78,7 +78,7 @@ public class TournamentObject {
     private final Map<UUID, Boolean> playerBossBars = new HashMap<>();
     public void ToggleBossBar(Player player){
         UUID pUUID = player.getUniqueId();
-        Bukkit.broadcastMessage("Toggling BossBar. Contains: " + playerBossBars.containsKey(pUUID));
+        //Bukkit.broadcastMessage("Toggling BossBar. Contains: " + playerBossBars.containsKey(pUUID));
         boolean show = !(playerBossBars.getOrDefault(pUUID, false));
 
         playerBossBars.put(pUUID, show);
@@ -156,6 +156,9 @@ public class TournamentObject {
 
         active = false;
         Database.Tournaments.Update(Id, "active", false);
+
+        if(bossBar != null)
+            bossBar.removeAll();
 
         List<FishObject> winningFish = new ArrayList<>();
         for(var fish : getWinningFish()){

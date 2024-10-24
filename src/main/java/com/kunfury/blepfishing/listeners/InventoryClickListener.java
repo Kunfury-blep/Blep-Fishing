@@ -25,7 +25,8 @@ public class InventoryClickListener implements Listener {
         Player player = (Player) e.getWhoClicked();
 
         if(inv instanceof CraftingInventory && e.getSlotType() == InventoryType.SlotType.RESULT && CompassPiece.isCompass(clickedItem)){
-            AllBlueHandler.Instance.FinalizeCompass(clickedItem, player);
+            if(AllBlueHandler.Instance.FinalizeCompass(clickedItem, player))
+                e.setCancelled(true);
             return;
         }
 
@@ -54,6 +55,5 @@ public class InventoryClickListener implements Listener {
 
             fishBag.Deposit(clickedItem, player);
             new FishBagPanel(fishBag, 1).Show(player);
-        }
-    }
+        }}
 }

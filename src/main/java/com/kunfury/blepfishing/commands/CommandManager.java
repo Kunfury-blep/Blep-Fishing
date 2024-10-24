@@ -27,7 +27,8 @@ public class CommandManager implements TabExecutor {
                 new SellSubCommand(),
                 new SellAllSubCommand(),
                 new SellForSubCommand(),
-                new SpawnSubCommand()
+                new SpawnSubCommand(),
+                new ToggleBossBarSubCommand()
         );
     }
 

@@ -71,6 +71,10 @@ public class FishingArea {
         return fishingAreas;
     }
 
+    public static List<FishingArea> GetCompassAreas(){
+        return ActiveAreas.values().stream().filter(a -> a.HasCompassPiece).toList();
+    }
+
     public static boolean IdExists(String id){
         return ActiveAreas.containsKey(id);
     }

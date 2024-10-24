@@ -2,6 +2,7 @@ package com.kunfury.blepfishing.commands.subCommands;
 
 import com.kunfury.blepfishing.commands.SubCommand;
 import com.kunfury.blepfishing.config.ConfigHandler;
+import com.kunfury.blepfishing.helpers.AllBlueHandler;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.objects.equipment.FishBag;
@@ -11,7 +12,9 @@ import com.kunfury.blepfishing.objects.treasure.Casket;
 import com.kunfury.blepfishing.objects.treasure.CompassPiece;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
+import java.awt.geom.Area;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -232,21 +235,46 @@ public class SpawnSubCommand extends SubCommand {
                     return;
                 }
 
-                if(args.length == 3){
+                String compassAreaId;
+                if(args.length == 3)
+                    compassAreaId = "<RANDOM>";
+                else{
+                    compassAreaId = args[3];
+                    if(args.length > 4 && Formatting.isNumeric(args[4]))
+                        amount = Integer.parseInt(args[4]);
+                }
+
+                if(compassAreaId.equalsIgnoreCase("<RANDOM>")){
+                    for (int i = 0; i < amount; i++) {
+                        FishingArea area = FishingArea.GetRandom();
+                        while(!area.HasCompassPiece)
+                            area = FishingArea.GetRandom();
+
+                        Utilities.GiveItem(player, CompassPiece.GeneratePiece(new FishingArea[]{area}), true);
+                    }
+                    return;
+                }
+
+                if(!FishingArea.IdExists(compassAreaId)){
+                    Utilities.SendPlayerMessage(player, Formatting.GetLanguageString("Admin.Spawn.validTreasure"));
+                    return;
+                }
+                FishingArea fishingArea = FishingArea.FromId(compassAreaId);
+                if(fishingArea == null){
                     Utilities.SendPlayerMessage(player, Formatting.GetLanguageString("Admin.Spawn.validTreasure"));
                     return;
                 }
 
+                FishingArea[] areaArray = new FishingArea[]{fishingArea};
                 for (int i = 0; i < amount; i++) {
-                    FishingArea area = FishingArea.GetRandom();
-                    while(!area.HasCompassPiece)
-                        area = FishingArea.GetRandom();
-
-                    Utilities.GiveItem(player, CompassPiece.GeneratePiece(new FishingArea[]{area}), true);
+                    Utilities.GiveItem(player, CompassPiece.GeneratePiece(areaArray), true);
                 }
                 return;
             case "COMPASS":
-                Utilities.GiveItem(player, CompassPiece.GenerateCompass(), true);
+                ItemStack compassItem = CompassPiece.GenerateCompass();
+                if(AllBlueHandler.Instance.FinalizeCompass(compassItem, player)){
+                    Utilities.GiveItem(player, compassItem, true);
+                }
                 return;
             default:
                 Utilities.SendPlayerMessage(player, Formatting.GetLanguageString("Admin.Spawn.invalidTreasureType"));

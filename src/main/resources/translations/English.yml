@@ -11,11 +11,16 @@ Treasure:
     use: "&bRight-Click to &e&oOpen"
     result: "You found {item} &finside the {casket}&f!"
   Compass Piece:
-    name: "&3Compass Piece"
+    name: "&bCompass Piece"
+    nameMulti: "&bCompass Pieces &e{amount}&b/&e{total}&b"
   Compass:
     name: "&3Compass to the All Blue"
     use: "&bRight-Click to &e&oFocus"
     lore: "It really does exist..."
+    error: "&cThis world is not suitable"
+    announce: "&7The wind picks up around you, carrying sounds of &b&oThe Sea &7from the {direction}"
+    announceNether: "&7Though surrounded by hellfire itself, you faintly hear &b&oThe Sea"
+    announceEnd: "&7From the vast nothingness that surrounds you, &b&oThe Sea"
 
 Equipment:
   Fish Bag:
@@ -86,6 +91,11 @@ System:
   noPlayer: "&cPlayer Not Found"
   reload: "Reload Complete"
   noFish: "&cNo Fish Found"
+  north: "North"
+  south: "South"
+  east: "East"
+  west: "West"
+
 
 Economy:
   soldFish: "&bSold &f{fish}&b for &f${value}."

@@ -65,11 +65,7 @@ public class CraftItemListener implements Listener {
             if(i != null && !CompassPiece.IsPiece(i)) //Checks if there are any non-compass pieces in the inventory
                 return;
         }
-        Bukkit.broadcastMessage("Compass Piece Found");
-
         ItemStack item = CompassPiece.Combine(matrix);
-        Bukkit.broadcastMessage("Compass Piece: " + item);
-
         e.getInventory().setResult(item);
 
     }

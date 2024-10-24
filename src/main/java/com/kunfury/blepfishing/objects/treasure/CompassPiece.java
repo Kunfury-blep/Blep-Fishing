@@ -1,6 +1,7 @@
 package com.kunfury.blepfishing.objects.treasure;
 
 import com.kunfury.blepfishing.database.Database;
+import com.kunfury.blepfishing.database.tables.AllBlueTable;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.items.ItemHandler;
@@ -8,6 +9,7 @@ import com.kunfury.blepfishing.objects.FishingArea;
 import org.apache.commons.lang.NotImplementedException;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -114,9 +116,18 @@ public class CompassPiece extends TreasureType{
             areaIds.append(a.Id);
         }
 
+        String title;
+        if(areas.length == 1)
+            title = Formatting.GetLanguageString("Treasure.Compass Piece.name");
+        else{
+            title = Formatting.GetLanguageString("Treasure.Compass Piece.nameMulti")
+                    .replace("{amount}", String.valueOf(areas.length))
+                    .replace("{total}", String.valueOf(FishingArea.GetCompassAreas().size()));
+        }
+
         itemMeta.getPersistentDataContainer().set(ItemHandler.TreasureTypeId, PersistentDataType.STRING, "compassPiece");
         itemMeta.getPersistentDataContainer().set(ItemHandler.FishAreaId, PersistentDataType.STRING, areaIds.toString());
-        itemMeta.setDisplayName(Formatting.GetLanguageString("Treasure.Compass Piece.name"));
+        itemMeta.setDisplayName(title);
 
         itemMeta.setLore(lore);
 
@@ -140,14 +151,32 @@ public class CompassPiece extends TreasureType{
         lore.add(Formatting.GetLanguageString("Treasure.Compass.use"));
 
         compassMeta.setLore(lore);
-
-        compassMeta.getPersistentDataContainer().set(ItemHandler.CompassKey, PersistentDataType.BOOLEAN, true);
-
         compassMeta.addEnchant(Enchantment.LUCK_OF_THE_SEA, 1, false);
         compassMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 
         compassItem.setItemMeta(compassMeta);
         return compassItem;
+    }
+
+    public static void FocusCompass(ItemStack compassItem){
+        CompassMeta compassMeta = (CompassMeta) compassItem.getItemMeta();
+        assert compassMeta != null;
+
+        int compassId = ItemHandler.getTagInt(compassItem, ItemHandler.CompassKey);
+
+        Location allBlueLoc = Database.AllBlues.Get(compassId);
+
+        if(allBlueLoc == null){
+            Utilities.Severe("Tried to Focus Compass with invalid All Blue");
+            return;
+        }
+
+        if(allBlueLoc.getBlock().getType() != Material.LODESTONE)
+            allBlueLoc.getBlock().setType(Material.LODESTONE);
+
+        compassMeta.setLodestone(allBlueLoc);
+
+        compassItem.setItemMeta(compassMeta);
     }
 
     public static ItemStack Combine(ItemStack[] craftComponents){

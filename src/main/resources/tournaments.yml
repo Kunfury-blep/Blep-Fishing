@@ -1,81 +1,205 @@
 Settings:
   Enabled: true
-bluegill_bonanza:
-  Name: Bluegill Bonanza
+reel_in_the_river:
+  Name: Reel in the River
   Fish Types:
     - bluegill
-    - red_grouper
-  Duration: 1
-  Villager Horn: true
-  Villager Horn Level: 1
+    - catfish
+    - gar
+    - perch
+    - muskellunge
+    - carp
+    - brown_trout
+    - smallmouth_bass
+    - minnow
+  Duration: 24.0
+  Villager Horn: false
   Start Times:
-    MONDAY:
-      - 06:00
+    MONDAY: []
     TUESDAY: []
-    WEDNESDAY:
-      - '6:00'
-      - '18:00'
+    WEDNESDAY: []
     THURSDAY: []
     FRIDAY:
-      - 06:00
+      - 00:00
     SATURDAY: []
     SUNDAY: []
-    EVERYDAY:
-      - '12:00'
+    EVERYDAY: []
+rainforest_rods_&_reels:
+  Name: Rainforest Rods & Reels
+  Fish Types:
+    - tambaqui
+    - arapaima
+    - electric_eel
+    - armored_catfish
+    - red-bellied_piranha
+  Duration: 24.0
+  Villager Horn: false
+  Start Times:
+    MONDAY: []
+    TUESDAY: []
+    WEDNESDAY:
+      - 00:00
+    THURSDAY: []
+    FRIDAY: []
+    SATURDAY: []
+    SUNDAY: []
+    EVERYDAY: []
+cacti_cove_casting_contest:
+  Name: Cacti Cove Casting Contest
+  Fish Types:
+    - lungfish
+    - boulti
+    - bayad
+    - synodontis
+  Duration: 24.0
+  Villager Horn: false
+  Start Times:
+    MONDAY: []
+    TUESDAY:
+      - 00:00
+    WEDNESDAY: []
+    THURSDAY: []
+    FRIDAY: []
+    SATURDAY: []
+    SUNDAY: []
+    EVERYDAY: []
   Rewards:
     '1':
-      Cash: 1000.0
+      Cash: 0.0
       Items:
         - ==: org.bukkit.inventory.ItemStack
-          v: 3839
+          v: 3955
           type: DIAMOND
-          amount: 4
-        - ==: org.bukkit.inventory.ItemStack
-          v: 3839
-          type: ENDER_PEARL
-          amount: 16
-        - ==: org.bukkit.inventory.ItemStack
-          v: 3839
-          type: HEART_OF_THE_SEA
-          meta:
-            ==: ItemMeta
-            meta-type: UNSPECIFIC
-            display-name: '{"text":"","extra":["Small Bag o'' Fish"]}'
-            lore:
-              - '{"text":"","extra":["Holds a small amount of fish"]}'
-              - '""'
-              - '{"text":"","extra":[{"text":"|","obfuscated":false,"italic":false,"underlined":false,"strikethrough":false,"color":"white","bold":false},{"text":"|","italic":false,"color":"white"},{"text":"|","italic":false,"color":"white"},{"text":"|","italic":false,"color":"white"},{"text":"|","italic":false,"color":"white"},{"text":"|","italic":false,"color":"white"},{"text":"|","italic":false,"color":"white"},{"text":"|","italic":false,"color":"white"},{"text":"|
-            21/256","italic":false,"color":"white"}]}'
-              - '""'
-              - '{"text":"","extra":[{"text":"Left-Click While Holding to Toggle ","obfuscated":false,"italic":false,"underlined":false,"strikethrough":false,"color":"red","bold":false},{"text":"Auto-Pickup","italic":true,"color":"yellow"}]}'
-              - '{"text":"","extra":[{"text":"Shift Left-Click While Holding to Toggle
-            ","obfuscated":false,"italic":false,"underlined":false,"strikethrough":false,"color":"red","bold":false},{"text":"DepositAll","italic":true,"color":"yellow"}]}'
-            custom-model-data: 1
-            enchants:
-              minecraft:unbreaking: 1
-            PublicBukkitValues: |-
-              {
-                  "blepfishingrewrite:blep.fishbagid": 1
-              }
-        - ==: org.bukkit.inventory.ItemStack
-          v: 3839
-          type: FISHING_ROD
-          meta:
-            ==: ItemMeta
-            meta-type: UNSPECIFIC
-            display-name: '"God Rod"'
-            enchants:
-              minecraft:luck_of_the_sea: 3
-              minecraft:lure: 3
-              minecraft:mending: 1
-              minecraft:unbreaking: 3
-    '2':
-      Cash: 250.0
+surf_&_sea_fishing_fest:
+  Name: Surf & Sea Fishing Fest
+  Fish Types:
+    - tuna
+    - anglerfish
+    - red_grouper
+  Duration: 24.0
+  Villager Horn: false
+  Start Times:
+    MONDAY: []
+    TUESDAY: []
+    WEDNESDAY: []
+    THURSDAY:
+      - 00:00
+    FRIDAY: []
+    SATURDAY: []
+    SUNDAY: []
+    EVERYDAY: []
+  Rewards:
+    '1':
+      Cash: 0.0
       Items:
         - ==: org.bukkit.inventory.ItemStack
-          v: 3839
+          v: 3955
           type: DIAMOND
-        - ==: org.bukkit.inventory.ItemStack
-          v: 3839
-          type: ENDER_PEARL
-          amount: 8
+cold_water_cast-off:
+  Name: Cold Water Cast-Off
+  Fish Types:
+    - rainbow_trout
+    - herring
+    - knifefish
+    - pollock
+    - cod
+    - halibut
+    - pink_salmon
+  Duration: 24.0
+  Villager Horn: false
+  Start Times:
+    MONDAY:
+      - 00:01
+    TUESDAY: []
+    WEDNESDAY: []
+    THURSDAY: []
+    FRIDAY: []
+    SATURDAY: []
+    SUNDAY: []
+    EVERYDAY: []
+angler's_choice:
+  Name: Angler's Choice
+  Fish Types:
+    - anglerfish
+    - arapaima
+    - armored_catfish
+    - bayad
+    - bluegill
+    - boulti
+    - carp
+    - brown_trout
+    - catfish
+    - muskellunge
+    - minnow
+    - lungfish
+    - knifefish
+    - herring
+    - electric_eel
+    - cod
+    - perch
+    - pink_salmon
+    - pollock
+    - gar
+    - halibut
+    - rainbow_trout
+    - red_grouper
+    - red-bellied_piranha
+    - synodontis
+    - tambaqui
+    - smallmouth_bass
+    - tuna
+  Duration: 24.0
+  Villager Horn: false
+  Start Times:
+    MONDAY: []
+    TUESDAY: []
+    WEDNESDAY: []
+    THURSDAY: []
+    FRIDAY: []
+    SATURDAY:
+      - 00:00
+    SUNDAY: []
+    EVERYDAY: []
+tiny_trophy_trawl:
+  Name: Tiny Trophy Trawl
+  Fish Types:
+    - anglerfish
+    - arapaima
+    - armored_catfish
+    - bayad
+    - bluegill
+    - boulti
+    - brown_trout
+    - carp
+    - catfish
+    - muskellunge
+    - minnow
+    - lungfish
+    - knifefish
+    - halibut
+    - gar
+    - electric_eel
+    - perch
+    - pink_salmon
+    - pollock
+    - cod
+    - rainbow_trout
+    - red_grouper
+    - herring
+    - red-bellied_piranha
+    - smallmouth_bass
+    - tambaqui
+    - synodontis
+    - tuna
+  Duration: 24.0
+  Villager Horn: false
+  Start Times:
+    MONDAY: []
+    TUESDAY: []
+    WEDNESDAY: []
+    THURSDAY: []
+    FRIDAY: []
+    SATURDAY: []
+    SUNDAY:
+      - 00:00
+    EVERYDAY: []

@@ -101,19 +101,27 @@ public class AllBlueTable extends DbTable<Location> {
                 return false;
             }
             return true;
-//
-//            String worldName = resultSet.getString("world");
-//            int x = resultSet.getInt("x");
-//            int z = resultSet.getInt("z");
-//
-//            World world = Bukkit.getWorld(worldName);
-//
-//            Location loc = new Location(world, x, hookLoc.getY(), z);
-//
-//            var distance = hookLoc.distance(loc);
-//
-//            Bukkit.broadcastMessage("Result: " + distance);
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
 
+    public boolean VerifyPosition(Location tempLoc) {
+        var neighborRadius = ConfigHandler.instance.baseConfig.getAllBlueRadius() * 10;
+
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement("""
+                            SELECT *
+                            FROM allBlues
+                            WHERE x BETWEEN ? and ? AND z BETWEEN ? and ?
+                            """
+            );
+            preparedStatement.setInt(1, tempLoc.getBlockX() - neighborRadius);
+            preparedStatement.setInt(2, tempLoc.getBlockX() + neighborRadius);
+            preparedStatement.setInt(3, tempLoc.getBlockZ() - neighborRadius);
+            preparedStatement.setInt(4, tempLoc.getBlockZ() + neighborRadius);
+
+            return !preparedStatement.executeQuery().next(); //returns whether a neighboring All Blue was found
         }catch (SQLException e){
             throw new RuntimeException(e);
         }

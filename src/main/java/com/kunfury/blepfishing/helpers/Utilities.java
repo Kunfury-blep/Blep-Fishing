@@ -11,6 +11,7 @@ import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -92,6 +93,22 @@ public class Utilities {
 
     public static void Announce(String message){
         for(var p : Bukkit.getOnlinePlayers()){
+            p.sendMessage(message);
+        }
+    }
+
+    public static void AnnounceNether(String message){
+        for(var p : Bukkit.getOnlinePlayers().stream()
+                .filter(p -> p.getWorld().getName().contains("_nether"))
+                .toList()){
+            p.sendMessage(message);
+        }
+    }
+
+    public static void AnnounceEnd(String message){
+        for(var p : Bukkit.getOnlinePlayers().stream()
+                .filter(p -> p.getWorld().getName().contains("_the_end"))
+                .toList()){
             p.sendMessage(message);
         }
     }

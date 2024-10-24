@@ -4,6 +4,7 @@ import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.objects.equipment.FishingJournal;
+import com.kunfury.blepfishing.objects.treasure.CompassPiece;
 import com.kunfury.blepfishing.objects.treasure.TreasureType;
 import com.kunfury.blepfishing.ui.panels.player.PlayerPanel;
 import com.kunfury.blepfishing.items.ItemHandler;
@@ -65,21 +66,9 @@ public class PlayerInteractListener implements Listener {
             return;
         }
 
-//        if(CompassPiece.isCompass(item)){
-//            Bukkit.broadcastMessage("Using Compass");
-//
-//            CompassMeta cMeta = (CompassMeta) meta;
-//
-//            Location cLoc = cMeta.getLodestone();
-//            cLoc.setY(player.getLocation().getY());
-//            Location pLoc = player.getLocation();
-//
-//            if(cLoc.distance(pLoc) > 500){
-//                player.teleport(cLoc);
-//            }else{
-//                Database.AllBlues.InAllBlue(player.getLocation());
-//            }
-//        }
+        if(CompassPiece.isCompass(item)){
+            CompassPiece.FocusCompass(item);
+        }
 
         if(FishBag.IsBag(item)){
             if(player.isSneaking()){
