@@ -1,15 +1,9 @@
 package com.kunfury.blepfishing.ui.buttons.admin.areas;
 
 import com.kunfury.blepfishing.config.ConfigHandler;
-import com.kunfury.blepfishing.items.ItemHandler;
 import com.kunfury.blepfishing.objects.FishingArea;
-import com.kunfury.blepfishing.objects.Rarity;
 import com.kunfury.blepfishing.ui.objects.buttons.AdminAreaMenuButton;
-import com.kunfury.blepfishing.ui.objects.buttons.AdminRarityMenuButton;
 import com.kunfury.blepfishing.ui.panels.admin.areas.AdminAreasEditBiomesPanel;
-import com.kunfury.blepfishing.ui.panels.admin.areas.AdminAreasEditPanel;
-import com.kunfury.blepfishing.ui.panels.admin.rarities.AdminRarityEditPanel;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
@@ -19,7 +13,6 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 
 public class AdminAreaBiomeChoiceBtn extends AdminAreaMenuButton {

@@ -5,7 +5,7 @@ import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.ui.objects.buttons.AdminFishMenuButton;
 import com.kunfury.blepfishing.ui.panels.admin.fish.AdminFishEditPanel;
 import com.kunfury.blepfishing.ui.panels.admin.fish.AdminFishPanel;
-import com.kunfury.blepfishing.items.ItemHandler;
+import com.kunfury.blepfishing.helpers.ItemHandler;
 import com.kunfury.blepfishing.objects.FishType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

@@ -1,7 +1,7 @@
 package com.kunfury.blepfishing.items.recipes;
 
 import com.kunfury.blepfishing.BlepFishing;
-import com.kunfury.blepfishing.items.ItemHandler;
+import com.kunfury.blepfishing.helpers.ItemHandler;
 import com.kunfury.blepfishing.objects.TournamentType;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;

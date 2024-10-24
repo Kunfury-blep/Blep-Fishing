@@ -1,8 +1,7 @@
 package com.kunfury.blepfishing.ui.buttons.player.fish;
 
 import com.kunfury.blepfishing.helpers.Formatting;
-import com.kunfury.blepfishing.items.ItemHandler;
-import com.kunfury.blepfishing.objects.FishObject;
+import com.kunfury.blepfishing.helpers.ItemHandler;
 import com.kunfury.blepfishing.objects.FishType;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
 import org.bukkit.ChatColor;

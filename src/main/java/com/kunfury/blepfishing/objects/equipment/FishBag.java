@@ -7,7 +7,7 @@ import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.objects.FishObject;
 import com.kunfury.blepfishing.objects.FishType;
 import com.kunfury.blepfishing.ui.panels.FishBagPanel;
-import com.kunfury.blepfishing.items.ItemHandler;
+import com.kunfury.blepfishing.helpers.ItemHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;

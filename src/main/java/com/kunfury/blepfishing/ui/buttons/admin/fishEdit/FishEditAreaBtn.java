@@ -2,7 +2,7 @@ package com.kunfury.blepfishing.ui.buttons.admin.fishEdit;
 
 import com.kunfury.blepfishing.ui.objects.buttons.AdminFishMenuButton;
 import com.kunfury.blepfishing.ui.panels.admin.fish.AdminFishEditAreasPanel;
-import com.kunfury.blepfishing.items.ItemHandler;
+import com.kunfury.blepfishing.helpers.ItemHandler;
 import com.kunfury.blepfishing.objects.FishType;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

@@ -1,6 +1,8 @@
-name: BlepFishingRewrite
+name: BlepFishing
 version: '${project.version}'
+author: Kunfury
 main: com.kunfury.blepfishing.BlepFishing
+softdepend: [Vault, mcMMO]
 api-version: '1.20'
 prefix: BF
 commands:

@@ -1,6 +1,6 @@
 package com.kunfury.blepfishing.ui.objects.buttons;
 
-import com.kunfury.blepfishing.items.ItemHandler;
+import com.kunfury.blepfishing.helpers.ItemHandler;
 import com.kunfury.blepfishing.objects.TournamentType;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
 import org.bukkit.inventory.ItemStack;

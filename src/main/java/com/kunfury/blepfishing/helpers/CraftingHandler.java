@@ -1,8 +1,7 @@
-package com.kunfury.blepfishing.items;
+package com.kunfury.blepfishing.helpers;
 
 import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.config.ConfigHandler;
-import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.objects.equipment.FishBag;
 import com.kunfury.blepfishing.objects.equipment.FishingJournal;
 import net.md_5.bungee.api.ChatColor;

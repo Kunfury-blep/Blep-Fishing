@@ -1,11 +1,10 @@
 package com.kunfury.blepfishing.listeners;
 
-import com.kunfury.blepfishing.items.CraftingHandler;
-import com.kunfury.blepfishing.items.ItemHandler;
+import com.kunfury.blepfishing.helpers.CraftingHandler;
+import com.kunfury.blepfishing.helpers.ItemHandler;
 import com.kunfury.blepfishing.objects.equipment.FishBag;
 import com.kunfury.blepfishing.objects.equipment.FishingJournal;
 import com.kunfury.blepfishing.objects.treasure.CompassPiece;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

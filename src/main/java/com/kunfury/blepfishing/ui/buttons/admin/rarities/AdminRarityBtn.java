@@ -2,14 +2,8 @@ package com.kunfury.blepfishing.ui.buttons.admin.rarities;
 
 import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.config.ConfigHandler;
-import com.kunfury.blepfishing.helpers.Formatting;
-import com.kunfury.blepfishing.items.ItemHandler;
-import com.kunfury.blepfishing.objects.FishType;
 import com.kunfury.blepfishing.objects.Rarity;
-import com.kunfury.blepfishing.ui.objects.buttons.AdminFishMenuButton;
 import com.kunfury.blepfishing.ui.objects.buttons.AdminRarityMenuButton;
-import com.kunfury.blepfishing.ui.panels.admin.fish.AdminFishEditPanel;
-import com.kunfury.blepfishing.ui.panels.admin.fish.AdminFishPanel;
 import com.kunfury.blepfishing.ui.panels.admin.rarities.AdminRarityEditPanel;
 import com.kunfury.blepfishing.ui.panels.admin.rarities.AdminRarityPanel;
 import org.bukkit.Bukkit;
@@ -17,8 +11,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.List;

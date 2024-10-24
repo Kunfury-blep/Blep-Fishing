@@ -5,7 +5,7 @@ import com.kunfury.blepfishing.objects.equipment.FishBag;
 import com.kunfury.blepfishing.objects.treasure.CompassPiece;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
 import com.kunfury.blepfishing.ui.MenuHandler;
-import com.kunfury.blepfishing.items.ItemHandler;
+import com.kunfury.blepfishing.helpers.ItemHandler;
 import com.kunfury.blepfishing.ui.panels.FishBagPanel;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

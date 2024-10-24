@@ -3,7 +3,7 @@ package com.kunfury.blepfishing.ui.buttons.admin.tournamentEdit;
 import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
 import com.kunfury.blepfishing.ui.panels.admin.tournaments.AdminTournamentEditFishTypesPanel;
-import com.kunfury.blepfishing.items.ItemHandler;
+import com.kunfury.blepfishing.helpers.ItemHandler;
 import com.kunfury.blepfishing.objects.FishType;
 import com.kunfury.blepfishing.objects.TournamentType;
 import org.bukkit.ChatColor;

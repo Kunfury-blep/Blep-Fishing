@@ -1,13 +1,11 @@
 package com.kunfury.blepfishing.ui.buttons.player.fish;
 
-import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
-import com.kunfury.blepfishing.items.ItemHandler;
+import com.kunfury.blepfishing.helpers.ItemHandler;
 import com.kunfury.blepfishing.objects.FishObject;
 import com.kunfury.blepfishing.objects.FishType;
 import com.kunfury.blepfishing.objects.FishingArea;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

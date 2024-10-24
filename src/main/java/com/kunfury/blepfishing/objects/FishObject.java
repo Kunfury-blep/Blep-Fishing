@@ -4,8 +4,7 @@ import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.Utilities;
-import com.kunfury.blepfishing.items.ItemHandler;
-import net.md_5.bungee.api.chat.hover.content.Item;
+import com.kunfury.blepfishing.helpers.ItemHandler;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -17,7 +16,6 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.Format;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -66,7 +64,14 @@ public class FishObject {
 
     public FishObject(ResultSet rs) throws SQLException {
         Id = rs.getInt("id");
-        PlayerId = UUID.fromString(rs.getString("playerId"));
+
+        String playerIdStr = rs.getString("playerId");
+
+        if(playerIdStr == null || playerIdStr.isEmpty())
+            PlayerId = null;
+        else
+            PlayerId = UUID.fromString(playerIdStr);
+
         RarityId = rs.getString("rarityId");
         TypeId = rs.getString("typeId");
         Length = rs.getDouble("length");

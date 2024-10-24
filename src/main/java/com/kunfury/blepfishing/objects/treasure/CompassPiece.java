@@ -1,13 +1,10 @@
 package com.kunfury.blepfishing.objects.treasure;
 
 import com.kunfury.blepfishing.database.Database;
-import com.kunfury.blepfishing.database.tables.AllBlueTable;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.Utilities;
-import com.kunfury.blepfishing.items.ItemHandler;
+import com.kunfury.blepfishing.helpers.ItemHandler;
 import com.kunfury.blepfishing.objects.FishingArea;
-import org.apache.commons.lang.NotImplementedException;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;

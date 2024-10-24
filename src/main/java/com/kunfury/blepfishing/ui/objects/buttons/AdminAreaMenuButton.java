@@ -1,9 +1,8 @@
 package com.kunfury.blepfishing.ui.objects.buttons;
 
 import com.kunfury.blepfishing.BlepFishing;
-import com.kunfury.blepfishing.items.ItemHandler;
+import com.kunfury.blepfishing.helpers.ItemHandler;
 import com.kunfury.blepfishing.objects.FishingArea;
-import com.kunfury.blepfishing.objects.Rarity;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Biome;

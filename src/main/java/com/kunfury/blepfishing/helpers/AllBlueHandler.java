@@ -2,7 +2,6 @@ package com.kunfury.blepfishing.helpers;
 
 import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.database.Database;
-import com.kunfury.blepfishing.items.ItemHandler;
 import com.kunfury.blepfishing.objects.FishingArea;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

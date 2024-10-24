@@ -11,7 +11,7 @@ import com.kunfury.blepfishing.objects.equipment.FishingJournal;
 import com.kunfury.blepfishing.objects.equipment.FishingRod;
 import com.kunfury.blepfishing.objects.treasure.TreasureType;
 import com.kunfury.blepfishing.ui.scoreboards.DisplayFishInfo;
-import com.kunfury.blepfishing.items.ItemHandler;
+import com.kunfury.blepfishing.helpers.ItemHandler;
 import com.kunfury.blepfishing.objects.*;
 import com.kunfury.blepfishing.plugins.McMMO;
 import net.md_5.bungee.api.chat.HoverEvent;
