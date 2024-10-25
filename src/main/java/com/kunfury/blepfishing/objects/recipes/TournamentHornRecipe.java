@@ -1,4 +1,4 @@
-package com.kunfury.blepfishing.items.recipes;
+package com.kunfury.blepfishing.objects.recipes;
 
 import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.helpers.ItemHandler;
