@@ -5,6 +5,7 @@ import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.helpers.ItemHandler;
+import com.kunfury.blepfishing.objects.FishObject;
 import com.kunfury.blepfishing.objects.FishType;
 import com.kunfury.blepfishing.objects.FishingArea;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -70,12 +71,15 @@ public class FishingJournal {
         PersistentDataContainer dataContainer = bookMeta.getPersistentDataContainer();
         dataContainer.set(ItemHandler.FishJournalId, PersistentDataType.INTEGER, Id);
 
+        List<FishObject> caughtFish = Database.Fish.GetCaught(PlayerId.toString());
+
         TextComponent playerPage = new TextComponent(player.getDisplayName() + "\n\n");
         playerPage.addExtra(Formatting.GetLanguageString("Equipment.Fishing Journal.Content.Player.totalCaught")
-                        .replace("{amount}", Database.Fish.GetTotalCatchAmount(PlayerId.toString()) + ""));
+                        .replace("{amount}", String.valueOf(caughtFish.size())));
 
         bookMeta.spigot().addPage(new BaseComponent[]{playerPage});
 
+        //Create Compass Page
         if(ConfigHandler.instance.treasureConfig.getCompassEnabled()){
             TextComponent compassPage = new TextComponent(
                     Formatting.GetLanguageString("Equipment.Fishing Journal.Content.Compass.title") + "\n");
@@ -125,23 +129,31 @@ public class FishingJournal {
 
             bookMeta.spigot().addPage(new BaseComponent[]{compassPage});
         }
-        
-        var sortedFish = FishType.GetAll()
+
+        var sortedFishTypes = FishType.GetAll()
                 .stream().sorted(Comparator.comparing(fishType -> fishType.Name)).toList();
 
-        for(var fish : sortedFish){
-            int catchAmt = Database.Fish.GetCatchAmount(fish.Id, PlayerId.toString());
-            if(catchAmt == 0)
+        for(var type : sortedFishTypes){
+            if(caughtFish.stream().noneMatch(f -> f.TypeId.equals(type.Id)))
                 continue;
 
-            TextComponent fishPage = new TextComponent(fish.Name + "\n\n");
+
+            List<FishObject> caughtFishOfType = caughtFish.stream()
+                    .filter(f -> f.TypeId.equals(type.Id))
+                    .sorted(Comparator.comparing(f -> f.Length))
+                    .toList();
+
+            FishObject smallestFish = caughtFishOfType.get(0);
+            FishObject largestFish = caughtFishOfType.get(caughtFishOfType.size() - 1);
+
+            TextComponent fishPage = new TextComponent(type.Name + "\n\n");
 
             fishPage.addExtra(Formatting.GetLanguageString("Equipment.Fishing Journal.Content.Fish.totalCaught")
-                    .replace("{amount}", catchAmt + "") + "\n");
+                    .replace("{amount}", String.valueOf(caughtFishOfType.size())) + "\n");
             fishPage.addExtra(Formatting.GetLanguageString("Equipment.Fishing Journal.Content.Fish.largestCaught")
-                    .replace("{size}", fish.LengthMax + "") + "\n");
+                    .replace("{size}", String.valueOf(largestFish.Length)) + "\n");
             fishPage.addExtra(Formatting.GetLanguageString("Equipment.Fishing Journal.Content.Fish.smallestCaught")
-                    .replace("{size}", fish.LengthMin + "") + "\n");
+                    .replace("{size}", String.valueOf(smallestFish.Length)) + "\n");
 
             bookMeta.spigot().addPage(new BaseComponent[]{fishPage});
         }
