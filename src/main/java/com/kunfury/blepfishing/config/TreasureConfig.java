@@ -1,6 +1,7 @@
 package com.kunfury.blepfishing.config;
 
 import com.kunfury.blepfishing.BlepFishing;
+import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.objects.treasure.Casket;
 import com.kunfury.blepfishing.objects.treasure.CompassPiece;
 import com.kunfury.blepfishing.objects.treasure.TreasureType;
@@ -57,6 +58,12 @@ public class TreasureConfig {
                         boolean rewardAnnounce = rewardsConfig.getBoolean(i + ".Announce");
                         double cash = rewardsConfig.getDouble(i + ".Cash");
                         ItemStack item = rewardsConfig.getItemStack(i + ".Item");
+
+                        if(item == null){
+                            Utilities.Severe("Error loading item for Casket " + key + "Reward #" + i);
+                            continue;
+                        }
+
                         rewards.add(new Casket.TreasureReward(dropChance, item, rewardAnnounce, cash));
                     }
                 }
