@@ -134,9 +134,7 @@ public class FishingListener implements Listener {
         var world = iLoc.getWorld();
         assert world != null;
 
-        var biome = iLoc.getBlock().getBiome();
-
-        List<FishingArea> fishingAreas = FishingArea.GetAvailableAreas(biome.toString()); //Available areas to pull fish from
+        List<FishingArea> fishingAreas = FishingArea.GetAvailableAreas(iLoc); //Available areas to pull fish from
 
         int height = iLoc.getBlockY();
         boolean isRaining = world.hasStorm();
@@ -155,7 +153,7 @@ public class FishingListener implements Listener {
         //Get fish where height matches.
 
         if(availFish.isEmpty()){
-            Bukkit.getLogger().warning("No fish available for biome: " + biome);
+            Bukkit.getLogger().warning("No fish available for location: " + iLoc);
             return null;
         }
 

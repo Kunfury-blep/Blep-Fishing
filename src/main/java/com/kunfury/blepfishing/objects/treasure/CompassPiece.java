@@ -51,10 +51,9 @@ public class CompassPiece extends TreasureType{
     @Override
     public ItemStack GetItem(PlayerFishEvent e){
 
-        var biome = e.getHook().getLocation().getBlock().getBiome();
         var player = e.getPlayer();
 
-        List<FishingArea> fishingAreas = FishingArea.GetAvailableAreas(biome.toString()).stream()
+        List<FishingArea> fishingAreas = FishingArea.GetAvailableAreas(e.getHook().getLocation()).stream()
                 .filter(a -> a.HasCompassPiece)
                 .filter(a -> !HasPiece(player, a))
                 .toList();

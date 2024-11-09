@@ -130,7 +130,7 @@ public class AllBlueHandler {
     private boolean ConfirmArea(Location origLoc, int x, int z){
         Location loc = new Location(origLoc.getWorld(), origLoc.getX() + x, 0, origLoc.getZ() + z); //Gets new location offset from original
 
-        List<FishingArea> areaList = FishingArea.GetAvailableAreas(loc.getBlock().getBiome().toString());
+        List<FishingArea> areaList = FishingArea.GetAvailableAreas(loc);
 
         return areaList.contains(ConfigHandler.instance.baseConfig.getAllBlueArea());
     }

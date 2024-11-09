@@ -10,7 +10,11 @@ import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.helpers.CraftingHandler;
 import com.kunfury.blepfishing.helpers.ItemHandler;
 import com.kunfury.blepfishing.listeners.*;
+import com.kunfury.blepfishing.objects.TournamentObject;
+import com.kunfury.blepfishing.objects.TournamentType;
 import com.kunfury.blepfishing.plugins.Metrics;
+import com.kunfury.blepfishing.plugins.WorldGuardHandler;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
@@ -32,6 +36,15 @@ public final class BlepFishing extends JavaPlugin {
 
     public Database Database;
     private static Economy econ = null;
+
+    @Override
+    public void onLoad() {
+        Plugin worldGuardPlugin = Bukkit.getPluginManager().getPlugin("WorldGuard");
+
+        if((worldGuardPlugin instanceof WorldGuardPlugin))
+            new WorldGuardHandler().Load();
+    }
+
     @Override
     public void onEnable() {
         // Plugin startup logic
@@ -107,9 +120,15 @@ public final class BlepFishing extends JavaPlugin {
             return stat;
         }));
 
+        var tournamentTable = com.kunfury.blepfishing.database.Database.Tournaments;
+
+        if(tournamentTable != null){
+            int tournamentCount = tournamentTable.GetActive().size();
+            metrics.addCustomChart(new Metrics.SingleLineChart("active_tournaments", () -> tournamentCount));
+        }
+
 //        metrics.addCustomChart(new Metrics.SingleLineChart("active_quests", () -> QuestHandler.getActiveQuests().size()));
 //
-//        metrics.addCustomChart(new Metrics.SingleLineChart("active_tournaments", () -> TournamentHandler.ActiveTournaments.size()));
     }
 
     public static boolean hasEconomy(){

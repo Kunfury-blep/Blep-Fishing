@@ -1,7 +1,10 @@
 package com.kunfury.blepfishing.objects;
 
 import com.gmail.nossr50.skills.fishing.Fishing;
+import com.kunfury.blepfishing.plugins.PluginHandler;
+import com.kunfury.blepfishing.plugins.WorldGuardHandler;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -57,16 +60,25 @@ public class FishingArea {
         return ActiveAreas.values();
     }
 
-    public static ArrayList<FishingArea> GetAvailableAreas(String biome){
-        ArrayList<FishingArea> fishingAreas = new ArrayList<>();
+    public static List<FishingArea> GetAvailableAreas(Location loc){
+        List<FishingArea> fishingAreas = new ArrayList<>();
 
-        ActiveAreas.forEach((key, value) -> {
+        if(PluginHandler.HasWorldGuard()){
+            fishingAreas = WorldGuardHandler.GetAreas(loc);
+
+            if(!fishingAreas.isEmpty()){
+                return fishingAreas;
+            }
+        }
+
+        String biome = loc.getBlock().getBiome().toString();
+
+        for(var entrySet : ActiveAreas.entrySet()){
+            var value = entrySet.getValue();
             if(value.Biomes.contains(biome)){
                 fishingAreas.add(value);
-                return;
             }
-        });
-
+        }
 
         return fishingAreas;
     }
