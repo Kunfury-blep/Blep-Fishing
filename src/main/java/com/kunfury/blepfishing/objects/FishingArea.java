@@ -1,6 +1,5 @@
 package com.kunfury.blepfishing.objects;
 
-import com.gmail.nossr50.skills.fishing.Fishing;
 import com.kunfury.blepfishing.plugins.PluginHandler;
 import com.kunfury.blepfishing.plugins.WorldGuardHandler;
 import org.bukkit.Bukkit;
@@ -38,7 +37,7 @@ public class FishingArea {
     }
 
     private static final HashMap<String, FishingArea> ActiveAreas = new HashMap<>();
-    public static void AddArea(FishingArea fishingArea){
+    public static void AddNew(FishingArea fishingArea){
         if(ActiveAreas.containsKey(fishingArea.Id)){
             Bukkit.getLogger().warning("Attempted to create duplicate Fishing Area with ID: " + fishingArea.Id);
             return;

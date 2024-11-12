@@ -2,7 +2,6 @@ package com.kunfury.blepfishing.config;
 
 import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.objects.FishingArea;
-import com.kunfury.blepfishing.objects.Rarity;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -38,7 +37,7 @@ public class AreaConfig {
             String compassHint = areaConfig.getString(key + ".Compass Hint");
 
             FishingArea fishingArea = new FishingArea(key, name, biomes, compassPiece, compassHint);
-            FishingArea.AddArea(fishingArea);
+            FishingArea.AddNew(fishingArea);
         }
     }
 

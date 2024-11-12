@@ -104,7 +104,7 @@ public class Casket extends TreasureType {
 
             player.sendMessage(Formatting.GetLanguageString("Treasure.Casket.result")
                     .replace("{item}", Formatting.GetItemName(itemDrop) + " x" + itemDrop.getAmount())
-                    .replace("{casket}", Name));
+                    .replace("{casket}", getFormattedName()));
         }
 
         item.setAmount(item.getAmount() - 1);
@@ -113,6 +113,10 @@ public class Casket extends TreasureType {
         TreasureHandler.OpenInventories.put(player, inv);
 
 
+    }
+
+    private String getFormattedName(){
+        return Formatting.formatColor(Name);
     }
 
 

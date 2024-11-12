@@ -4,6 +4,7 @@ import com.kunfury.blepfishing.objects.FishingArea;
 import com.kunfury.blepfishing.objects.Rarity;
 import com.kunfury.blepfishing.ui.buttons.admin.AdminPanelButton;
 import com.kunfury.blepfishing.ui.buttons.admin.areas.AdminAreaBtn;
+import com.kunfury.blepfishing.ui.buttons.admin.areas.AdminAreaCreateBtn;
 import com.kunfury.blepfishing.ui.buttons.admin.rarities.AdminRarityBtn;
 import com.kunfury.blepfishing.ui.buttons.admin.rarities.AdminRarityCreateBtn;
 import com.kunfury.blepfishing.ui.objects.Panel;
@@ -30,6 +31,6 @@ public class AdminAreasPanel extends Panel {
             i++;
         }
 
-        AddFooter(new AdminPanelButton(), new AdminRarityCreateBtn(), null);
+        AddFooter(new AdminPanelButton(), new AdminAreaCreateBtn(), null);
     }
 }
