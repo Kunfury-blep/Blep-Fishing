@@ -1,5 +1,6 @@
 package com.kunfury.blepfishing.objects.treasure;
 
+import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.helpers.ItemHandler;
 import org.bukkit.entity.Player;
@@ -31,6 +32,8 @@ public abstract class TreasureType {
     public abstract boolean CanGenerate(Player player);
 
     protected abstract void Use(ItemStack item, Player player);
+
+    public abstract String getFormattedName();
 
     ///
     //Static Methods

@@ -25,7 +25,7 @@ public class TreasureEditRewardsBtn extends AdminTreasureMenuButton {
         ItemMeta m = item.getItemMeta();
         assert m != null;
 
-        m.setDisplayName(Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.editRewards"));
+        m.setDisplayName(Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.Base.editRewards"));
 
         ArrayList<String> lore = new ArrayList<>();
 

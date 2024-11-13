@@ -49,6 +49,11 @@ public class CompassPiece extends TreasureType{
     }
 
     @Override
+    public String getFormattedName() {
+        return Formatting.GetLanguageString("Treasure.Compass Piece.name");
+    }
+
+    @Override
     public ItemStack GetItem(PlayerFishEvent e){
 
         var player = e.getPlayer();

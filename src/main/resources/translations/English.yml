@@ -3,10 +3,11 @@ Fish:
   caught: "&8Caught By: {player} on {date}"
   Scoreboard:
     size: "&b{size}\""
-  announce: "{player} &fjust caught a {rarity} {fish}!&f"
+  announce: "{player} &fjust caught a {rarity} {fish}&f!"
   value: "&9Value: ${value}"
 
 Treasure:
+  announce: "{player} &fjust fished up a {treasure}&f!"
   Casket:
     use: "&bRight-Click to &e&oOpen"
     result: "You found {item} &finside the {casket}&f!"
@@ -148,7 +149,6 @@ UI:
       enabled: "&aEnabled"
       disabled: "&cDisabled"
       toggle: "&bShift Left-Click to &c&oToggle"
-
   Admin:
     Panels:
       base: "Admin Panel"
@@ -177,8 +177,8 @@ UI:
           lore: "&fWant to contribute to the Translations available? &e&oClick for Discord"
           click: "&bClick For Discord"
       Treasure:
-        name: "&bEdit Rewards"
         Base:
+          editRewards: "&bEdit Rewards"
           rewards: "&a{amount}x Rewards"
           noRewards: "&cNo Rewards Set"
           unfinishedRewards: "&e{amount}x Unfinished Rewards"

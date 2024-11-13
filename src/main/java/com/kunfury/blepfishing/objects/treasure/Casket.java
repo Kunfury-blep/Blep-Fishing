@@ -6,6 +6,7 @@ import com.kunfury.blepfishing.helpers.TreasureHandler;
 import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.helpers.ItemHandler;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -86,7 +87,7 @@ public class Casket extends TreasureType {
         while(treasureDrops.isEmpty()){ //Ensures at least one item drops
             i++;
             if(i >= 1000){
-                Utilities.Severe("No rewards found after 1,000 iterations on " + Id);
+                Utilities.Severe("No Casket Rewards found after 1,000 iterations on " + Id);
                 return;
             }
             for(var reward : Rewards){
@@ -111,15 +112,12 @@ public class Casket extends TreasureType {
 
         player.openInventory(inv);
         TreasureHandler.OpenInventories.put(player, inv);
-
-
     }
 
-    private String getFormattedName(){
+    @Override
+    public String getFormattedName() {
         return Formatting.formatColor(Name);
     }
-
-
 
     private static List<Casket> Caskets;
     private static int TotalCasketWeight = 0;

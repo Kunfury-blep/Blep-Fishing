@@ -64,6 +64,12 @@ public class FishingListener implements Listener {
                 var treasureItem = treasureType.GetItem(e);
                 if(treasureItem != null){ //Ensures a treasure item was found, gives a normal fish otherwise
                     item.setItemStack(treasureItem);
+                    if(treasureType.Announce){
+                        Utilities.Announce(Formatting.GetLanguageString("Treasure.announce")
+                                .replace("{player}", player.getDisplayName())
+                                .replace("{treasure}", treasureType.getFormattedName()));
+                    }
+
                     return;
                 }
             }
