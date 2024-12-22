@@ -150,7 +150,7 @@ public class Utilities {
         player.sendMessage(Formatting.GetMessagePrefix() +
                 Formatting.GetLanguageString("Economy.soldAllFish")
                         .replace("{amount}", String.valueOf(count))
-                        .replace("{value}", String.valueOf(totalValue)));
+                        .replace("{value}", Formatting.DoubleFormat(totalValue)));
         player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_YES, .3f, 1f);
     }
 
@@ -171,7 +171,7 @@ public class Utilities {
         player.sendMessage(Formatting.GetMessagePrefix() +
                 Formatting.GetLanguageString("Economy.soldFish")
                         .replace("{fish}", fish.getFormattedName())
-                        .replace("{value}", String.valueOf(fish.Value)));
+                        .replace("{value}", Formatting.DoubleFormat(fish.Value)));
 
         player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_YES, .3f, 1f);
     }
