@@ -98,7 +98,7 @@ public class WorldGuardHandler {
 
     }
 
-    public static List<FishType> GetFish(Location loc){
+    public static List<FishType> GetFishTypes(Location loc){
         var regions = getRegions(loc);
 
         List<FishType> fishTypes = new ArrayList<>();
@@ -108,8 +108,10 @@ public class WorldGuardHandler {
                 Map<Flag<?>, Object> flags = region.getFlags();
 
                 flags.forEach((key, value) -> {
+                    //Bukkit.broadcastMessage("Worldguard Flag: " + key);
                     if(key.getName().equals("bf-fish")){
                         FishType fishType = FishType.FromId(String.valueOf(value));
+                        //Bukkit.broadcastMessage("Worldguard Fish Flag: " + value);
                         if(fishType != null){
                             fishTypes.add(fishType);
                         }

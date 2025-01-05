@@ -10,10 +10,13 @@ import com.kunfury.blepfishing.objects.equipment.FishBag;
 import com.kunfury.blepfishing.objects.equipment.FishingJournal;
 import com.kunfury.blepfishing.objects.equipment.FishingRod;
 import com.kunfury.blepfishing.objects.treasure.TreasureType;
+import com.kunfury.blepfishing.plugins.PluginHandler;
+import com.kunfury.blepfishing.plugins.WorldGuardHandler;
 import com.kunfury.blepfishing.ui.scoreboards.DisplayFishInfo;
 import com.kunfury.blepfishing.helpers.ItemHandler;
 import com.kunfury.blepfishing.objects.*;
 import com.kunfury.blepfishing.plugins.McMMO;
+import com.sk89q.worldguard.WorldGuard;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
@@ -43,7 +46,8 @@ public class FishingListener implements Listener {
        }
 
         Bukkit.getScheduler().runTaskLater (BlepFishing.getPlugin(), () ->{
-            if(McMMO.McMcMmoCanFish(e.getPlayer())) FishCaught(e);
+            if(McMMO.McMcMmoCanFish(e.getPlayer()))
+                FishCaught(e);
         } , 1);
     }
 
@@ -56,6 +60,9 @@ public class FishingListener implements Listener {
 
         Player player = e.getPlayer();
         Location hookLoc = item.getLocation();
+
+        if(!WorldGuardHandler.canFish(hookLoc))
+            return;
 
         if(TreasureHandler.instance.TreasureCaught()){
             TreasureType treasureType = TreasureHandler.instance.GetTreasure();
@@ -134,37 +141,44 @@ public class FishingListener implements Listener {
 
     }
 
-    private FishType GetCaughtFishType(Location iLoc, boolean allBlue) {
-        List<FishType> availFish = new ArrayList<>();//Available fish to choose from
+    private FishType GetCaughtFishType(Location hookLoc, boolean allBlue) {
+        if(allBlue)
+            return GetRandomFishType(FishType.GetAll().stream().toList(), hookLoc);
 
-        var world = iLoc.getWorld();
+        if(PluginHandler.HasWorldGuard()){
+            var fishTypes = WorldGuardHandler.GetFishTypes(hookLoc);
+            if(!fishTypes.isEmpty())
+                return GetRandomFishType(fishTypes, hookLoc);
+        }
+
+        var world = hookLoc.getWorld();
         assert world != null;
 
-        List<FishingArea> fishingAreas = FishingArea.GetAvailableAreas(iLoc); //Available areas to pull fish from
+        List<FishType> availFish = new ArrayList<>();//Available fish to choose from
+        List<FishingArea> fishingAreas = FishingArea.GetAvailableAreas(hookLoc); //Available areas to pull fish from
 
-        int height = iLoc.getBlockY();
+        int height = hookLoc.getBlockY();
         boolean isRaining = world.hasStorm();
         long time = world.getTime();
         boolean isNight = !(time < 12300 || time > 23850);
 
-        if(allBlue)
-            availFish.addAll(FishType.GetAll());
-        else{
-            for (var type : FishType.GetAll())
-            {
-                if(type.canCatch(isRaining, height, isNight, fishingAreas))
-                    availFish.add(type);
-            }
+        for (var type : FishType.GetAll())
+        {
+            if(type.canCatch(isRaining, height, isNight, fishingAreas))
+                availFish.add(type);
         }
-        //Get fish where height matches.
 
-        if(availFish.isEmpty()){
-            Bukkit.getLogger().warning("No fish available for location: " + iLoc);
+        return GetRandomFishType(availFish, hookLoc);
+    }
+
+    private FishType GetRandomFishType(List<FishType> fishTypes, Location hookLoc){
+        if(fishTypes.isEmpty()){
+            Bukkit.getLogger().warning("No fish available for location: " + hookLoc);
             return null;
         }
 
-        int rand = ThreadLocalRandom.current().nextInt(0, availFish.size());
-        return availFish.get(rand);
+        int rand = ThreadLocalRandom.current().nextInt(0, fishTypes.size());
+        return fishTypes.get(rand);
     }
 
     private void AnnounceCatch(FishObject fish){

@@ -2,6 +2,8 @@ package com.kunfury.blepfishing.database.tables;
 
 import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.database.Database;
+import com.kunfury.blepfishing.plugins.PluginHandler;
+import com.kunfury.blepfishing.plugins.WorldGuardHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -80,6 +82,9 @@ public class AllBlueTable extends DbTable<Location> {
     }
 
     public boolean InAllBlue(Location hookLoc){
+        if(PluginHandler.HasWorldGuard() && WorldGuardHandler.GetEndgame(hookLoc))
+            return true;
+
         var radius = ConfigHandler.instance.baseConfig.getAllBlueRadius();
 
         try{
