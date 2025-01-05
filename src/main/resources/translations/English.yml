@@ -11,6 +11,7 @@ Treasure:
   Casket:
     use: "&bRight-Click to &e&oOpen"
     result: "You found {item} &finside the {casket}&f!"
+    announceReward: "{player} &fjust found {item} &finside the {casket}&f!"
   Compass Piece:
     name: "&bCompass Piece"
     nameMulti: "&bCompass Pieces &e{amount}&b/&e{total}&b"
@@ -67,6 +68,7 @@ Tournament:
   leaderboard: "&l-- {tournament}&l Leaderboard - Hover For Info --"
   start: "The {tournament}&f Fishing Contest has begun!"
   allFish: "&fAll Fish"
+  noFish: "&cNo Fish Defined"
   newBest: "{player} just took the top spot in the {tournament}&f with a {rarity} {fish}!"
   Grading:
     Longest:

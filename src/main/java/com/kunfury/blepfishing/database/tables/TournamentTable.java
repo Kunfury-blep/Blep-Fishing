@@ -149,22 +149,25 @@ public class TournamentTable extends DbTable<TournamentObject> {
         List<FishObject> winningFish = new ArrayList<>();
 
         try {
-            StringBuilder sql = new StringBuilder("SELECT * FROM fish WHERE");
+
 
             int i = 1;
             var typeIds = tournament.getType().FishTypeIds;
 
-            if(!typeIds.isEmpty()){
-                sql.append(" (");
-                for(var typeId : typeIds){
-                    sql.append("typeId = ").append("\'" + typeId + "\'");
-                    if(typeIds.size() > i){
-                        sql.append(" OR ");
-                        i++;
-                    }
-                }
-                sql.append(")");
+            if(typeIds.isEmpty()){ //Returns empty if no valid fish types are available
+                return winningFish;
             }
+
+            StringBuilder sql = new StringBuilder("SELECT * FROM fish WHERE");
+            sql.append(" (");
+            for(var typeId : typeIds){
+                sql.append("typeId = ").append("\'" + typeId + "\'");
+                if(typeIds.size() > i){
+                    sql.append(" OR ");
+                    i++;
+                }
+            }
+            sql.append(")");
 
 
             var startTime = Utilities.TimeToLong(tournament.StartTime);

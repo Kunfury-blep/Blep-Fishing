@@ -95,6 +95,13 @@ public class Casket extends TreasureType {
                     continue;
 
                 treasureDrops.add(reward.Item);
+
+                if(reward.Announce){
+                    Utilities.Announce(Formatting.GetLanguageString("Treasure.Casket.announceReward")
+                            .replace("{player}", player.getDisplayName())
+                            .replace("{item}", Formatting.GetItemName(reward.Item) + " x" + reward.Item.getAmount())
+                            .replace("{casket}", getFormattedName()));
+                }
             }
         }
 

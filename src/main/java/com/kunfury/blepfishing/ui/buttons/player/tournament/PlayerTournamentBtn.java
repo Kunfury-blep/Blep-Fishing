@@ -50,8 +50,12 @@ public class PlayerTournamentBtn extends MenuButton {
 
         var fishTypes = tournament.getType().getFishTypes();
 
-        var randomType = fishTypes.get(ThreadLocalRandom.current().nextInt(fishTypes.size()));
-        m.setCustomModelData(randomType.ModelData);
+        if(!fishTypes.isEmpty()){
+            var randomType = fishTypes.get(ThreadLocalRandom.current().nextInt(fishTypes.size()));
+            m.setCustomModelData(randomType.ModelData);
+        }
+
+
 
 
         item.setItemMeta(m);

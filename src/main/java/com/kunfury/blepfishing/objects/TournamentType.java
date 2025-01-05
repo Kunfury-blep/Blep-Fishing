@@ -184,11 +184,18 @@ public class TournamentType {
                 return formattedCatchList;
             }
 
-            formattedCatchList = new ArrayList<>();
-            for(var fishType : getFishTypes()){
-                formattedCatchList.add(fishType.Name);
+            var fishTypes = getFishTypes();
+
+            if(fishTypes.isEmpty()){
+                formattedCatchList = Collections.singletonList(
+                        Formatting.GetLanguageString("Tournament.noFish"));
+            }else{
+                formattedCatchList = new ArrayList<>();
+                for(var fishType : fishTypes){
+                    formattedCatchList.add(fishType.Name);
+                }
+                formattedCatchList = Formatting.ToCommaLoreList(formattedCatchList, ChatColor.WHITE, ChatColor.BLUE);
             }
-            formattedCatchList = Formatting.ToCommaLoreList(formattedCatchList, ChatColor.WHITE, ChatColor.BLUE);
         }
         return formattedCatchList;
     }
@@ -248,7 +255,8 @@ public class TournamentType {
 
         String timeStr = Formatting.asTime(dateTime);
 
-//        Bukkit.broadcastMessage(dayOfWeek + " - " + timeStr);
+        //Bukkit.getLogger().warning(dayOfWeek + " - " + timeStr);
+        //Bukkit.broadcastMessage(dayOfWeek + " - " + timeStr);
         for(var t : GetTournaments()){
             t.TryStart(dayOfWeek, timeStr);
         }
