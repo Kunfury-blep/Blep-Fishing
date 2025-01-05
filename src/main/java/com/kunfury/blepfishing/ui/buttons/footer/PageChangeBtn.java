@@ -31,7 +31,7 @@ public class PageChangeBtn<T> extends MenuButton {
 
         if(next){
             item.setType(Material.GREEN_CANDLE);
-            m.setDisplayName(Formatting.GetLanguageString("UI.System.Buttons.pageNExt"));
+            m.setDisplayName(Formatting.GetLanguageString("UI.System.Buttons.pageNext"));
         }else
             m.setDisplayName(Formatting.GetLanguageString("UI.System.Buttons.pageBack"));
 
