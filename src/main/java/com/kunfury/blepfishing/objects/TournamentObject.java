@@ -42,7 +42,15 @@ public class TournamentObject {
         Id = rs.getInt("id");
         TypeId = rs.getString("typeId");
         StartTime = Utilities.TimeFromLong(rs.getLong("startTime"));
+
+        if(getType() == null){ //Disables the tournament if invalid type
+            active = false;
+            Database.Tournaments.Update(Id, "active", false);
+            return;
+        }
+
         active = rs.getBoolean("active");
+
         StartTimer(this);
         SetupBossBar();
     }
@@ -252,6 +260,8 @@ public class TournamentObject {
     public static boolean StartTimer(TournamentObject tournament){
         if(TournamentTimers.containsKey(tournament.Id))
             return false;
+
+
 
         TournamentTimers.put(tournament.Id, tournament);
 
