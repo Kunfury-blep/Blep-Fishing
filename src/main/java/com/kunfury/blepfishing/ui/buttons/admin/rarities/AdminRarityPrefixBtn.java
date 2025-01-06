@@ -67,7 +67,7 @@ public class AdminRarityPrefixBtn extends AdminRarityMenuButton {
 
         @Override
         protected boolean isInputValid(@NotNull ConversationContext conversationContext, @NotNull String s) {
-            return getRarity().Prefix.equals(s);
+            return true;
         }
 
         @Nullable
