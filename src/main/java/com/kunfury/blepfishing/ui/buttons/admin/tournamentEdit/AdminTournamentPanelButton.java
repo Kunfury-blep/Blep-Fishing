@@ -1,6 +1,7 @@
 package com.kunfury.blepfishing.ui.buttons.admin.tournamentEdit;
 
 import com.kunfury.blepfishing.config.ConfigHandler;
+import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
 import com.kunfury.blepfishing.ui.panels.admin.AdminPanel;
@@ -48,8 +49,13 @@ public class AdminTournamentPanelButton extends MenuButton {
     @Override
     protected void click_left_shift() {
         ConfigHandler.instance.tourneyConfig.config.set("Settings.Enabled", !ConfigHandler.instance.tourneyConfig.Enabled());
-
         ConfigHandler.instance.tourneyConfig.Save();
+
+        for(var t : Database.Tournaments.GetActive()){
+            t.RefreshBossBar();
+        }
+
+
         new AdminPanel().Show(player);
     }
 }

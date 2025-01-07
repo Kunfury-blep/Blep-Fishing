@@ -34,7 +34,6 @@ public class TournamentType {
 
 
     //Not in editor yet
-    public boolean ForceBossBar = true;
     public boolean HasBossBar = true;
     public BarColor BossBarColor = BarColor.BLUE;
 

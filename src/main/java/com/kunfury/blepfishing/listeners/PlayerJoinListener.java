@@ -18,8 +18,10 @@ public class PlayerJoinListener implements Listener {
 
         CraftingHandler.LearnRecipes(player);
 
-        for(var t : Database.Tournaments.GetActive()){
-            t.BossBarJoin(player);
+        if(ConfigHandler.instance.tourneyConfig.Enabled()){
+            for(var t : Database.Tournaments.GetActive()){
+                t.BossBarJoin(player);
+            }
         }
 
         if(player.hasPermission("bf.admin") && !ConfigHandler.instance.ErrorMessages.isEmpty()){

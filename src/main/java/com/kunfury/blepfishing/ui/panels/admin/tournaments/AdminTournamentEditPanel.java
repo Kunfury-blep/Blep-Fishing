@@ -21,6 +21,7 @@ public class AdminTournamentEditPanel extends Panel {
         AddButton(new TournamentEditFishTypesBtn(type));
         AddButton(new TournamentEditStartTimesBtn(type));
         AddButton(new TournamentEditRewardsBtn(type));
+        AddButton(new TournamentEditBossBarBtn(type));
         AddButton(new TournamentEditHornTradeBtn(type));
         if(type.VillagerHorn)
             AddButton(new TournamentEditHornLevelBtn(type));

@@ -1,6 +1,8 @@
 package com.kunfury.blepfishing.helpers;
 
 import com.kunfury.blepfishing.BlepFishing;
+import com.kunfury.blepfishing.config.ConfigHandler;
+import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.objects.FishObject;
 import com.kunfury.blepfishing.objects.TournamentObject;
 import com.kunfury.blepfishing.objects.TournamentType;
@@ -39,8 +41,10 @@ public class Utilities {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    TournamentType.CheckCanStart();
-                    TournamentObject.CheckActive();
+                    if(ConfigHandler.instance.tourneyConfig.Enabled()){
+                        TournamentType.CheckCanStart();
+                        TournamentObject.CheckActive();
+                    }
                 }
 
             }.runTaskTimer(BlepFishing.getPlugin(), 0, 1200); //Runs every 60 seconds

@@ -1,5 +1,6 @@
 package com.kunfury.blepfishing.ui.panels.player;
 
+import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.ui.buttons.admin.AdminPanelButton;
@@ -20,7 +21,9 @@ public class PlayerPanel extends Panel {
         if(player.hasPermission("bf.admin"))
             inv.setItem(4, new AdminPanelButton().getItemStack());
 
-        inv.setItem(11, new PlayerTournamentPanelBtn().getItemStack());
+        if(ConfigHandler.instance.tourneyConfig.Enabled())
+            inv.setItem(11, new PlayerTournamentPanelBtn().getItemStack());
+
         inv.setItem(13, new PlayerFishPanelBtn(player).getItemStack());
 
 

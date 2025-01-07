@@ -1,6 +1,7 @@
 package com.kunfury.blepfishing.objects;
 
 import com.kunfury.blepfishing.BlepFishing;
+import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.Utilities;
@@ -57,7 +58,6 @@ public class TournamentObject {
 
     BossBar bossBar;
     public void SetupBossBar(){
-
         if(!getType().HasBossBar)
             return;
 
@@ -68,7 +68,6 @@ public class TournamentObject {
             bossBar.addPlayer(p);
         }
 
-
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -76,15 +75,29 @@ public class TournamentObject {
                 String title = getType().Name + ChatColor.WHITE + " - " + Formatting.asTime(getTimeRemaining(), ChatColor.WHITE);
                 bossBar.setTitle(title);
                 bossBar.setProgress(getBossBarProgress());
-
             }
 
         }.runTaskTimer(BlepFishing.getPlugin(), 0, 20);
     }
 
+    public void RefreshBossBar(){
+        if(ConfigHandler.instance.tourneyConfig.Enabled() && getType().HasBossBar){
+            for(var player : Bukkit.getOnlinePlayers()){
+                if(playerBossBars.getOrDefault(player.getUniqueId(), false))
+                    bossBar.addPlayer(player);
+            }
+        }else{
+            for(var player : bossBar.getPlayers()){
+                bossBar.removePlayer(player);
+            }
+        }
+    }
 
     private final Map<UUID, Boolean> playerBossBars = new HashMap<>();
     public void ToggleBossBar(Player player){
+        if(!getType().HasBossBar)
+            return;
+
         UUID pUUID = player.getUniqueId();
         //Bukkit.broadcastMessage("Toggling BossBar. Contains: " + playerBossBars.containsKey(pUUID));
         boolean show = !(playerBossBars.getOrDefault(pUUID, false));
@@ -107,7 +120,7 @@ public class TournamentObject {
 
     //Handles persistence of bossBar state for player across sessions
     public void BossBarJoin(Player player){
-        if(!getType().ForceBossBar)
+        if(!getType().HasBossBar)
             return;
 
         if(!playerBossBars.containsKey(player.getUniqueId())){

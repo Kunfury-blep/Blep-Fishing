@@ -29,8 +29,10 @@ public class PlayerTournamentBtn extends MenuButton {
         ItemStack item = new ItemStack(Material.SALMON);
         ItemMeta m = item.getItemMeta();
 
+        var tournamentType = tournament.getType();
+
         var duration = Formatting.asTime(tournament.getTimeRemaining(), ChatColor.BLUE);
-        m.setDisplayName(ChatColor.AQUA + tournament.getType().Name +
+        m.setDisplayName(ChatColor.AQUA + tournamentType.Name +
                 ChatColor.BLUE  + " | " + duration);
 
         List<String> lore = new ArrayList<>();
@@ -40,8 +42,9 @@ public class PlayerTournamentBtn extends MenuButton {
 
         lore.add("");
         lore.add(Formatting.GetLanguageString("UI.Player.Buttons.Tournaments.view"));
-        lore.add(Formatting.GetLanguageString("UI.Player.Buttons.Tournaments.bossBar"));
 
+        if(tournamentType.HasBossBar)
+            lore.add(Formatting.GetLanguageString("UI.Player.Buttons.Tournaments.bossBar"));
 
         m.setLore(lore);
 
