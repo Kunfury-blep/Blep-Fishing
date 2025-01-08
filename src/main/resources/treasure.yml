@@ -206,7 +206,7 @@ Caskets:
           type: GOLD_BLOCK
           amount: 32
     Weight: 5
-    Announce: false
+    Announce: true
   rare:
     Name: '&bRare Casket'
     Rewards:
