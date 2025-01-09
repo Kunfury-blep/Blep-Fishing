@@ -9,6 +9,7 @@ import com.kunfury.blepfishing.ui.objects.buttons.AdminTournamentMenuButton;
 import com.kunfury.blepfishing.ui.panels.admin.tournaments.AdminTournamentEditPanel;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -24,7 +25,7 @@ public class TournamentEditBossBarBtn extends AdminTournamentMenuButton {
     }
 
     @Override
-    public ItemStack buildItemStack() {
+    public ItemStack buildItemStack(Player player) {
         Material mat = Material.RED_CONCRETE;
         if(tournament.HasBossBar)
             mat = Material.GREEN_CONCRETE;

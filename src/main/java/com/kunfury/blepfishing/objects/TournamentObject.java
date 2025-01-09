@@ -26,6 +26,7 @@ public class TournamentObject {
     public final int Id;
     public final String TypeId;
     public final LocalDateTime StartTime;
+    public boolean ConfirmCancel;
 
     private FishObject bestFish;
 
@@ -169,6 +170,17 @@ public class TournamentObject {
         }
 
         bestFish = fish;
+    }
+
+    public void Cancel(){
+        if(!active)
+            return;
+
+        active = false;
+        Database.Tournaments.Update(Id, "active", false);
+
+        if(bossBar != null)
+            bossBar.removeAll();
     }
 
     public void Finish(){

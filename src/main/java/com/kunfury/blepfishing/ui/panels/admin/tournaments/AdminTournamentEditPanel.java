@@ -16,17 +16,17 @@ public class AdminTournamentEditPanel extends Panel {
 
     @Override
     public void BuildInventory(Player player) {
-        AddButton(new TournamentEditNameBtn(type));
-        AddButton(new TournamentEditDurationBtn(type));
-        AddButton(new TournamentEditFishTypesBtn(type));
-        AddButton(new TournamentEditStartTimesBtn(type));
-        AddButton(new TournamentEditRewardsBtn(type));
-        AddButton(new TournamentEditBossBarBtn(type));
-        AddButton(new TournamentEditHornTradeBtn(type));
+        AddButton(new TournamentEditNameBtn(type), player);
+        AddButton(new TournamentEditDurationBtn(type), player);
+        AddButton(new TournamentEditFishTypesBtn(type), player);
+        AddButton(new TournamentEditStartTimesBtn(type), player);
+        AddButton(new TournamentEditRewardsBtn(type), player);
+        AddButton(new TournamentEditBossBarBtn(type), player);
+        AddButton(new TournamentEditHornTradeBtn(type), player);
         if(type.VillagerHorn)
-            AddButton(new TournamentEditHornLevelBtn(type));
-        AddButton(new AdminTournamentGradingBtn(type));
+            AddButton(new TournamentEditHornLevelBtn(type), player);
+        AddButton(new AdminTournamentGradingBtn(type), player);
 
-        inv.setItem(17, new AdminTournamentPanelButton().getBackButton());
+        inv.setItem(17, new AdminTournamentPanelButton().getBackButton(player));
     }
 }

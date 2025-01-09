@@ -27,7 +27,7 @@ public class PlayerTournamentDetailPanel extends PaginationPanel<FishObject> {
     public void BuildInventory(Player player) {
         super.BuildInventory(player);
 
-        AddFooter(new PlayerTournamentPanelBtn(), null, null);
+        AddFooter(new PlayerTournamentPanelBtn(), null, null, player);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class PlayerTournamentDetailPanel extends PaginationPanel<FishObject> {
     }
 
     @Override
-    protected MenuButton getButton(FishObject object)  {
+    protected MenuButton getButton(FishObject object, Player player)  {
         return new PlayerTournamentFishBtn(object, tournament.getWinningFish().indexOf(object) + 1);
     }
 }

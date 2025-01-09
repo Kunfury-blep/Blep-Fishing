@@ -22,9 +22,9 @@ public class AdminTranslationsPanel extends Panel {
     protected void BuildInventory(Player player) {
 
         for(var name : ConfigHandler.instance.Translations.keySet()){
-            AddButton(new AdminTranslationBtn(name));
+            AddButton(new AdminTranslationBtn(name), player);
         }
 
-        AddFooter(new AdminPanelButton(), null, null, new AdminTranslationInfoBtn());
+        AddFooter(new AdminPanelButton(), null, null, new AdminTranslationInfoBtn(), player);
     }
 }

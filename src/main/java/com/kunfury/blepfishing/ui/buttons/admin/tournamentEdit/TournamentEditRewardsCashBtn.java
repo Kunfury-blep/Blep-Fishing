@@ -8,6 +8,7 @@ import com.kunfury.blepfishing.ui.panels.admin.tournaments.AdminTournamentEditRe
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.conversations.*;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
@@ -23,7 +24,7 @@ public class TournamentEditRewardsCashBtn extends AdminTournamentRewardsMenuButt
     }
 
     @Override
-    public ItemStack buildItemStack() {
+    public ItemStack buildItemStack(Player player) {
         ItemStack item = new ItemStack(Material.EMERALD);
         ItemMeta m = item.getItemMeta();
         assert m != null;

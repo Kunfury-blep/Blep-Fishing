@@ -18,9 +18,9 @@ public class AdminTournamentEditStartTimesDaysPanel extends Panel {
     @Override
     public void BuildInventory(Player player) {
         for(var day : TournamentType.TournamentDay.values()){
-            inv.addItem(new TournamentEditStartTimesDayBtn(type, day).getItemStack());
+            inv.addItem(new TournamentEditStartTimesDayBtn(type, day).getItemStack(player));
         }
 
-        AddFooter(new TournamentEditStartTimesBtn(type), null, null);
+        AddFooter(new TournamentEditStartTimesBtn(type), null, null, player);
     }
 }

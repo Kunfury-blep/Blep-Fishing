@@ -1,13 +1,17 @@
 package com.kunfury.blepfishing.ui.buttons.player.tournament;
 
+import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
 import com.kunfury.blepfishing.helpers.ItemHandler;
 import com.kunfury.blepfishing.objects.TournamentObject;
 import com.kunfury.blepfishing.ui.panels.player.PlayerTournamentDetailPanel;
+import com.kunfury.blepfishing.ui.panels.player.PlayerTournamentPanel;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -25,7 +29,7 @@ public class PlayerTournamentBtn extends MenuButton {
     }
 
     @Override
-    public ItemStack buildItemStack() {
+    public ItemStack buildItemStack(Player player) {
         ItemStack item = new ItemStack(Material.SALMON);
         ItemMeta m = item.getItemMeta();
 
@@ -45,6 +49,14 @@ public class PlayerTournamentBtn extends MenuButton {
 
         if(tournamentType.HasBossBar)
             lore.add(Formatting.GetLanguageString("UI.Player.Buttons.Tournaments.bossBar"));
+
+        if(player.hasPermission("bf.admin")){
+            lore.add("");
+            if(tournament.ConfirmCancel)
+                lore.add(Formatting.GetLanguageString("UI.Player.Buttons.Tournaments.cancelConfirm"));
+            else
+                lore.add(Formatting.GetLanguageString("UI.Player.Buttons.Tournaments.cancel"));
+        }
 
         m.setLore(lore);
 
@@ -76,6 +88,25 @@ public class PlayerTournamentBtn extends MenuButton {
     protected void click_left_shift() {
         TournamentObject tournament = getTournament();
         tournament.ToggleBossBar(player);
+    }
+
+    @Override
+    protected void click_right_shift() {
+        if(!player.hasPermission("bf.admin"))
+            return;
+
+        TournamentObject tournament = getTournament();
+
+        if(!tournament.ConfirmCancel){
+            tournament.ConfirmCancel = true;
+
+            Bukkit.getScheduler ().runTaskLater (BlepFishing.getPlugin(), () ->{
+                tournament.ConfirmCancel = false;
+            } , 300);
+        }else{
+            tournament.Cancel();
+        }
+        new PlayerTournamentPanel().Show(player);
     }
 
     protected TournamentObject getTournament(){

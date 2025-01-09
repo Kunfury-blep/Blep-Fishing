@@ -8,6 +8,7 @@ import com.kunfury.blepfishing.ui.objects.buttons.AdminTournamentRewardsMenuButt
 import com.kunfury.blepfishing.ui.panels.admin.tournaments.AdminTournamentEditRewardsPlacementPanel;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -24,7 +25,7 @@ public class TournamentEditRewardsSaveBtn extends AdminTournamentRewardsMenuButt
 
 
     @Override
-    public ItemStack buildItemStack() {
+    public ItemStack buildItemStack(Player player) {
 
         ItemStack item = new ItemStack(Material.TURTLE_SCUTE);
         ItemMeta m = item.getItemMeta();

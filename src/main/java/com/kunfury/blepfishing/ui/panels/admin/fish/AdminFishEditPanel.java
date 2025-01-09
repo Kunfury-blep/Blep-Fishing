@@ -16,17 +16,17 @@ public class AdminFishEditPanel extends Panel {
 
     @Override
     public void  BuildInventory(Player player) {
-        AddButton(new FishEditNameBtn(fishType));
-        AddButton(new FishEditLoreBtn(fishType));
-        AddButton(new FishEditAreaBtn(fishType));
-        AddButton(new FishEditModelDataBtn(fishType));
-        AddButton(new FishEditPriceBtn(fishType));
-        AddButton(new FishEditLengthMinBtn(fishType));
-        AddButton(new FishEditLengthMaxBtn(fishType));
-        AddButton(new FishEditHeightMinBtn(fishType));
-        AddButton(new FishEditHeightMaxBtn(fishType));
-        AddButton(new FishEditRainingBtn(fishType));
+        AddButton(new FishEditNameBtn(fishType), player);
+        AddButton(new FishEditLoreBtn(fishType), player);
+        AddButton(new FishEditAreaBtn(fishType), player);
+        AddButton(new FishEditModelDataBtn(fishType), player);
+        AddButton(new FishEditPriceBtn(fishType), player);
+        AddButton(new FishEditLengthMinBtn(fishType), player);
+        AddButton(new FishEditLengthMaxBtn(fishType), player);
+        AddButton(new FishEditHeightMinBtn(fishType), player);
+        AddButton(new FishEditHeightMaxBtn(fishType), player);
+        AddButton(new FishEditRainingBtn(fishType), player);
 
-        inv.setItem(17, new AdminFishPanelButton(0).getBackButton());
+        inv.setItem(17, new AdminFishPanelButton(0).getBackButton(player));
     }
 }

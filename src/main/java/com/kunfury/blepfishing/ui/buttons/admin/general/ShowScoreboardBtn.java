@@ -8,6 +8,7 @@ import com.kunfury.blepfishing.ui.objects.buttons.AdminTreasureMenuButton;
 import com.kunfury.blepfishing.ui.panels.admin.AdminGeneralPanel;
 import com.kunfury.blepfishing.ui.panels.admin.treasure.AdminTreasureEditPanel;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 public class ShowScoreboardBtn extends MenuButton {
 
     @Override
-    public ItemStack buildItemStack() {
+    public ItemStack buildItemStack(Player player) {
         Material mat = Material.RED_CONCRETE;
         ArrayList<String> lore = new ArrayList<>();
 

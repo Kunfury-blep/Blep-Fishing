@@ -19,9 +19,9 @@ public class AdminTreasureEditRewardsPanel extends Panel {
     @Override
     public void BuildInventory(Player player) {
         for(var i : casket.Rewards){
-            inv.addItem(new TreasureEditRewardOptionBtn(casket, i).getItemStack());
+            inv.addItem(new TreasureEditRewardOptionBtn(casket, i).getItemStack(player));
         }
 
-        AddFooter(new AdminTreasureButton(casket), new AdminTreasureRewardCreateButton(casket), null);
+        AddFooter(new AdminTreasureButton(casket), new AdminTreasureRewardCreateButton(casket), null, player);
     }
 }

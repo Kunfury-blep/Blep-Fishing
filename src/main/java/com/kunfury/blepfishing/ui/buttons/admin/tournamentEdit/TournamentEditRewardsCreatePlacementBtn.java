@@ -5,6 +5,7 @@ import com.kunfury.blepfishing.objects.TournamentType;
 import com.kunfury.blepfishing.ui.objects.buttons.AdminTournamentRewardsMenuButton;
 import com.kunfury.blepfishing.ui.panels.admin.tournaments.AdminTournamentEditRewardsPlacementPanel;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -18,7 +19,7 @@ public class TournamentEditRewardsCreatePlacementBtn extends AdminTournamentRewa
     }
 
 
-    public ItemStack buildItemStack() {
+    public ItemStack buildItemStack(Player player) {
 
         ItemStack item = new ItemStack(Material.TURTLE_SCUTE);
         ItemMeta m = item.getItemMeta();

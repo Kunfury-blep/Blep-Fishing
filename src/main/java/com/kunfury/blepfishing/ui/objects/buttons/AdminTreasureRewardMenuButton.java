@@ -4,6 +4,7 @@ import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.helpers.ItemHandler;
 import com.kunfury.blepfishing.objects.treasure.Casket;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -24,8 +25,8 @@ public abstract class AdminTreasureRewardMenuButton extends AdminTreasureMenuBut
     }
 
     @Override
-    public ItemStack getItemStack() {
-        ItemStack item = buildItemStack();
+    public ItemStack getItemStack(Player player) {
+        ItemStack item = buildItemStack(player);
         ItemMeta m = item.getItemMeta();
         assert m != null;
 

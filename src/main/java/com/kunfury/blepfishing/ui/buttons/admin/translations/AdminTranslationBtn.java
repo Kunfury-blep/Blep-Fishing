@@ -11,6 +11,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -32,7 +33,7 @@ public class AdminTranslationBtn extends MenuButton {
 
 
     @Override
-    protected ItemStack buildItemStack() {
+    protected ItemStack buildItemStack(Player player) {
         ItemStack item = new ItemStack(Material.OAK_SIGN);
         ItemMeta m = item.getItemMeta();
 

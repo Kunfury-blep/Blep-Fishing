@@ -10,6 +10,7 @@ import com.kunfury.blepfishing.ui.panels.admin.areas.AdminAreasPanel;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -24,7 +25,7 @@ public class AdminAreaBtn extends AdminAreaMenuButton {
     }
 
     @Override
-    public ItemStack buildItemStack() {
+    public ItemStack buildItemStack(Player player) {
         ItemStack item = new ItemStack(Material.NAUTILUS_SHELL);
         ItemMeta m = item.getItemMeta();
 

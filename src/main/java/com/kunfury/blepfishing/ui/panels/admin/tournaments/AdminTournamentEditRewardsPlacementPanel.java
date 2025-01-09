@@ -33,8 +33,8 @@ public class AdminTournamentEditRewardsPlacementPanel extends Panel {
             inv.addItem(item);
         }
 
-        inv.setItem(InventorySize - 9, new TournamentEditRewardsCashBtn(type, placement).getItemStack());
-        inv.setItem(InventorySize - 5, new TournamentEditRewardsSaveBtn(type, placement).getItemStack());
-        inv.setItem(InventorySize - 1, new TournamentEditRewardsBtn(type).getBackButton());
+        inv.setItem(InventorySize - 9, new TournamentEditRewardsCashBtn(type, placement).getItemStack(player));
+        inv.setItem(InventorySize - 5, new TournamentEditRewardsSaveBtn(type, placement).getItemStack(player));
+        inv.setItem(InventorySize - 1, new TournamentEditRewardsBtn(type).getBackButton(player));
     }
 }

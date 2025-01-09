@@ -18,12 +18,12 @@ public class AdminAreasEditPanel extends Panel {
     @Override
     public void  BuildInventory(Player player) {
 
-        AddButton(new AdminAreaNameBtn(area));
-        AddButton(new AdminAreaBiomesBtn(area));
-        AddButton(new AdminAreaCompassBtn(area));
+        AddButton(new AdminAreaNameBtn(area), player);
+        AddButton(new AdminAreaBiomesBtn(area), player);
+        AddButton(new AdminAreaCompassBtn(area), player);
         if(area.HasCompassPiece)
-            AddButton(new AdminAreaCompassHintBtn(area));
+            AddButton(new AdminAreaCompassHintBtn(area), player);
 
-        inv.setItem(17, new AdminAreasPanelBtn().getBackButton());
+        inv.setItem(17, new AdminAreasPanelBtn().getBackButton(player));
     }
 }

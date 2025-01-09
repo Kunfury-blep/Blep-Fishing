@@ -18,9 +18,9 @@ public class AdminGeneralPanel extends Panel {
 
     @Override
     protected void BuildInventory(Player player) {
-        AddButton(new ShowScoreboardBtn());
-        AddButton(new EnableFishBagsBtn());
+        AddButton(new ShowScoreboardBtn(), player);
+        AddButton(new EnableFishBagsBtn(), player);
 
-        AddFooter(new AdminPanelButton(), null, null);
+        AddFooter(new AdminPanelButton(), null, null, player);
     }
 }

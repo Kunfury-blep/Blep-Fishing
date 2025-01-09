@@ -5,6 +5,7 @@ import com.kunfury.blepfishing.ui.buttons.admin.areas.*;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
 import com.kunfury.blepfishing.ui.objects.panels.PaginationPanel;
 import org.bukkit.block.Biome;
+import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -27,7 +28,7 @@ public class AdminAreasEditBiomesPanel extends PaginationPanel<Biome> {
     }
 
     @Override
-    protected MenuButton getButton(Biome object) {
+    protected MenuButton getButton(Biome object, Player player) {
         return new AdminAreaBiomeChoiceBtn(area, object, Page);
     }
 }

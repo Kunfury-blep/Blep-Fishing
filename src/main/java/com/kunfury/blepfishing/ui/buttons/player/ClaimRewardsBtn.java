@@ -25,7 +25,7 @@ public class ClaimRewardsBtn extends MenuButton {
     }
 
     @Override
-    public ItemStack buildItemStack() {
+    public ItemStack buildItemStack(Player player) {
         ItemStack item = new ItemStack(Material.DIAMOND);
         ItemMeta m = item.getItemMeta();
         assert m != null;

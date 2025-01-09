@@ -29,8 +29,8 @@ public class AdminTreasureEditRewardsSelectionPanel extends Panel {
 
     @Override
     public void BuildInventory(Player player) {
-        AddButton(new TreasureEditRewardDropChanceBtn(casket, reward));
-        AddButton(new TreasureEditRewardAnnounceBtn(casket, reward));
+        AddButton(new TreasureEditRewardDropChanceBtn(casket, reward), player);
+        AddButton(new TreasureEditRewardAnnounceBtn(casket, reward), player);
 
         ItemStack itemGuide = new ItemStack(Material.BLUE_STAINED_GLASS_PANE);
 
@@ -55,8 +55,8 @@ public class AdminTreasureEditRewardsSelectionPanel extends Panel {
         inv.setItem(5, itemGuide);
         inv.setItem(13, itemGuide);
 
-//        inv.setItem(InventorySize - 9, new TournamentEditRewardsCashBtn(type, placement).getItemStack());
-        inv.setItem(InventorySize - 5, new TreasureEditRewardSaveBtn(casket, reward).getItemStack());
-        inv.setItem(InventorySize - 1, new TreasureEditRewardsBtn(casket).getBackButton());
+//        inv.setItem(InventorySize - 9, new TournamentEditRewardsCashBtn(type, placement).getItemStack(player));
+        inv.setItem(InventorySize - 5, new TreasureEditRewardSaveBtn(casket, reward).getItemStack(player));
+        inv.setItem(InventorySize - 1, new TreasureEditRewardsBtn(casket).getBackButton(player));
     }
 }

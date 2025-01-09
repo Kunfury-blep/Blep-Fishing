@@ -24,9 +24,9 @@ public class AdminTournamentEditFishTypesPanel extends Panel {
                 .sorted(Comparator.comparing(fish -> fish.Name)).toList();
 
         for(var fishType : sortedFishList){
-            inv.addItem(new TournamentEditFishTypeChoiceBtn(type, fishType).getItemStack());
+            inv.addItem(new TournamentEditFishTypeChoiceBtn(type, fishType).getItemStack(player));
         }
 
-        AddFooter(new AdminTournamentButton(type), null, null);
+        AddFooter(new AdminTournamentButton(type), null, null, player);
     }
 }

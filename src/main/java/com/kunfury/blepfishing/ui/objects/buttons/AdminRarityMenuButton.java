@@ -3,6 +3,7 @@ package com.kunfury.blepfishing.ui.objects.buttons;
 import com.kunfury.blepfishing.helpers.ItemHandler;
 import com.kunfury.blepfishing.objects.Rarity;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -16,8 +17,8 @@ public abstract class AdminRarityMenuButton extends MenuButton {
     }
 
     @Override
-    public ItemStack getItemStack() {
-        ItemStack item = buildItemStack();
+    public ItemStack getItemStack(Player player) {
+        ItemStack item = buildItemStack(player);
         ItemMeta m = item.getItemMeta();
         assert m != null;
 

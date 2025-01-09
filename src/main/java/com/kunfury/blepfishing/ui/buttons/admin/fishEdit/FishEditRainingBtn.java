@@ -6,6 +6,7 @@ import com.kunfury.blepfishing.ui.panels.admin.fish.AdminFishEditPanel;
 import com.kunfury.blepfishing.helpers.ItemHandler;
 import com.kunfury.blepfishing.objects.FishType;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -20,7 +21,7 @@ public class FishEditRainingBtn extends AdminFishMenuButton {
     }
 
     @Override
-    public ItemStack buildItemStack() {
+    public ItemStack buildItemStack(Player player) {
         Material mat = Material.BUCKET;
         if(fishType.RequireRain)
             mat = Material.WATER_BUCKET;

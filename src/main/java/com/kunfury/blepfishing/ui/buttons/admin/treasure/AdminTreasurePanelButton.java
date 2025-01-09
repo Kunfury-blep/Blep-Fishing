@@ -8,6 +8,7 @@ import com.kunfury.blepfishing.ui.panels.admin.tournaments.AdminTournamentPanel;
 import com.kunfury.blepfishing.ui.panels.admin.treasure.AdminTreasurePanel;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 public class AdminTreasurePanelButton extends MenuButton {
 
     @Override
-    public ItemStack buildItemStack() {
+    public ItemStack buildItemStack(Player player) {
         Material mat = Material.CHEST;
 
         ArrayList<String> lore = new ArrayList<>();

@@ -19,16 +19,16 @@ public class PlayerPanel extends Panel {
     @Override
     public void BuildInventory(Player player) {
         if(player.hasPermission("bf.admin"))
-            inv.setItem(4, new AdminPanelButton().getItemStack());
+            inv.setItem(4, new AdminPanelButton().getItemStack(player));
 
         if(ConfigHandler.instance.tourneyConfig.Enabled())
-            inv.setItem(11, new PlayerTournamentPanelBtn().getItemStack());
+            inv.setItem(11, new PlayerTournamentPanelBtn().getItemStack(player));
 
-        inv.setItem(13, new PlayerFishPanelBtn(player).getItemStack());
+        inv.setItem(13, new PlayerFishPanelBtn(player).getItemStack(player));
 
 
         if(Database.Rewards.HasRewards(player.getUniqueId().toString())){
-            inv.setItem(22, new ClaimRewardsBtn(player).getItemStack());
+            inv.setItem(22, new ClaimRewardsBtn(player).getItemStack(player));
         }
     }
 }

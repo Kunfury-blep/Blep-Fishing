@@ -7,6 +7,7 @@ import com.kunfury.blepfishing.ui.panels.admin.areas.AdminAreasEditBiomesPanel;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -27,7 +28,7 @@ public class AdminAreaBiomeChoiceBtn extends AdminAreaMenuButton {
     }
 
     @Override
-    public ItemStack buildItemStack() {
+    public ItemStack buildItemStack(Player player) {
         var active = area.Biomes.contains(biome.toString());
         var activeStr = ChatColor.RED + "Disabled";
 

@@ -70,24 +70,24 @@ public abstract class Panel {
     protected abstract void BuildInventory(Player player);
 
     protected int slot = 0;
-    protected void AddButton(MenuButton button){
-        inv.setItem(slot, button.getItemStack());
+    protected void AddButton(MenuButton button, Player player){
+        inv.setItem(slot, button.getItemStack(player));
         slot++;
     }
 
-    protected void AddFooter(MenuButton backButton, MenuButton createButton, MenuButton deleteButton){
+    protected void AddFooter(MenuButton backButton, MenuButton createButton, MenuButton deleteButton, Player player){
         if(createButton != null)
-            inv.setItem(InventorySize - 9, createButton.getItemStack());
+            inv.setItem(InventorySize - 9, createButton.getItemStack(player));
 
         if(deleteButton != null)
-            inv.setItem(InventorySize - 6, deleteButton.getItemStack());
+            inv.setItem(InventorySize - 6, deleteButton.getItemStack(player));
 
-        inv.setItem(InventorySize - 1, backButton.getBackButton());
+        inv.setItem(InventorySize - 1, backButton.getBackButton(player));
     }
 
-    protected void AddFooter(MenuButton backButton, MenuButton createButton, MenuButton deleteButton, MenuButton infoButton){
-        AddFooter(backButton, createButton, deleteButton);
+    protected void AddFooter(MenuButton backButton, MenuButton createButton, MenuButton deleteButton, MenuButton infoButton, Player player){
+        AddFooter(backButton, createButton, deleteButton, player);
 
-        inv.setItem(InventorySize - 3, infoButton.getItemStack());
+        inv.setItem(InventorySize - 3, infoButton.getItemStack(player));
     }
 }

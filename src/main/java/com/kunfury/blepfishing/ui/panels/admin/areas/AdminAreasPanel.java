@@ -27,10 +27,10 @@ public class AdminAreasPanel extends Panel {
 
         for(var area : sortedArea){
             if(i >= InventorySize) break;
-            inv.setItem(i, new AdminAreaBtn(area).getItemStack());
+            inv.setItem(i, new AdminAreaBtn(area).getItemStack(player));
             i++;
         }
 
-        AddFooter(new AdminPanelButton(), new AdminAreaCreateBtn(), null);
+        AddFooter(new AdminPanelButton(), new AdminAreaCreateBtn(), null, player);
     }
 }

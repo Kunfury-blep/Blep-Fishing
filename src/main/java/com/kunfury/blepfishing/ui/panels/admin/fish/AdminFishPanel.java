@@ -21,7 +21,7 @@ public class AdminFishPanel extends PaginationPanel<FishType> {
     public void BuildInventory(Player player) {
         super.BuildInventory(player);
 
-        inv.setItem(InventorySize - 9, new AdminFishCreateButton().getItemStack());
+        inv.setItem(InventorySize - 9, new AdminFishCreateButton().getItemStack(player));
     }
 
     @Override
@@ -32,7 +32,7 @@ public class AdminFishPanel extends PaginationPanel<FishType> {
     }
 
     @Override
-    protected MenuButton getButton(FishType type) {
+    protected MenuButton getButton(FishType type, Player player) {
         return new AdminFishButton(type, Page);
     }
 }

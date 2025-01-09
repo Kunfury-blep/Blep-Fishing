@@ -21,7 +21,7 @@ public class PlayerFishPanelBtn extends MenuButton {
     }
 
     @Override
-    public ItemStack buildItemStack() {
+    public ItemStack buildItemStack(Player player) {
         ItemStack item = new ItemStack(Material.SALMON);
         ItemMeta m = item.getItemMeta();
         assert m != null;

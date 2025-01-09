@@ -69,8 +69,8 @@ public abstract class MenuButton {
         return null;
     }
 
-    public ItemStack getItemStack(){
-        ItemStack item = buildItemStack();
+    public ItemStack getItemStack(Player player){
+        ItemStack item = buildItemStack(player);
         ItemMeta m = item.getItemMeta();
         assert m != null;
         m = setButtonId(m, getId());
@@ -81,10 +81,10 @@ public abstract class MenuButton {
         return item;
     }
 
-    protected abstract ItemStack buildItemStack();
+    protected abstract ItemStack buildItemStack(Player player);
 
-    public ItemStack getCustomItemStack(String name, List<String> lore, Material material){
-        ItemStack item = getItemStack();
+    public ItemStack getCustomItemStack(String name, List<String> lore, Material material, Player player){
+        ItemStack item = getItemStack(player);
 
         if(material != null)
             item.setType(material);
@@ -115,8 +115,8 @@ public abstract class MenuButton {
         return item;
     }
 
-    public ItemStack getBackButton(){
-        return getCustomItemStack(Formatting.GetLanguageString("UI.System.Buttons.goBack"), new ArrayList<>(), Material.REDSTONE);
+    public ItemStack getBackButton(Player player){
+        return getCustomItemStack(Formatting.GetLanguageString("UI.System.Buttons.goBack"), new ArrayList<>(), Material.REDSTONE, player);
     }
 
     protected void click_left(){

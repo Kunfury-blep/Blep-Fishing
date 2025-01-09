@@ -6,6 +6,7 @@ import com.kunfury.blepfishing.objects.FishType;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -23,7 +24,7 @@ public class PlayerFishMissingBtn extends MenuButton {
     }
 
     @Override
-    protected ItemStack buildItemStack() {
+    protected ItemStack buildItemStack(Player player) {
         ItemStack item = new ItemStack(Material.DEAD_TUBE_CORAL);
         ItemMeta m = item.getItemMeta();
 

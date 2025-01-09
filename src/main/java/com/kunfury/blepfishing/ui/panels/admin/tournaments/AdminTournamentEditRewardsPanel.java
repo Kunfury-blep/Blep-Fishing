@@ -16,12 +16,12 @@ public class AdminTournamentEditRewardsPanel extends Panel {
     @Override
     public void BuildInventory(Player player) {
         for(var i : type.getPlacements()){
-            inv.addItem(new TournamentEditRewardPlacementBtn(type, i).getItemStack());
+            inv.addItem(new TournamentEditRewardPlacementBtn(type, i).getItemStack(player));
         }
 //        for(var day : type.ItemRewards){
-//            inv.addItem(new TournamentEditStartTimesDayBtn(type, day).getItemStack());
+//            inv.addItem(new TournamentEditStartTimesDayBtn(type, day).getItemStack(player));
 //        }
 
-        AddFooter(new AdminTournamentButton(type), new TournamentEditRewardsCreatePlacementBtn(type), null);
+        AddFooter(new AdminTournamentButton(type), new TournamentEditRewardsCreatePlacementBtn(type), null, player);
     }
 }

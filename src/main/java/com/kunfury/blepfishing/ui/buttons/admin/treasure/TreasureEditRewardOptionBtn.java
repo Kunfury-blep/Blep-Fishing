@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.data.type.Cake;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -26,7 +27,7 @@ public class TreasureEditRewardOptionBtn extends AdminTreasureRewardMenuButton {
 
 
     @Override
-    protected ItemStack buildItemStack() {
+    protected ItemStack buildItemStack(Player player) {
 
         ItemStack item = new ItemStack(Material.EMERALD);
         ItemMeta m = item.getItemMeta();

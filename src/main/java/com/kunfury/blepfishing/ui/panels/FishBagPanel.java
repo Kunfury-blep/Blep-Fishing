@@ -51,7 +51,7 @@ public class FishBagPanel extends PaginationPanel<FishType> {
     }
 
     @Override
-    protected MenuButton getButton(FishType object) {
+    protected MenuButton getButton(FishType object, Player player) {
         return null;
     }
 

@@ -18,8 +18,8 @@ public class AdminFishEditAreasPanel extends Panel {
     @Override
     protected void BuildInventory(Player player) {
         for(var a : FishingArea.GetAll()){
-            inv.addItem(new FishEditAreaChoiceBtn(a, fishType).getItemStack());
+            inv.addItem(new FishEditAreaChoiceBtn(a, fishType).getItemStack(player));
         }
-        AddFooter(new AdminFishButton(fishType, 1), null, null);
+        AddFooter(new AdminFishButton(fishType, 1), null, null, player);
     }
 }

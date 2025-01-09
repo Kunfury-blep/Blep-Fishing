@@ -8,6 +8,7 @@ import com.kunfury.blepfishing.ui.objects.MenuButton;
 import com.kunfury.blepfishing.ui.panels.admin.areas.AdminAreasPanel;
 import com.kunfury.blepfishing.ui.panels.admin.rarities.AdminRarityPanel;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 
 public class AdminAreaCreateBtn extends MenuButton {
     @Override
-    public ItemStack buildItemStack() {
+    public ItemStack buildItemStack(Player player) {
         Material mat = Material.TURTLE_SCUTE;
 
         ItemStack item = new ItemStack(mat);

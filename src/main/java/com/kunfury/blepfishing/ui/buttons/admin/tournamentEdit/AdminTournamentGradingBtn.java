@@ -10,6 +10,7 @@ import com.kunfury.blepfishing.ui.panels.admin.rarities.AdminRarityEditPanel;
 import com.kunfury.blepfishing.ui.panels.admin.tournaments.AdminTournamentEditPanel;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -23,7 +24,7 @@ public class AdminTournamentGradingBtn extends AdminTournamentMenuButton {
     }
 
     @Override
-    public ItemStack buildItemStack() {
+    public ItemStack buildItemStack(Player player) {
         Material mat = Material.BIRCH_SIGN;
 
         ItemStack item = new ItemStack(mat);

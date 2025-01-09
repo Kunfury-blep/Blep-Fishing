@@ -17,12 +17,12 @@ public class AdminRarityEditPanel extends Panel {
 
     @Override
     public void  BuildInventory(Player player) {
-        AddButton(new AdminRarityNameBtn(rarity));
-        AddButton(new AdminRarityPrefixBtn(rarity));
-        AddButton(new AdminRarityWeightBtn(rarity));
-        AddButton(new AdminRarityAnnounceBtn(rarity));
-        AddButton(new AdminRarityValueModBtn(rarity));
+        AddButton(new AdminRarityNameBtn(rarity), player);
+        AddButton(new AdminRarityPrefixBtn(rarity), player);
+        AddButton(new AdminRarityWeightBtn(rarity), player);
+        AddButton(new AdminRarityAnnounceBtn(rarity), player);
+        AddButton(new AdminRarityValueModBtn(rarity), player);
 
-        inv.setItem(17, new AdminRaritiesPanelBtn().getBackButton());
+        inv.setItem(17, new AdminRaritiesPanelBtn().getBackButton(player));
     }
 }

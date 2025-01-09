@@ -28,10 +28,10 @@ public class AdminTreasurePanel extends Panel {
         for(Casket c : sortedCaskets){
             if(i >= InventorySize) break;
 
-            inv.setItem(i, new AdminTreasureButton(c).getItemStack());
+            inv.setItem(i, new AdminTreasureButton(c).getItemStack(player));
             i++;
         }
 
-        AddFooter(new AdminPanelButton(), new AdminTreasureCreateButton(), null);
+        AddFooter(new AdminPanelButton(), new AdminTreasureCreateButton(), null, player);
     }
 }

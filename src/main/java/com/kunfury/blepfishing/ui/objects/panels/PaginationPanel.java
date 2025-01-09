@@ -26,15 +26,15 @@ public abstract class PaginationPanel<T> extends Panel {
         var pageContents = getContents();
         if(getContents().size() > 45){
             pageContents = getPageContents();
-            inv.setItem(InventorySize - 7, new PageChangeBtn<>(this, false).getItemStack());
-            inv.setItem(InventorySize - 3, new PageChangeBtn<>(this, true).getItemStack());
+            inv.setItem(InventorySize - 7, new PageChangeBtn<>(this, false).getItemStack(player));
+            inv.setItem(InventorySize - 3, new PageChangeBtn<>(this, true).getItemStack(player));
         }
 
         for(var b : pageContents){
-            AddButton(getButton(b));
+            AddButton(getButton(b, player), player);
         }
 
-        inv.setItem(InventorySize - 1, backBtn.getBackButton());
+        inv.setItem(InventorySize - 1, backBtn.getBackButton(player));
     }
 
     protected List<T> getPageContents(){
@@ -60,7 +60,7 @@ public abstract class PaginationPanel<T> extends Panel {
     }
     protected abstract List<T> loadContents();
 
-    protected abstract MenuButton getButton(T object);
+    protected abstract MenuButton getButton(T object, Player player);
 
     public void ChangePage(int page){
         int maxPage = (int) Math.ceil((double) getContents().size() / 45);

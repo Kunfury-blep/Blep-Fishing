@@ -139,6 +139,8 @@ UI:
         name: "&9{name} - &f{time}"
         view: "&bLeft-Click to &e&oView"
         bossBar: "&bShift Left-Click to &e&oToggle Bar"
+        cancel: "&bShift Right-Click &bto &c&oCancel Tournament"
+        cancelConfirm: "&4&lReally Cancel Tournament?"
   System:
     Buttons:
       goBack: "&cGo Back"

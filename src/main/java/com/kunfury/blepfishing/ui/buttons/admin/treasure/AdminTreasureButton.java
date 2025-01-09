@@ -11,6 +11,7 @@ import com.kunfury.blepfishing.ui.panels.admin.treasure.AdminTreasurePanel;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -24,7 +25,7 @@ public class AdminTreasureButton extends AdminTreasureMenuButton {
     }
 
     @Override
-    public ItemStack buildItemStack() {
+    public ItemStack buildItemStack(Player player) {
         ItemStack item = new ItemStack(Material.CHEST);
         ItemMeta m = item.getItemMeta();
 

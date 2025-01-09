@@ -17,10 +17,10 @@ public class AdminTournamentPanel extends Panel {
         int i = 0;
         for(var t : TournamentType.GetTournaments()){
             if(i >= InventorySize) break;
-            inv.setItem(i, new AdminTournamentButton(t).getItemStack());
+            inv.setItem(i, new AdminTournamentButton(t).getItemStack(player));
             i++;
         }
 
-        AddFooter(new AdminPanelButton(), new AdminTournamentCreateButton(), null);
+        AddFooter(new AdminPanelButton(), new AdminTournamentCreateButton(), null, player);
     }
 }

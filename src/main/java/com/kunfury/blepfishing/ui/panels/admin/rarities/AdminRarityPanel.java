@@ -22,10 +22,10 @@ public class AdminRarityPanel extends Panel {
 
         for(var r : sortedRarities){
             if(i >= InventorySize) break;
-            inv.setItem(i, new AdminRarityBtn(r).getItemStack());
+            inv.setItem(i, new AdminRarityBtn(r).getItemStack(player));
             i++;
         }
 
-        AddFooter(new AdminPanelButton(), new AdminRarityCreateBtn(), null);
+        AddFooter(new AdminPanelButton(), new AdminRarityCreateBtn(), null, player);
     }
 }

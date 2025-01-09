@@ -28,13 +28,13 @@ public class PlayerFishPanel extends Panel {
                             .filter(f -> f.getType() == type).toList();
 
             if(filteredFish.isEmpty()){
-                AddButton(new PlayerFishMissingBtn(type));
+                AddButton(new PlayerFishMissingBtn(type), player);
                 continue;
             }
 
-            AddButton(new PlayerFishBtn(type, filteredFish));
+            AddButton(new PlayerFishBtn(type, filteredFish), player);
         }
 //
-        AddFooter(new PlayerPanelBtn(), null, null);
+        AddFooter(new PlayerPanelBtn(), null, null, player);
     }
 }

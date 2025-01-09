@@ -6,6 +6,7 @@ import com.kunfury.blepfishing.ui.objects.buttons.AdminRarityMenuButton;
 import com.kunfury.blepfishing.ui.panels.admin.rarities.AdminRarityEditPanel;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -18,7 +19,7 @@ public class AdminRarityAnnounceBtn extends AdminRarityMenuButton {
     }
 
     @Override
-    public ItemStack buildItemStack() {
+    public ItemStack buildItemStack(Player player) {
         Material mat = Material.RED_CONCRETE;
         if(rarity.Announce)
             mat = Material.GREEN_CONCRETE;

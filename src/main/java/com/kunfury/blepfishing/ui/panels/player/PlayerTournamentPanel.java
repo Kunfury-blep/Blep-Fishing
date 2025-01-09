@@ -28,11 +28,11 @@ public class PlayerTournamentPanel extends Panel {
         int i = 0;
         for(var t : activeTournaments){
             if(i >= InventorySize) break;
-            inv.setItem(i, new PlayerTournamentBtn(t).getItemStack());
+            inv.setItem(i, new PlayerTournamentBtn(t).getItemStack(player));
 
             i++;
         }
 //
-        AddFooter(new PlayerPanelBtn(), null, null);
+        AddFooter(new PlayerPanelBtn(), null, null, player);
     }
 }

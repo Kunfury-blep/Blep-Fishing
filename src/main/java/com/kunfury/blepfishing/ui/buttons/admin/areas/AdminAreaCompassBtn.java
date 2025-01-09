@@ -9,6 +9,7 @@ import com.kunfury.blepfishing.ui.panels.admin.areas.AdminAreasEditPanel;
 import com.kunfury.blepfishing.ui.panels.admin.rarities.AdminRarityEditPanel;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -21,7 +22,7 @@ public class AdminAreaCompassBtn extends AdminAreaMenuButton {
     }
 
     @Override
-    public ItemStack buildItemStack() {
+    public ItemStack buildItemStack(Player player) {
         Material mat = Material.RED_CONCRETE;
         if(area.HasCompassPiece)
             mat = Material.GREEN_CONCRETE;

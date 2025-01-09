@@ -9,6 +9,7 @@ import com.kunfury.blepfishing.helpers.ItemHandler;
 import com.kunfury.blepfishing.objects.FishType;
 import org.bukkit.Material;
 import org.bukkit.conversations.*;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -27,7 +28,7 @@ public class FishEditNameBtn extends AdminFishMenuButton {
     }
 
     @Override
-    public ItemStack buildItemStack() {
+    public ItemStack buildItemStack(Player player) {
 
         ItemStack item = new ItemStack(Material.NAME_TAG);
         ItemMeta m = item.getItemMeta();

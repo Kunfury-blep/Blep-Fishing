@@ -18,11 +18,11 @@ public class AdminTreasureEditPanel extends Panel {
 
     @Override
     public void BuildInventory(Player player) {
-        AddButton(new TreasureEditNameBtn(casket));
-        AddButton(new TreasureEditWeightBtn(casket));
-        AddButton(new TreasureEditAnnounceBtn(casket));
-        AddButton(new TreasureEditRewardsBtn(casket));
+        AddButton(new TreasureEditNameBtn(casket), player);
+        AddButton(new TreasureEditWeightBtn(casket), player);
+        AddButton(new TreasureEditAnnounceBtn(casket), player);
+        AddButton(new TreasureEditRewardsBtn(casket), player);
 
-        inv.setItem(17, new AdminTreasurePanelButton().getBackButton());
+        inv.setItem(17, new AdminTreasurePanelButton().getBackButton(player));
     }
 }
