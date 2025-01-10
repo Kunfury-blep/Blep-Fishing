@@ -125,15 +125,13 @@ public class Casket extends TreasureType {
     public String getFormattedName() {
         return Formatting.formatColor(Name);
     }
-
-    private static List<Casket> Caskets;
+    
     private static int TotalCasketWeight = 0;
 
     public static List<Casket> GetAll(){
-        if(Caskets != null)
-            return Caskets;
+        //TODO: Should possibly cache this? Not sure how performance intensive doing this every time will be
 
-        Caskets = new ArrayList<>();
+        List<Casket> Caskets = new ArrayList<>();
         TotalCasketWeight = 0;
         for(var t : ActiveTreasureTypes.values()){
             if(!(t instanceof Casket))
@@ -172,8 +170,6 @@ public class Casket extends TreasureType {
         Bukkit.getLogger().warning("Tried to get invalid Casket with ID: " + typeId);
         return null;
     }
-
-
 
     public static class TreasureReward{
         public double DropChance;

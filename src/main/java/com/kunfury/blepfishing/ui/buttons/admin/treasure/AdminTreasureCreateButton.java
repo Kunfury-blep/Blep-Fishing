@@ -41,7 +41,7 @@ public class AdminTreasureCreateButton extends MenuButton {
         }
 
         Casket casket = new Casket(treasureId, treasureId, 0, false, new ArrayList<>(), 0);
-        TreasureType.AddNew(casket);
+        Casket.AddNew(casket);
 
         ConfigHandler.instance.treasureConfig.Save();
         new AdminTreasureEditPanel(casket).Show(player);
