@@ -61,7 +61,7 @@ public class FishingListener implements Listener {
         Player player = e.getPlayer();
         Location hookLoc = item.getLocation();
 
-        if(!WorldGuardHandler.canFish(hookLoc))
+        if(PluginHandler.HasWorldGuard() && !WorldGuardHandler.canFish(hookLoc))
             return;
 
         if(TreasureHandler.instance.TreasureCaught()){
