@@ -145,6 +145,39 @@ public class TournamentTable extends DbTable<TournamentObject> {
         }
     }
 
+    public TournamentObject GetActiveOfType(String typeId){
+        TournamentObject activeTournament = null;
+
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    """
+                    SELECT * FROM tournaments WHERE active = 1 AND typeId = ?
+                    """);
+            preparedStatement.setString(1, typeId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next()){
+                var id = resultSet.getInt("id");
+
+                if(Cache.containsKey(id)){
+                    return Cache.get(id);
+                }
+
+
+                var tournament = new TournamentObject(resultSet);
+                if(tournament.getType() != null){
+                    Cache.put(id, tournament);
+                    return tournament;
+                }
+
+            }
+
+            return null;
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
     public List<FishObject> GetWinningFish(TournamentObject tournament){
         List<FishObject> winningFish = new ArrayList<>();
 

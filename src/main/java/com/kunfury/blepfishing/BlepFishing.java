@@ -13,6 +13,7 @@ import com.kunfury.blepfishing.listeners.*;
 import com.kunfury.blepfishing.objects.TournamentObject;
 import com.kunfury.blepfishing.objects.TournamentType;
 import com.kunfury.blepfishing.plugins.Metrics;
+import com.kunfury.blepfishing.plugins.PluginHandler;
 import com.kunfury.blepfishing.plugins.WorldGuardHandler;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import net.milkbowl.vault.economy.Economy;
@@ -76,6 +77,8 @@ public final class BlepFishing extends JavaPlugin {
 
         new TreasureHandler();
         new AllBlueHandler();
+
+        new PluginHandler().InitializePlugins();
     }
 
     @Override

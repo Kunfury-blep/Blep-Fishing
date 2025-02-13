@@ -61,6 +61,10 @@ public class Formatting {
 		return formatColor(result);
 	}
 
+	public static String asTime(long milli){
+		return asTime(milli, ChatColor.BLUE);
+	}
+
 	public static String asTime(double hours){
 		return asTime(hours, ChatColor.BLUE);
 	}

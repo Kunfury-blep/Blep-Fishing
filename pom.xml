@@ -6,7 +6,7 @@
 
   <groupId>org.kunfury</groupId>
   <artifactId>blepFishing</artifactId>
-  <version>2.2.1</version>
+  <version>2.2.2</version>
   <packaging>jar</packaging>
 
   <name>BlepFishing</name>
@@ -65,6 +65,11 @@
       <id>jitpack.io</id>
       <url>https://jitpack.io</url>
     </repository>
+    <!-- Repo for PlaceholderAPI -->
+    <repository>
+      <id>placeholderapi</id>
+      <url>https://repo.extendedclip.com/releases/</url>
+    </repository>
   </repositories>
 
   <dependencies>
@@ -95,6 +100,12 @@
       <groupId>com.github.MilkBowl</groupId>
       <artifactId>VaultAPI</artifactId>
       <version>1.7</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>me.clip</groupId>
+      <artifactId>placeholderapi</artifactId>
+      <version>2.11.6</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>

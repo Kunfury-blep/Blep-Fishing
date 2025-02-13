@@ -75,7 +75,7 @@ public class TournamentObject {
                 bossBar.setVisible(true);
                 String title = getType().Name + ChatColor.WHITE + " - " + Formatting.asTime(getTimeRemaining(), ChatColor.WHITE);
                 bossBar.setTitle(title);
-                bossBar.setProgress(getBossBarProgress());
+                bossBar.setProgress(getProgress());
             }
 
         }.runTaskTimer(BlepFishing.getPlugin(), 0, 20);
@@ -111,7 +111,7 @@ public class TournamentObject {
             bossBar.removePlayer(player);
     }
 
-    private double getBossBarProgress(){
+    public double getProgress(){
         Duration d = Duration.between(StartTime, LocalDateTime.now());
         double elapsed = d.toSeconds() / 60.0 / 60.0;
         double progress = elapsed/getType().Duration;

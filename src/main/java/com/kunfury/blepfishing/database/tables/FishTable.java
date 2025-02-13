@@ -4,11 +4,7 @@ import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.objects.FishObject;
 import com.kunfury.blepfishing.objects.FishType;
-import com.kunfury.blepfishing.objects.TournamentObject;
-import org.apache.commons.lang.BooleanUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.Utility;
-import org.checkerframework.checker.units.qual.A;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -169,6 +165,37 @@ public class FishTable extends DbTable<FishObject>{
                 Cache.put(id, fish);
                 caughtFish.add(fish);
 
+            }
+
+            return caughtFish;
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<FishObject> GetAllCaughtOfType(String typeId){
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM fish WHERE typeId = ?" +
+                            " AND playerId IS NOT ''" +
+                            " ORDER BY score DESC");
+            preparedStatement.setString(1, typeId);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            List<FishObject> caughtFish = new ArrayList<>();
+            while(resultSet.next()){
+                var id = resultSet.getInt("id");
+
+                if(Cache.containsKey(id)){
+                    caughtFish.add(Cache.get(id));
+                    continue;
+                }
+
+                var fish = new FishObject(resultSet);
+                Cache.put(id, fish);
+                caughtFish.add(fish);
             }
 
             return caughtFish;

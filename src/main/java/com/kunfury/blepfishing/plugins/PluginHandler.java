@@ -9,12 +9,18 @@ import java.util.logging.Level;
 
 public class PluginHandler {
 
-    public static boolean hasMcMMO, hasWorldGuard;
+    public static boolean hasMcMMO;
 
     public void InitializePlugins(){
         SetupMcMMO();
+        SetupPlaceholderApi();
     }
 
+    private void SetupPlaceholderApi(){
+        if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null){
+            new ExpandPlaceholder().register();
+        }
+    }
 
     private void SetupMcMMO(){
         if(Bukkit.getPluginManager().getPlugin("McMMO") != null){

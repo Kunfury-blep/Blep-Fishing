@@ -214,5 +214,12 @@ UI:
       Tournament:
         noTimes: "&cNo Start Times"
 
+PAPI:
+  Tournament:
+    default: "{tournament}&f - {fish} - {time}"
+    notRunning: "Not Running"
+    noneCaught: "None Caught"
+  Fish:
+    notFound: "Fish Not Found"
 
 Author: "Kunfury"
