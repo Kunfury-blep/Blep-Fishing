@@ -45,6 +45,7 @@ public class AdminFishButton extends AdminFishMenuButton {
 
         lore.add("");
 
+        lore.add(ChatColor.BLUE + "ID: " + ChatColor.WHITE + fishType.Id);
         lore.add(ChatColor.BLUE + "Model Data: " + ChatColor.WHITE + fishType.ModelData);
         lore.add(ChatColor.BLUE +"Base Price: " + ChatColor.WHITE + fishType.PriceBase);
 

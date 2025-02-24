@@ -40,7 +40,6 @@ public class RarityConfig {
             if(valueMod == 0)
                 valueMod = 1.0;
 
-
             Rarity rarity = new Rarity(key, name, prefix, weight, announce, valueMod);
             Rarity.AddNew(rarity);
         }

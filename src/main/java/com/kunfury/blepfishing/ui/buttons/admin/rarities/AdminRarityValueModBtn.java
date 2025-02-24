@@ -31,7 +31,8 @@ public class AdminRarityValueModBtn extends AdminRarityMenuButton {
 
         m.setDisplayName("Value Mod");
         ArrayList<String> lore = new ArrayList<>();
-        lore.add(ChatColor.BLUE.toString() + rarity.ValueMod);
+        String valueMod = Formatting.DoubleFormat(rarity.ValueMod);
+        lore.add(ChatColor.BLUE + valueMod);
         lore.add("");
 
         String desc = "The value of caught " + rarity.Name + " Fish will be modified by this value.";
@@ -64,7 +65,7 @@ public class AdminRarityValueModBtn extends AdminRarityMenuButton {
         @NotNull
         @Override
         public String getPromptText(@NotNull ConversationContext context) {
-            return "What should the Value Mod be? Current: " + getRarity().ValueMod;
+            return "What should the Value Mod be? Current: " + Formatting.DoubleFormat(getRarity().ValueMod);
         }
 
         @Override

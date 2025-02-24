@@ -37,6 +37,10 @@ public class AdminTournamentButton extends AdminTournamentMenuButton {
 
         List<String> lore = new ArrayList<>();
 
+        lore.add(ChatColor.BLUE + "ID: " + ChatColor.WHITE + tournament.Id);
+        lore.add("");
+
+
         var sortedStartTimes = tournament.StartTimes.keySet().stream()
                 .sorted(Enum::compareTo).toList();
 
