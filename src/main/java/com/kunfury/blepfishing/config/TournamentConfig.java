@@ -47,7 +47,7 @@ public class TournamentConfig {
             int hornLevel = 1;
             if(villagerHorn && config.contains(key + ".Villager Horn Level"))
                 hornLevel = config.getInt(key + ".Villager Horn Level");
-
+            boolean bossBar = config.getBoolean(key + ".BossBar");
 
             HashMap<TournamentType.TournamentDay, List<String>> startTimes = new HashMap<>();
             //List<String> everyday = tournamentConfig.getStringList(key + ".Start Times.EVERYDAY");
@@ -95,7 +95,7 @@ public class TournamentConfig {
 
             TournamentType tournamentType = new TournamentType(
                     key, name, duration, fishTypes, startTimes, cashRewards,
-                    itemRewards, villagerHorn, hornLevel);
+                    itemRewards, villagerHorn, hornLevel, bossBar);
             TournamentType.AddNew(tournamentType);
         }
     }
@@ -114,6 +114,7 @@ public class TournamentConfig {
             newTourneyConfig.set(key + ".Villager Horn", type.VillagerHorn);
             if(type.VillagerHorn)
                 newTourneyConfig.set(key + ".Villager Horn Level", type.HornLevel);
+            newTourneyConfig.set(key + ".BossBar", type.HasBossBar);
 
             var sortedStartTimes = Arrays.stream(TournamentType.TournamentDay.values()).toList().stream()
                     .sorted(Enum::compareTo).toList();

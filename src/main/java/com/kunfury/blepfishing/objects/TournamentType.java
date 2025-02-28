@@ -42,7 +42,7 @@ public class TournamentType {
 
     public TournamentType(String id, String name, double duration, List<String> fishTypeIds, HashMap<TournamentDay, List<String>> startTimes,
                           HashMap<Integer, Double> cashRewards, HashMap<Integer, List<ItemStack>> itemRewards, boolean villagerHorn,
-                          int hornLevel){
+                          int hornLevel, boolean bossBar){
         Id = id;
         Name = name;
         Duration = duration;
@@ -52,6 +52,7 @@ public class TournamentType {
         ItemRewards = itemRewards;
         VillagerHorn = villagerHorn;
         HornLevel = hornLevel;
+        HasBossBar = bossBar;
     }
 
     //For creating new Tournaments in the GUI
