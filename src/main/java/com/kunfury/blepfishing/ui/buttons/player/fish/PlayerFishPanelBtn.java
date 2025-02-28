@@ -41,6 +41,6 @@ public class PlayerFishPanelBtn extends MenuButton {
 
     @Override
     protected void click_left() {
-        new PlayerFishPanel().Show(player);
+        new PlayerFishPanel(1).Show(player);
     }
 }

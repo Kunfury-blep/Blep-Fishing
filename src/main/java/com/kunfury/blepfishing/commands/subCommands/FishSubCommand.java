@@ -25,7 +25,7 @@ public class FishSubCommand extends SubCommand {
 
     @Override
     public void perform(CommandSender sender, String[] args) {
-        var panel = new PlayerFishPanel();
+        var panel = new PlayerFishPanel(1);
         panel.Show(sender);
     }
 

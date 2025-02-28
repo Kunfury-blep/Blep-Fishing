@@ -8,33 +8,41 @@ import com.kunfury.blepfishing.ui.buttons.player.fish.PlayerFishBtn;
 import com.kunfury.blepfishing.ui.buttons.player.PlayerPanelBtn;
 import com.kunfury.blepfishing.ui.buttons.player.fish.PlayerFishMissingBtn;
 import com.kunfury.blepfishing.ui.buttons.player.fish.PlayerFishPanelBtn;
+import com.kunfury.blepfishing.ui.objects.MenuButton;
 import com.kunfury.blepfishing.ui.objects.Panel;
+import com.kunfury.blepfishing.ui.objects.panels.PaginationPanel;
 import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class PlayerFishPanel extends Panel {
+public class PlayerFishPanel extends PaginationPanel<FishType> {
 
-    public PlayerFishPanel() {
-        super(Formatting.GetLanguageString("UI.Player.Panels.fish"), FishType.GetAll().size() + 9);
+    private List<FishObject> caughtFish;
+
+    public PlayerFishPanel(int page) {
+        super(Formatting.GetLanguageString("UI.Player.Panels.fish"),
+                FishType.GetAll().size() + 9, page, new PlayerPanelBtn());
     }
 
     @Override
     public void BuildInventory(Player player) {
-        List<FishObject> caughtFish = Database.Fish.GetCaught(player.getUniqueId().toString());
+        caughtFish = Database.Fish.GetCaught(player.getUniqueId().toString());
+        super.BuildInventory(player);
+    }
 
-        for(var type : FishType.GetAll()){
-            List<FishObject> filteredFish = caughtFish.stream()
-                            .filter(f -> f.getType() == type).toList();
+    @Override
+    protected List<FishType> loadContents() {
+        return FishType.GetAll().stream().toList();
+    }
 
-            if(filteredFish.isEmpty()){
-                AddButton(new PlayerFishMissingBtn(type), player);
-                continue;
-            }
+    @Override
+    protected MenuButton getButton(FishType fishType, Player player) {
+        List<FishObject> filteredFish = caughtFish.stream()
+                .filter(f -> f.getType().Id.equals(fishType.Id)).toList();
 
-            AddButton(new PlayerFishBtn(type, filteredFish), player);
-        }
-//
-        AddFooter(new PlayerPanelBtn(), null, null, player);
+        if(filteredFish.isEmpty())
+            return new PlayerFishMissingBtn(fishType);
+        else
+            return new PlayerFishBtn(fishType, filteredFish);
     }
 }
