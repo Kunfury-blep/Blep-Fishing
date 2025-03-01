@@ -127,9 +127,15 @@ public class FishTable extends DbTable<FishObject>{
 
     public int GetTotalCatchAmount(String playerId){
         try{
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT COUNT(*) AS total FROM fish WHERE playerId = ?");
-            preparedStatement.setString(1, playerId);
+            PreparedStatement preparedStatement;
+            if(playerId != null && !playerId.trim().isEmpty()){
+                preparedStatement = connection.prepareStatement(
+                        "SELECT COUNT(*) AS total FROM fish WHERE playerId = ?");
+                preparedStatement.setString(1, playerId);
+            }else
+                preparedStatement = connection.prepareStatement(
+                        "SELECT COUNT(*) AS total FROM fish");
+
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
