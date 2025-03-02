@@ -155,6 +155,8 @@ public class CompassPiece extends TreasureType{
         compassMeta.addEnchant(Enchantment.LUCK_OF_THE_SEA, 1, false);
         compassMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 
+        compassMeta.getPersistentDataContainer().set(ItemHandler.CompassKey, PersistentDataType.INTEGER, -1);
+
         compassItem.setItemMeta(compassMeta);
         return compassItem;
     }

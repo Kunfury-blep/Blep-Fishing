@@ -181,17 +181,6 @@ public class SpawnSubCommand extends SubCommand {
             return;
         }
 
-
-//        int amount = 1;
-//        if(args.length >= 4 && Formatting.isNumeric(args[3])) amount = Integer.parseInt(args[3]);
-//
-//
-//        if(amount <= 0){
-//            Utilities.SendPlayerMessage(player, Formatting.GetLanguageString("Admin.Spawn.validAmount"));
-//            return;
-//        }
-
-
         int amount = 1;
         switch(args[2].toUpperCase()){
             case "CASKET":

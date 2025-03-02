@@ -7,6 +7,7 @@ import com.kunfury.blepfishing.ui.objects.MenuButton;
 import com.kunfury.blepfishing.ui.MenuHandler;
 import com.kunfury.blepfishing.helpers.ItemHandler;
 import com.kunfury.blepfishing.ui.panels.FishBagPanel;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,15 +19,18 @@ import org.bukkit.inventory.ItemStack;
 
 public class InventoryClickListener implements Listener {
 
+    Player player;
+    Inventory inv;
+    ItemStack clickedItem;
+
     @EventHandler
     public void onClick(InventoryClickEvent e) {
-        Inventory inv = e.getInventory();
-        ItemStack clickedItem = e.getCurrentItem();
-        Player player = (Player) e.getWhoClicked();
+        inv = e.getInventory();
+        clickedItem = e.getCurrentItem();
+        player = (Player) e.getWhoClicked();
 
-        if(inv instanceof CraftingInventory && e.getSlotType() == InventoryType.SlotType.RESULT && CompassPiece.isCompass(clickedItem)){
-            if(AllBlueHandler.Instance.FinalizeCompass(clickedItem, player))
-                e.setCancelled(true);
+        if(inv instanceof  CraftingInventory){
+            CraftingTableClick(e);
             return;
         }
 
@@ -55,5 +59,14 @@ public class InventoryClickListener implements Listener {
 
             fishBag.Deposit(clickedItem, player);
             new FishBagPanel(fishBag, 1).Show(player);
-        }}
+        }
+    }
+
+    private void CraftingTableClick(InventoryClickEvent e){
+        if(e.getSlotType() == InventoryType.SlotType.RESULT && CompassPiece.isCompass(clickedItem)){
+            if(!AllBlueHandler.Instance.FinalizeCompass(clickedItem, player))
+                e.setCancelled(true);
+            return;
+        }
+    }
 }
