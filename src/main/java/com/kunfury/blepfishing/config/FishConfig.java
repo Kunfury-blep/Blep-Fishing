@@ -84,7 +84,7 @@ public class FishConfig {
         List<String> areaIds = new ArrayList<>();
         if(fishConfig.contains(key + ".Area")){
             areaIds.add(fishConfig.getString(key + ".Area"));
-            BlepFishing.instance.configHandler.ReportIssue("Single Area defined in config instead of multiple for " + key);
+            BlepFishing.instance.ConfigHandler.ReportIssue("Single Area defined in config instead of multiple for " + key);
         }
 
         areaIds.addAll(fishConfig.getStringList(key + ".Areas"));

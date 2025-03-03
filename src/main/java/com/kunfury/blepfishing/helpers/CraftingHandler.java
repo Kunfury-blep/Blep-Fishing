@@ -35,6 +35,10 @@ public class CraftingHandler {
         SetupFishingJournal();
     }
 
+    public void Disable(){
+        Bukkit.resetRecipes();
+    }
+
     private void SetupFishBagRecipe(){
         //Recipe Creation
         FishBagCraftKey = new NamespacedKey(BlepFishing.getPlugin(), "FishBagCraft");

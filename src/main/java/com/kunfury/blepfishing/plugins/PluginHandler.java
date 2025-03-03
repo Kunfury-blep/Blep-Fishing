@@ -11,7 +11,7 @@ public class PluginHandler {
 
     public static boolean hasMcMMO;
 
-    public void InitializePlugins(){
+    public void Initialize(){
         SetupMcMMO();
         SetupPlaceholderApi();
     }

@@ -10,8 +10,6 @@ import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.helpers.CraftingHandler;
 import com.kunfury.blepfishing.helpers.ItemHandler;
 import com.kunfury.blepfishing.listeners.*;
-import com.kunfury.blepfishing.objects.TournamentObject;
-import com.kunfury.blepfishing.objects.TournamentType;
 import com.kunfury.blepfishing.plugins.Metrics;
 import com.kunfury.blepfishing.plugins.PluginHandler;
 import com.kunfury.blepfishing.plugins.WorldGuardHandler;
@@ -28,7 +26,11 @@ public final class BlepFishing extends JavaPlugin {
 
     public static BlepFishing instance;
     private static Plugin plugin;
-    public ConfigHandler configHandler;
+    public ConfigHandler ConfigHandler;
+    public CraftingHandler CraftingHandler;
+    public PluginHandler PluginHandler;
+    public TreasureHandler TreasureHandler;
+    public AllBlueHandler AllBlueHandler;
     public boolean DebugMode;
 
     public BlepFishing(){
@@ -54,12 +56,11 @@ public final class BlepFishing extends JavaPlugin {
         loadMetrics();
         setupEconomy();
 
-        configHandler = new ConfigHandler();
-        configHandler.Initialize();
+        ConfigHandler = new ConfigHandler();
+        ConfigHandler.Initialize();
 
         SetupEvents();
         ItemHandler.Initialize();
-        new CraftingHandler().Initialize();
 
         try{
             Database = new Database(getDataFolder().getAbsolutePath() + "/data.db");
@@ -75,15 +76,21 @@ public final class BlepFishing extends JavaPlugin {
         Utilities.RunTimers();
         new ItemParser();
 
-        new TreasureHandler();
-        new AllBlueHandler();
+        TreasureHandler = new TreasureHandler();
+        AllBlueHandler = new AllBlueHandler();
 
-        new PluginHandler().InitializePlugins();
+        PluginHandler = new PluginHandler();
+        PluginHandler.Initialize();
+
+        CraftingHandler = new CraftingHandler();
+        CraftingHandler.Initialize();
     }
 
     @Override
     public void onDisable() {
         try{
+            CraftingHandler.Disable();
+
             if(Database != null)
                 Database.CloseConnection();
 
