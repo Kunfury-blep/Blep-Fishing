@@ -23,6 +23,7 @@ public class ConfigHandler {
     public RarityConfig rarityConfig;
     public AreaConfig areaConfig;
     public TreasureConfig treasureConfig;
+    public QuestConfig questConfig;
 
 
     public HashMap<String, YamlConfiguration> Translations;
@@ -35,6 +36,7 @@ public class ConfigHandler {
         rarityConfig = new RarityConfig();
         areaConfig = new AreaConfig();
         treasureConfig = new TreasureConfig();
+        questConfig = new QuestConfig();
 
         UpdateMessages();
         LoadTranslations();

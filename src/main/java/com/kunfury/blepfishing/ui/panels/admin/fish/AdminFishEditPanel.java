@@ -1,7 +1,7 @@
 package com.kunfury.blepfishing.ui.panels.admin.fish;
 
 import com.kunfury.blepfishing.ui.objects.Panel;
-import com.kunfury.blepfishing.ui.buttons.admin.fishEdit.AdminFishPanelButton;
+import com.kunfury.blepfishing.ui.buttons.admin.fishEdit.AdminFishPanelBtn;
 import com.kunfury.blepfishing.ui.buttons.admin.fishEdit.*;
 import com.kunfury.blepfishing.objects.FishType;
 import org.bukkit.entity.Player;
@@ -27,6 +27,6 @@ public class AdminFishEditPanel extends Panel {
         AddButton(new FishEditHeightMaxBtn(fishType), player);
         AddButton(new FishEditRainingBtn(fishType), player);
 
-        inv.setItem(17, new AdminFishPanelButton(0).getBackButton(player));
+        inv.setItem(17, new AdminFishPanelBtn(0).getBackButton(player));
     }
 }

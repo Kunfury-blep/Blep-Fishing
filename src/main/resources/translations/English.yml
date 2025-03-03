@@ -113,9 +113,10 @@ UI:
     Panels:
       base: "Player Panel"
       tournaments: "Fishing Tournaments"
-      fishBag: "Fish Bag: {amount}/{max}"
       tournamentDetail: "{name} - {amount} Caught"
+      fishBag: "Fish Bag: {amount}/{max}"
       fish: "Caught Fish"
+      quests: "Fishing Quests"
     Buttons:
       panel: "&bPlayer Panel"
       Fish Bag:
@@ -130,7 +131,7 @@ UI:
           lore: "&9Total Rewards: &f{amount}"
           error: "Unable to give &b{amount}&f items."
         Tournaments:
-          name: "&bTournaments : {amount} Running"
+          name: "&bTournaments : {amount} Active"
           tournament: "&9{name} - &f{time}"
           empty: "&cNo Active Tournaments"
         Fish:
@@ -138,12 +139,19 @@ UI:
           total: "&9Total Caught: &f{amount}"
           noneCaught: "&cNot Caught"
           area: "&9Found In: {areas}"
+        Quests:
+          name: "&bQuests : {amount} Available"
+          quest: "&9{name} - &f{time}"
+          empty: "&cNo Active Quests"
       Tournaments:
         name: "&9{name} - &f{time}"
         view: "&bLeft-Click to &e&oView"
         bossBar: "&bShift Left-Click to &e&oToggle Bar"
         cancel: "&bShift Right-Click &bto &c&oCancel Tournament"
         cancelConfirm: "&4&lReally Cancel Tournament?"
+      Quests:
+        name: "&9{name} - &f{time}"
+        view: "&bLeft-Click to &e&oView"
   System:
     Buttons:
       goBack: "&cGo Back"
@@ -176,6 +184,7 @@ UI:
         rarities: "&bEdit Rarities"
         general: "&bGeneral Settings"
         tournaments: "&bEdit Tournaments"
+        quests: "&bEdit Quests"
       Translations:
         select: "&bLeft-Click to &e&oSelect"
         author: "&9Author: &f{name}"

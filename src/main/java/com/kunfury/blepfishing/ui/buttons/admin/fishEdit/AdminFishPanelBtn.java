@@ -3,15 +3,14 @@ package com.kunfury.blepfishing.ui.buttons.admin.fishEdit;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
 import com.kunfury.blepfishing.ui.panels.admin.fish.AdminFishPanel;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class AdminFishPanelButton extends MenuButton {
+public class AdminFishPanelBtn extends MenuButton {
 
-    public AdminFishPanelButton(int page){
+    public AdminFishPanelBtn(int page){
         super();
     }
 

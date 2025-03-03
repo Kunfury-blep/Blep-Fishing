@@ -6,6 +6,7 @@ import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.ui.buttons.admin.AdminPanelButton;
 import com.kunfury.blepfishing.ui.buttons.player.ClaimRewardsBtn;
 import com.kunfury.blepfishing.ui.buttons.player.fish.PlayerFishPanelBtn;
+import com.kunfury.blepfishing.ui.buttons.player.quests.PlayerQuestPanelBtn;
 import com.kunfury.blepfishing.ui.objects.Panel;
 import com.kunfury.blepfishing.ui.buttons.player.tournament.PlayerTournamentPanelBtn;
 import org.bukkit.entity.Player;
@@ -25,6 +26,9 @@ public class PlayerPanel extends Panel {
             inv.setItem(11, new PlayerTournamentPanelBtn().getItemStack(player));
 
         inv.setItem(13, new PlayerFishPanelBtn(player).getItemStack(player));
+
+        if(ConfigHandler.instance.questConfig.Enabled())
+            inv.setItem(15, new PlayerQuestPanelBtn().getItemStack(player));
 
 
         if(Database.Rewards.HasRewards(player.getUniqueId().toString())){
