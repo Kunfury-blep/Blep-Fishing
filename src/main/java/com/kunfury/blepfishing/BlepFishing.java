@@ -29,8 +29,6 @@ public final class BlepFishing extends JavaPlugin {
     public ConfigHandler ConfigHandler;
     public CraftingHandler CraftingHandler;
     public PluginHandler PluginHandler;
-    public TreasureHandler TreasureHandler;
-    public AllBlueHandler AllBlueHandler;
     public boolean DebugMode;
 
     public BlepFishing(){
@@ -76,8 +74,9 @@ public final class BlepFishing extends JavaPlugin {
         Utilities.RunTimers();
         new ItemParser();
 
-        TreasureHandler = new TreasureHandler();
-        AllBlueHandler = new AllBlueHandler();
+        new TreasureHandler();
+        new AllBlueHandler();
+
 
         PluginHandler = new PluginHandler();
         PluginHandler.Initialize();

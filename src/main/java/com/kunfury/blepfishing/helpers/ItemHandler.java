@@ -19,7 +19,7 @@ public class ItemHandler {
 
     public static NamespacedKey FishIdKey, ButtonIdKey, FishTypeId,
             FishBagId, FishRodId, FishAreaId, TourneyTypeId, TourneyId, RarityId, TreasureTypeId,
-            CompassKey, FishJournalId;
+            CompassKey, FishJournalId, QuestId;
 
     public static Material FishMat = Material.SALMON;
     public static Material BagMat = Material.HEART_OF_THE_SEA;
@@ -43,6 +43,8 @@ public class ItemHandler {
         CompassKey = new NamespacedKey(BlepFishing.getPlugin(), "compass");
 
         FishJournalId = new NamespacedKey(BlepFishing.getPlugin(), "fishJournalId");
+
+        QuestId = new NamespacedKey(BlepFishing.getPlugin(), "questId");
 
         InitializeOldNamespaces();
     }

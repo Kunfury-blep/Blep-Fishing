@@ -15,6 +15,7 @@ public class Database {
     public static AllBlueTable AllBlues;
     public static TreasureDropsTable TreasureDrops;
     public static JournalTable FishingJournals;
+    public static QuestTable Quests;
 
     public Database(String path) throws SQLException {
         connection = DriverManager.getConnection("jdbc:sqlite:" + path);
@@ -27,6 +28,7 @@ public class Database {
         AllBlues = new AllBlueTable(this, connection);
         TreasureDrops = new TreasureDropsTable(this, connection);
         FishingJournals = new JournalTable(this, connection);
+        Quests = new QuestTable(this, connection);
     }
 
     public void CloseConnection() throws SQLException{

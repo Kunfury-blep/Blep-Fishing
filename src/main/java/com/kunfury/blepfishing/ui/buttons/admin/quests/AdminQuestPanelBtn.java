@@ -1,4 +1,4 @@
-package com.kunfury.blepfishing.ui.buttons.admin.tournamentEdit;
+package com.kunfury.blepfishing.ui.buttons.admin.quests;
 
 import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.database.Database;
@@ -13,14 +13,14 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 
-public class AdminTournamentPanelButton extends MenuButton {
+public class AdminQuestPanelBtn extends MenuButton {
 
     @Override
     public ItemStack buildItemStack(Player player) {
-        Material mat = Material.FISHING_ROD;
+        Material mat = Material.AXOLOTL_BUCKET;
 
         ArrayList<String> lore = new ArrayList<>();
-        if(ConfigHandler.instance.tourneyConfig.Enabled()){
+        if(ConfigHandler.instance.questConfig.Enabled()){
             lore.add(Formatting.GetLanguageString("UI.System.Buttons.enabled"));
         }else{
             lore.add(Formatting.GetLanguageString("UI.System.Buttons.disabled"));
@@ -33,8 +33,9 @@ public class AdminTournamentPanelButton extends MenuButton {
 
         ItemStack item = new ItemStack(mat);
         ItemMeta m = item.getItemMeta();
+        assert m != null;
 
-        m.setDisplayName(Formatting.GetLanguageString("UI.Admin.Buttons.Base.tournaments"));
+        setButtonTitle(m, Formatting.GetLanguageString("UI.Admin.Buttons.Base.quests"));
 
         m.setLore(lore);
         item.setItemMeta(m);
@@ -49,13 +50,8 @@ public class AdminTournamentPanelButton extends MenuButton {
 
     @Override
     protected void click_left_shift() {
-        ConfigHandler.instance.tourneyConfig.config.set("Settings.Enabled", !ConfigHandler.instance.tourneyConfig.Enabled());
-        ConfigHandler.instance.tourneyConfig.Save();
-
-        for(var t : Database.Tournaments.GetActive()){
-            t.RefreshBossBar();
-        }
-
+        ConfigHandler.instance.questConfig.config.set("Enabled", !ConfigHandler.instance.questConfig.Enabled());
+        ConfigHandler.instance.questConfig.Save();
 
         new AdminPanel().Show(player);
     }

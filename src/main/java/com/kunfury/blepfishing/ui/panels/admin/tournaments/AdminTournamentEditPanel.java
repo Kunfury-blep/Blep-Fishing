@@ -1,7 +1,7 @@
 package com.kunfury.blepfishing.ui.panels.admin.tournaments;
 
 import com.kunfury.blepfishing.ui.objects.Panel;
-import com.kunfury.blepfishing.ui.buttons.admin.tournamentEdit.AdminTournamentPanelButton;
+import com.kunfury.blepfishing.ui.buttons.admin.tournamentEdit.AdminTournamentPanelBtn;
 import com.kunfury.blepfishing.ui.buttons.admin.tournamentEdit.*;
 import com.kunfury.blepfishing.objects.TournamentType;
 import org.bukkit.entity.Player;
@@ -27,6 +27,6 @@ public class AdminTournamentEditPanel extends Panel {
             AddButton(new TournamentEditHornLevelBtn(type), player);
         AddButton(new AdminTournamentGradingBtn(type), player);
 
-        inv.setItem(17, new AdminTournamentPanelButton().getBackButton(player));
+        inv.setItem(17, new AdminTournamentPanelBtn().getBackButton(player));
     }
 }

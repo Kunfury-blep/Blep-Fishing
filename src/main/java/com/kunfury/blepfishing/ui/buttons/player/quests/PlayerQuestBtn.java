@@ -1,11 +1,12 @@
-package com.kunfury.blepfishing.ui.buttons.player.tournament;
+package com.kunfury.blepfishing.ui.buttons.player.quests;
 
 import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
-import com.kunfury.blepfishing.ui.objects.MenuButton;
 import com.kunfury.blepfishing.helpers.ItemHandler;
 import com.kunfury.blepfishing.objects.TournamentObject;
+import com.kunfury.blepfishing.objects.quests.QuestObject;
+import com.kunfury.blepfishing.ui.objects.MenuButton;
 import com.kunfury.blepfishing.ui.panels.player.PlayerTournamentDetailPanel;
 import com.kunfury.blepfishing.ui.panels.player.PlayerTournamentPanel;
 import org.bukkit.Bukkit;
@@ -21,11 +22,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class PlayerTournamentBtn extends MenuButton {
+public class PlayerQuestBtn extends MenuButton {
 
-    TournamentObject tournament;
-    public PlayerTournamentBtn(TournamentObject tournament){
-        this.tournament = tournament;
+    QuestObject quest;
+    public PlayerQuestBtn(QuestObject quest){
+        this.quest = quest;
     }
 
     @Override
@@ -34,30 +35,35 @@ public class PlayerTournamentBtn extends MenuButton {
         ItemMeta m = item.getItemMeta();
         assert m != null;
 
-        var tournamentType = tournament.getType();
+        var questType = quest.getType();
 
-        var duration = Formatting.asTime(tournament.getTimeRemaining(), ChatColor.BLUE);
-        setButtonTitle(m, Formatting.GetLanguageString("UI.Player.Buttons.Tournaments.name")
-                .replace("{name}", tournamentType.Name)
+        var duration = Formatting.asTime(quest.getTimeRemaining(), ChatColor.BLUE);
+        setButtonTitle(m, Formatting.GetLanguageString("UI.Player.Buttons.Quests.name")
+                .replace("{name}", questType.Name)
                 .replace("{duration}", duration));
 
         List<String> lore = new ArrayList<>();
         lore.add("");
 
-        lore.addAll(tournamentType.getFormattedCatchList());
+        lore.addAll(questType.getFormattedCatchList());
 
         lore.add("");
-        lore.add(Formatting.GetLanguageString("UI.Player.Buttons.Tournaments.view"));
+        lore.add(Formatting.GetLanguageString("UI.Player.Buttons.Quests.view"));
 
-        if(tournamentType.HasBossBar)
-            lore.add(Formatting.GetLanguageString("UI.Player.Buttons.Tournaments.bossBar"));
+//        if(player.hasPermission("bf.admin")){
+//            lore.add("");
+//            if(tournament.ConfirmCancel)
+//                lore.add(Formatting.GetLanguageString("UI.Player.Buttons.Tournaments.cancelConfirm"));
+//            else
+//                lore.add(Formatting.GetLanguageString("UI.Player.Buttons.Tournaments.cancel"));
+//        }
 
         m.setLore(lore);
 
         PersistentDataContainer dataContainer = m.getPersistentDataContainer();
-        dataContainer.set(ItemHandler.TourneyId, PersistentDataType.INTEGER, tournament.Id);
+        dataContainer.set(ItemHandler.QuestId, PersistentDataType.INTEGER, quest.Id);
 
-        var fishTypes = tournament.getType().getFishTypes();
+        var fishTypes = questType.getFishTypes();
 
         if(!fishTypes.isEmpty()){
             var randomType = fishTypes.get(ThreadLocalRandom.current().nextInt(fishTypes.size()));
@@ -82,6 +88,25 @@ public class PlayerTournamentBtn extends MenuButton {
     protected void click_left_shift() {
         TournamentObject tournament = getTournament();
         tournament.ToggleBossBar(player);
+    }
+
+    @Override
+    protected void click_right_shift() {
+        if(!player.hasPermission("bf.admin"))
+            return;
+
+        TournamentObject tournament = getTournament();
+
+        if(!tournament.ConfirmCancel){
+            tournament.ConfirmCancel = true;
+
+            Bukkit.getScheduler ().runTaskLater (BlepFishing.getPlugin(), () ->{
+                tournament.ConfirmCancel = false;
+            } , 300);
+        }else{
+            tournament.Cancel();
+        }
+        new PlayerTournamentPanel().Show(player);
     }
 
     protected TournamentObject getTournament(){

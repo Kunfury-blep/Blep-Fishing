@@ -323,7 +323,7 @@ public class TournamentType {
         SCORE_LOW
     }
 
-    public enum TournamentDay{
+    public enum TournamentDay{ //TODO: Convert to Event Day for Quests
         MONDAY,
         TUESDAY,
         WEDNESDAY,
