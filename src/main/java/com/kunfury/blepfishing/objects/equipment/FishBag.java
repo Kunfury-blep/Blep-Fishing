@@ -45,7 +45,7 @@ public class FishBag {
         tier = rs.getInt("tier");
         Pickup = rs.getBoolean("pickup");
 
-        Bukkit.broadcastMessage("Requesting Update From ResultSet Instantiating");
+        //Bukkit.broadcastMessage("Requesting Update From ResultSet Instantiating");
         RequestUpdate();
     }
 
@@ -59,11 +59,11 @@ public class FishBag {
     public void UpdateBagItem(){
 
         if(bagItem == null){
-            Bukkit.broadcastMessage("Tried to update null bag item");
+            Utilities.Severe("Tried to update null bag item");
             return;
         }
 
-        Bukkit.broadcastMessage("Updating Bag Item");
+        //Bukkit.broadcastMessage("Updating Bag Item");
 
         ItemMeta m = bagItem.getItemMeta();
         assert m != null;
@@ -191,12 +191,13 @@ public class FishBag {
             barScore = 10 * (amount / maxSize);
         }
 
+
         StringBuilder progressBar = new StringBuilder();
 
         for (int i = 1; i <= barScore; i++) {
             progressBar.append(ChatColor.GREEN + "|");
         }
-        for (int i = 1; i < 10 - barScore; i++) {
+        for (int i = 0; i <  10 - Math.floor(barScore); i++) {
             progressBar.append(ChatColor.WHITE + "|");
         }
 
@@ -237,7 +238,7 @@ public class FishBag {
         fishList = Database.FishBags.GetAllFish(Id).stream().sorted(Comparator.comparingDouble(FishObject::getScore)).toList();
 
         amount = fishList.size();
-        Bukkit.broadcastMessage("Updated Fish Bag. New Amount: " + amount);
+        //Bukkit.broadcastMessage("Updated Fish Bag. New Amount: " + amount);
     }
 
     public ItemStack GetItem() {
