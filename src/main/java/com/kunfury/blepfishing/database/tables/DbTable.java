@@ -42,4 +42,23 @@ public abstract class DbTable<T>{
     public abstract T Get(int id);
 
     public abstract void Update(int id, String field, Object value);
+
+    /**
+     * @param id Key of Object to Get
+     * @return Cached Object with id or Null
+     */
+    protected T GetCache(int id){
+        if(Cache.containsKey(id))
+            return Cache.get(id);
+        return null;
+    }
+
+
+    /**
+     * @param id Key of Object to Add
+     * @param object Object of type T
+     */
+    protected void AddCache(int id, T object){
+        Cache.put(id, object);
+    }
 }

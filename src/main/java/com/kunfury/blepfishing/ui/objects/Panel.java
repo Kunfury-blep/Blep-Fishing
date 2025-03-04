@@ -90,4 +90,6 @@ public abstract class Panel {
 
         inv.setItem(InventorySize - 3, infoButton.getItemStack(player));
     }
+
+    public Inventory GetInventory(){ return inv; }
 }

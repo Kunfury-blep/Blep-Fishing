@@ -42,6 +42,10 @@ public class BagTable extends DbTable<FishBag> {
 
     @Override
     public FishBag Get(int id) {
+        var cachedBag = GetCache(id);
+        if(cachedBag != null)
+            return cachedBag;
+
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(
                     """
@@ -56,19 +60,9 @@ public class BagTable extends DbTable<FishBag> {
                 return null;
             }
 
-            //int id = resultSet.getInt("id");
-
-            PreparedStatement caughtStatement = connection.prepareStatement("""
-                    SELECT COUNT(*) AS fishCaught FROM fish JOIN fishBags
-                    ON (fish.fishBagId = fishBags.Id)
-                    """);
-
-            ResultSet rs = caughtStatement.executeQuery();
-            rs.next();
-            int amount = rs.getInt("fishCaught");
-            //resultSet.updateInt("amount", rs.getInt("fishCaught"));
-
-            return new FishBag(resultSet, amount);
+            var newBag = new FishBag(resultSet);
+            AddCache(id, newBag);
+            return  newBag;
 
         }catch (SQLException e){
             throw new RuntimeException(e);

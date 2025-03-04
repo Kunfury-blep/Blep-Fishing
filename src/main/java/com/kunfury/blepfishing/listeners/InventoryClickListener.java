@@ -17,6 +17,8 @@ import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.awt.*;
+
 public class InventoryClickListener implements Listener {
 
     Player player;
@@ -34,7 +36,7 @@ public class InventoryClickListener implements Listener {
             return;
         }
 
-        if (clickedItem == null || !clickedItem.hasItemMeta())
+        if (clickedItem == null)
             return;
 
         if (ItemHandler.hasTag(clickedItem, ItemHandler.ButtonIdKey)) {
@@ -48,17 +50,19 @@ public class InventoryClickListener implements Listener {
             }
         }
 
-
-        if (ItemHandler.hasTag(clickedItem, ItemHandler.FishIdKey)) {
+        if(FishBagPanel.BagPanels.stream().anyMatch(p -> p.GetInventory() == inv)){
             FishBagPanel fishBagPanel = FishBagPanel.GetPanelFromInventory(inv);
             if (fishBagPanel == null)
                 return;
-
-            FishBag fishBag = fishBagPanel.fishBag;
             e.setCancelled(true);
 
-            fishBag.Deposit(clickedItem, player);
-            new FishBagPanel(fishBag, 1).Show(player);
+            FishBag fishBag = fishBagPanel.fishBag;
+
+
+            if(fishBag.Deposit(clickedItem, player)){
+                fishBag.UpdateBagItem();
+                new FishBagPanel(fishBag, 1).Show(player);
+            }
         }
     }
 

@@ -84,7 +84,7 @@ public class PlayerInteractListener implements Listener {
 
             FishBag fishBag = FishBag.GetBag(item);
             if(fishBag == null) return;
-            fishBag.Use(player);
+            fishBag.Use(player, item);
             return;
         }
 

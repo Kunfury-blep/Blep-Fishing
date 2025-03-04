@@ -10,6 +10,7 @@ import com.kunfury.blepfishing.ui.panels.FishBagPanel;
 import com.kunfury.blepfishing.helpers.ItemHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -29,6 +30,7 @@ public class FishBag {
     public boolean Pickup = true;
     private int amount;
     private int tier;
+    private ItemStack bagItem;
 
     public FishBag(){
         amount = 0;
@@ -38,22 +40,31 @@ public class FishBag {
         Id = Database.FishBags.Add(this);
     }
 
-    public FishBag(ResultSet rs, int _amount) throws SQLException {
+    public FishBag(ResultSet rs) throws SQLException {
         Id = rs.getInt("id");
         tier = rs.getInt("tier");
         Pickup = rs.getBoolean("pickup");
-        amount = _amount;
+
+        Bukkit.broadcastMessage("Requesting Update From ResultSet Instantiating");
+        RequestUpdate();
     }
 
-    public void Use(Player p){
+    public void Use(Player p, ItemStack bagItem){
+        this.bagItem = bagItem;
         new FishBagPanel(this, 1).Show(p);
         p.playSound(p.getLocation(), Sound.ITEM_ARMOR_EQUIP_LEATHER, .3f, 1f);
     }
 
 
-    public void UpdateBagItem(ItemStack bagItem){
+    public void UpdateBagItem(){
 
-        RequestUpdate();
+        if(bagItem == null){
+            Bukkit.broadcastMessage("Tried to update null bag item");
+            return;
+        }
+
+        Bukkit.broadcastMessage("Updating Bag Item");
+
         ItemMeta m = bagItem.getItemMeta();
         assert m != null;
         m.setLore(GenerateLore());
@@ -90,8 +101,8 @@ public class FishBag {
         for(var item : player.getInventory().getStorageContents()){
             if(getAmount() + fillAmt >= getMax()) break;
             if(item != null && item.getType() == ItemHandler.FishMat && ItemHandler.hasTag(item, ItemHandler.FishIdKey)){
-                Deposit(item, player);
-                fillAmt++;
+                if(Deposit(item, player))
+                    fillAmt++;
             }
         }
 
@@ -103,21 +114,65 @@ public class FishBag {
                 player.sendMessage(Formatting.GetFormattedMessage("Equipment.Fish Bag.noSpace"));
             else
                 player.sendMessage(Formatting.GetFormattedMessage("Equipment.Fish Bag.noFish"));
-        }
-        UpdateBagItem(bag);
-    }
-
-    public void Deposit(ItemStack item, Player player){
-        FishObject fish = FishObject.GetCaughtFish(ItemHandler.getTagInt(item, ItemHandler.FishIdKey));
-        if(fish == null){
-            Bukkit.getLogger().warning("Null fish found");
             return;
         }
-        AddFish(fish);
+        UpdateBagItem();
+    }
 
-        player.getInventory().remove(item);
-        player.playSound(player.getLocation(), Sound.ENTITY_SALMON_FLOP, .25f, .25f);
-        amount++;
+    public boolean Deposit(ItemStack item, Player player){
+
+        if (ItemHandler.hasTag(item, ItemHandler.FishIdKey)) {
+            if(isFull())
+                return false;
+
+            FishObject fish = FishObject.GetCaughtFish(ItemHandler.getTagInt(item, ItemHandler.FishIdKey));
+            if(fish == null){
+                Bukkit.getLogger().warning("Null fish found");
+                return false;
+            }
+            AddFish(fish);
+
+            player.getInventory().remove(item);
+            player.playSound(player.getLocation(), Sound.ENTITY_SALMON_FLOP, .25f, .25f);
+            return true;
+        }
+
+        if(item.getType() == Material.IRON_BLOCK){
+            Upgrade(item);
+            return true;
+        }
+
+
+        return false;
+    }
+
+    public void Withdraw(Player player, FishType type, ItemStack bagItem, boolean large, boolean single, int page){
+        var filteredFishList = new ArrayList<>(getFish().stream().filter(f -> Objects.equals(f.TypeId, type.Id)).toList());
+
+        if(!filteredFishList.isEmpty()){
+            int freeSlots = Utilities.getFreeSlots(player.getInventory());
+
+            if(single && freeSlots > 1) freeSlots = 1;
+            else if(freeSlots > filteredFishList.size()) freeSlots = filteredFishList.size();
+            if(large)  Collections.reverse(filteredFishList);
+
+            for(int i = 0; i < freeSlots; i++){
+                FishObject fish = filteredFishList.get(i);
+                RemoveFish(fish);
+                player.getInventory().addItem(fish.CreateItemStack());
+                player.playSound(player.getLocation(), Sound.ENTITY_SALMON_FLOP, .5f, 1f);
+            }
+            UpdateBagItem();
+
+            new FishBagPanel(this, page).Show(player);
+        }
+    }
+
+    private void Upgrade(ItemStack item){
+        if(isFull())
+            Bukkit.broadcastMessage("Fish Bag is Full! Upgrading");
+        else
+            Bukkit.broadcastMessage("Fish bag isn't full");
     }
 
     DecimalFormat formatter = new DecimalFormat("#,###");
@@ -167,50 +222,22 @@ public class FishBag {
 
     public void AddFish(FishObject fish){
         fish.setFishBagId(Id);
-        NeedsRefresh = true;
-//        FileHandler.Equipment = true;
+        RequestUpdate();
     }
     public void RemoveFish(FishObject fish){
         fish.setFishBagId(null);
-        NeedsRefresh = true;
-    //    FileHandler.Equipment = true;
+        RequestUpdate();
     }
     private List<FishObject> fishList = new ArrayList<>();
     public List<FishObject> getFish(){
-        RequestUpdate();
         return fishList;
     }
 
-    public boolean NeedsRefresh = true;
     private void RequestUpdate(){
-        if(NeedsRefresh){
-            fishList = Database.FishBags.GetAllFish(Id).stream().sorted(Comparator.comparingDouble(FishObject::getScore)).toList();
+        fishList = Database.FishBags.GetAllFish(Id).stream().sorted(Comparator.comparingDouble(FishObject::getScore)).toList();
 
-            NeedsRefresh = false;
-            amount = fishList.size();
-        }
-    }
-
-    public void Withdraw(Player player, FishType type, ItemStack bagItem, boolean large, boolean single, int page){
-        var filteredFishList = new ArrayList<>(getFish().stream().filter(f -> Objects.equals(f.TypeId, type.Id)).toList());
-
-        if(!filteredFishList.isEmpty()){
-            int freeSlots = Utilities.getFreeSlots(player.getInventory());
-
-            if(single && freeSlots > 1) freeSlots = 1;
-            else if(freeSlots > filteredFishList.size()) freeSlots = filteredFishList.size();
-            if(large)  Collections.reverse(filteredFishList);
-
-            for(int i = 0; i < freeSlots; i++){
-                FishObject fish = filteredFishList.get(i);
-                RemoveFish(fish);
-                player.getInventory().addItem(fish.CreateItemStack());
-                player.playSound(player.getLocation(), Sound.ENTITY_SALMON_FLOP, .5f, 1f);
-            }
-            UpdateBagItem(bagItem);
-
-            new FishBagPanel(this, page).Show(player);
-        }
+        amount = fishList.size();
+        Bukkit.broadcastMessage("Updated Fish Bag. New Amount: " + amount);
     }
 
     public ItemStack GetItem() {
@@ -258,6 +285,7 @@ public class FishBag {
 
         var bag = Database.FishBags.Get(bagId);
         FishBags.put(bagId, bag);
+        bag.bagItem = bagItem;
         return bag;
     }
 

@@ -95,8 +95,8 @@ public class FishingListener implements Listener {
         }
 
         Integer rodId = GetRodId(player);
-        Integer bagId = null;
         FishBag fishBag = null;
+        Integer bagId = null;
         ItemStack bagItem = null;
 
         //Checks if the player has a fishing bag. Automatically adds the fish to it if so
@@ -107,8 +107,7 @@ public class FishingListener implements Listener {
                 FishBag bag = FishBag.GetBag(slot);
                 if(bag != null && bag.Pickup && !bag.isFull()){
                     fishBag = bag;
-                    bagId = bag.Id;
-                    bagItem = slot;
+                    bagId = fishBag.Id;
                     break;
                 }
             }
@@ -127,8 +126,7 @@ public class FishingListener implements Listener {
         if(fishBag != null){
             item.remove();
             player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, .33f, 1f);
-            fishBag.NeedsRefresh = true;
-            fishBag.UpdateBagItem(bagItem);
+            fishBag.UpdateBagItem();
         }
 
         var playerId = player.getUniqueId();

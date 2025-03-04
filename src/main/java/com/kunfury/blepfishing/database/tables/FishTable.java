@@ -65,6 +65,10 @@ public class FishTable extends DbTable<FishObject>{
 
     @Override
     public FishObject Get(int id) {
+        var cachedFish = GetCache(id);
+        if(cachedFish != null)
+            return cachedFish;
+
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "SELECT * FROM fish WHERE id = ?");
@@ -76,12 +80,8 @@ public class FishTable extends DbTable<FishObject>{
                 return null;
             }
 
-            if(Database.Fish.Cache.containsKey(id)){
-                return Database.Fish.Cache.get(id);
-            }
-
             var newFish = new FishObject((resultSet));
-            Database.Fish.Cache.put(id, newFish);
+            AddCache(id, newFish);
             return newFish;
 
         }catch (SQLException e){

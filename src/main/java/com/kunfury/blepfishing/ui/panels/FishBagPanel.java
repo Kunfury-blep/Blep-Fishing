@@ -1,6 +1,7 @@
 package com.kunfury.blepfishing.ui.panels;
 
 import com.kunfury.blepfishing.BlepFishing;
+import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
 import com.kunfury.blepfishing.ui.objects.panels.PaginationPanel;
@@ -56,7 +57,7 @@ public class FishBagPanel extends PaginationPanel<FishType> {
     }
 
     private void FillFishBag(Inventory inv){
-        final List<FishObject> parsedFish = BlepFishing.getDatabase().FishBags.GetAllFish(fishBag.Id);
+        final List<FishObject> parsedFish = Database.FishBags.GetAllFish(fishBag.Id);
 
         HashMap<FishType, List<FishObject>> fishMap = new HashMap<>();
         for(var f : parsedFish){
