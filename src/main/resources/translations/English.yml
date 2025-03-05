@@ -36,10 +36,13 @@ Equipment:
     noSpace: "There is no more space in that bag."
     noFish: "No fish found in inventory."
     addFish: "Added {amount} to the bag."
-    smallBag: "Small Bag o' Fish"
-    medBag: "Medium Bag o' Fish"
-    largeBag: "Large Bag o' Fish"
-    giantBag: "Giant Bag o' Fish"
+    tier1Title: "&fSmall Bag o' Fish"
+    tier2Title: "&eMedium Bag o' Fish"
+    tier3Title: "&6Large Bag o' Fish"
+    tier4Title: "&bGiant Bag o' Fish"
+    tier5Title: "&3Bottomless Bag"
+    upgrade: "&fInsert &6{item}&f to Upgrade"
+
   Fishing Rod:
     caughtAmount: "&bFish Caught: &f{amount}"
   Fishing Journal:

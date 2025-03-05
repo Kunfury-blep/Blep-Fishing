@@ -71,7 +71,6 @@ public class BagTable extends DbTable<FishBag> {
 
     @Override
     public void Update(int id, String field, Object value){
-        int val = BooleanUtils.toInteger((Boolean) value);
         if(!Exists(id)){
             Bukkit.getLogger().severe("Tried to update bag that didn't exist with id: " + id);
             return;
@@ -80,7 +79,7 @@ public class BagTable extends DbTable<FishBag> {
             PreparedStatement preparedStatement = connection.prepareStatement(
                             "UPDATE fishBags SET " + field + " = ? WHERE id = ?");
 
-            preparedStatement.setInt(1, val);
+            preparedStatement.setObject(1, value);
             preparedStatement.setInt(2, id);
             preparedStatement.executeUpdate();
 

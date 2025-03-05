@@ -22,7 +22,6 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DecimalFormat;
 import java.util.*;
 
 public class FishBag {
@@ -67,10 +66,24 @@ public class FishBag {
 
         ItemMeta m = bagItem.getItemMeta();
         assert m != null;
+
+        m.setDisplayName(getBagName());
+
         m.setLore(GenerateLore());
         m.getPersistentDataContainer().set(ItemHandler.FishBagId, PersistentDataType.INTEGER, Id);
 
         bagItem.setItemMeta(m);
+    }
+
+    public String getBagName(){
+        return switch(tier){
+            case 1 -> Formatting.GetLanguageString("Equipment.Fish Bag.tier1Title");
+            case 2 -> Formatting.GetLanguageString("Equipment.Fish Bag.tier2Title");
+            case 3 -> Formatting.GetLanguageString("Equipment.Fish Bag.tier3Title");
+            case 4 -> Formatting.GetLanguageString("Equipment.Fish Bag.tier4Title");
+            case 5 -> Formatting.GetLanguageString("Equipment.Fish Bag.tier5Title");
+            default -> "Error Bag: " + tier;
+        };
     }
 
     public int getAmount(){ return amount; }
@@ -137,13 +150,59 @@ public class FishBag {
             return true;
         }
 
-        if(item.getType() == Material.IRON_BLOCK){
-            Upgrade(item);
-            return true;
+        return TryUpgrade(item);
+    }
+
+    Map<Integer, Material> upgradeMaterials = Map.of(
+            1, Material.IRON_BLOCK,
+            2, Material.GOLD_BLOCK,
+            3, Material.DIAMOND_BLOCK,
+            4, Material.NETHERITE_BLOCK
+    );
+
+
+    private boolean TryUpgrade(ItemStack item){
+        if(!isFull())
+            return false;
+
+
+        switch (item.getType()){
+//            case SPONGE -> {
+//                return false;
+//                if(tier == 1)
+//                    return false;
+//                tier--;
+//            }
+            case IRON_BLOCK -> {
+                if(tier != 1)
+                    return false;
+                tier = 2;
+            }
+            case GOLD_BLOCK -> {
+                if(tier != 2)
+                    return false;
+                tier = 3;
+            }
+            case DIAMOND_BLOCK -> {
+                if(tier != 3)
+                    return false;
+                tier = 4;
+            }
+            case NETHERITE_BLOCK -> {
+                if(tier != 4)
+                    return false;
+                tier = 5;
+            }
+            default -> {
+                return false;
+            }
         }
 
+        //item.setAmount(item.getAmount() - 1);
 
-        return false;
+        Database.FishBags.Update(Id, "tier", tier);
+        UpdateBagItem();
+        return true;
     }
 
     public void Withdraw(Player player, FishType type, ItemStack bagItem, boolean large, boolean single, int page){
@@ -168,14 +227,7 @@ public class FishBag {
         }
     }
 
-    private void Upgrade(ItemStack item){
-        if(isFull())
-            Bukkit.broadcastMessage("Fish Bag is Full! Upgrading");
-        else
-            Bukkit.broadcastMessage("Fish bag isn't full");
-    }
 
-    DecimalFormat formatter = new DecimalFormat("#,###");
     public ArrayList<String> GenerateLore() {
         double maxSize = getMax();
 
@@ -201,7 +253,7 @@ public class FishBag {
             progressBar.append(ChatColor.WHITE + "|");
         }
 
-        lore.add(progressBar + " " + formatter.format(amount) + "/" + formatter.format(maxSize));
+        lore.add(progressBar + " " + Formatting.toBigNumber(amount) + "/" + Formatting.toBigNumber(maxSize));
 
         lore.add("");
         lore.add(Formatting.GetLanguageString("Equipment.Fish Bag.autoPickup"));
@@ -209,12 +261,22 @@ public class FishBag {
         lore.add(Formatting.GetLanguageString("Equipment.Fish Bag.openBag"));
         lore.add(Formatting.GetLanguageString("Equipment.Fish Bag.openPanel"));
 
+        if(amount >= getMax()){
+            var material = upgradeMaterials.getOrDefault(tier, null);
+            if(material != null){
+                lore.add("");
+
+                lore.add(Formatting.GetLanguageString("Equipment.Fish Bag.upgrade")
+                        .replace("{item}", material.name()));
+            }
+        }
+
         return lore;
     }
 
     public int getMax(){
         //return (10 * tier); //This is for testing purposes to be able to easily upgrade the bag
-        return (int) (256 * Math.pow(tier, 4 ));
+        return (int) (16 * Math.pow(8, tier)) * 2;
     }
 
     public boolean isFull(){

@@ -21,6 +21,7 @@ import java.util.regex.Pattern;
 public class Formatting {
 
 	public static DecimalFormat df = new DecimalFormat("##.00");
+	private static final DecimalFormat bigNumberFormatter = new DecimalFormat("#,###");
 
 	//Formats doubles to two decimal places and returns them
 	//Parses through a locale formatter in order to ensure no incompatibilities
@@ -34,6 +35,10 @@ public class Formatting {
 			e.printStackTrace();
 		}
 		return(df.format(number));
+	}
+
+	public static String toBigNumber(double value){
+		return bigNumberFormatter.format(value);
 	}
 
 	private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");

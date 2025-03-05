@@ -24,10 +24,11 @@ public class FishBagPanel extends PaginationPanel<FishType> {
     public static final List<FishBagPanel> BagPanels = new ArrayList<>();
 
     public final FishBag fishBag;
+
     public FishBagPanel(FishBag fishBag, int page){
         super(Formatting.GetLanguageString("UI.Player.Panels.fishBag")
-                        .replace("{amount}", String.valueOf(fishBag.getAmount()))
-                        .replace("{max}", String.valueOf(fishBag.getMax())),
+                        .replace("{amount}", Formatting.toBigNumber(fishBag.getAmount()))
+                        .replace("{max}", Formatting.toBigNumber(fishBag.getMax())),
                 FishType.GetAll().size() + 9, page, null);
         this.fishBag = fishBag;
     }
