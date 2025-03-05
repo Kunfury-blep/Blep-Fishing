@@ -198,7 +198,7 @@ public class FishBag {
             }
         }
 
-        //item.setAmount(item.getAmount() - 1);
+        item.setAmount(item.getAmount() - 1);
 
         Database.FishBags.Update(Id, "tier", tier);
         UpdateBagItem();
@@ -310,7 +310,7 @@ public class FishBag {
         assert itemMeta != null;
 
         itemMeta.getPersistentDataContainer().set(ItemHandler.FishBagId, PersistentDataType.INTEGER, Id);
-        itemMeta.setDisplayName(Formatting.GetLanguageString("Equipment.Fish Bag.smallBag"));
+        itemMeta.setDisplayName(Formatting.GetLanguageString("Equipment.Fish Bag.tier1Title"));
 
         itemMeta.setLore(GenerateLore());
 
@@ -369,7 +369,7 @@ public class FishBag {
 
         PersistentDataContainer dataContainer = m.getPersistentDataContainer();
         dataContainer.set(ItemHandler.FishBagId, PersistentDataType.INTEGER, -1);
-        m.setDisplayName(Formatting.GetLanguageString("Equipment.Fish Bag.smallBag"));
+        m.setDisplayName(Formatting.GetLanguageString("Equipment.Fish Bag.tier1Title"));
 
         List<String> lore = new ArrayList<>();
         lore.add(Formatting.GetLanguageString("Equipment.Fish Bag.descSmall")); //TODO: Change to dynamic based on size of bag
