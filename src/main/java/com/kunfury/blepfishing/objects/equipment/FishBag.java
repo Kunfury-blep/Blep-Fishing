@@ -26,7 +26,7 @@ import java.util.*;
 
 public class FishBag {
     public final int Id;
-    public boolean Pickup = true;
+    public boolean Pickup;
     private int amount;
     private int tier;
     private ItemStack bagItem;
