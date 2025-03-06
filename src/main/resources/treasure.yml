@@ -17,7 +17,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: LILY_PAD
           amount: 4
       '1':
@@ -26,7 +26,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: RAW_IRON
           amount: 12
       '2':
@@ -35,7 +35,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: IRON_INGOT
           amount: 8
       '3':
@@ -44,7 +44,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: GOLD_INGOT
           amount: 4
       '4':
@@ -53,7 +53,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: RAW_GOLD
           amount: 2
       '5':
@@ -62,7 +62,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: SEA_PICKLE
           amount: 4
       '6':
@@ -71,7 +71,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: KELP
           amount: 4
       '7':
@@ -80,7 +80,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: DIAMOND
       '8':
         Drop Chance: 2.5
@@ -88,7 +88,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: FISHING_ROD
           meta:
             ==: ItemMeta
@@ -103,7 +103,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: EXPERIENCE_BOTTLE
           amount: 4
       '10':
@@ -112,7 +112,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: INK_SAC
           amount: 8
     Weight: 100
@@ -126,7 +126,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: LILY_PAD
           amount: 64
       '1':
@@ -135,7 +135,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: HEART_OF_THE_SEA
       '2':
         Drop Chance: 10.0
@@ -143,7 +143,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: DIAMOND
           amount: 16
       '3':
@@ -152,7 +152,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: SADDLE
       '4':
         Drop Chance: 2.5
@@ -160,7 +160,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: FISHING_ROD
           meta:
             ==: ItemMeta
@@ -175,7 +175,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: EXPERIENCE_BOTTLE
           amount: 32
       '6':
@@ -184,7 +184,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: DIAMOND_BLOCK
           amount: 4
       '7':
@@ -193,7 +193,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: IRON_BLOCK
           amount: 32
       '8':
@@ -202,7 +202,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: GOLD_BLOCK
           amount: 32
     Weight: 5
@@ -216,7 +216,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: NAUTILUS_SHELL
           amount: 4
       '1':
@@ -225,7 +225,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: ENDER_PEARL
           amount: 8
       '2':
@@ -234,7 +234,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: FISHING_ROD
           meta:
             ==: ItemMeta
@@ -248,7 +248,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: EXPERIENCE_BOTTLE
           amount: 8
       '4':
@@ -257,7 +257,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: GLOW_INK_SAC
           amount: 8
       '5':
@@ -266,7 +266,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: TURTLE_HELMET
       '6':
         Drop Chance: 10.0
@@ -274,7 +274,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: TURTLE_EGG
       '7':
         Drop Chance: 10.0
@@ -282,7 +282,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: SPYGLASS
       '8':
         Drop Chance: 15.0
@@ -290,7 +290,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: IRON_INGOT
           amount: 32
       '9':
@@ -299,7 +299,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: RAW_IRON_BLOCK
           amount: 4
     Weight: 50
@@ -313,7 +313,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: EMERALD
           amount: 4
       '1':
@@ -322,7 +322,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: FISHING_ROD
           meta:
             ==: ItemMeta
@@ -336,7 +336,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: SADDLE
       '3':
         Drop Chance: 5.0
@@ -344,7 +344,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: AXOLOTL_BUCKET
       '4':
         Drop Chance: 17.5
@@ -352,7 +352,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: EXPERIENCE_BOTTLE
           amount: 16
       '5':
@@ -361,7 +361,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: TURTLE_EGG
           amount: 4
       '6':
@@ -370,7 +370,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: IRON_BLOCK
           amount: 8
       '7':
@@ -379,7 +379,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: RAW_IRON_BLOCK
           amount: 32
       '8':
@@ -388,7 +388,7 @@ Caskets:
         Cash: 0.0
         Item:
           ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: ENDER_PEARL
           amount: 16
     Weight: 25

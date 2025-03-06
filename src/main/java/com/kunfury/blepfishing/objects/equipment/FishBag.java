@@ -1,6 +1,7 @@
 package com.kunfury.blepfishing.objects.equipment;
 
 
+import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.Utilities;
@@ -14,6 +15,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -56,7 +58,6 @@ public class FishBag {
 
 
     public void UpdateBagItem(){
-
         if(bagItem == null){
             Utilities.Severe("Tried to update null bag item");
             return;
@@ -107,7 +108,7 @@ public class FishBag {
         player.getInventory().setItemInMainHand(bag);
     }
 
-    public void FillFromInventory(ItemStack bag, Player player){
+    public void FillFromInventory(Player player){
         int fillAmt = 0;
 
 
@@ -152,6 +153,7 @@ public class FishBag {
 
         return TryUpgrade(item);
     }
+
 
     Map<Integer, Material> upgradeMaterials = Map.of(
             1, Material.IRON_BLOCK,
@@ -198,14 +200,14 @@ public class FishBag {
             }
         }
 
-        //item.setAmount(item.getAmount() - 1);
+        item.setAmount(item.getAmount() - 1);
 
         Database.FishBags.Update(Id, "tier", tier);
         UpdateBagItem();
         return true;
     }
 
-    public void Withdraw(Player player, FishType type, ItemStack bagItem, boolean large, boolean single, int page){
+    public void Withdraw(Player player, FishType type, boolean large, boolean single, int page){
         var filteredFishList = new ArrayList<>(getFish().stream().filter(f -> Objects.equals(f.TypeId, type.Id)).toList());
 
         if(!filteredFishList.isEmpty()){
@@ -236,11 +238,10 @@ public class FishBag {
         lore.add(Formatting.GetLanguageString("Equipment.Fish Bag.descSmall")); //TODO: Change to dynamic based on size of bag
         lore.add("");
 
-
         double barScore = 0;
 
-        if(amount != 0 || maxSize != 0){
-            barScore = 10 * (amount / maxSize);
+        if(getAmount() != 0 || maxSize != 0){
+            barScore = 10 * (getAmount() / maxSize);
         }
 
 
@@ -296,7 +297,7 @@ public class FishBag {
         return fishList;
     }
 
-    private void RequestUpdate(){
+    public void RequestUpdate(){
         fishList = Database.FishBags.GetAllFish(Id).stream().sorted(Comparator.comparingDouble(FishObject::getScore)).toList();
 
         amount = fishList.size();
@@ -310,7 +311,7 @@ public class FishBag {
         assert itemMeta != null;
 
         itemMeta.getPersistentDataContainer().set(ItemHandler.FishBagId, PersistentDataType.INTEGER, Id);
-        itemMeta.setDisplayName(Formatting.GetLanguageString("Equipment.Fish Bag.smallBag"));
+        itemMeta.setDisplayName(Formatting.GetLanguageString("Equipment.Fish Bag.tier1Title"));
 
         itemMeta.setLore(GenerateLore());
 
@@ -322,7 +323,6 @@ public class FishBag {
 
         return  item;
     }
-
 
 
 
@@ -352,6 +352,25 @@ public class FishBag {
         return bag;
     }
 
+    public static FishBag GetBag(Player player){
+        if(!ConfigHandler.instance.baseConfig.getEnableFishBags() || !player.getInventory().contains(ItemHandler.BagMat))
+            return null;
+
+        Inventory inv = player.getInventory();
+        for (var slot : inv){
+            if(!IsBag(slot))
+                continue;
+
+            var bag = GetBag(slot);
+            if(!bag.Pickup || bag.isFull())
+                continue;
+
+            bag.bagItem = slot;
+            return bag;
+        }
+        return null;
+    }
+
     public static boolean IsBag(ItemStack bag){
 
         if(bag == null || !bag.hasItemMeta())
@@ -369,7 +388,7 @@ public class FishBag {
 
         PersistentDataContainer dataContainer = m.getPersistentDataContainer();
         dataContainer.set(ItemHandler.FishBagId, PersistentDataType.INTEGER, -1);
-        m.setDisplayName(Formatting.GetLanguageString("Equipment.Fish Bag.smallBag"));
+        m.setDisplayName(Formatting.GetLanguageString("Equipment.Fish Bag.tier1Title"));
 
         List<String> lore = new ArrayList<>();
         lore.add(Formatting.GetLanguageString("Equipment.Fish Bag.descSmall")); //TODO: Change to dynamic based on size of bag

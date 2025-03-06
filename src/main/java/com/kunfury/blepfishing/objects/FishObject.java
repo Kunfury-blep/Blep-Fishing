@@ -34,8 +34,8 @@ public class FishObject {
     public Integer FishBagId;
 
 
-    public FishObject(String rarity, String type,  double length, UUID playerId,
-                        Integer rodId, Integer bagId){
+    public FishObject(String rarity, String type,  double length, UUID playerId, Integer rodId){
+
         PlayerId = playerId;
         DateCaught = LocalDateTime.now();
         TypeId = type;
@@ -43,7 +43,6 @@ public class FishObject {
         Length = length;
         Score = CalcScore();
         RodId = rodId;
-        FishBagId = bagId;
 
         Id = Database.Fish.Add(this);
         Value = CalcValue();

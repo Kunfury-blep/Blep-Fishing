@@ -53,14 +53,14 @@ public class FishType {
         return super.toString();
     }
 
-    public FishObject GenerateFish(Rarity rarity, UUID playerId, Integer rodId, Integer bagId, boolean allBlue){
+    public FishObject GenerateFish(Rarity rarity, UUID playerId, Integer bagId, boolean allBlue){
         double adjustedMax = LengthMax;
         if(allBlue)
             adjustedMax += LengthMax * ConfigHandler.instance.baseConfig.getAllBlueSizeBonus();
 
         double length = ThreadLocalRandom.current().nextDouble(LengthMin, adjustedMax);
         length = (double) Math.round(length * 100) / 100;
-        return new FishObject(rarity.Id, Id, length, playerId, rodId, bagId);
+        return new FishObject(rarity.Id, Id, length, playerId, bagId);
     }
 
     public boolean canCatch(boolean isRaining, int height, boolean isNight, Collection<FishingArea> fishingAreas){
@@ -103,9 +103,21 @@ public class FishType {
     }
 
     public void Spawn(Player player){
-        FishObject fish = GenerateFish(Rarity.GetRandom(), null, null, null, false);
+        FishObject fish = GenerateFish(Rarity.GetRandom(), null, null, false);
 
         Utilities.GiveItem(player, fish.CreateItemStack(), true);
+    }
+
+    public List<String> getAreaNames(){
+        List<String> areaNames = new ArrayList<>();
+        for(var id : AreaIds){
+            FishingArea area = FishingArea.FromId(id);
+            if(area == null)
+                continue;
+
+            areaNames.add(area.Name);
+        }
+        return areaNames;
     }
 
 

@@ -68,7 +68,7 @@ cacti_cove_casting_contest:
       Cash: 0.0
       Items:
         - ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: DIAMOND
 surf_&_sea_fishing_fest:
   Name: Surf & Sea Fishing Fest
@@ -93,7 +93,7 @@ surf_&_sea_fishing_fest:
       Cash: 0.0
       Items:
         - ==: org.bukkit.inventory.ItemStack
-          v: 3955
+          v: 2730
           type: DIAMOND
 cold_water_cast-off:
   Name: Cold Water Cast-Off

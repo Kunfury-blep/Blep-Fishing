@@ -95,39 +95,27 @@ public class FishingListener implements Listener {
         }
 
         Integer rodId = GetRodId(player);
-        FishBag fishBag = null;
-        Integer bagId = null;
-        ItemStack bagItem = null;
 
-        //Checks if the player has a fishing bag. Automatically adds the fish to it if so
-        if(ConfigHandler.instance.baseConfig.getEnableFishBags() && player.getInventory().contains(ItemHandler.BagMat)){
-            Inventory inv = player.getInventory();
-            for (var slot : inv)
-            {
-                FishBag bag = FishBag.GetBag(slot);
-                if(bag != null && bag.Pickup && !bag.isFull()){
-                    fishBag = bag;
-                    bagId = fishBag.Id;
-                    break;
-                }
-            }
-        }
+        FishObject caughtFish = fishType.GenerateFish(rarity, e.getPlayer().getUniqueId(), rodId, allBlue);
 
-        FishObject caughtFish = fishType.GenerateFish(rarity, e.getPlayer().getUniqueId(), rodId, bagId, allBlue);
+        FishBag fishBag = FishBag.GetBag(player);
+        if(fishBag != null){
+            item.remove();
+            player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, .33f, 1f);
+            fishBag.AddFish(caughtFish);
+            fishBag.UpdateBagItem();
+        }else
+            item.setItemStack(caughtFish.CreateItemStack());
 
-        item.setItemStack(caughtFish.CreateItemStack());
+
+
+
         BlepFishing.stats_FishCaught++;
         DisplayFishInfo.ShowFish(caughtFish, player);
         TournamentObject.CheckWinning(caughtFish);
 
         if(rarity.Announce)
             AnnounceCatch(caughtFish);
-
-        if(fishBag != null){
-            item.remove();
-            player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, .33f, 1f);
-            fishBag.UpdateBagItem();
-        }
 
         var playerId = player.getUniqueId();
         if(!Database.FishingJournals.HasJournal(playerId.toString())
