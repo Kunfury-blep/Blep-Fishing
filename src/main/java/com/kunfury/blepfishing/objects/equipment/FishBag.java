@@ -1,6 +1,7 @@
 package com.kunfury.blepfishing.objects.equipment;
 
 
+import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.Utilities;
@@ -14,6 +15,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -56,7 +58,6 @@ public class FishBag {
 
 
     public void UpdateBagItem(){
-
         if(bagItem == null){
             Utilities.Severe("Tried to update null bag item");
             return;
@@ -153,6 +154,7 @@ public class FishBag {
         return TryUpgrade(item);
     }
 
+
     Map<Integer, Material> upgradeMaterials = Map.of(
             1, Material.IRON_BLOCK,
             2, Material.GOLD_BLOCK,
@@ -236,11 +238,10 @@ public class FishBag {
         lore.add(Formatting.GetLanguageString("Equipment.Fish Bag.descSmall")); //TODO: Change to dynamic based on size of bag
         lore.add("");
 
-
         double barScore = 0;
 
-        if(amount != 0 || maxSize != 0){
-            barScore = 10 * (amount / maxSize);
+        if(getAmount() != 0 || maxSize != 0){
+            barScore = 10 * (getAmount() / maxSize);
         }
 
 
@@ -296,7 +297,7 @@ public class FishBag {
         return fishList;
     }
 
-    private void RequestUpdate(){
+    public void RequestUpdate(){
         fishList = Database.FishBags.GetAllFish(Id).stream().sorted(Comparator.comparingDouble(FishObject::getScore)).toList();
 
         amount = fishList.size();
@@ -326,7 +327,6 @@ public class FishBag {
 
 
 
-
     ///
     //Static Methods
     ///
@@ -350,6 +350,25 @@ public class FishBag {
         FishBags.put(bagId, bag);
         bag.bagItem = bagItem;
         return bag;
+    }
+
+    public static FishBag GetBag(Player player){
+        if(!ConfigHandler.instance.baseConfig.getEnableFishBags() || !player.getInventory().contains(ItemHandler.BagMat))
+            return null;
+
+        Inventory inv = player.getInventory();
+        for (var slot : inv){
+            if(!IsBag(slot))
+                continue;
+
+            var bag = GetBag(slot);
+            if(!bag.Pickup || bag.isFull())
+                continue;
+
+            bag.bagItem = slot;
+            return bag;
+        }
+        return null;
     }
 
     public static boolean IsBag(ItemStack bag){
