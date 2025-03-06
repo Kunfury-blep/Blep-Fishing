@@ -70,22 +70,22 @@ public class FishBagFishButton extends MenuButton {
 
     @Override
     protected void click_left() {
-        getBag().Withdraw(player, getFishType(), getBagItem(), false, true, getPage());
+        getBag().Withdraw(player, getFishType(), false, true, getPage());
     }
 
     @Override
     protected void click_right() {
-        getBag().Withdraw(player, getFishType(), getBagItem(), true, true, getPage());
+        getBag().Withdraw(player, getFishType(), true, true, getPage());
     }
 
     @Override
     protected void click_left_shift() {
-        getBag().Withdraw(player, getFishType(), getBagItem(), false, false, getPage());
+        getBag().Withdraw(player, getFishType(), false, false, getPage());
     }
 
     @Override
     protected void click_right_shift() {
-        getBag().Withdraw(player, getFishType(), getBagItem(), true, false, getPage());
+        getBag().Withdraw(player, getFishType(), true, false, getPage());
     }
 
     private FishBag getBag(){

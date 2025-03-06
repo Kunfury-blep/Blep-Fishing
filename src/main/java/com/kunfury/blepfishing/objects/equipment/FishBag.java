@@ -108,7 +108,7 @@ public class FishBag {
         player.getInventory().setItemInMainHand(bag);
     }
 
-    public void FillFromInventory(ItemStack bag, Player player){
+    public void FillFromInventory(Player player){
         int fillAmt = 0;
 
 
@@ -207,7 +207,7 @@ public class FishBag {
         return true;
     }
 
-    public void Withdraw(Player player, FishType type, ItemStack bagItem, boolean large, boolean single, int page){
+    public void Withdraw(Player player, FishType type, boolean large, boolean single, int page){
         var filteredFishList = new ArrayList<>(getFish().stream().filter(f -> Objects.equals(f.TypeId, type.Id)).toList());
 
         if(!filteredFishList.isEmpty()){

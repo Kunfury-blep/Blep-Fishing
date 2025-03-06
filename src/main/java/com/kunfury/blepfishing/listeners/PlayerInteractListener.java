@@ -140,7 +140,7 @@ public class PlayerInteractListener implements Listener {
             if(fishBag == null) return;
 
             if(p.isSneaking())
-                fishBag.FillFromInventory(e.getItem(), p);
+                fishBag.FillFromInventory(p);
             else
                 fishBag.TogglePickup(e.getItem(), p);
             return;
