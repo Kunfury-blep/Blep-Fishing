@@ -33,8 +33,15 @@ public class PlayerFishMissingBtn extends MenuButton {
         m.setCustomModelData(fishType.ModelData);
 
         List<String> lore = new ArrayList<>();
-
         lore.add(Formatting.GetLanguageString("UI.Player.Buttons.Base.Fish.noneCaught"));
+        lore.add("");
+
+        String areaLore = Formatting.GetLanguageString("UI.Player.Buttons.Base.Fish.area")
+                .replace("{areas}", Formatting.ToCommaList(fishType.getAreaNames(), ChatColor.WHITE, ChatColor.BLUE));
+
+        lore.addAll(Formatting.ToLoreList(areaLore));
+
+
 
         m.setLore(lore);
 

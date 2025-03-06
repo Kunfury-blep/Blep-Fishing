@@ -42,17 +42,9 @@ public class PlayerFishBtn extends MenuButton {
             lore.add("");
         }
 
-        List<String> areaNames = new ArrayList<>();
-        for(var id : fishType.AreaIds){
-            FishingArea area = FishingArea.FromId(id);
-            if(area == null)
-                continue;
-
-            areaNames.add(area.Name);
-        }
 
         String areaLore = Formatting.GetLanguageString("UI.Player.Buttons.Base.Fish.area")
-                        .replace("{areas}", Formatting.ToCommaList(areaNames, ChatColor.WHITE, ChatColor.BLUE));
+                        .replace("{areas}", Formatting.ToCommaList(fishType.getAreaNames(), ChatColor.WHITE, ChatColor.BLUE));
 
         lore.addAll(Formatting.ToLoreList(areaLore));
 

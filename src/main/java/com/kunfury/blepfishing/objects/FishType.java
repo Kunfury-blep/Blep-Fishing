@@ -108,6 +108,18 @@ public class FishType {
         Utilities.GiveItem(player, fish.CreateItemStack(), true);
     }
 
+    public List<String> getAreaNames(){
+        List<String> areaNames = new ArrayList<>();
+        for(var id : AreaIds){
+            FishingArea area = FishingArea.FromId(id);
+            if(area == null)
+                continue;
+
+            areaNames.add(area.Name);
+        }
+        return areaNames;
+    }
+
 
     ///
     // Static Methods
