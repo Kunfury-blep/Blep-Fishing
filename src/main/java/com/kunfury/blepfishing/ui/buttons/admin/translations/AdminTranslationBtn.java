@@ -57,15 +57,17 @@ public class AdminTranslationBtn extends MenuButton {
 
         lore.add("");
 
-        lore.add(Formatting.GetLanguageString("UI.Admin.Buttons.Translations.select"));
+
 
 
         var activeLanguage = Formatting.GetLanguageString("Language");
         if(activeLanguage.equals(LanguageName)){
             item.setType(Material.WARPED_SIGN);
+            lore.add(Formatting.GetLanguageString("UI.Admin.Buttons.Translations.reload"));
             lore.add("");
             lore.add(Formatting.GetLanguageString("UI.System.Buttons.enabled"));
-        }
+        }else
+            lore.add(Formatting.GetLanguageString("UI.Admin.Buttons.Translations.select"));
 
         m.setLore(lore);
 
