@@ -29,10 +29,10 @@ public class TournamentConfig {
 
         config = YamlConfiguration.loadConfiguration(tournamentConfigFile);
 
-        LoadTournaments();
+        Load();
     }
 
-    private void LoadTournaments(){
+    private void Load(){
         TournamentType.Clear();
         for(final String key : config.getValues(false).keySet()){
 

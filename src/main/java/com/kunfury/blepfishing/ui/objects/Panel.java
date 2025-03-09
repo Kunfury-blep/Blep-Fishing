@@ -54,6 +54,14 @@ public abstract class Panel {
 
                     inv = Bukkit.createInventory(player, InventorySize, Title);
                     BuildInventory(player);
+
+                    if(FillInventory){
+                        for(int i = 0; i < InventorySize; i++) {
+                            if(inv.getItem(i) == null)
+                                inv.setItem(i, MenuHandler.getBackgroundItem());
+                        }
+                    }
+
                     player.openInventory(inv);
                 }
 

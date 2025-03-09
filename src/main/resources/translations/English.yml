@@ -67,8 +67,10 @@ Equipment:
 
 Tournament:
   alreadyRunning: "{tournament} is already running."
-  noneCaught: "No fish were caught before the tournament ended, no rewards have been given."
-  leaderboard: "&l-- {tournament}&l Leaderboard - Hover For Info --"
+  noneCaught: "No {fish} were caught before the tournament ended, no rewards have been given."
+  leaderboard: "&l   {tournament}&l Leaderboard - Hover For Info   "
+  reward: "You won &6{item}&f in {tournament}&f!"
+  rewardCurrency: "You won $&2{amount}&f in {tournament}&f!"
   start: "The {tournament}&f Fishing Contest has begun!"
   allFish: "&fAll Fish"
   noFish: "&cNo Fish Defined"
@@ -187,6 +189,7 @@ UI:
         quests: "&bEdit Quests"
       Translations:
         select: "&bLeft-Click to &e&oSelect"
+        reload: "&bLeft-Click to &e&l&oLoad Defaults"
         author: "&9Author: &f{name}"
         Info:
           name: "&bInfo"
