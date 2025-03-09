@@ -233,6 +233,7 @@ public class TournamentObject {
             TextComponent mainComponent = new TextComponent(Formatting.formatColor(lbString));
             mainComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, fish.getHoverText()));
             textComponents.add(mainComponent);
+            place++;
         }
 
         String banner = Formatting.GetLanguageString("Tournament.leaderboard")
