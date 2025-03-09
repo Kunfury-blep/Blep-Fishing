@@ -20,6 +20,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class AdminTournamentButton extends AdminTournamentMenuButton {
 
@@ -84,6 +85,13 @@ public class AdminTournamentButton extends AdminTournamentMenuButton {
 
         PersistentDataContainer dataContainer = m.getPersistentDataContainer();
         dataContainer.set(ItemHandler.TourneyTypeId, PersistentDataType.STRING, tournament.Id);
+
+
+        var fishTypes = tournament.getFishTypes();
+        if(!fishTypes.isEmpty()){
+            var randomType = fishTypes.get(ThreadLocalRandom.current().nextInt(fishTypes.size()));
+            m.setCustomModelData(randomType.ModelData);
+        }
 
         item.setItemMeta(m);
 
