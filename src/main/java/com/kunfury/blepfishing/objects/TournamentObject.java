@@ -209,24 +209,24 @@ public class TournamentObject {
         }
 
         if(winningFish.isEmpty()){
+            var fishTypes = getType().getFishTypes();
+            String fishName = (fishTypes.size() == 1) ? fishTypes.get(0).Name : "fish"; //Returns name of fish if only single type
+
             Utilities.Announce(Formatting.GetLanguageString("Tournament.noneCaught")
-                    .replace("{fish}", "fish"));
-            //TODO: Replace with GetFishName() method for dynamic fish name
+                    .replace("{fish}", fishName));
             return;
         }
 
         int pLength = 15; //Initializes the size of the chatbox
         List<TextComponent> textComponents = new ArrayList<>();
 
-        //Gives out rewards
+        //Reward Handling
         int place = 1;
         for(var fish : winningFish){
-            //Player player = fish.getCatchingPlayer();
             FishType fishType = fish.getType();
-            //Bukkit.broadcastMessage(ChatColor.GOLD + "#" + place + ": " + p.getName());
-            type.GiveRewards(place, fish.PlayerId);
-
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(fish.PlayerId);
+
+            type.GiveRewards(place, fish.PlayerId);
 
             String pString = Formatting.FixFontSize(offlinePlayer.getName(), pLength);
             String lbString = Formatting.FixFontSize("#" + place + " - ", 4) + pString + fish.getRarity().Name + " " + fishType.Name;
@@ -236,13 +236,15 @@ public class TournamentObject {
             place++;
         }
 
+        //Creates announcement banner for all players
         String banner = Formatting.GetLanguageString("Tournament.leaderboard")
                 .replace("{tournament}", getType().Name);
-        Utilities.Announce(" ");
+        Utilities.Announce("_____________________________________________________");
         Utilities.Announce(banner);
         for(var c : textComponents){
             Utilities.Announce(c);
         }
+        Utilities.Announce("_____________________________________________________");
     }
 
     private LocalDateTime endTime;
@@ -256,9 +258,7 @@ public class TournamentObject {
     }
 
     public Long getTimeRemaining(){
-        LocalDateTime now = LocalDateTime.now();
-
-        return ChronoUnit.MILLIS.between(now, getEndTime());
+        return ChronoUnit.MILLIS.between(LocalDateTime.now(), getEndTime());
     }
 
     public boolean CanFinish(){

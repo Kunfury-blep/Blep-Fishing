@@ -5,9 +5,11 @@ import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.helpers.ItemHandler;
+import com.kunfury.blepfishing.plugins.McMMO;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.*;
 import org.bukkit.boss.BarColor;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.MusicInstrumentMeta;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -161,17 +163,53 @@ public class TournamentType {
 
         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(playerUUID);
 
+        if(!offlinePlayer.isOnline()){
+            for(var i : items){
+                new UnclaimedReward(playerUUID, i); //Saves reward if unable to claim
+            }
+            return;
+        }
+
+        Player player = offlinePlayer.getPlayer();
 
         if(BlepFishing.hasEconomy() && CashRewards.containsKey(place)){
-            EconomyResponse r = BlepFishing.getEconomy().depositPlayer(offlinePlayer, CashRewards.get(place));
+            var amount = CashRewards.get(place);
+            EconomyResponse r = BlepFishing.getEconomy().depositPlayer(offlinePlayer, amount);
             if(!r.transactionSuccess())
                 Utilities.Severe(r.errorMessage);
+
+            if(player != null){
+                Bukkit.getScheduler().runTaskLater (BlepFishing.getPlugin(), () ->{
+                    player.sendMessage(Formatting.GetFormattedMessage("Tournament.rewardCurrency")
+                            .replace("{amount}", Formatting.toBigNumber(amount))
+                            .replace("{tournament}", Name));
+                } , 20);
+
+
+            }
         }
 
         for(var i : items){
-            if(!Utilities.GiveItem(offlinePlayer.getPlayer(), i, false))
+            if(!Utilities.GiveItem(offlinePlayer.getPlayer(), i, false)){
                 new UnclaimedReward(playerUUID, i); //Saves reward if unable to claim
+                continue;
+            }
+
+            if(player != null){
+                Bukkit.getScheduler().runTaskLater (BlepFishing.getPlugin(), () ->{
+                    player.sendMessage(Formatting.GetFormattedMessage("Tournament.reward")
+                            .replace("{item}", Formatting.GetItemName(i) + " x" + i.getAmount())
+                            .replace("{tournament}", Name));
+                } , 20);
+
+            }
+
+
         }
+
+
+
+
     }
 
 
