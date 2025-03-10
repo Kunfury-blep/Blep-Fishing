@@ -1,11 +1,14 @@
 <a id="readme-top"></a>
 
 <!-- PROJECT LOGO -->
-<br />
 <div align="center">
-  <h3 align="center">Blep Fishing</h3>
+
+  ![Banner][logo]
+  
+  [logo]: https://github.com/Nibrock/nibrock/blob/main/assets/blepassets/header.png "Logo Title Text 2"  
   <p align="center">
     The Most Expansive Fishing Plugin for Minecraft
+    <br />
     <br />
     <a href="https://github.com/Kunfury-blep/Blep-Fishing/wiki"><strong>Official Wiki</strong></a>
     <br />
@@ -23,5 +26,4 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About
-
 Works to completely overhaul the default fishing in minecraft by adding multiplayer Fishing Tournaments, a Treasure System, Fishing Gear and Equipment, and Statistics and Analytics of your Server
