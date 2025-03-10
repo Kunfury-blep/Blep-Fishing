@@ -9,6 +9,7 @@ import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.objects.equipment.FishBag;
 import com.kunfury.blepfishing.objects.equipment.FishingJournal;
 import com.kunfury.blepfishing.objects.equipment.FishingRod;
+import com.kunfury.blepfishing.objects.quests.QuestObject;
 import com.kunfury.blepfishing.objects.treasure.TreasureType;
 import com.kunfury.blepfishing.plugins.PluginHandler;
 import com.kunfury.blepfishing.plugins.WorldGuardHandler;
@@ -112,7 +113,9 @@ public class FishingListener implements Listener {
 
         BlepFishing.stats_FishCaught++;
         DisplayFishInfo.ShowFish(caughtFish, player);
+
         TournamentObject.CheckWinning(caughtFish);
+        QuestObject.HandleCatch(caughtFish, player);
 
         if(rarity.Announce)
             AnnounceCatch(caughtFish);

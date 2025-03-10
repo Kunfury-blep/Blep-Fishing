@@ -1,7 +1,6 @@
 package com.kunfury.blepfishing.helpers;
 
 import com.kunfury.blepfishing.BlepFishing;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -9,17 +8,13 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.sql.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 public class ItemHandler {
 
     public static NamespacedKey FishIdKey, ButtonIdKey, FishTypeId,
             FishBagId, FishRodId, FishAreaId, TourneyTypeId, TourneyId, RarityId, TreasureTypeId,
-            CompassKey, FishJournalId, QuestId;
+            CompassKey, FishJournalId, QuestTypeId, QuestId;
 
     public static Material FishMat = Material.SALMON;
     public static Material BagMat = Material.HEART_OF_THE_SEA;
@@ -44,6 +39,7 @@ public class ItemHandler {
 
         FishJournalId = new NamespacedKey(BlepFishing.getPlugin(), "fishJournalId");
 
+        QuestTypeId = new NamespacedKey(BlepFishing.getPlugin(), "questTypeId");
         QuestId = new NamespacedKey(BlepFishing.getPlugin(), "questId");
 
         InitializeOldNamespaces();

@@ -1,4 +1,4 @@
-package com.kunfury.blepfishing.ui.panels.player;
+package com.kunfury.blepfishing.ui.panels.player.tournaments;
 
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.objects.FishObject;

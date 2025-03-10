@@ -1,4 +1,4 @@
-package com.kunfury.blepfishing.ui.panels.player;
+package com.kunfury.blepfishing.ui.panels.player.fish;
 
 import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
@@ -7,9 +7,7 @@ import com.kunfury.blepfishing.objects.FishType;
 import com.kunfury.blepfishing.ui.buttons.player.fish.PlayerFishBtn;
 import com.kunfury.blepfishing.ui.buttons.player.PlayerPanelBtn;
 import com.kunfury.blepfishing.ui.buttons.player.fish.PlayerFishMissingBtn;
-import com.kunfury.blepfishing.ui.buttons.player.fish.PlayerFishPanelBtn;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
-import com.kunfury.blepfishing.ui.objects.Panel;
 import com.kunfury.blepfishing.ui.objects.panels.PaginationPanel;
 import org.bukkit.entity.Player;
 

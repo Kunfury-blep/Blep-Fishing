@@ -89,6 +89,8 @@ Tournament:
       title: "Worst"
       desc: "The player who catches the worst fish will win. Determined by Fish Length and Rarity Weight"
 
+Quests:
+  progress: "&3{quest}&f: &3{caught}&f/&3{required}"
 
 
 System:
@@ -134,7 +136,7 @@ UI:
           error: "Unable to give &b{amount}&f items."
         Tournaments:
           name: "&bTournaments : {amount} Active"
-          tournament: "&9{name} - &f{time}"
+          tournament: "&9{name} - &f{duration}"
           empty: "&cNo Active Tournaments"
         Fish:
           name: "&bFish"
@@ -143,17 +145,16 @@ UI:
           area: "&9Found In: {areas}"
         Quests:
           name: "&bQuests : {amount} Available"
-          quest: "&9{name} - &f{time}"
+          quest: "&9{name} - &f{duration}"
           empty: "&cNo Active Quests"
       Tournaments:
-        name: "&9{name} - &f{time}"
+        name: "&9{name} - &f{duration}"
         view: "&bLeft-Click to &e&oView"
         bossBar: "&bShift Left-Click to &e&oToggle Bar"
         cancel: "&bShift Right-Click &bto &c&oCancel Tournament"
         cancelConfirm: "&4&lReally Cancel Tournament?"
       Quests:
-        name: "&9{name} - &f{time}"
-        view: "&bLeft-Click to &e&oView"
+        name: "&9{name} - &f{duration}"
   System:
     Buttons:
       goBack: "&cGo Back"

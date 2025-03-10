@@ -6,6 +6,7 @@ import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.objects.FishObject;
 import com.kunfury.blepfishing.objects.TournamentObject;
 import com.kunfury.blepfishing.objects.TournamentType;
+import com.kunfury.blepfishing.objects.quests.QuestType;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
@@ -44,6 +45,10 @@ public class Utilities {
                     if(ConfigHandler.instance.tourneyConfig.Enabled()){
                         TournamentType.CheckCanStart();
                         TournamentObject.CheckActive();
+                    }
+
+                    if(ConfigHandler.instance.questConfig.Enabled()){
+                        QuestType.CheckQuests();
                     }
                 }
 

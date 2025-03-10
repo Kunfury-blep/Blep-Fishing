@@ -1,8 +1,7 @@
 package com.kunfury.blepfishing.commands.subCommands;
 
 import com.kunfury.blepfishing.commands.SubCommand;
-import com.kunfury.blepfishing.ui.panels.admin.AdminPanel;
-import com.kunfury.blepfishing.ui.panels.player.PlayerTournamentPanel;
+import com.kunfury.blepfishing.ui.panels.player.tournaments.PlayerTournamentPanel;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;

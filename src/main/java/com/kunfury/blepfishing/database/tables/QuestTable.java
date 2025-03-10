@@ -7,6 +7,7 @@ import com.kunfury.blepfishing.objects.TournamentObject;
 import com.kunfury.blepfishing.objects.quests.QuestObject;
 import org.apache.commons.lang.BooleanUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -33,14 +34,14 @@ public class QuestTable extends DbTable<QuestObject> {
     public int Add(QuestObject quest) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO tournaments (typeId, startTime, active) VALUES (?, ?, ?)");
+                    "INSERT INTO quests (typeId, startTime, active) VALUES (?, ?, ?)");
             //preparedStatement.setString(1, fish.Id);
             preparedStatement.setString(1, quest.TypeId);
             preparedStatement.setLong(2, Utilities.TimeToLong(quest.StartTime));
             preparedStatement.setObject(3, quest.Active());
             preparedStatement.executeUpdate();
 
-            var id = connection.prepareStatement("SELECT * FROM tournaments ORDER BY id DESC LIMIT 1").executeQuery().getInt("id");
+            var id = connection.prepareStatement("SELECT * FROM quests ORDER BY id DESC LIMIT 1").executeQuery().getInt("id");
             Cache.put(id, quest);
 
             return id;
@@ -65,7 +66,7 @@ public class QuestTable extends DbTable<QuestObject> {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if(!resultSet.next()){
-                Bukkit.getLogger().warning("Tried to get invalid Tournament with ID: " + id);
+                Bukkit.getLogger().warning("Tried to get invalid Quest with ID: " + id);
                 return null;
             }
 
@@ -80,7 +81,7 @@ public class QuestTable extends DbTable<QuestObject> {
     public void Update(int id, String field, Object value) {
         int val = BooleanUtils.toInteger((Boolean) value);
         if(!Exists(id)){
-            Bukkit.getLogger().severe("Tried to update tournament that didn't exist with id: " + id);
+            Bukkit.getLogger().severe("Tried to update quest that didn't exist with id: " + id);
             return;
         }
         try{
@@ -134,7 +135,6 @@ public class QuestTable extends DbTable<QuestObject> {
                 if(quest.getType() != null){
                     Cache.put(id, quest);
                     activeQuests.add(quest);
-                    //Ensures the Tournament Type is valid
                 }
 
             }
@@ -146,8 +146,6 @@ public class QuestTable extends DbTable<QuestObject> {
     }
 
     public QuestObject GetActiveOfType(String typeId){
-        QuestObject activeTournament = null;
-
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(
                     """
@@ -173,6 +171,119 @@ public class QuestTable extends DbTable<QuestObject> {
 
             return null;
         }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<FishObject> GetCaughtFish(QuestObject quest){
+        List<FishObject> caughtFish = new ArrayList<>();
+
+        try {
+
+
+            int i = 1;
+            var typeIds = quest.getType().FishTypeIds;
+
+            if(typeIds.isEmpty()){ //Returns empty if no valid fish types are available
+                return caughtFish;
+            }
+
+            StringBuilder sql = new StringBuilder("SELECT * FROM fish WHERE");
+            sql.append(" (");
+            for(var typeId : typeIds){
+                sql.append("typeId = ").append("\'" + typeId + "\'");
+                if(typeIds.size() > i){
+                    sql.append(" OR ");
+                    i++;
+                }
+            }
+            sql.append(")");
+
+
+            var startTime = Utilities.TimeToLong(quest.StartTime);
+            var currentTime = Utilities.TimeToLong(LocalDateTime.now());
+            sql.append(" AND dateCaught BETWEEN ").append(startTime).append(" AND ").append(currentTime);
+
+            //Bukkit.getLogger().warning(Formatting.getPrefix() + "SQL - " + sql);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql.toString());
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next()){
+                int id = resultSet.getInt("id");
+                if(Database.Fish.Cache.containsKey(id)){
+                    caughtFish.add(Database.Fish.Cache.get(id));
+                    continue;
+                }
+
+                var newFish = new FishObject((resultSet));
+                Database.Fish.Cache.put(id, newFish);
+                caughtFish.add(newFish);
+            }
+
+            //Bukkit.broadcastMessage("Found " + winningFish.size() + " viable fish for " + tournament.getType().Name);
+//            if(!winningFish.isEmpty()){
+//                Bukkit.broadcastMessage("Winning Fish Length: " + winningFish.get(0).Length);
+//            }
+
+            return caughtFish;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<FishObject> GetCaughtFish(QuestObject quest, Player player){
+        List<FishObject> caughtFish = new ArrayList<>();
+        try {
+            int i = 1;
+            var typeIds = quest.getType().FishTypeIds;
+
+            if(typeIds.isEmpty()){ //Returns empty if no valid fish types are available
+                return caughtFish;
+            }
+
+            StringBuilder sql = new StringBuilder("SELECT * FROM fish WHERE");
+            sql.append(" (");
+            for(var typeId : typeIds){
+                sql.append("typeId = ").append("'").append(typeId).append("'");
+                if(typeIds.size() > i){
+                    sql.append(" OR ");
+                    i++;
+                }
+            }
+            sql.append(")");
+            sql.append(" AND (playerId = ").append("'").append(player.getUniqueId()).append("')");
+
+            var startTime = Utilities.TimeToLong(quest.StartTime);
+            var currentTime = Utilities.TimeToLong(LocalDateTime.now());
+            sql.append(" AND dateCaught BETWEEN ").append(startTime).append(" AND ").append(currentTime);
+
+            //Bukkit.getLogger().warning(Formatting.getPrefix() + "SQL - " + sql);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql.toString());
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next()){
+                int id = resultSet.getInt("id");
+                if(Database.Fish.Cache.containsKey(id)){
+                    caughtFish.add(Database.Fish.Cache.get(id));
+                    continue;
+                }
+
+                var newFish = new FishObject((resultSet));
+                Database.Fish.Cache.put(id, newFish);
+                caughtFish.add(newFish);
+            }
+
+            //Bukkit.broadcastMessage("Found " + winningFish.size() + " viable fish for " + tournament.getType().Name);
+//            if(!winningFish.isEmpty()){
+//                Bukkit.broadcastMessage("Winning Fish Length: " + winningFish.get(0).Length);
+//            }
+
+            return caughtFish;
+
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }

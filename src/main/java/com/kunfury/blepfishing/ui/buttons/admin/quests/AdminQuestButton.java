@@ -1,14 +1,19 @@
-package com.kunfury.blepfishing.ui.buttons.admin.tournamentEdit;
+package com.kunfury.blepfishing.ui.buttons.admin.quests;
 
 import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.helpers.Formatting;
-import com.kunfury.blepfishing.ui.objects.buttons.AdminTournamentMenuButton;
-import com.kunfury.blepfishing.ui.panels.admin.tournaments.AdminTournamentEditPanel;
 import com.kunfury.blepfishing.helpers.ItemHandler;
+import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.objects.TournamentType;
+import com.kunfury.blepfishing.objects.quests.QuestType;
+import com.kunfury.blepfishing.ui.objects.buttons.AdminQuestMenuButton;
+import com.kunfury.blepfishing.ui.objects.buttons.AdminTournamentMenuButton;
+import com.kunfury.blepfishing.ui.panels.admin.quests.AdminQuestEditPanel;
+import com.kunfury.blepfishing.ui.panels.admin.quests.AdminQuestPanel;
+import com.kunfury.blepfishing.ui.panels.admin.tournaments.AdminTournamentEditPanel;
 import com.kunfury.blepfishing.ui.panels.admin.tournaments.AdminTournamentPanel;
-import com.kunfury.blepfishing.ui.panels.player.tournaments.PlayerTournamentDetailPanel;
+import com.kunfury.blepfishing.ui.panels.player.quests.PlayerQuestPanel;
 import com.kunfury.blepfishing.ui.panels.player.tournaments.PlayerTournamentPanel;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -21,36 +26,36 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
-public class AdminTournamentButton extends AdminTournamentMenuButton {
+public class AdminQuestButton extends AdminQuestMenuButton {
 
-    public AdminTournamentButton(TournamentType tournamentType) {
-        super(tournamentType);
+    public AdminQuestButton(QuestType questType) {
+        super(questType);
     }
 
     @Override
     public ItemStack buildItemStack(Player player) {
-        ItemStack item = new ItemStack(Material.SALMON);
+        ItemStack item = new ItemStack(Material.BARREL);
         ItemMeta m = item.getItemMeta();
 
-        m.setDisplayName(ChatColor.AQUA + tournament.Name);
+        m.setDisplayName(ChatColor.AQUA + questType.Name);
         m = setButtonId(m, getId());
 
         List<String> lore = new ArrayList<>();
 
-        lore.add(ChatColor.BLUE + "ID: " + ChatColor.WHITE + tournament.Id);
+        lore.add(ChatColor.YELLOW + "Id" + ChatColor.BLUE + ": " + ChatColor.WHITE + questType.Id);
+        lore.add(ChatColor.YELLOW + "Duration" + ChatColor.BLUE + ": " + Formatting.asTime(questType.Duration));
+
         lore.add("");
 
-
-        var sortedStartTimes = tournament.StartTimes.keySet().stream()
+        var sortedStartTimes = questType.StartTimes.keySet().stream()
                 .sorted(Enum::compareTo).toList();
 
         if(sortedStartTimes.isEmpty())
             lore.add(Formatting.GetLanguageString("UI.Admin.Buttons.Tournament.noTimes"));
 
         for(var key : sortedStartTimes){
-            var times = tournament.StartTimes.get(key);
+            var times = questType.StartTimes.get(key);
             if(times.isEmpty())
                 continue;
 
@@ -77,7 +82,7 @@ public class AdminTournamentButton extends AdminTournamentMenuButton {
         lore.add(ChatColor.YELLOW + "Left-Click to Edit");
         lore.add(ChatColor.YELLOW + "Shift Left-Click to Start");
         lore.add("");
-        if(!tournament.ConfirmedDelete)
+        if(!questType.ConfirmedDelete)
             lore.add( ChatColor.RED + "Shift Right-Click to Delete");
         else
             lore.add(ChatColor.RED + "Really Delete?");
@@ -85,14 +90,7 @@ public class AdminTournamentButton extends AdminTournamentMenuButton {
         m.setLore(lore);
 
         PersistentDataContainer dataContainer = m.getPersistentDataContainer();
-        dataContainer.set(ItemHandler.TourneyTypeId, PersistentDataType.STRING, tournament.Id);
-
-
-        var fishTypes = tournament.getFishTypes();
-        if(!fishTypes.isEmpty()){
-            var randomType = fishTypes.get(ThreadLocalRandom.current().nextInt(fishTypes.size()));
-            m.setCustomModelData(randomType.ModelData);
-        }
+        dataContainer.set(ItemHandler.TourneyTypeId, PersistentDataType.STRING, questType.Id);
 
         item.setItemMeta(m);
 
@@ -101,13 +99,13 @@ public class AdminTournamentButton extends AdminTournamentMenuButton {
 
     @Override
     protected void click_left() {
-        TournamentType type = getTournamentType();
-        new AdminTournamentEditPanel(type).Show(player);
+        QuestType type = getQuestType();
+        new AdminQuestEditPanel(type).Show(player);
     }
 
     @Override
     protected void click_right_shift() {
-        TournamentType type = getTournamentType();
+        QuestType type = getQuestType();
 
         if(!type.ConfirmedDelete){
             type.ConfirmedDelete = true;
@@ -117,17 +115,20 @@ public class AdminTournamentButton extends AdminTournamentMenuButton {
             } , 300);
         }
         else{
-            TournamentType.Delete(type);
-            ConfigHandler.instance.tourneyConfig.Save();
+            QuestType.Delete(type);
+            ConfigHandler.instance.questConfig.Save();
         }
 
-        new AdminTournamentPanel().Show(player);
+        new AdminQuestPanel().Show(player);
     }
 
     @Override
     protected void click_left_shift() {
-        TournamentType type = getTournamentType();
-        var tournament = type.Start();
-        new PlayerTournamentDetailPanel(tournament, 1).Show(player);
+        QuestType type = getQuestType();
+        var questObject = type.Start();
+        new PlayerQuestPanel().Show(player);
+
+        //TODO: Enable once Detail Panel Finished
+        //new PlayerQuestPanel(tournament).Show(player);
     }
 }

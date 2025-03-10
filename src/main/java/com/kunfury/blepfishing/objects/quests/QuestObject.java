@@ -2,8 +2,11 @@ package com.kunfury.blepfishing.objects.quests;
 
 import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.database.tables.QuestTable;
+import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.Utilities;
-import com.kunfury.blepfishing.objects.TournamentType;
+import com.kunfury.blepfishing.objects.FishObject;
+import com.kunfury.blepfishing.objects.FishType;
+import org.bukkit.entity.Player;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,9 +32,9 @@ public class QuestObject {
 
         StartTime = Utilities.TimeFromLong(rs.getLong("startTime"));
 
-        if(getType() == null){ //Disables the tournament if invalid type
+        if(getType() == null){ //Disables the quest if invalid type
             active = false;
-            Database.Tournaments.Update(Id, "active", false);
+            Database.Quests.Update(Id, "active", false);
             return;
         }
 
@@ -66,4 +69,42 @@ public class QuestObject {
 
         return ChronoUnit.MILLIS.between(now, getEndTime());
     }
+
+    public boolean canFinish(){
+        return active && LocalDateTime.now().isAfter(getEndTime());
+    }
+
+    public void Finish(){
+        if(!active)
+            return;
+
+        active = false;
+        Database.Quests.Update(Id, "active", false);
+    }
+
+    public int GetPlayerCatchAmount(Player player){
+        return Database.Quests.GetCaughtFish(this, player).size();
+    }
+
+    ///
+    //STATIC METHODS
+    ///
+    public static void HandleCatch(FishObject fish, Player player){
+        for(var q : Database.Quests.GetActive()){
+            QuestType questType = q.type;
+            int catchAmount = 0;
+            if(!questType.getFishTypes().contains(fish.getType())){
+                catchAmount = q.GetPlayerCatchAmount(player);
+                if(catchAmount <= 0)
+                    continue;
+            }
+
+
+            player.sendMessage(Formatting.GetFormattedMessage("Quests.progress")
+                    .replace("{quest}", questType.Name)
+                    .replace("{caught}", String.valueOf(catchAmount))
+                    .replace("{required}", String.valueOf(questType.CatchAmount)));
+        }
+    }
+
 }
