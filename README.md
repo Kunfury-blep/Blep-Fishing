@@ -15,6 +15,9 @@
     <a href="https://polymart.org/resource/blep-fishing.28">PolyMart</a>
     &middot;
     <a href="https://hangar.papermc.io/Kunfury/BlepFishing">Paper</a>
+    <br />
+    <br />
+    <a href="https://bstats.org/plugin/bukkit/Blep%20Fishing/18201"><strong>Analytics</strong></a>
   </p>
 </div>
 
