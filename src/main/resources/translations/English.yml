@@ -5,6 +5,7 @@ Fish:
     size: "&b{size}\""
   announce: "{player} &fjust caught a {rarity} {fish}&f!"
   value: "&9Value: ${value}"
+  chatInfo: "You just caught a {rarity} {fish}&f!"
 
 Treasure:
   announce: "{player} &fjust fished up a {treasure}&f!"
@@ -215,7 +216,8 @@ UI:
             prompt: "What should the Item Drop Chance be? Current: {amount}"
         createNew: "&bCreate New Treasure"
       General:
-        showScoreboard: "&bShow Scoreboard"
+        showScoreboard: "&bShow Catch in Scoreboard"
+        showChat: "&bShow Catch in Chat"
         enableFishBags: "&bEnable Fish Bags"
       Tournament:
         noTimes: "&cNo Start Times"
