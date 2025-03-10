@@ -1,0 +1,26 @@
+<a id="readme-top"></a>
+
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <h3 align="center">Blep Fishing</h3>
+  <p align="center">
+    The Most Expansive Fishing Plugin for Minecraft
+    <br />
+    <a href="https://github.com/Kunfury-blep/Blep-Fishing/wiki"><strong>Official Wiki</strong></a>
+    <br />
+    <br />
+    <a href="https://www.spigotmc.org/resources/blep-fishing.78555/">Spigot</a>
+    &middot;
+    <a href="https://polymart.org/resource/blep-fishing.28">PolyMart</a>
+    &middot;
+    <a href="https://hangar.papermc.io/Kunfury/BlepFishing">Paper</a>
+  </p>
+</div>
+
+<!-- ABOUT THE PROJECT -->
+## About
+
+Works to completely overhaul the default fishing in minecraft by adding multiplayer Fishing Tournaments, a Treasure System, Fishing Gear and Equipment, and Statistics and Analytics of your Server
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
