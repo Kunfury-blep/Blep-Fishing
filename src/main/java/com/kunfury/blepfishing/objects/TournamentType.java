@@ -273,7 +273,7 @@ public class TournamentType {
         Tournaments.clear();
     }
 
-    public static Collection<TournamentType> GetTournaments(){
+    public static Collection<TournamentType> GetAll(){
         return Tournaments.values();
     }
 
@@ -305,7 +305,7 @@ public class TournamentType {
 
         //Bukkit.getLogger().warning(dayOfWeek + " - " + timeStr);
         //Bukkit.broadcastMessage(dayOfWeek + " - " + timeStr);
-        for(var t : GetTournaments()){
+        for(var t : GetAll()){
             t.TryStart(dayOfWeek, timeStr);
         }
     }

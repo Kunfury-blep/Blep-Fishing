@@ -1,5 +1,6 @@
 package com.kunfury.blepfishing.objects.quests;
 
+import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.objects.FishType;
@@ -7,19 +8,49 @@ import com.kunfury.blepfishing.objects.TournamentType;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class QuestType {
     public String Id;
     public String Name;
     public double Duration;
+    public int CatchAmount;
     public List<String> FishTypeIds;
     public HashMap<TournamentType.TournamentDay, List<String>> StartTimes = new HashMap<>();
     public double CashReward;
     public List<ItemStack> ItemRewards;
 
+    public boolean ConfirmedDelete;
+
+    //For creating new Quests in the GUI
+    public QuestType(String id){
+        Id = id;
+        Name = id;
+        Duration = 1;
+        CatchAmount = 1;
+        FishTypeIds = new ArrayList<>();
+        CashReward = 0;
+        ItemRewards = new ArrayList<>();
+    }
+
+    public QuestType(String id, String name, double duration, int catchAmount, List<String> fishTypeIds, HashMap<TournamentType.TournamentDay, List<String>> startTimes,
+                         double cashReward, List<ItemStack> itemRewards){
+        Id = id;
+        Name = name;
+        Duration = duration;
+        CatchAmount = catchAmount;
+        FishTypeIds = fishTypeIds;
+        StartTimes = startTimes;
+        CashReward = cashReward;
+        ItemRewards = itemRewards;
+    }
+
+
 
     private List<FishType> fishTypes;
+
     public List<FishType> getFishTypes(){
         if(fishTypes == null || fishTypes.isEmpty()){
             fishTypes = new ArrayList<>();
@@ -60,6 +91,32 @@ public class QuestType {
         return formattedCatchList;
     }
 
+    public void ResetCatchList(){
+        formattedCatchList = null;
+        fishTypes = null;
+    }
+
+    public void TryStart(DayOfWeek dayOfWeek, String time){
+        TournamentType.TournamentDay tDay = TournamentType.TournamentDay.valueOf(dayOfWeek.toString());
+
+        if((!StartTimes.containsKey( tDay) || !StartTimes.get(tDay).contains(time))
+                && (!StartTimes.containsKey(TournamentType.TournamentDay.EVERYDAY) || !StartTimes.get(TournamentType.TournamentDay.EVERYDAY).contains(time)))
+            return;
+
+        Start();
+    }
+
+    public QuestObject Start(){
+        if(Database.Quests.IsRunning(Id)){
+            return null;
+        }
+        var questObject = new QuestObject(this);
+
+        Utilities.Announce(Formatting.GetLanguageString("Quest.start")
+                .replace("{quest}", Name));
+
+        return questObject;
+    }
 
     ///
     //STATIC METHODS
@@ -80,10 +137,14 @@ public class QuestType {
         QuestTypes.clear();
     }
 
-    public static Collection<QuestType> GetQuests(){
+    public static Collection<QuestType> GetAll(){
         return QuestTypes.values();
     }
 
+    public static void UpdateId(String oldId, QuestType type){
+        QuestTypes.remove(oldId);
+        QuestTypes.put(type.Id, type);
+    }
 
     public static QuestType FromId(String questTypeId){
         if(QuestTypes.containsKey(questTypeId)){
@@ -95,5 +156,24 @@ public class QuestType {
 
     public static boolean IdExists(String id){
         return QuestTypes.containsKey(id);
+    }
+
+    public static void CheckQuests() {
+        LocalDateTime dateTime = LocalDateTime.now();
+
+        DayOfWeek dayOfWeek = dateTime.getDayOfWeek();
+
+
+        String timeStr = Formatting.asTime(dateTime);
+
+        for(var q : GetAll()){
+            q.TryStart(dayOfWeek, timeStr);
+        }
+
+        for(var q : Database.Quests.GetActive()){
+            if(q.canFinish()){
+                q.Finish();
+            }
+        }
     }
 }

@@ -5,6 +5,7 @@ import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
 import com.kunfury.blepfishing.ui.panels.admin.AdminPanel;
+import com.kunfury.blepfishing.ui.panels.admin.quests.AdminQuestPanel;
 import com.kunfury.blepfishing.ui.panels.admin.tournaments.AdminTournamentPanel;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -45,7 +46,7 @@ public class AdminQuestPanelBtn extends MenuButton {
 
     @Override
     protected void click_left() {
-        new AdminTournamentPanel().Show(player);
+        new AdminQuestPanel().Show(player);
     }
 
     @Override

@@ -6,9 +6,12 @@ import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.ItemHandler;
 import com.kunfury.blepfishing.objects.TournamentObject;
 import com.kunfury.blepfishing.objects.quests.QuestObject;
+import com.kunfury.blepfishing.objects.quests.QuestType;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
-import com.kunfury.blepfishing.ui.panels.player.PlayerTournamentDetailPanel;
-import com.kunfury.blepfishing.ui.panels.player.PlayerTournamentPanel;
+import com.kunfury.blepfishing.ui.panels.player.quests.PlayerQuestPanel;
+import com.kunfury.blepfishing.ui.panels.player.tournaments.PlayerTournamentDetailPanel;
+import com.kunfury.blepfishing.ui.panels.player.tournaments.PlayerTournamentPanel;
+import net.milkbowl.vault.chat.Chat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -43,20 +46,14 @@ public class PlayerQuestBtn extends MenuButton {
                 .replace("{duration}", duration));
 
         List<String> lore = new ArrayList<>();
-        lore.add("");
 
+
+
+        lore.add(ChatColor.BLUE + "[" + ChatColor.WHITE + quest.GetPlayerCatchAmount(player)  + ChatColor.BLUE + "/" + ChatColor.WHITE + questType.CatchAmount
+                + ChatColor.BLUE + "]");
+
+        lore.add("");
         lore.addAll(questType.getFormattedCatchList());
-
-        lore.add("");
-        lore.add(Formatting.GetLanguageString("UI.Player.Buttons.Quests.view"));
-
-//        if(player.hasPermission("bf.admin")){
-//            lore.add("");
-//            if(tournament.ConfirmCancel)
-//                lore.add(Formatting.GetLanguageString("UI.Player.Buttons.Tournaments.cancelConfirm"));
-//            else
-//                lore.add(Formatting.GetLanguageString("UI.Player.Buttons.Tournaments.cancel"));
-//        }
 
         m.setLore(lore);
 
@@ -78,39 +75,29 @@ public class PlayerQuestBtn extends MenuButton {
         return item;
     }
 
-    @Override
-    protected void click_left() {
-        TournamentObject tournament = getTournament();
-        new PlayerTournamentDetailPanel(tournament, 1).Show(player);
-    }
-
-    @Override
-    protected void click_left_shift() {
-        TournamentObject tournament = getTournament();
-        tournament.ToggleBossBar(player);
-    }
 
     @Override
     protected void click_right_shift() {
         if(!player.hasPermission("bf.admin"))
             return;
 
-        TournamentObject tournament = getTournament();
+        QuestObject quest = getQuest();
 
-        if(!tournament.ConfirmCancel){
-            tournament.ConfirmCancel = true;
+        if(!quest.ConfirmCancel){
+            quest.ConfirmCancel = true;
 
             Bukkit.getScheduler ().runTaskLater (BlepFishing.getPlugin(), () ->{
-                tournament.ConfirmCancel = false;
+                quest.ConfirmCancel = false;
             } , 300);
         }else{
-            tournament.Cancel();
+            quest.Finish();
         }
-        new PlayerTournamentPanel().Show(player);
+        new PlayerQuestPanel().Show(player);
     }
 
-    protected TournamentObject getTournament(){
-        int tourneyId = ItemHandler.getTagInt(ClickedItem, ItemHandler.TourneyId);
-        return Database.Tournaments.Get(tourneyId);
+    protected QuestObject getQuest(){
+        int questId = ItemHandler.getTagInt(ClickedItem, ItemHandler.QuestId);
+        return Database.Quests.Get(questId);
     }
+
 }

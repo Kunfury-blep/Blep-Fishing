@@ -8,7 +8,6 @@ import com.kunfury.blepfishing.ui.panels.admin.tournaments.AdminTournamentEditPa
 import com.kunfury.blepfishing.helpers.ItemHandler;
 import com.kunfury.blepfishing.objects.TournamentType;
 import com.kunfury.blepfishing.ui.panels.admin.tournaments.AdminTournamentPanel;
-import com.kunfury.blepfishing.ui.panels.player.PlayerTournamentPanel;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

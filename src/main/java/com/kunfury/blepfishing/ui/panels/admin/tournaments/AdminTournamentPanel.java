@@ -9,13 +9,13 @@ import org.bukkit.entity.Player;
 
 public class AdminTournamentPanel extends Panel {
     public AdminTournamentPanel() {
-        super("Tournament Admin Panel", TournamentType.GetTournaments().size() + 9);
+        super("Tournament Admin Panel", TournamentType.GetAll().size() + 9);
     }
 
     @Override
     public void BuildInventory(Player player) {
         int i = 0;
-        for(var t : TournamentType.GetTournaments()){
+        for(var t : TournamentType.GetAll()){
             if(i >= InventorySize) break;
             inv.setItem(i, new AdminTournamentButton(t).getItemStack(player));
             i++;

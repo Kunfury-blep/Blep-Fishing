@@ -106,7 +106,7 @@ public class TournamentConfig {
         newTourneyConfig.set("Settings.Enabled", Enabled());
 
 
-        for(var type : TournamentType.GetTournaments()){
+        for(var type : TournamentType.GetAll()){
             String key = type.Id;
             newTourneyConfig.set(key + ".Name", type.Name);
             newTourneyConfig.set(key + ".Fish Types", type.FishTypeIds);

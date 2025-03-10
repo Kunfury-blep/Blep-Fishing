@@ -3,7 +3,7 @@ package com.kunfury.blepfishing.ui.buttons.player.tournament;
 import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
-import com.kunfury.blepfishing.ui.panels.player.PlayerTournamentPanel;
+import com.kunfury.blepfishing.ui.panels.player.tournaments.PlayerTournamentPanel;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

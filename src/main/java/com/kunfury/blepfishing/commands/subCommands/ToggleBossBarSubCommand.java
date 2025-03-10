@@ -2,7 +2,6 @@ package com.kunfury.blepfishing.commands.subCommands;
 
 import com.kunfury.blepfishing.commands.SubCommand;
 import com.kunfury.blepfishing.database.Database;
-import com.kunfury.blepfishing.ui.panels.player.PlayerTournamentPanel;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

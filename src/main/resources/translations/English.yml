@@ -91,6 +91,10 @@ Tournament:
       title: "Worst"
       desc: "The player who catches the worst fish will win. Determined by Fish Length and Rarity Weight"
 
+Quests:
+  progress: "&3{quest}&f: &3{caught}&f/&3{required}"
+
+
 System:
   prefix: "&b[BF]&f "
   deleted: "&eSuccessfully Deleted &c{item}&e."

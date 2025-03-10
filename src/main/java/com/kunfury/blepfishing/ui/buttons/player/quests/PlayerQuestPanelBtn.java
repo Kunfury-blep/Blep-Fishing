@@ -3,8 +3,7 @@ package com.kunfury.blepfishing.ui.buttons.player.quests;
 import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
-import com.kunfury.blepfishing.ui.panels.player.PlayerTournamentPanel;
-import com.kunfury.blepfishing.ui.panels.quests.PlayerQuestPanel;
+import com.kunfury.blepfishing.ui.panels.player.quests.PlayerQuestPanel;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -35,7 +34,7 @@ public class PlayerQuestPanelBtn extends MenuButton {
             for(var q : activeQuests){
                 lore.add(Formatting.GetLanguageString("UI.Player.Buttons.Base.Quests.quest")
                                 .replace("{name}", q.getType().Name)
-                                .replace("{time}", Formatting.asTime(q.getTimeRemaining(), ChatColor.WHITE)));
+                                .replace("{duration}", Formatting.asTime(q.getTimeRemaining(), ChatColor.WHITE)));
             }
         }
 
