@@ -22,5 +22,3 @@
 ## About
 
 Works to completely overhaul the default fishing in minecraft by adding multiplayer Fishing Tournaments, a Treasure System, Fishing Gear and Equipment, and Statistics and Analytics of your Server
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
