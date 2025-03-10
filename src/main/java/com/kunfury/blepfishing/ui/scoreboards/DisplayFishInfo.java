@@ -6,6 +6,8 @@ import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.objects.FishObject;
 import com.kunfury.blepfishing.objects.FishType;
 import com.kunfury.blepfishing.objects.Rarity;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -18,6 +20,14 @@ public class DisplayFishInfo {
     public static void ShowFish(FishObject fish, Player p){
         if(ConfigHandler.instance.baseConfig.getShowScoreboard())
             ShowScoreboardFish(fish, p);
+        if(ConfigHandler.instance.baseConfig.getChatScoreboard()){
+            TextComponent mainComponent = new TextComponent(Formatting.GetFormattedMessage("Fish.chatInfo")
+                    .replace("{rarity}", fish.getRarity().getFormattedName())
+                    .replace("{fish}", fish.getType().Name));
+            mainComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, fish.getHoverText()));
+
+            p.spigot().sendMessage(mainComponent);
+        }
     }
 
     private static void ShowScoreboardFish(FishObject fish, Player p){
