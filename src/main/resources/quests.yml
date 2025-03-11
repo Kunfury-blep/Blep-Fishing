@@ -1,2 +1,33 @@
 Enabled: true
-
+daily_fishin':
+  Name: Daily Fishin'
+  Fish Types:
+    - bluegill
+    - catfish
+    - minnow
+    - muskellunge
+    - perch
+    - gar
+    - smallmouth_bass
+  Duration: 12.0
+  Catch Amount: 10
+  Start Times:
+    MONDAY: []
+    TUESDAY: []
+    WEDNESDAY: []
+    THURSDAY: []
+    FRIDAY: []
+    SATURDAY: []
+    SUNDAY: []
+    EVERYDAY:
+      - '12:00'
+  Rewards:
+    Cash: 50.0
+    Items:
+      - ==: org.bukkit.inventory.ItemStack
+        v: 4189
+        type: PUFFERFISH
+        amount: 3
+      - ==: org.bukkit.inventory.ItemStack
+        v: 4189
+        type: DIAMOND

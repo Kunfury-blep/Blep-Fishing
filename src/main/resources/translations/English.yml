@@ -90,8 +90,12 @@ Tournament:
       title: "Worst"
       desc: "The player who catches the worst fish will win. Determined by Fish Length and Rarity Weight"
 
-Quests:
+Quest:
   progress: "&3{quest}&f: &3{caught}&f/&3{required}"
+  completed: "You've completed &3{quest}&f!"
+  start: "The &3{quest}&f Fishing Quest has begun!"
+  reward: "You received &6{item}&f for completing &3{quest}&f!"
+  rewardCurrency: "You received $&2{amount}&f for completing &3{quest}&f!"
 
 
 System:

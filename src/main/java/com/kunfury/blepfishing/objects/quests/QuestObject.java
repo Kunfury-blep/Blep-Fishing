@@ -82,6 +82,13 @@ public class QuestObject {
         Database.Quests.Update(Id, "active", false);
     }
 
+    public void Complete(Player player){
+        var questType = getType();
+        player.sendMessage(Formatting.GetFormattedMessage("Quest.completed")
+                .replace("{quest}", questType.Name));
+        questType.GiveRewards(player.getUniqueId());
+    }
+
     public int GetPlayerCatchAmount(Player player){
         return Database.Quests.GetCaughtFish(this, player).size();
     }
@@ -92,15 +99,22 @@ public class QuestObject {
     public static void HandleCatch(FishObject fish, Player player){
         for(var q : Database.Quests.GetActive()){
             QuestType questType = q.type;
-            int catchAmount = 0;
             if(!questType.getFishTypes().contains(fish.getType())){
-                catchAmount = q.GetPlayerCatchAmount(player);
-                if(catchAmount <= 0)
-                    continue;
+                continue;
+            }
+            int catchAmount = q.GetPlayerCatchAmount(player);
+
+            if(catchAmount <= 0 || catchAmount > questType.CatchAmount)
+                continue;
+
+            if(catchAmount == questType.CatchAmount){
+
+                q.Complete(player);
+                continue;
             }
 
 
-            player.sendMessage(Formatting.GetFormattedMessage("Quests.progress")
+            player.sendMessage(Formatting.GetFormattedMessage("Quest.progress")
                     .replace("{quest}", questType.Name)
                     .replace("{caught}", String.valueOf(catchAmount))
                     .replace("{required}", String.valueOf(questType.CatchAmount)));
