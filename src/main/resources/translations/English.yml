@@ -97,6 +97,7 @@ Quest:
   start: "The &3{quest}&f Fishing Quest has begun!"
   reward: "You received &6{item}&f for completing &3{quest}&f!"
   rewardCurrency: "You received $&2{amount}&f for completing &3{quest}&f!"
+  allAreas: "&fAll Areas"
 
 
 System:

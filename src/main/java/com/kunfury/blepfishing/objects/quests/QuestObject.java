@@ -6,6 +6,7 @@ import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.objects.FishObject;
 import com.kunfury.blepfishing.objects.FishType;
+import com.kunfury.blepfishing.objects.FishingArea;
 import org.bukkit.entity.Player;
 
 import java.sql.ResultSet;
@@ -18,6 +19,9 @@ public class QuestObject {
     public final String TypeId;
     public final LocalDateTime StartTime;
     public boolean ConfirmCancel;
+
+    private FishType randomFishType = null;
+    private FishingArea randomFishArea = null;
 
     public QuestObject(QuestType type){
         TypeId = type.Id;
@@ -97,8 +101,13 @@ public class QuestObject {
     //STATIC METHODS
     ///
     public static void HandleCatch(FishObject fish, Player player){
+        FishType fishType = fish.getType();
         for(var q : Database.Quests.GetActive()){
             QuestType questType = q.type;
+
+            if(q.randomFishType != null && q.randomFishType != fishType)
+                continue;
+
             if(!questType.getFishTypes().contains(fish.getType())){
                 continue;
             }

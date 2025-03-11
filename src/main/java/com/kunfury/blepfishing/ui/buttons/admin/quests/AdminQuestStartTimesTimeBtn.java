@@ -46,7 +46,6 @@ public class AdminQuestStartTimesTimeBtn extends AdminQuestMenuButton {
         assert m != null;
 
         PersistentDataContainer dataContainer = m.getPersistentDataContainer();
-        dataContainer.set(ItemHandler.QuestTypeId, PersistentDataType.STRING, questType.Id);
         dataContainer.set(dayKey, PersistentDataType.STRING, day.toString());
 
         if(time == null){

@@ -21,6 +21,7 @@ public class AdminQuestEditPanel extends Panel {
         AddButton(new AdminQuestDurationBtn(type), player);
         AddButton(new AdminQuestCatchAmountBtn(type), player);
         AddButton(new AdminQuestFishTypesBtn(type), player);
+        AddButton(new AdminQuestFishAreasBtn(type), player);
         AddButton(new AdminQuestStartTimesBtn(type), player);
         AddButton(new AdminQuestRewardBtn(type), player);
 //        AddButton(new TournamentEditRewardsBtn(type), player);

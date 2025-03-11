@@ -5,6 +5,7 @@ import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.objects.TournamentType;
 import com.kunfury.blepfishing.objects.quests.QuestType;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -40,44 +41,11 @@ public class QuestConfig {
             if(key.equals("Enabled"))
                 continue;
 
+            ConfigurationSection questConfig = config.getConfigurationSection(key);
+            if(questConfig == null)
+                continue;
 
-            String name = config.getString(key + ".Name");
-            List<String> fishTypes = config.getStringList(key + ".Fish Types");
-            double duration = config.getDouble(key + ".Duration");
-            int catchAmount = config.getInt(key + ".Catch Amount");
-
-            HashMap<TournamentType.TournamentDay, List<String>> startTimes = new HashMap<>();
-            //List<String> everyday = tournamentConfig.getStringList(key + ".Start Times.EVERYDAY");
-
-            var sortedStartTimes = Arrays.stream(TournamentType.TournamentDay.values()).toList().stream()
-                    .sorted(Enum::compareTo).toList();
-            for(var d : sortedStartTimes){
-                if(!config.contains(key + ".Start Times." + d))
-                    continue;
-
-                startTimes.put(d, config.getStringList(key + ".Start Times." + d));
-            }
-
-            double cashReward = 0;
-            List<ItemStack> itemRewards = new ArrayList<>();
-
-            if(config.contains(key + ".Rewards.Cash"))
-                cashReward = config.getDouble(key + ".Rewards.Cash");
-            if(config.contains(key + ".Rewards.Items")){
-                var configList = config.getList(key + ".Rewards.Items");
-                assert configList != null;
-                for(var i : configList){
-                    if(!(i instanceof ItemStack)){
-                        Utilities.Severe("Tried to load invalid Itemstack from quest: " + key);
-                        continue;
-                    }
-                    itemRewards.add((ItemStack) i);
-                }
-            }
-
-            Bukkit.broadcastMessage("Loaded quest " + name + " with " + itemRewards.size() + " rewards and $" + cashReward);
-
-            QuestType questType = new QuestType(key, name, duration, catchAmount, fishTypes, startTimes, cashReward, itemRewards);
+            QuestType questType = new QuestType(key, questConfig);
             QuestType.AddNew(questType);
         }
     }
@@ -91,6 +59,13 @@ public class QuestConfig {
             String key = type.Id;
             newQuestConfig.set(key + ".Name", type.Name);
             newQuestConfig.set(key + ".Fish Types", type.FishTypeIds);
+            if(type.RandomFishType)
+                newQuestConfig.set(key + ".Random Fish Type", true);
+
+            newQuestConfig.set(key + ".Fishing Areas", type.FishingAreaIds);
+            if(type.RandomFishArea)
+                newQuestConfig.set(key + ".Random Fish Area", true);
+
             newQuestConfig.set(key + ".Duration", type.Duration);
             newQuestConfig.set(key + ".Catch Amount", type.CatchAmount);
 

@@ -59,10 +59,6 @@ public class AdminQuestStartTimesBtn extends AdminQuestMenuButton {
 
         m.setLore(lore);
 
-        PersistentDataContainer dataContainer = m.getPersistentDataContainer();
-        dataContainer.set(ItemHandler.QuestTypeId, PersistentDataType.STRING, questType.Id);
-
-
         item.setItemMeta(m);
 
         return item;
