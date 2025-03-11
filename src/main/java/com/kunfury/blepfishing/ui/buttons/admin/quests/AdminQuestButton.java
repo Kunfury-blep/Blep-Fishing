@@ -89,9 +89,6 @@ public class AdminQuestButton extends AdminQuestMenuButton {
 
         m.setLore(lore);
 
-        PersistentDataContainer dataContainer = m.getPersistentDataContainer();
-        dataContainer.set(ItemHandler.TourneyTypeId, PersistentDataType.STRING, questType.Id);
-
         item.setItemMeta(m);
 
         return item;

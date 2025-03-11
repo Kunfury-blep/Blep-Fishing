@@ -5,12 +5,15 @@ import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.objects.FishType;
+import com.kunfury.blepfishing.objects.FishingArea;
 import com.kunfury.blepfishing.objects.TournamentType;
 import com.kunfury.blepfishing.objects.UnclaimedReward;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -24,6 +27,11 @@ public class QuestType {
     public double Duration;
     public int CatchAmount;
     public List<String> FishTypeIds;
+    public List<String> FishingAreaIds;
+
+    public boolean RandomFishType = false; //If enabled, single fish will be selected from FishTypeIds
+    public boolean RandomFishArea = false; //If enabled, single area will be selected from FishAreaIds
+
     public HashMap<TournamentType.TournamentDay, List<String>> StartTimes = new HashMap<>();
     public double CashReward;
     public List<ItemStack> ItemRewards;
@@ -37,26 +45,70 @@ public class QuestType {
         Duration = 1;
         CatchAmount = 1;
         FishTypeIds = new ArrayList<>();
+        FishingAreaIds = new ArrayList<>();
         CashReward = 0;
         ItemRewards = new ArrayList<>();
     }
 
-    public QuestType(String id, String name, double duration, int catchAmount, List<String> fishTypeIds, HashMap<TournamentType.TournamentDay, List<String>> startTimes,
+    public QuestType(String id, String name, double duration, int catchAmount, List<String> fishTypeIds, List<String> fishingAreaIds, HashMap<TournamentType.TournamentDay, List<String>> startTimes,
                          double cashReward, List<ItemStack> itemRewards){
         Id = id;
         Name = name;
         Duration = duration;
         CatchAmount = catchAmount;
         FishTypeIds = fishTypeIds;
+        FishingAreaIds = fishingAreaIds;
         StartTimes = startTimes;
         CashReward = cashReward;
         ItemRewards = itemRewards;
     }
 
+    public QuestType(String id, ConfigurationSection config){
+        Id = id;
+
+        Name = config.getString("Name");
+        FishTypeIds = config.getStringList("Fish Types");
+        RandomFishType = config.getBoolean("Random Fish Type");
+
+        FishingAreaIds = config.getStringList("Fishing Areas");
+        RandomFishArea = config.getBoolean("Random Fish Area");
+
+        Duration = config.getDouble("Duration");
+        CatchAmount = config.getInt("Catch Amount");
+
+        StartTimes = new HashMap<>();
+        var sortedStartTimes = Arrays.stream(TournamentType.TournamentDay.values()).toList().stream()
+                .sorted(Enum::compareTo).toList();
+        for(var d : sortedStartTimes){
+            if(!config.contains("Start Times." + d))
+                continue;
+
+            StartTimes.put(d, config.getStringList("Start Times." + d));
+        }
+
+        ItemRewards = new ArrayList<>();
+
+        if(config.contains("Rewards.Cash"))
+            CashReward = config.getDouble("Rewards.Cash");
+        else
+            CashReward = 0;
+
+        if(config.contains("Rewards.Items")){
+            var configList = config.getList("Rewards.Items");
+            assert configList != null;
+            for(var i : configList){
+                if(!(i instanceof ItemStack)){
+                    Utilities.Severe("Tried to load invalid Itemstack from quest: " + Id);
+                    continue;
+                }
+                ItemRewards.add((ItemStack) i);
+            }
+        }
+    }
+
 
 
     private List<FishType> fishTypes;
-
     public List<FishType> getFishTypes(){
         if(fishTypes == null || fishTypes.isEmpty()){
             fishTypes = new ArrayList<>();
@@ -70,6 +122,22 @@ public class QuestType {
             }
         }
         return fishTypes;
+    }
+
+    private List<FishingArea> fishingAreas;
+    public List<FishingArea> getFishingAreas(){
+        if(fishingAreas == null || fishingAreas.isEmpty()){
+            fishingAreas = new ArrayList<>();
+            for(var typeId : FishingAreaIds){
+                var area = FishingArea.FromId(typeId);
+                if(area == null){
+                    Utilities.Severe("Invalid Fish Type Found By Id");
+                    continue;
+                }
+                fishingAreas.add(area);
+            }
+        }
+        return fishingAreas;
     }
 
     private List<String> formattedCatchList;
@@ -97,8 +165,27 @@ public class QuestType {
         return formattedCatchList;
     }
 
+    private List<String> formattedAreaList;
+    public List<String> getFormattedAreaList(){
+        if(formattedAreaList == null || formattedAreaList.isEmpty()){
+            var areas = getFishingAreas();
+            if(new HashSet<>(areas).containsAll(FishingArea.GetAll()) || areas.isEmpty()){
+                formattedAreaList = Collections.singletonList(
+                        Formatting.GetLanguageString("Quest.allAreas"));
+                return formattedAreaList;
+            }
+            formattedAreaList = new ArrayList<>();
+            for(var area : areas){
+                formattedAreaList.add(area.Name);
+            }
+            formattedAreaList = Formatting.ToCommaLoreList(formattedAreaList, ChatColor.WHITE, ChatColor.BLUE);
+        }
+        return formattedAreaList;
+    }
+
     public void ResetCatchList(){
         formattedCatchList = null;
+        formattedAreaList = null;
         fishTypes = null;
     }
 

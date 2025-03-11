@@ -52,7 +52,6 @@ public class AdminQuestStartTimesDayBtn extends AdminQuestMenuButton {
         m = setButtonId(m, getId());
 
         PersistentDataContainer dataContainer = m.getPersistentDataContainer();
-        dataContainer.set(ItemHandler.TourneyTypeId, PersistentDataType.STRING, questType.Id);
         dataContainer.set(dayKey, PersistentDataType.STRING, day.toString());
 
         item.setItemMeta(m);

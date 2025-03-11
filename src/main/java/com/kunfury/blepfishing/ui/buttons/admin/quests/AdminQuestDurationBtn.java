@@ -37,10 +37,6 @@ public class AdminQuestDurationBtn extends AdminQuestMenuButton {
         lore.add(Formatting.asTime(questType.Duration, ChatColor.BLUE));
         m.setLore(lore);
 
-        PersistentDataContainer dataContainer = m.getPersistentDataContainer();
-        dataContainer.set(ItemHandler.QuestTypeId, PersistentDataType.STRING, questType.Id);
-
-
         item.setItemMeta(m);
 
         return item;

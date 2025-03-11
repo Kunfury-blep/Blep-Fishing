@@ -38,10 +38,6 @@ public class AdminQuestNameBtn extends AdminQuestMenuButton {
         lore.add(ChatColor.BLUE + questType.Name);
         m.setLore(lore);
 
-        PersistentDataContainer dataContainer = m.getPersistentDataContainer();
-        dataContainer.set(ItemHandler.QuestTypeId, PersistentDataType.STRING, questType.Id);
-
-
         item.setItemMeta(m);
 
         return item;

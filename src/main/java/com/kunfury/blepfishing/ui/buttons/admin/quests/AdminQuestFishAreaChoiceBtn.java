@@ -3,8 +3,10 @@ package com.kunfury.blepfishing.ui.buttons.admin.quests;
 import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.helpers.ItemHandler;
 import com.kunfury.blepfishing.objects.FishType;
+import com.kunfury.blepfishing.objects.FishingArea;
 import com.kunfury.blepfishing.objects.quests.QuestType;
 import com.kunfury.blepfishing.ui.objects.buttons.AdminQuestMenuButton;
+import com.kunfury.blepfishing.ui.panels.admin.quests.AdminQuestFishAreasPanel;
 import com.kunfury.blepfishing.ui.panels.admin.quests.AdminQuestFishTypesPanel;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -16,12 +18,12 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 
-public class AdminQuestFishTypeChoiceBtn extends AdminQuestMenuButton {
+public class AdminQuestFishAreaChoiceBtn extends AdminQuestMenuButton {
 
-    FishType fishType;
-    public AdminQuestFishTypeChoiceBtn(QuestType questType, FishType fishType){
+    FishingArea fishingArea;
+    public AdminQuestFishAreaChoiceBtn(QuestType questType, FishingArea area){
         super(questType);
-        this.fishType = fishType;
+        fishingArea = area;
     }
 
 
@@ -30,23 +32,21 @@ public class AdminQuestFishTypeChoiceBtn extends AdminQuestMenuButton {
         Material mat = Material.RED_CONCRETE;
         boolean selected = false;
         int modelData = 0;
-        if(questType.FishTypeIds.contains(fishType.Id)){
-            mat = Material.SALMON;
+        if(questType.FishingAreaIds.contains(fishingArea.Id)){
+            mat = Material.GREEN_CONCRETE;
             selected = true;
-            modelData = fishType.ModelData;
         }
         ItemStack item = new ItemStack(mat);
         ItemMeta m = item.getItemMeta();
         assert m != null;
 
-        setButtonTitle(m, fishType.Name);
+        setButtonTitle(m, fishingArea.Name);
 
         m.setCustomModelData(modelData);
 
         ArrayList<String> lore = new ArrayList<>();
 
         lore.add("");
-
         if(selected)
             lore.add(ChatColor.GREEN + "Enabled");
         else
@@ -57,27 +57,32 @@ public class AdminQuestFishTypeChoiceBtn extends AdminQuestMenuButton {
         m = setButtonId(m, getId());
 
         PersistentDataContainer dataContainer = m.getPersistentDataContainer();
-        dataContainer.set(ItemHandler.FishTypeId, PersistentDataType.STRING, fishType.Id);
+        dataContainer.set(ItemHandler.FishAreaId, PersistentDataType.STRING, fishingArea.Id);
 
         item.setItemMeta(m);
 
         return item;
     }
 
+    @Override
     protected void click_left() {
-        FishType fishType = getFishType();
+        fishingArea = getArea();
         questType = getQuestType();
 
-        if(questType.FishTypeIds.contains(fishType.Id)){
-            questType.FishTypeIds.remove(fishType.Id);
+        if(questType.FishingAreaIds.contains(fishingArea.Id)){
+            questType.FishingAreaIds.remove(fishingArea.Id);
         }else{
-            questType.FishTypeIds.add(fishType.Id);
+            questType.FishingAreaIds.add(fishingArea.Id);
         }
 
         questType.ResetCatchList();
 
         ConfigHandler.instance.questConfig.Save();
-        new AdminQuestFishTypesPanel(questType).Show(player);
+        new AdminQuestFishAreasPanel(questType).Show(player);
+    }
+
+    private FishingArea getArea(){
+        return FishingArea.FromId(ItemHandler.getTagString(ClickedItem, ItemHandler.FishAreaId));
     }
 
 }
