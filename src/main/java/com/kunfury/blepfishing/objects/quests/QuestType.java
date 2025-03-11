@@ -1,11 +1,17 @@
 package com.kunfury.blepfishing.objects.quests;
 
+import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.objects.FishType;
 import com.kunfury.blepfishing.objects.TournamentType;
+import com.kunfury.blepfishing.objects.UnclaimedReward;
+import net.milkbowl.vault.economy.EconomyResponse;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.time.DayOfWeek;
@@ -116,6 +122,49 @@ public class QuestType {
                 .replace("{quest}", Name));
 
         return questObject;
+    }
+
+    public void GiveRewards(UUID playerUUID){
+        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(playerUUID);
+
+        Player player = offlinePlayer.getPlayer();
+
+        if(BlepFishing.hasEconomy() && CashReward > 0){
+            EconomyResponse r = BlepFishing.getEconomy().depositPlayer(offlinePlayer, CashReward);
+            if(!r.transactionSuccess())
+                Utilities.Severe(r.errorMessage);
+
+            if(player != null){
+                Bukkit.getScheduler().runTaskLater (BlepFishing.getPlugin(), () ->{
+                    player.sendMessage(Formatting.GetFormattedMessage("Quest.rewardCurrency")
+                            .replace("{amount}", Formatting.toBigNumber(CashReward))
+                            .replace("{quest}", Name));
+                } , 20);
+            }
+
+            if(!offlinePlayer.isOnline()){
+                for(var i : ItemRewards){
+                    new UnclaimedReward(playerUUID, i); //Saves reward if unable to claim
+                }
+                return;
+            }
+        }
+
+        for(var i : ItemRewards){
+            if(!Utilities.GiveItem(offlinePlayer.getPlayer(), i, false)){
+                new UnclaimedReward(playerUUID, i); //Saves reward if unable to claim
+                continue;
+            }
+
+            if(player != null){
+                Bukkit.getScheduler().runTaskLater (BlepFishing.getPlugin(), () ->{
+                    player.sendMessage(Formatting.GetFormattedMessage("Quest.reward")
+                            .replace("{item}", Formatting.GetItemName(i) + " x" + i.getAmount())
+                            .replace("{quest}", Name));
+                } , 20);
+
+            }
+        }
     }
 
     ///

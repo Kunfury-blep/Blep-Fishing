@@ -4,6 +4,7 @@ import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.objects.TournamentType;
 import com.kunfury.blepfishing.objects.quests.QuestType;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -60,22 +61,21 @@ public class QuestConfig {
             double cashReward = 0;
             List<ItemStack> itemRewards = new ArrayList<>();
 
-            var rewardsConfig = config.getConfigurationSection(key + ".Rewards");
-            if(rewardsConfig != null){
-                if(rewardsConfig.contains(rewardsConfig + ".Cash"))
-                    cashReward = rewardsConfig.getDouble(rewardsConfig + ".Cash" + ".Cash");
-                if(rewardsConfig.contains(rewardsConfig + ".Items")){
-                    var configList = rewardsConfig.getList(rewardsConfig + ".Items");
-                    assert configList != null;
-                    for(var i : configList){
-                        if(!(i instanceof ItemStack)){
-                            Utilities.Severe("Tried to load invalid Itemstack from quest: " + key);
-                            continue;
-                        }
-                        itemRewards.add((ItemStack) i);
+            if(config.contains(key + ".Rewards.Cash"))
+                cashReward = config.getDouble(key + ".Rewards.Cash");
+            if(config.contains(key + ".Rewards.Items")){
+                var configList = config.getList(key + ".Rewards.Items");
+                assert configList != null;
+                for(var i : configList){
+                    if(!(i instanceof ItemStack)){
+                        Utilities.Severe("Tried to load invalid Itemstack from quest: " + key);
+                        continue;
                     }
+                    itemRewards.add((ItemStack) i);
                 }
             }
+
+            Bukkit.broadcastMessage("Loaded quest " + name + " with " + itemRewards.size() + " rewards and $" + cashReward);
 
             QuestType questType = new QuestType(key, name, duration, catchAmount, fishTypes, startTimes, cashReward, itemRewards);
             QuestType.AddNew(questType);
