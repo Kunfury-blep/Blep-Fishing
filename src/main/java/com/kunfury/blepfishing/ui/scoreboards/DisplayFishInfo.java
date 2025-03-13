@@ -6,6 +6,7 @@ import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.objects.FishObject;
 import com.kunfury.blepfishing.objects.FishType;
 import com.kunfury.blepfishing.objects.Rarity;
+import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -17,16 +18,24 @@ import java.util.Objects;
 
 public class DisplayFishInfo {
 
-    public static void ShowFish(FishObject fish, Player p){
+    public static void ShowFish(FishObject fish, Player player){
         if(ConfigHandler.instance.baseConfig.getShowScoreboard())
-            ShowScoreboardFish(fish, p);
+            ShowScoreboardFish(fish, player);
         if(ConfigHandler.instance.baseConfig.getChatScoreboard()){
             TextComponent mainComponent = new TextComponent(Formatting.GetFormattedMessage("Fish.chatInfo")
                     .replace("{rarity}", fish.getRarity().getFormattedName())
                     .replace("{fish}", fish.getType().Name));
             mainComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, fish.getHoverText()));
 
-            p.spigot().sendMessage(mainComponent);
+            player.spigot().sendMessage(mainComponent);
+        }
+        if(ConfigHandler.instance.baseConfig.getActionBarScoreboard()){
+            TextComponent mainComponent = new TextComponent(Formatting.GetLanguageString("Fish.actionBar")
+                    .replace("{rarity}", fish.getRarity().getFormattedName())
+                    .replace("{fish}", fish.getFormattedName())
+                    .replace("{size}", Formatting.DoubleFormat(fish.Length)));
+
+            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, mainComponent);
         }
     }
 

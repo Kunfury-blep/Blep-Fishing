@@ -6,6 +6,7 @@ Fish:
   announce: "{player} &fjust caught a {rarity} {fish}&f!"
   value: "&9Value: ${value}"
   chatInfo: "You just caught a {rarity} {fish}&f!"
+  actionBar: "&fCaught a {rarity} {fish}&f : {size}\""
 
 Treasure:
   announce: "{player} &fjust fished up a {treasure}&f!"
@@ -218,6 +219,7 @@ UI:
       General:
         showScoreboard: "&bShow Catch in Scoreboard"
         showChat: "&bShow Catch in Chat"
+        showActionbar: "&bShow Catch in ActionBar"
         enableFishBags: "&bEnable Fish Bags"
       Tournament:
         noTimes: "&cNo Start Times"

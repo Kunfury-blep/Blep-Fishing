@@ -34,7 +34,7 @@ public class BaseConfig {
     public boolean getChatScoreboard(){
         return config.getBoolean("Show Chat");
     }
-
+    public boolean getActionBarScoreboard() { return config.getBoolean("Show Actionbar"); }
 
     public int getAllBlueRadius() {
         return config.getInt("All Blue.Radius");
@@ -55,6 +55,7 @@ public class BaseConfig {
         newConfig.set("Show Scoreboard", getShowScoreboard());
         newConfig.set("Enable Fish Bags", getEnableFishBags());
         newConfig.set("Show Chat", getChatScoreboard());
+        newConfig.set("Show Actionbar", getActionBarScoreboard());
 
         newConfig.set("All Blue.Radius", getAllBlueRadius());
         newConfig.set("All Blue.Area", getAllBlueArea().Id);
@@ -69,4 +70,6 @@ public class BaseConfig {
             throw new RuntimeException(e);
         }
     }
+
+
 }
