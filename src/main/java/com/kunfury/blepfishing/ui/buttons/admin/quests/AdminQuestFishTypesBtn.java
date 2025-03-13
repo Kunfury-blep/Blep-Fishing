@@ -6,6 +6,7 @@ import com.kunfury.blepfishing.objects.TournamentType;
 import com.kunfury.blepfishing.objects.quests.QuestType;
 import com.kunfury.blepfishing.ui.objects.buttons.AdminQuestMenuButton;
 import com.kunfury.blepfishing.ui.objects.buttons.AdminTournamentMenuButton;
+import com.kunfury.blepfishing.ui.panels.admin.quests.AdminQuestEditPanel;
 import com.kunfury.blepfishing.ui.panels.admin.quests.AdminQuestFishTypesPanel;
 import com.kunfury.blepfishing.ui.panels.admin.tournaments.AdminTournamentEditFishTypesPanel;
 import org.bukkit.ChatColor;
@@ -34,13 +35,15 @@ public class AdminQuestFishTypesBtn extends AdminQuestMenuButton {
         ArrayList<String> lore = new ArrayList<>();
         lore.add("The Fish to be Caught");
         lore.add("");
-
         if(questType.RandomFishType){
             lore.add(ChatColor.DARK_AQUA + "RANDOM");
             lore.add("");
         }
 
         lore.addAll(questType.getFormattedCatchList());
+
+        lore.add("");
+        lore.add(ChatColor.RED + "Shift-Right-Click for Random");
 
         m.setLore(lore);
 
@@ -59,6 +62,7 @@ public class AdminQuestFishTypesBtn extends AdminQuestMenuButton {
         questType.RandomFishType = !questType.RandomFishType;
 
         ConfigHandler.instance.questConfig.Save();
+        new AdminQuestEditPanel(questType).Show(player);
     }
 
 }

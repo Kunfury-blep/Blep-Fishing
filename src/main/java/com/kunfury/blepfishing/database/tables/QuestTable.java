@@ -3,7 +3,6 @@ package com.kunfury.blepfishing.database.tables;
 import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.objects.FishObject;
-import com.kunfury.blepfishing.objects.TournamentObject;
 import com.kunfury.blepfishing.objects.quests.QuestObject;
 import org.apache.commons.lang.BooleanUtils;
 import org.bukkit.Bukkit;
@@ -27,6 +26,23 @@ public class QuestTable extends DbTable<QuestObject> {
                 startTime INTEGER NOT NULL,
                 active INTEGER NOT NULL)
                 """);
+
+            try{
+                statement.execute("""
+                ALTER TABLE quests
+                ADD randomFish TEXT
+                """);
+            } catch (SQLException e) { //Needed to avoid errors if table already contains column
+                return;
+            }
+            try{
+                statement.execute("""
+                ALTER TABLE quests
+                ADD randomArea TEXT
+                """);
+            } catch (SQLException e) { //Needed to avoid errors if table already contains column
+                return;
+            }
         }
     }
 
@@ -34,11 +50,23 @@ public class QuestTable extends DbTable<QuestObject> {
     public int Add(QuestObject quest) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO quests (typeId, startTime, active) VALUES (?, ?, ?)");
+                    "INSERT INTO quests (typeId, startTime, active, randomFish, randomArea) VALUES (?, ?, ?, ?, ?)");
             //preparedStatement.setString(1, fish.Id);
             preparedStatement.setString(1, quest.TypeId);
             preparedStatement.setLong(2, Utilities.TimeToLong(quest.StartTime));
             preparedStatement.setObject(3, quest.Active());
+
+            if(quest.RandomFishType != null)
+                preparedStatement.setObject(4, quest.RandomFishType.Id);
+            else
+                preparedStatement.setObject(4, null);
+
+            if(quest.RandomFishArea != null)
+                preparedStatement.setObject(5, quest.RandomFishArea.Id);
+            else
+                preparedStatement.setObject(5, null);
+
+
             preparedStatement.executeUpdate();
 
             var id = connection.prepareStatement("SELECT * FROM quests ORDER BY id DESC LIMIT 1").executeQuery().getInt("id");
@@ -237,27 +265,46 @@ public class QuestTable extends DbTable<QuestObject> {
         List<FishObject> caughtFish = new ArrayList<>();
         try {
             int i = 1;
-            var typeIds = quest.getType().FishTypeIds;
+            var fishTypes = quest.getFishTypes();
 
-            if(typeIds.isEmpty()){ //Returns empty if no valid fish types are available
-                return caughtFish;
-            }
 
             StringBuilder sql = new StringBuilder("SELECT * FROM fish WHERE");
             sql.append(" (");
-            for(var typeId : typeIds){
-                sql.append("typeId = ").append("'").append(typeId).append("'");
-                if(typeIds.size() > i){
-                    sql.append(" OR ");
-                    i++;
+            if(fishTypes.isEmpty()){
+                sql.append("typeId LIKE '%'");
+            }else{
+                for(var fishType : fishTypes){
+                    sql.append("typeId = ").append("'").append(fishType.Id).append("'");
+                    if(fishTypes.size() > i){
+                        sql.append(" OR ");
+                        i++;
+                    }
                 }
             }
+
+
             sql.append(")");
             sql.append(" AND (playerId = ").append("'").append(player.getUniqueId()).append("')");
 
             var startTime = Utilities.TimeToLong(quest.StartTime);
             var currentTime = Utilities.TimeToLong(LocalDateTime.now());
-            sql.append(" AND dateCaught BETWEEN ").append(startTime).append(" AND ").append(currentTime);
+            sql.append(" AND (dateCaught BETWEEN ").append(startTime).append(" AND ").append(currentTime).append(")");
+
+            var fishingAreas = quest.getFishingAreas();
+            if(!fishingAreas.isEmpty()){
+                sql.append(" AND (");
+                int areaCount = 0;
+                for(var area : fishingAreas){
+                    if(areaCount > 0)
+                        sql.append(" OR ");
+                    sql.append(" (areaIds LIKE '%,").append(area.Id).append(",%'" //Commas on both sides
+                    ).append(" OR areaIds LIKE '").append(area.Id).append(",%'" //Commas on right side only
+                    ).append(" OR areaIds LIKE '%,").append(area.Id).append("%'" //Commas on left side only
+                    ).append(" OR areaIds = '").append(area.Id).append("')"); //Single value
+                    areaCount++;
+                }
+                sql.append(")");
+            }
 
             //Bukkit.getLogger().warning(Formatting.getPrefix() + "SQL - " + sql);
             PreparedStatement preparedStatement = connection.prepareStatement(sql.toString());
@@ -266,14 +313,15 @@ public class QuestTable extends DbTable<QuestObject> {
 
             while(resultSet.next()){
                 int id = resultSet.getInt("id");
+                FishObject fishObject;
                 if(Database.Fish.Cache.containsKey(id)){
-                    caughtFish.add(Database.Fish.Cache.get(id));
-                    continue;
+                    fishObject = Database.Fish.Cache.get(id);
+                }else{
+                    fishObject = new FishObject((resultSet));
+                    Database.Fish.Cache.put(id, fishObject);
                 }
 
-                var newFish = new FishObject((resultSet));
-                Database.Fish.Cache.put(id, newFish);
-                caughtFish.add(newFish);
+                caughtFish.add(fishObject);
             }
 
             //Bukkit.broadcastMessage("Found " + winningFish.size() + " viable fish for " + tournament.getType().Name);

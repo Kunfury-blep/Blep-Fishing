@@ -187,6 +187,7 @@ public class QuestType {
         formattedCatchList = null;
         formattedAreaList = null;
         fishTypes = null;
+        fishingAreas = null;
     }
 
     public void TryStart(DayOfWeek dayOfWeek, String time){
