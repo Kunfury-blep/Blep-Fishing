@@ -53,7 +53,10 @@ public class PlayerQuestBtn extends MenuButton {
                 + ChatColor.BLUE + "]");
 
         lore.add("");
-        lore.addAll(questType.getFormattedCatchList());
+        lore.addAll(quest.getFormattedCatchList());
+
+        lore.add("");
+        lore.addAll(quest.getFormattedAreaList());
 
         m.setLore(lore);
 

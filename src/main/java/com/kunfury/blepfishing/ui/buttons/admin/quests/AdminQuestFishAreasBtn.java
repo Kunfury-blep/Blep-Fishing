@@ -40,7 +40,7 @@ public class AdminQuestFishAreasBtn extends AdminQuestMenuButton {
         lore.addAll(questType.getFormattedAreaList());
 
         lore.add("");
-        lore.add(ChatColor.RED + "Shift-Right-CLick for Random");
+        lore.add(ChatColor.RED + "Shift-Right-Click for Random");
 
         m.setLore(lore);
 
