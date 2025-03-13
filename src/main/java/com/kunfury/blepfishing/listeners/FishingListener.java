@@ -88,7 +88,8 @@ public class FishingListener implements Listener {
         Rarity rarity = Rarity.GetRandom();
         if(rarity == null) return;
 
-        FishType fishType = GetCaughtFishType(hookLoc, allBlue);
+        List<FishingArea> fishingAreas = FishingArea.GetAvailableAreas(hookLoc); //Available areas to pull fish from
+        FishType fishType = GetCaughtFishType(fishingAreas, hookLoc, allBlue);
 
         if(fishType == null){
             Utilities.Severe("No Valid Fish Type Found");
@@ -97,7 +98,7 @@ public class FishingListener implements Listener {
 
         Integer rodId = GetRodId(player);
 
-        FishObject caughtFish = fishType.GenerateFish(rarity, e.getPlayer().getUniqueId(), rodId, allBlue);
+        FishObject caughtFish = fishType.GenerateFish(rarity, e.getPlayer().getUniqueId(), rodId, allBlue, fishingAreas);
 
         FishBag fishBag = FishBag.GetBag(player);
         if(fishBag != null){
@@ -130,7 +131,7 @@ public class FishingListener implements Listener {
 
     }
 
-    private FishType GetCaughtFishType(Location hookLoc, boolean allBlue) {
+    private FishType GetCaughtFishType(List<FishingArea> areas, Location hookLoc, boolean allBlue) {
         if(allBlue)
             return GetRandomFishType(FishType.GetAll().stream().toList(), hookLoc);
 
@@ -144,12 +145,12 @@ public class FishingListener implements Listener {
         assert world != null;
 
         List<FishType> availFish = new ArrayList<>();//Available fish to choose from
-        List<FishingArea> fishingAreas = FishingArea.GetAvailableAreas(hookLoc); //Available areas to pull fish from
 
         int height = hookLoc.getBlockY();
         boolean isRaining = world.hasStorm();
         long time = world.getTime();
         boolean isNight = !(time < 12300 || time > 23850);
+        List<FishingArea> fishingAreas = FishingArea.GetAvailableAreas(hookLoc); //Available areas to pull fish from
 
         for (var type : FishType.GetAll())
         {

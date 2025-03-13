@@ -29,6 +29,15 @@ public class FishTable extends DbTable<FishObject>{
                 rodId INTEGER,
                 FOREIGN KEY (rodId) REFERENCES fishingRods(id))
                 """);
+
+            try{
+                statement.execute("""
+                ALTER TABLE fish
+                ADD areaIds TEXT DEFAULT "" NOT NULL
+                """);
+            } catch (SQLException e) { //Needed to avoid errors if table already contains column
+                return;
+            }
         }
     }
 
@@ -36,7 +45,7 @@ public class FishTable extends DbTable<FishObject>{
     public int Add(FishObject fish) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO fish (playerId, typeId, rarityId, length, score, dateCaught, fishBagId, rodId) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                    "INSERT INTO fish (playerId, typeId, rarityId, length, score, dateCaught, fishBagId, rodId, areaIds) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
             String playerId = "";
             if(fish.PlayerId != null)
@@ -50,6 +59,7 @@ public class FishTable extends DbTable<FishObject>{
             preparedStatement.setLong(6, Utilities.TimeToLong(fish.DateCaught));
             preparedStatement.setObject(7, fish.FishBagId);
             preparedStatement.setObject(8, fish.RodId);
+            preparedStatement.setObject(9, String.join(",", fish.AreaIds));
             preparedStatement.executeUpdate();
 
 
