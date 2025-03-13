@@ -4,6 +4,7 @@ import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.ui.buttons.admin.AdminPanelButton;
 import com.kunfury.blepfishing.ui.buttons.admin.general.EnableFishBagsBtn;
+import com.kunfury.blepfishing.ui.buttons.admin.general.ShowActionbarBtn;
 import com.kunfury.blepfishing.ui.buttons.admin.general.ShowChatBtn;
 import com.kunfury.blepfishing.ui.buttons.admin.general.ShowScoreboardBtn;
 import com.kunfury.blepfishing.ui.buttons.admin.translations.AdminTranslationBtn;
@@ -21,6 +22,7 @@ public class AdminGeneralPanel extends Panel {
     protected void BuildInventory(Player player) {
         AddButton(new ShowScoreboardBtn(), player);
         AddButton(new ShowChatBtn(), player);
+        AddButton(new ShowActionbarBtn(), player);
         AddButton(new EnableFishBagsBtn(), player);
 
         AddFooter(new AdminPanelButton(), null, null, player);

@@ -162,13 +162,6 @@ public class TournamentType {
 
         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(playerUUID);
 
-        if(!offlinePlayer.isOnline()){
-            for(var i : items){
-                new UnclaimedReward(playerUUID, i); //Saves reward if unable to claim
-            }
-            return;
-        }
-
         Player player = offlinePlayer.getPlayer();
 
         if(BlepFishing.hasEconomy() && CashRewards.containsKey(place)){
@@ -186,6 +179,13 @@ public class TournamentType {
 
 
             }
+        }
+
+        if(!offlinePlayer.isOnline()){
+            for(var i : items){
+                new UnclaimedReward(playerUUID, i); //Saves reward if unable to claim
+            }
+            return;
         }
 
         for(var i : items){
