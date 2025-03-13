@@ -30,11 +30,12 @@ public class FishObject {
     public final double Score;
     public final Integer RodId;
     public final double Value;
+    public final List<String> AreaIds;
 
     public Integer FishBagId;
 
 
-    public FishObject(String rarity, String type,  double length, UUID playerId, Integer rodId){
+    public FishObject(String rarity, String type,  double length, UUID playerId, Integer rodId, List<FishingArea> fishingAreas){
 
         PlayerId = playerId;
         DateCaught = LocalDateTime.now();
@@ -44,20 +45,17 @@ public class FishObject {
         Score = CalcScore();
         RodId = rodId;
 
+        AreaIds = new ArrayList<>();
+        if(fishingAreas != null){
+            for(var a : fishingAreas){
+                if(getType().AreaIds.contains(a.Id)) //Ensures the fish can actually be caught in area in case of overlapping
+                    AreaIds.add(a.Id);
+            }
+        }
+
+
+
         Id = Database.Fish.Add(this);
-        Value = CalcValue();
-    }
-
-
-    public FishObject(String rarity, String type,  double length, UUID playerId,
-                      LocalDateTime dateCaught, double score){
-        PlayerId = playerId;
-        DateCaught = dateCaught;
-        TypeId = type;
-        RarityId = rarity;
-        Length = length;
-        Score = score;
-        RodId = null;
         Value = CalcValue();
     }
 
@@ -78,6 +76,9 @@ public class FishObject {
         DateCaught = Utilities.TimeFromLong(rs.getLong("dateCaught"));
         FishBagId = (Integer) rs.getObject("fishBagId");
         RodId = (Integer) rs.getObject("rodId");
+
+        AreaIds = Arrays.asList(rs.getString("areaIds").split("\\s*,\\s*"));
+
         Value = CalcValue();
     }
 
