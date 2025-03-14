@@ -6,6 +6,7 @@ import com.kunfury.blepfishing.helpers.Utilities;
 import com.kunfury.blepfishing.ui.MenuHandler;
 import com.kunfury.blepfishing.ui.buttons.footer.InfoButton;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -72,6 +73,11 @@ public abstract class Panel {
     }
 
     public void Show(CommandSender sender){
+        if(!(sender instanceof  Player)){
+            sender.sendMessage( Formatting.GetMessagePrefix() + ChatColor.RED + "UI Panels can only be opened by players");
+            return;
+        }
+
         Show((Player) sender);
     }
 
