@@ -88,7 +88,22 @@ public class TournamentType {
         Utilities.Announce(Formatting.GetLanguageString("Tournament.start")
                 .replace("{tournament}", Name));
         return tournament;
+    }
 
+    public void Cancel(){
+        if(!Database.Tournaments.IsRunning(Id)){
+            return;
+        }
+
+        Database.Tournaments.GetActiveOfType(Id).Cancel();
+    }
+
+    public void Finish(){
+        if(!Database.Tournaments.IsRunning(Id)){
+            return;
+        }
+
+        Database.Tournaments.GetActiveOfType(Id).Finish();
     }
 
     public ItemStack getHorn(){
@@ -177,8 +192,6 @@ public class TournamentType {
                             .replace("{amount}", Formatting.toBigNumber(amount))
                             .replace("{tournament}", Name));
                 } , 20);
-
-
             }
         }
 
@@ -201,15 +214,8 @@ public class TournamentType {
                             .replace("{item}", Formatting.GetItemName(i) + " x" + i.getAmount())
                             .replace("{tournament}", Name));
                 } , 20);
-
             }
-
-
         }
-
-
-
-
     }
 
 

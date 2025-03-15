@@ -31,7 +31,7 @@ public class PlayerTournamentPanelBtn extends MenuButton {
             for(var t : runningTournaments){
                 lore.add(Formatting.GetLanguageString("UI.Player.Buttons.Base.Tournaments.tournament")
                                 .replace("{name}", t.getType().Name)
-                                .replace("{time}", Formatting.asTime(t.getTimeRemaining(), ChatColor.WHITE)));
+                                .replace("{duration}", Formatting.asTime(t.getTimeRemaining(), ChatColor.WHITE)));
             }
         }
 
