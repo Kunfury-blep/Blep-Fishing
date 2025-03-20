@@ -33,6 +33,8 @@ public class FishBag {
     private int tier;
     private ItemStack bagItem;
 
+    public boolean ConfirmSell;
+
     public FishBag(){
         amount = 0;
         tier = 1;

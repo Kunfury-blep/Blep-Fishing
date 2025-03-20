@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 
 public class Formatting {
 
-	public static DecimalFormat df = new DecimalFormat("##.00");
+	public static DecimalFormat df = new DecimalFormat("#,###.00");
 	private static final DecimalFormat bigNumberFormatter = new DecimalFormat("#,###");
 
 	//Formats doubles to two decimal places and returns them

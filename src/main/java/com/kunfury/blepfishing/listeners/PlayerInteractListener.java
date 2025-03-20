@@ -11,8 +11,10 @@ import com.kunfury.blepfishing.helpers.ItemHandler;
 import com.kunfury.blepfishing.objects.recipes.TournamentHornRecipe;
 import com.kunfury.blepfishing.objects.equipment.FishBag;
 import com.kunfury.blepfishing.objects.TournamentType;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
@@ -76,14 +78,14 @@ public class PlayerInteractListener implements Listener {
         }
 
         if(FishBag.IsBag(item)){
+            FishBag fishBag = FishBag.GetBag(item);
+            if(fishBag == null) return;
+
             if(player.isSneaking()){
                 new PlayerPanel().Show(player);
                 player.playSound(player.getLocation(), Sound.ITEM_BUCKET_EMPTY_FISH, .3f, 1f);
                 return;
             }
-
-            FishBag fishBag = FishBag.GetBag(item);
-            if(fishBag == null) return;
             fishBag.Use(player, item);
             return;
         }
@@ -148,15 +150,22 @@ public class PlayerInteractListener implements Listener {
     }
 
     @EventHandler
-    public void OpenVillager(PlayerInteractEntityEvent e){
-        if(e.getRightClicked().getType() != EntityType.VILLAGER)
-            return;
+    public void PlayerInteractEntityEvent(PlayerInteractEntityEvent e){
+        EntityType interactType = e.getRightClicked().getType();
 
+        if(interactType == EntityType.VILLAGER){
+            InteractVillager(e);
+        }
+
+    }
+
+    private void InteractVillager(PlayerInteractEntityEvent e){
         Villager villager = (Villager) e.getRightClicked();
-        Player player = e.getPlayer();
 
         if(villager.getProfession() != Villager.Profession.FISHERMAN)
             return;
+
+        Player player = e.getPlayer();
 
         if(BlepFishing.hasEconomy()){
             ItemStack item = player.getInventory().getItemInMainHand();
@@ -168,6 +177,21 @@ public class PlayerInteractListener implements Listener {
                     Utilities.SellFish(player);
 
                 e.setCancelled(true);
+                return;
+            }
+
+            if(FishBag.IsBag(item)){
+
+                FishBag fishBag = FishBag.GetBag(item);
+                if(fishBag == null) return;
+                e.setCancelled(true);
+
+                if(player.isSneaking()){
+                    Utilities.SellFishBag(player, fishBag);
+                    player.playSound(player.getLocation(), Sound.ITEM_BUCKET_EMPTY_FISH, .3f, 1f);
+                    return;
+                }
+                player.sendMessage("You must be sneaking to sell from Fish Bag");
                 return;
             }
         }

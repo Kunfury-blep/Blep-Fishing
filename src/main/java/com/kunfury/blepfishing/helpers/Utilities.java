@@ -4,8 +4,10 @@ import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.objects.FishObject;
+import com.kunfury.blepfishing.objects.FishType;
 import com.kunfury.blepfishing.objects.TournamentObject;
 import com.kunfury.blepfishing.objects.TournamentType;
+import com.kunfury.blepfishing.objects.equipment.FishBag;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
@@ -19,6 +21,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Utilities {
 
@@ -126,8 +130,8 @@ public class Utilities {
     }
 
     public static void SellAllFish(Player player) {
-        double totalValue = 0;
-        int count = 0;
+        List<FishObject> fishList = new ArrayList<>();
+
         for(var i : player.getInventory().getContents()){
             if(!ItemHandler.hasTag(i, ItemHandler.FishIdKey))
                 continue;
@@ -138,23 +142,17 @@ public class Utilities {
                 continue;
             }
             i.setAmount(0);
-            totalValue += fish.Value;
-            count++;
+            fishList.add(fish);
+
         }
 
-        if(count == 0){
-            Utilities.SendPlayerMessage(player, Formatting.GetLanguageString("System.noFish"));
+        if(fishList.isEmpty()){
+            player.sendMessage(Formatting.GetFormattedMessage("System.noFish"));
             return;
         }
 
-        EconomyResponse r = BlepFishing.getEconomy().depositPlayer(player, totalValue);
-        if(!r.transactionSuccess())
-            Utilities.Severe(r.errorMessage);
+        SellFishList(player, fishList);
 
-        player.sendMessage(Formatting.GetMessagePrefix() +
-                Formatting.GetLanguageString("Economy.soldAllFish")
-                        .replace("{amount}", String.valueOf(count))
-                        .replace("{value}", Formatting.DoubleFormat(totalValue)));
         player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_YES, .3f, 1f);
     }
 
@@ -178,5 +176,47 @@ public class Utilities {
                         .replace("{value}", Formatting.DoubleFormat(fish.Value)));
 
         player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_YES, .3f, 1f);
+    }
+
+    private static void SellFishList(Player player, List<FishObject> fishList){
+        double totalValue = 0;
+
+        for(var fish : fishList)
+            totalValue += fish.Value;
+
+
+        EconomyResponse r = BlepFishing.getEconomy().depositPlayer(player, totalValue);
+        if(!r.transactionSuccess())
+            Utilities.Severe(r.errorMessage);
+
+        player.sendMessage(Formatting.GetFormattedMessage("Economy.soldAllFish")
+                        .replace("{amount}", String.valueOf(fishList.size()))
+                        .replace("{value}", Formatting.DoubleFormat(totalValue)));
+    }
+
+    public static void SellFishBag(Player player, FishBag fishBag){
+        if(!fishBag.ConfirmSell){
+            fishBag.ConfirmSell = true;
+
+            player.sendMessage(Formatting.GetFormattedMessage("Economy.sellBagConfirm"));
+
+            Bukkit.getScheduler ().runTaskLater (BlepFishing.getPlugin(), () ->{
+                fishBag.ConfirmSell = false;
+            } , 300);
+            return;
+        }
+
+        var fishList = fishBag.getFish();
+        if(fishList.isEmpty()){
+            player.sendMessage(Formatting.GetFormattedMessage("System.noFish"));
+            return;
+        }
+
+        SellFishList(player, fishList);
+
+        fishList.forEach(f -> f.setFishBagId(null));
+        fishBag.RequestUpdate();
+        fishBag.UpdateBagItem();
+        fishBag.ConfirmSell = false;
     }
 }
