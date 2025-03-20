@@ -105,8 +105,10 @@ System:
   west: "West"
 
 Economy:
-  soldFish: "&bSold &f{fish}&b for &f${value}."
-  soldAllFish: "&bSold &f{amount}&b fish for &f${value}."
+  soldFish: "&bSold &f{fish}&b for &f$&2{value}&f."
+  soldAllFish: "&bSold &f{amount}&b fish for &f$&2{value}&f."
+  sellBagHint: "Sneak Right-Click to sell all fish in bag."
+  sellBagConfirm: "Sell all fish in bag? Sneak Right-Click again to confirm."
 
 
 UI:
@@ -223,10 +225,23 @@ UI:
 
 PAPI:
   Tournament:
-    default: "{tournament}&f - {fish} - {time}"
+    default: "{name}&f - {fish} - {time}"
     notRunning: "Not Running"
     noneCaught: "None Caught"
+    name: "&3{tournament}"
+    time: "&f{time}"
+    fish_type: "&f{fish}"
+    progress: "&f{progress}"
+    winner: "&f{player}"
   Fish:
     notFound: "Fish Not Found"
+    player: "&f{player}"
+    name: "&f{type}"
+    size: "&f{size}"
+    cost: "&f{cost}"
+    rarity: "&f{rarity}"
+    date: "&f{date}"
+    score: "&f{score}"
+    default: "&f{player} | &f{rarity} | &f{type} | &f{size}"
 
 Author: "Kunfury"

@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class FishTable extends DbTable<FishObject>{
     public FishTable(Database _db, Connection _connection) throws SQLException {
@@ -180,13 +181,24 @@ public class FishTable extends DbTable<FishObject>{
         }
     }
 
-    public List<FishObject> GetAllCaughtOfType(String typeId){
+    public List<FishObject> GetAllCaughtOfType(String typeId, String playerId){
         try{
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM fish WHERE typeId = ?" +
-                            " AND playerId IS NOT ''" +
-                            " ORDER BY score DESC");
-            preparedStatement.setString(1, typeId);
+            StringBuilder sql = new StringBuilder("SELECT * FROM fish WHERE typeId LIKE ?");
+
+
+
+            if(playerId == null){
+                sql.append(" AND playerId IS NOT ?");
+            }else{
+                sql.append(" AND playerId = ?");
+            }
+
+            sql.append(" ORDER BY score DESC");
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sql.toString());
+
+            preparedStatement.setString(1, Objects.requireNonNullElse(typeId, "%"));
+            preparedStatement.setString(2, Objects.requireNonNullElse(playerId, "''"));
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -198,6 +210,9 @@ public class FishTable extends DbTable<FishObject>{
                     caughtFish.add(Cache.get(id));
                     continue;
                 }
+
+                if(!FishType.IdExists(resultSet.getString("typeId")))
+                    continue;
 
                 var fish = new FishObject(resultSet);
                 Cache.put(id, fish);

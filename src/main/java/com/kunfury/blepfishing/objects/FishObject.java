@@ -139,10 +139,23 @@ public class FishObject {
 
     private OfflinePlayer player;
     public OfflinePlayer getCatchingPlayer(){
-        if(player == null)
+        if(player == null){
+            if(PlayerId == null)
+                return null;
             player = Bukkit.getOfflinePlayer(PlayerId);
 
+        }
+
         return player;
+    }
+
+    public String getCatchingPlayerName(){
+        var player = getCatchingPlayer();
+
+        if(player == null)
+            return null;
+
+        return player.getName();
     }
 
     private double CalcScore() {
