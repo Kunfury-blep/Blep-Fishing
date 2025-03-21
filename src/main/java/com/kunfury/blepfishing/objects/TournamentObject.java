@@ -202,7 +202,7 @@ public class TournamentObject {
                 break;
 
             //Ignores any fish that were caught by someone already winning
-            if(winningFish.stream().anyMatch(f -> f.PlayerId == fish.PlayerId))
+            if(winningFish.stream().anyMatch(f -> f.PlayerId.equals(fish.PlayerId)))
                 continue;
 
             winningFish.add(fish);

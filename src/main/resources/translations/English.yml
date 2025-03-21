@@ -134,7 +134,7 @@ UI:
           error: "Unable to give &b{amount}&f items."
         Tournaments:
           name: "&bTournaments : {amount} Running"
-          tournament: "&9{name} - &f{time}"
+          tournament: "&9{name} - &f{duration}"
           empty: "&cNo Active Tournaments"
         Fish:
           name: "&bFish"
@@ -142,7 +142,7 @@ UI:
           noneCaught: "&cNot Caught"
           area: "&9Found In: {areas}"
       Tournaments:
-        name: "&9{name} - &f{time}"
+        name: "&9{name} - &f{duration}"
         view: "&bLeft-Click to &e&oView"
         bossBar: "&bShift Left-Click to &e&oToggle Bar"
         cancel: "&bShift Right-Click &bto &c&oCancel Tournament"
