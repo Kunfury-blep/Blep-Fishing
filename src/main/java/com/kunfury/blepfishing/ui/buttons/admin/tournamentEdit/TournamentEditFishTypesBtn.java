@@ -43,7 +43,7 @@ public class TournamentEditFishTypesBtn extends AdminTournamentMenuButton {
     }
 
     protected void click_left() {
-        new AdminTournamentEditFishTypesPanel(getTournamentType()).Show(player);
+        new AdminTournamentEditFishTypesPanel(getTournamentType(), 1).Show(player);
     }
 
 }

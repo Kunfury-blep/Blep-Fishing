@@ -78,7 +78,7 @@ public class TournamentEditFishTypeChoiceBtn extends MenuButton {
         tournamentType.ResetCatchList();
 
         ConfigHandler.instance.tourneyConfig.Save();
-        new AdminTournamentEditFishTypesPanel(tournamentType).Show(player);
+        new AdminTournamentEditFishTypesPanel(tournamentType, 1).Show(player);
     }
 
 }
