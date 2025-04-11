@@ -29,7 +29,11 @@ public class AdminTreasureButton extends AdminTreasureMenuButton {
         ItemStack item = new ItemStack(Material.CHEST);
         ItemMeta m = item.getItemMeta();
 
-        m.setDisplayName(Formatting.formatColor(casket.Name));
+        if(casket.Name != null)
+            m.setDisplayName(Formatting.formatColor(casket.Name));
+        else
+            m.setDisplayName("Null Casket Name");
+
         m = setButtonId(m, getId());
 
         List<String> lore = new ArrayList<>();

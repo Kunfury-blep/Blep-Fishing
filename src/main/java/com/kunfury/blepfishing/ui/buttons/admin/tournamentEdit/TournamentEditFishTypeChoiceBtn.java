@@ -20,9 +20,12 @@ public class TournamentEditFishTypeChoiceBtn extends MenuButton {
 
     TournamentType tournamentType;
     FishType fishType;
-    public TournamentEditFishTypeChoiceBtn(TournamentType tournamentType, FishType fishType){
+    int page;
+
+    public TournamentEditFishTypeChoiceBtn(TournamentType tournamentType, FishType fishType, int page){
         this.tournamentType = tournamentType;
         this.fishType = fishType;
+        this.page = page;
     }
 
 
@@ -59,6 +62,7 @@ public class TournamentEditFishTypeChoiceBtn extends MenuButton {
         PersistentDataContainer dataContainer = m.getPersistentDataContainer();
         dataContainer.set(ItemHandler.FishTypeId, PersistentDataType.STRING, fishType.Id);
         dataContainer.set(ItemHandler.TourneyTypeId, PersistentDataType.STRING, tournamentType.Id);
+        getDataContainer(m).set(pageKey, PersistentDataType.INTEGER, page);
 
         item.setItemMeta(m);
 
@@ -68,6 +72,7 @@ public class TournamentEditFishTypeChoiceBtn extends MenuButton {
     protected void click_left() {
         FishType fishType = getFishType();
         TournamentType tournamentType = getTournamentType();
+        page = ItemHandler.getTagInt(ClickedItem, pageKey);;
 
         if(tournamentType.FishTypeIds.contains(fishType.Id)){
             tournamentType.FishTypeIds.remove(fishType.Id);
@@ -78,7 +83,7 @@ public class TournamentEditFishTypeChoiceBtn extends MenuButton {
         tournamentType.ResetCatchList();
 
         ConfigHandler.instance.tourneyConfig.Save();
-        new AdminTournamentEditFishTypesPanel(tournamentType, 1).Show(player);
+        new AdminTournamentEditFishTypesPanel(tournamentType, page).Show(player);
     }
 
 }

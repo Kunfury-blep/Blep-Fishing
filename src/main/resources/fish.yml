@@ -13,7 +13,7 @@ tuna:
 bluegill:
   Name: Bluegill
   Lore: Does it call me Pink Lung?
-  Description: Temp Description of Bluegill
+  Description: Blue as the waters
   Areas:
     - temperate
   Length Min: 5.0

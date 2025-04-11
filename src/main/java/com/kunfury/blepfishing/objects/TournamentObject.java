@@ -81,6 +81,12 @@ public class TournamentObject {
         }.runTaskTimer(BlepFishing.getPlugin(), 0, 20);
     }
 
+    public BossBar GetBossbar(){
+        if(bossBar == null)
+            SetupBossBar();
+        return bossBar;
+    }
+
     public void RefreshBossBar(){
         if(ConfigHandler.instance.tourneyConfig.Enabled() && getType().HasBossBar){
             for(var player : Bukkit.getOnlinePlayers()){
@@ -106,9 +112,9 @@ public class TournamentObject {
         playerBossBars.put(pUUID, show);
 
         if(show)
-            bossBar.addPlayer(player);
+            GetBossbar().addPlayer(player);
         else
-            bossBar.removePlayer(player);
+            GetBossbar().removePlayer(player);
     }
 
     public double getProgress(){
@@ -130,7 +136,7 @@ public class TournamentObject {
         }
 
         if(playerBossBars.get(player.getUniqueId()))
-            bossBar.addPlayer(player);
+            GetBossbar().addPlayer(player);
 
     }
 

@@ -25,19 +25,6 @@ public class AdminTournamentEditFishTypesPanel extends PaginationPanel<FishType>
 
 
     @Override
-    public void BuildInventory(Player player) {
-
-        var sortedFishList = FishType.GetAll().stream()
-                .sorted(Comparator.comparing(fish -> fish.Name)).toList();
-
-        for(var fishType : sortedFishList){
-            inv.addItem(new TournamentEditFishTypeChoiceBtn(type, fishType).getItemStack(player));
-        }
-
-        AddFooter(new AdminTournamentButton(type), null, null, player);
-    }
-
-    @Override
     protected List<FishType> loadContents() {
         return FishType.GetAll().stream()
                 .sorted(Comparator.comparing(fish -> fish.Name)).toList();
@@ -45,6 +32,6 @@ public class AdminTournamentEditFishTypesPanel extends PaginationPanel<FishType>
 
     @Override
     protected MenuButton getButton(FishType object, Player player) {
-        return new TournamentEditFishTypeChoiceBtn(type, object);
+        return new TournamentEditFishTypeChoiceBtn(type, object, Page);
     }
 }
