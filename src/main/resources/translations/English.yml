@@ -117,7 +117,7 @@ UI:
       base: "Player Panel"
       tournaments: "Fishing Tournaments"
       fishBag: "Fish Bag: {amount}/{max}"
-      tournamentDetail: "{name} - {amount} Caught"
+      tournamentDetail: "Tournament - {amount} Caught"
       fish: "Caught Fish"
     Buttons:
       panel: "&bPlayer Panel"

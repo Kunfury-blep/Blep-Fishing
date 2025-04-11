@@ -218,7 +218,7 @@ public class TournamentObject {
             var fishTypes = getType().getFishTypes();
             String fishName = (fishTypes.size() == 1) ? fishTypes.get(0).Name : "fish"; //Returns name of fish if only single type
 
-            Utilities.Announce(Formatting.GetLanguageString("Tournament.noneCaught")
+            Utilities.Announce(Formatting.GetFormattedMessage("Tournament.noneCaught")
                     .replace("{fish}", fishName));
             return;
         }

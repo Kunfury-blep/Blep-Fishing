@@ -50,14 +50,6 @@ public class PlayerTournamentBtn extends MenuButton {
         if(tournamentType.HasBossBar)
             lore.add(Formatting.GetLanguageString("UI.Player.Buttons.Tournaments.bossBar"));
 
-        if(player.hasPermission("bf.admin")){
-            lore.add("");
-            if(tournament.ConfirmCancel)
-                lore.add(Formatting.GetLanguageString("UI.Player.Buttons.Tournaments.cancelConfirm"));
-            else
-                lore.add(Formatting.GetLanguageString("UI.Player.Buttons.Tournaments.cancel"));
-        }
-
         m.setLore(lore);
 
         PersistentDataContainer dataContainer = m.getPersistentDataContainer();
@@ -88,25 +80,6 @@ public class PlayerTournamentBtn extends MenuButton {
     protected void click_left_shift() {
         TournamentObject tournament = getTournament();
         tournament.ToggleBossBar(player);
-    }
-
-    @Override
-    protected void click_right_shift() {
-        if(!player.hasPermission("bf.admin"))
-            return;
-
-        TournamentObject tournament = getTournament();
-
-        if(!tournament.ConfirmCancel){
-            tournament.ConfirmCancel = true;
-
-            Bukkit.getScheduler ().runTaskLater (BlepFishing.getPlugin(), () ->{
-                tournament.ConfirmCancel = false;
-            } , 300);
-        }else{
-            tournament.Cancel();
-        }
-        new PlayerTournamentPanel().Show(player);
     }
 
     protected TournamentObject getTournament(){

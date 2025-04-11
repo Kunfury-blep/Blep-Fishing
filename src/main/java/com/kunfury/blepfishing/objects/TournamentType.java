@@ -80,12 +80,12 @@ public class TournamentType {
     }
 
     public TournamentObject Start(){
-        if(Database.Tournaments.IsRunning(Id)){
+        if(IsRunning()){
             return null;
         }
         var tournament = new TournamentObject(this);
 
-        Utilities.Announce(Formatting.GetLanguageString("Tournament.start")
+        Utilities.Announce(Formatting.GetFormattedMessage("Tournament.start")
                 .replace("{tournament}", Name));
         return tournament;
     }
@@ -104,6 +104,10 @@ public class TournamentType {
         }
 
         Database.Tournaments.GetActiveOfType(Id).Finish();
+    }
+
+    public boolean IsRunning(){
+        return Database.Tournaments.IsRunning(Id);
     }
 
     public ItemStack getHorn(){

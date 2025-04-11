@@ -73,13 +73,21 @@ public class AdminTournamentButton extends AdminTournamentMenuButton {
 
 
         lore.add("");
-        lore.add(ChatColor.YELLOW + "Left-Click to Edit");
-        lore.add(ChatColor.YELLOW + "Shift Left-Click to Start");
+        lore.add(ChatColor.AQUA + "Left-Click to " + ChatColor.YELLOW + "Edit");
+
+        if(tournament.IsRunning()){
+            lore.add( ChatColor.AQUA + "Shift Left-Click to " + ChatColor.GREEN + "Finish");
+            lore.add( ChatColor.AQUA + "Right-Click to " + ChatColor.RED + "Cancel");
+
+        }else{
+            lore.add( ChatColor.AQUA + "Shift Left-Click to " + ChatColor.GREEN + "Start");
+        }
         lore.add("");
+
         if(!tournament.ConfirmedDelete)
-            lore.add( ChatColor.RED + "Shift Right-Click to Delete");
+            lore.add( ChatColor.AQUA + "Shift Right-Click to " + ChatColor.DARK_RED + "Delete");
         else
-            lore.add(ChatColor.RED + "Really Delete?");
+            lore.add( ChatColor.AQUA + "Shift Right-Click to " + ChatColor.DARK_RED + "Confirm Delete");
 
         m.setLore(lore);
 
@@ -105,6 +113,17 @@ public class AdminTournamentButton extends AdminTournamentMenuButton {
     }
 
     @Override
+    protected void click_right() {
+        tournament = getTournamentType();
+        if(!tournament.IsRunning()){
+            return;
+        }
+
+        tournament.Cancel();
+        new AdminTournamentPanel().Show(player);
+    }
+
+    @Override
     protected void click_right_shift() {
         TournamentType type = getTournamentType();
 
@@ -125,11 +144,15 @@ public class AdminTournamentButton extends AdminTournamentMenuButton {
 
     @Override
     protected void click_left_shift() {
-        TournamentType type = getTournamentType();
-        var tournament = type.Start();
-        new PlayerTournamentPanel().Show(player);
+        tournament = getTournamentType();
 
-        //TODO: Enable once Detail Panel Finished
-        //new PlayerTournamentDetailPanel(tournament).Show(player);
+        if(tournament.IsRunning()){
+            tournament.Finish();
+        }else{
+            tournament.Start();
+        }
+
+        new AdminTournamentPanel().Show(player);
+
     }
 }
