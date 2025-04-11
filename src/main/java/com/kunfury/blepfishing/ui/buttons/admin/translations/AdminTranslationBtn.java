@@ -83,5 +83,8 @@ public class AdminTranslationBtn extends MenuButton {
         String language = ItemHandler.getTagString(ClickedItem, LanguageKey);
         ConfigHandler.instance.LoadLanguage(language);
         new AdminTranslationsPanel().Show(player);
+        player.sendMessage(
+                Formatting.GetFormattedMessage("UI.Admin.Buttons.Translations.click")
+                        .replace("{language}", language));
     }
 }
