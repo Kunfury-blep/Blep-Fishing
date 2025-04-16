@@ -32,6 +32,8 @@ public class QuestType {
     public boolean RandomFishType = false; //If enabled, single fish will be selected from FishTypeIds
     public boolean RandomFishArea = false; //If enabled, single area will be selected from FishAreaIds
 
+    public boolean Global = false; //If enabled, progress of all players counts towards goal
+
     public HashMap<TournamentType.TournamentDay, List<String>> StartTimes = new HashMap<>();
     public double CashReward;
     public List<ItemStack> ItemRewards;

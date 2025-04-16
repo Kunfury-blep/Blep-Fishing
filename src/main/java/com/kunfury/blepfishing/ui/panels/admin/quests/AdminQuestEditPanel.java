@@ -24,12 +24,8 @@ public class AdminQuestEditPanel extends Panel {
         AddButton(new AdminQuestFishAreasBtn(type), player);
         AddButton(new AdminQuestStartTimesBtn(type), player);
         AddButton(new AdminQuestRewardBtn(type), player);
-//        AddButton(new TournamentEditRewardsBtn(type), player);
-//        AddButton(new TournamentEditBossBarBtn(type), player);
-//        AddButton(new TournamentEditHornTradeBtn(type), player);
-//        if(type.VillagerHorn)
-//            AddButton(new TournamentEditHornLevelBtn(type), player);
-//        AddButton(new AdminTournamentGradingBtn(type), player);
+        AddButton(new AdminQuestGlobalBtn(type), player);
+
 
         AddFooter(new AdminQuestPanelBtn(), null, null, player);
     }
