@@ -158,7 +158,7 @@ public class AdminSubcommand extends SubCommand {
                         }
                         break;
                     case "TOURNAMENTS":
-                        for(var t : TournamentType.GetTournaments()){
+                        for(var t : TournamentType.GetAll()){
                             optionList.add(t.Id);
                         }
                         break;
