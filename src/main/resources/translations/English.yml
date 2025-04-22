@@ -226,6 +226,7 @@ UI:
 
 PAPI:
   Tournament:
+    notFound: "Tournament Not Found"
     default: "{name}&f - {fish} - {time}"
     notRunning: "Not Running"
     noneCaught: "None Caught"
@@ -234,6 +235,7 @@ PAPI:
     fish_type: "&f{fish}"
     progress: "&f{progress}"
     winner: "&f{player}"
+    rank: "&f{player}"
   Fish:
     notFound: "Fish Not Found"
     player: "&f{player}"
