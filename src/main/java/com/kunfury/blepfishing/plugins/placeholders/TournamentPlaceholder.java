@@ -89,7 +89,7 @@ public class TournamentPlaceholder extends  Placeholder{
                             .replace("{player}", Objects.requireNonNullElse(winningFish.get(position).getCatchingPlayerName(), "Not Found"));
 
                 } else
-                    yield Formatting.GetLanguageString("PAPI.Tournament.noneCaught") + position + " - " + winningFish.size();
+                    yield Formatting.GetLanguageString("PAPI.Tournament.noneCaught");
             }
             default -> Formatting.GetLanguageString("PAPI.Tournament.default")
                     .replace("{name}", tournament.getType().Name)

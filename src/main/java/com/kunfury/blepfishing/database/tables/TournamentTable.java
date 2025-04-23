@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class TournamentTable extends DbTable<TournamentObject> {
@@ -230,7 +231,13 @@ public class TournamentTable extends DbTable<TournamentObject> {
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
+            //Bukkit.getLogger().warning("SQL | " + resultSet.getString("playerId"));
+
+            int iter = 0;
             while(resultSet.next()){
+                //Bukkit.broadcastMessage("Fish: " + iter);
+                iter++;
+
                 int id = resultSet.getInt("id");
                 if(Database.Fish.Cache.containsKey(id)){
                     winningFish.add(Database.Fish.Cache.get(id));

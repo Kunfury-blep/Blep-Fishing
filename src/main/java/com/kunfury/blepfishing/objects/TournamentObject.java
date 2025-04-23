@@ -156,7 +156,28 @@ public class TournamentObject {
     }
 
     public List<FishObject> getWinningFish(){
-        return Database.Tournaments.GetWinningFish(this);
+        List<FishObject> winningFish = new ArrayList<>();
+        //Bukkit.broadcastMessage("Checking Winning Fish");
+
+        for(var fish : Database.Tournaments.GetWinningFish(this)){
+            int maxPlace = winningFish.size() + 1;
+
+            //Bukkit.broadcastMessage("Checking winning fish for position " + maxPlace);
+
+            //Ensures that a reward exists, either item or currency
+            if(!type.ItemRewards.containsKey(maxPlace) && !type.CashRewards.containsKey(maxPlace))
+                break;
+
+            //Ignores any fish that were caught by someone already winning
+            if(winningFish.stream().anyMatch(f -> f.PlayerId.equals(fish.PlayerId))){
+                //Bukkit.broadcastMessage("Duplicate Player Found For " + maxPlace);
+                continue;
+            }
+
+            winningFish.add(fish);
+        }
+
+        return winningFish;
     }
 
     private void checkAgainstWinner(FishObject fish){
@@ -199,20 +220,7 @@ public class TournamentObject {
         if(bossBar != null)
             bossBar.removeAll();
 
-        List<FishObject> winningFish = new ArrayList<>();
-        for(var fish : getWinningFish()){
-            int maxPlace = winningFish.size() + 1;
-
-            //Ensures that a reward exists, either item or currency
-            if(!type.ItemRewards.containsKey(maxPlace) && !type.CashRewards.containsKey(maxPlace))
-                break;
-
-            //Ignores any fish that were caught by someone already winning
-            if(winningFish.stream().anyMatch(f -> f.PlayerId.equals(fish.PlayerId)))
-                continue;
-
-            winningFish.add(fish);
-        }
+        List<FishObject> winningFish = getWinningFish();
 
         if(winningFish.isEmpty()){
             var fishTypes = getType().getFishTypes();
@@ -280,8 +288,6 @@ public class TournamentObject {
     public static void CheckActive(){
         //Bukkit.broadcastMessage("Checking Active Tournaments");
         for(var t : Database.Tournaments.GetActive()){
-            Database.Tournaments.GetWinningFish(t);
-            //t.getCaughtFish();
             if(t.CanFinish()){
                 t.Finish();
             }
