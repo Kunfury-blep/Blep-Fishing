@@ -58,10 +58,12 @@ public class Formatting {
 		if(days > 0) result += "&f" + days + color + "d ";
 		if(hours > 0) result += "&f" + hours + color + "h ";
 		if(minutes > 0) result += "&f" + minutes + color + "m ";
-		if(seconds > 0) result += "&f" + seconds + color + "s ";
+		if(seconds > 0) result += "&f" + seconds + color + "s";
 
 		if(result.isEmpty())
 			result = "&f" + 0 + color + "s";
+
+		result = result.replaceAll("\\s+$", "");
 
 		return formatColor(result);
 	}
