@@ -35,9 +35,14 @@ public class PlayerTournamentFishBtn extends MenuButton {
         List<String> lore = new ArrayList<>();
         lore.add(Formatting.GetLanguageString("Fish.length")
                 .replace("{size}", Formatting.DoubleFormat(fish.Length)));
-        lore.add(Formatting.GetLanguageString("Fish.caught")
-                .replace("{player}", fish.getCatchingPlayer().getName())
-                .replace("{date}", Formatting.dateToString(fish.DateCaught)));
+
+        var fishCaught = Formatting.GetLanguageString("Fish.caught");
+        if(fish.getCatchingPlayer() != null && fish.getCatchingPlayer().getName() != null)
+            fishCaught = fishCaught.replace("{player}", fish.getCatchingPlayer().getName());
+
+        fishCaught = fishCaught.replace("{date}", Formatting.dateToString(fish.DateCaught));
+
+        lore.add(fishCaught);
 
         m.setLore(lore);
 
