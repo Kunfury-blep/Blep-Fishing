@@ -37,7 +37,7 @@ public final class BlepFishing extends JavaPlugin {
         instance = this;
     }
 
-    public Database Database;
+    private Database database;
     private static Economy econ = null;
 
     @Override
@@ -63,7 +63,7 @@ public final class BlepFishing extends JavaPlugin {
         ItemHandler.Initialize();
 
         try{
-            Database = new Database(getDataFolder().getAbsolutePath() + "/data.db");
+            database = new Database(getDataFolder().getAbsolutePath() + "/data.db");
         }
         catch (SQLException e){
             e.printStackTrace();
@@ -89,10 +89,14 @@ public final class BlepFishing extends JavaPlugin {
     @Override
     public void onDisable() {
         try{
+            for(var t : Database.Tournaments.GetActive()){
+                t.DisableBossBar();
+            }
+
             CraftingHandler.Disable();
 
-            if(Database != null)
-                Database.CloseConnection();
+            if(database != null)
+                database.CloseConnection();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -116,7 +120,7 @@ public final class BlepFishing extends JavaPlugin {
     }
 
     public static Database getDatabase(){
-        return instance.Database;
+        return instance.database;
     }
 
     public static int stats_FishCaught;

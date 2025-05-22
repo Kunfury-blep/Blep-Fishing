@@ -140,6 +140,11 @@ public class TournamentObject {
 
     }
 
+    public void DisableBossBar(){
+        if(bossBar != null)
+            bossBar.removeAll();
+    }
+
 
 
     private boolean active;
