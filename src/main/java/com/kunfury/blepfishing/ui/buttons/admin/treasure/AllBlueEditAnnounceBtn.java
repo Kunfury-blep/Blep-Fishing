@@ -3,26 +3,28 @@ package com.kunfury.blepfishing.ui.buttons.admin.treasure;
 import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.objects.treasure.Casket;
+import com.kunfury.blepfishing.objects.treasure.CompassPiece;
 import com.kunfury.blepfishing.objects.treasure.TreasureType;
 import com.kunfury.blepfishing.ui.objects.buttons.AdminTreasureMenuButton;
+import com.kunfury.blepfishing.ui.panels.admin.treasure.AdminTreasureAllBluePanel;
 import com.kunfury.blepfishing.ui.panels.admin.treasure.AdminTreasureEditPanel;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
 import java.util.ArrayList;
 
-public class TreasureEditAnnounceBtn extends AdminTreasureMenuButton {
+public class AllBlueEditAnnounceBtn extends AdminTreasureMenuButton {
 
-    public TreasureEditAnnounceBtn(Casket casket) {
-        super(casket);
+    public AllBlueEditAnnounceBtn(CompassPiece compassPiece) {
+        super(compassPiece);
     }
 
     @Override
     public ItemStack buildItemStack(Player player) {
         Material mat = Material.RED_CONCRETE;
-        if(casket.Announce)
+        if(treasureType.Announce)
             mat = Material.GREEN_CONCRETE;
 
         ItemStack item = new ItemStack(mat);
@@ -31,7 +33,7 @@ public class TreasureEditAnnounceBtn extends AdminTreasureMenuButton {
 
         m.setDisplayName(Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.Announce.name"));
         ArrayList<String> lore = new ArrayList<>();
-        if(casket.Announce)
+        if(treasureType.Announce)
             lore.add(Formatting.GetLanguageString("UI.System.Buttons.enabled"));
         else
             lore.add(Formatting.GetLanguageString("UI.System.Buttons.disabled"));
@@ -47,11 +49,11 @@ public class TreasureEditAnnounceBtn extends AdminTreasureMenuButton {
     }
 
     protected void click_left() {
-        var treasure = getCasket();
+        TreasureType treasureType = getTreasureType();
 
-        treasure.Announce = !treasure.Announce;
+        treasureType.Announce = !treasureType.Announce;
         ConfigHandler.instance.treasureConfig.Save();
-        new AdminTreasureEditPanel(treasure).Show(player);
+        new AdminTreasureAllBluePanel().Show(player);
     }
 
 

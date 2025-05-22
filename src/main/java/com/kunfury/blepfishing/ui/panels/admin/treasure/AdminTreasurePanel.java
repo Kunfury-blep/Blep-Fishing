@@ -4,7 +4,9 @@ import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.objects.treasure.Casket;
 import com.kunfury.blepfishing.objects.treasure.TreasureType;
 import com.kunfury.blepfishing.ui.buttons.admin.AdminPanelButton;
+import com.kunfury.blepfishing.ui.buttons.admin.treasure.AdminTreasureAllBluePanelBtn;
 import com.kunfury.blepfishing.ui.buttons.admin.treasure.AdminTreasureButton;
+import com.kunfury.blepfishing.ui.buttons.admin.treasure.AdminTreasureCasketsPanelBtn;
 import com.kunfury.blepfishing.ui.buttons.admin.treasure.AdminTreasureCreateButton;
 import com.kunfury.blepfishing.ui.objects.Panel;
 import org.bukkit.entity.Player;
@@ -20,18 +22,11 @@ public class AdminTreasurePanel extends Panel {
     public void BuildInventory(Player player) {
         int i = 0;
 
-        var sortedTreasures = TreasureType.ActiveTreasureTypes.values()
-                .stream().sorted(Comparator.comparing(treasure -> treasure.Weight)).toList();
+        AddButton(new AdminTreasureCasketsPanelBtn(), player);
+        AddButton(new AdminTreasureAllBluePanelBtn(), player);
 
-        var sortedCaskets = Casket.GetAll()
-                .stream().sorted(Comparator.comparing(casket -> casket.Weight)).toList();
-        for(Casket c : sortedCaskets){
-            if(i >= InventorySize) break;
 
-            inv.setItem(i, new AdminTreasureButton(c).getItemStack(player));
-            i++;
-        }
 
-        AddFooter(new AdminPanelButton(), new AdminTreasureCreateButton(), null, player);
+        AddFooter(new AdminPanelButton(), null, null, player);
     }
 }

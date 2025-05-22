@@ -2,7 +2,6 @@ package com.kunfury.blepfishing.ui.panels.admin.treasure;
 
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.objects.treasure.Casket;
-import com.kunfury.blepfishing.objects.treasure.TreasureType;
 import com.kunfury.blepfishing.ui.buttons.admin.treasure.*;
 import com.kunfury.blepfishing.ui.objects.Panel;
 import org.bukkit.entity.Player;
@@ -19,10 +18,10 @@ public class AdminTreasureEditPanel extends Panel {
     @Override
     public void BuildInventory(Player player) {
         AddButton(new TreasureEditNameBtn(casket), player);
-        AddButton(new TreasureEditWeightBtn(casket), player);
-        AddButton(new TreasureEditAnnounceBtn(casket), player);
+        AddButton(new CasketEditWeightBtn(casket), player);
+        AddButton(new CasketEditAnnounceBtn(casket), player);
         AddButton(new TreasureEditRewardsBtn(casket), player);
 
-        inv.setItem(17, new AdminTreasurePanelButton().getBackButton(player));
+        AddFooter(new AdminTreasureCasketsPanelBtn(), null, null, player);
     }
 }

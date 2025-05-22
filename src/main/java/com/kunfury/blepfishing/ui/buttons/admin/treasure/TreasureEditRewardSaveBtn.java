@@ -43,15 +43,15 @@ public class TreasureEditRewardSaveBtn extends AdminTreasureRewardMenuButton {
     }
 
     protected void click_left() {
-        var type = getCasket();
+        Casket casket = (Casket)getTreasureType();
         var reward = getReward();
-        player.sendMessage(Formatting.GetMessagePrefix() + "Saved rewards for " + type.Name);
+        player.sendMessage(Formatting.GetMessagePrefix() + "Saved rewards for " + casket.Name);
 
         var panel = player.getOpenInventory().getTopInventory();
         reward.Item = panel.getItem(4);
 
         ConfigHandler.instance.treasureConfig.Save();
-        new AdminTreasureEditRewardsSelectionPanel(type, reward).Show(player);
+        new AdminTreasureEditRewardsSelectionPanel(casket, reward).Show(player);
     }
 
 }

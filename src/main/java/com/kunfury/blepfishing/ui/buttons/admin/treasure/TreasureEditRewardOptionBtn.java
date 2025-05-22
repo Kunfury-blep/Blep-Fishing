@@ -4,14 +4,12 @@ import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.objects.treasure.Casket;
-import com.kunfury.blepfishing.objects.treasure.TreasureType;
 import com.kunfury.blepfishing.ui.objects.buttons.AdminTreasureRewardMenuButton;
 import com.kunfury.blepfishing.ui.panels.admin.treasure.AdminTreasureEditRewardsPanel;
 import com.kunfury.blepfishing.ui.panels.admin.treasure.AdminTreasureEditRewardsSelectionPanel;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.block.data.type.Cake;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -78,12 +76,12 @@ public class TreasureEditRewardOptionBtn extends AdminTreasureRewardMenuButton {
     }
 
     protected void click_left() {
-        new AdminTreasureEditRewardsSelectionPanel(getCasket(), getReward()).Show(player);
+        new AdminTreasureEditRewardsSelectionPanel((Casket)getTreasureType(), getReward()).Show(player);
     }
 
     @Override
     protected void click_right_shift() {
-        Casket casket = getCasket();
+        Casket casket = (Casket) getTreasureType();
         var reward = getReward();
 
         if(!reward.ConfirmedDelete){

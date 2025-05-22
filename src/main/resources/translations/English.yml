@@ -166,6 +166,8 @@ UI:
       general: "General Settings"
       Treasure:
         base: "Treasure Admin Panel"
+        caskets: "Caskets Admin Panel"
+        allBlue: "All Blue Admin Panel"
         editCasket: "Edit {casket}"
     Buttons:
       panel: "&bAdmin Panel"
@@ -199,6 +201,7 @@ UI:
           lore: "Announces Catch To World"
         Weight:
           name: "&bWeight"
+          compassName: "&bCompass Piece Weight"
           lore: "Higher Weight, Easier to Catch"
           prompt: "What should the Treasure Weight be? Current: {amount}"
         Name:
@@ -215,6 +218,8 @@ UI:
             lore: "The percent chance the item will drop from casket"
             current: "&9Current: &f{amount}&9%"
             prompt: "What should the Item Drop Chance be? Current: {amount}"
+        caskets: "&bEdit Caskets"
+        allBlue: "&bEdit All Blue"
         createNew: "&bCreate New Treasure"
       General:
         showScoreboard: "&bShow Catch in Scoreboard"

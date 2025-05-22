@@ -4,8 +4,10 @@ import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.objects.treasure.Casket;
+import com.kunfury.blepfishing.objects.treasure.CompassPiece;
 import com.kunfury.blepfishing.objects.treasure.TreasureType;
 import com.kunfury.blepfishing.ui.objects.buttons.AdminTreasureMenuButton;
+import com.kunfury.blepfishing.ui.panels.admin.treasure.AdminTreasureAllBluePanel;
 import com.kunfury.blepfishing.ui.panels.admin.treasure.AdminTreasureEditPanel;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -18,9 +20,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
-public class TreasureEditWeightBtn extends AdminTreasureMenuButton {
-    public TreasureEditWeightBtn(Casket casket) {
-        super(casket);
+public class AllBlueEditWeightBtn extends AdminTreasureMenuButton {
+    public AllBlueEditWeightBtn(CompassPiece compassPiece) {
+        super(compassPiece);
     }
 
     @Override
@@ -29,9 +31,9 @@ public class TreasureEditWeightBtn extends AdminTreasureMenuButton {
         ItemMeta m = item.getItemMeta();
         assert m != null;
 
-        m.setDisplayName(Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.Weight.name"));
+        m.setDisplayName(Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.Weight.compassName"));
         ArrayList<String> lore = new ArrayList<>();
-        lore.add(ChatColor.BLUE.toString() + casket.Weight);
+        lore.add(ChatColor.BLUE.toString() + treasureType.Weight);
         lore.add("");
         lore.add(Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.Weight.lore"));
         m.setLore(lore);
@@ -62,7 +64,7 @@ public class TreasureEditWeightBtn extends AdminTreasureMenuButton {
         @NotNull
         @Override
         public String getPromptText(@NotNull ConversationContext context) {
-            TreasureType type = getCasket();
+            TreasureType type = getTreasureType();
             return Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.Weight.prompt")
                     .replace("{amount}", String.valueOf(type.Weight));
         }
@@ -75,11 +77,11 @@ public class TreasureEditWeightBtn extends AdminTreasureMenuButton {
         @Nullable
         @Override
         protected Prompt acceptValidatedInput(@NotNull ConversationContext conversationContext, @NotNull Number number) {
-            Casket casket = getCasket();
-            casket.Weight = number.intValue();
+            CompassPiece compassPiece = (CompassPiece) getTreasureType();
+            compassPiece.Weight = number.intValue();
 
             ConfigHandler.instance.treasureConfig.Save();
-            new AdminTreasureEditPanel(casket).Show(player);
+            new AdminTreasureAllBluePanel().Show(player);
 
             return END_OF_CONVERSATION;
         }

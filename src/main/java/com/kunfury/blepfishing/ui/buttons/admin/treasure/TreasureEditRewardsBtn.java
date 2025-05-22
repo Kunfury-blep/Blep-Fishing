@@ -2,10 +2,8 @@ package com.kunfury.blepfishing.ui.buttons.admin.treasure;
 
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.objects.treasure.Casket;
-import com.kunfury.blepfishing.objects.treasure.TreasureType;
 import com.kunfury.blepfishing.ui.objects.buttons.AdminTreasureMenuButton;
 import com.kunfury.blepfishing.ui.panels.admin.treasure.AdminTreasureEditRewardsPanel;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -32,6 +30,9 @@ public class TreasureEditRewardsBtn extends AdminTreasureMenuButton {
 
         int finishedRewards = 0;
         int unfinishedRewards = 0;
+
+        Casket casket = (Casket)treasureType;
+
 
         for(var i : casket.Rewards){
             if(i.Item == null && i.Cash == 0)
@@ -63,7 +64,7 @@ public class TreasureEditRewardsBtn extends AdminTreasureMenuButton {
     }
 
     protected void click_left() {
-        new AdminTreasureEditRewardsPanel(getCasket()).Show(player);
+        new AdminTreasureEditRewardsPanel((Casket)getTreasureType()).Show(player);
     }
 
 }

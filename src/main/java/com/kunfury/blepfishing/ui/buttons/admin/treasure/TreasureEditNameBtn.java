@@ -7,7 +7,6 @@ import com.kunfury.blepfishing.objects.treasure.Casket;
 import com.kunfury.blepfishing.objects.treasure.TreasureType;
 import com.kunfury.blepfishing.ui.objects.buttons.AdminTreasureMenuButton;
 import com.kunfury.blepfishing.ui.panels.admin.treasure.AdminTreasureEditPanel;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.conversations.*;
 import org.bukkit.entity.Player;
@@ -29,6 +28,9 @@ public class TreasureEditNameBtn extends AdminTreasureMenuButton {
         ItemStack item = new ItemStack(Material.NAME_TAG);
         ItemMeta m = item.getItemMeta();
         assert m != null;
+
+        Casket casket = (Casket)treasureType;
+
 
         m.setDisplayName(Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.Name.name"));
         ArrayList<String> lore = new ArrayList<>();
@@ -63,20 +65,23 @@ public class TreasureEditNameBtn extends AdminTreasureMenuButton {
         @NotNull
         @Override
         public String getPromptText(@NotNull ConversationContext context) {
+            Casket casket = (Casket) getTreasureType();
             return Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.Name.prompt")
-                    .replace("{name}", getCasket().Name);
+                    .replace("{name}", casket.Name);
         }
 
         @Override
         protected boolean isInputValid(@NotNull ConversationContext conversationContext, @NotNull String s) {
-            if(getCasket().Name.equals(s)) return true;
+            Casket casket = (Casket) getTreasureType();
+
+            if(casket.Name.equals(s)) return true;
             return !TreasureType.IdExists(Formatting.GetIdFromNames(s));
         }
 
         @Nullable
         @Override
         protected Prompt acceptValidatedInput(@NotNull ConversationContext conversationContext, @NotNull String s) {
-            Casket casket = getCasket();
+            Casket casket = (Casket) getTreasureType();
             String oldId = casket.Id;
             String oldName = casket.Name;
 

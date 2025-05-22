@@ -3,13 +3,11 @@ package com.kunfury.blepfishing.ui.buttons.admin.treasure;
 import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.helpers.Formatting;
-import com.kunfury.blepfishing.objects.TournamentType;
 import com.kunfury.blepfishing.objects.treasure.Casket;
 import com.kunfury.blepfishing.ui.objects.buttons.AdminTreasureMenuButton;
+import com.kunfury.blepfishing.ui.panels.admin.treasure.AdminTreasureCasketsPanel;
 import com.kunfury.blepfishing.ui.panels.admin.treasure.AdminTreasureEditPanel;
-import com.kunfury.blepfishing.ui.panels.admin.treasure.AdminTreasurePanel;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -28,6 +26,8 @@ public class AdminTreasureButton extends AdminTreasureMenuButton {
     public ItemStack buildItemStack(Player player) {
         ItemStack item = new ItemStack(Material.CHEST);
         ItemMeta m = item.getItemMeta();
+
+        Casket casket = (Casket)treasureType;
 
         if(casket.Name != null)
             m.setDisplayName(Formatting.formatColor(casket.Name));
@@ -61,7 +61,7 @@ public class AdminTreasureButton extends AdminTreasureMenuButton {
 
         lore.add("");
         lore.add(Formatting.GetLanguageString("UI.System.Buttons.edit"));
-        if(!casket.ConfirmedDelete)
+        if(!treasureType.ConfirmedDelete)
             lore.add(Formatting.GetLanguageString("UI.System.Buttons.delete"));
         else
             lore.add(Formatting.GetLanguageString("UI.System.Buttons.deleteConfirm"));
@@ -75,13 +75,13 @@ public class AdminTreasureButton extends AdminTreasureMenuButton {
 
     @Override
     protected void click_left() {
-        Casket casket = getCasket();
+        Casket casket = (Casket) getTreasureType();
         new AdminTreasureEditPanel(casket).Show(player);
     }
 
     @Override
     protected void click_right_shift() {
-        Casket casket = getCasket();
+        Casket casket = (Casket) getTreasureType();
 
         if(!casket.ConfirmedDelete){
             casket.ConfirmedDelete = true;
@@ -97,6 +97,6 @@ public class AdminTreasureButton extends AdminTreasureMenuButton {
                     .replace("{item}", casket.Id));
         }
 
-        new AdminTreasurePanel().Show(player);
+        new AdminTreasureCasketsPanel().Show(player);
     }
 }

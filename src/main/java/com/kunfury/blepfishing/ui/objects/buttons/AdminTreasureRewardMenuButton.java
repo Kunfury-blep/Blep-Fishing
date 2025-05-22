@@ -30,8 +30,10 @@ public abstract class AdminTreasureRewardMenuButton extends AdminTreasureMenuBut
         ItemMeta m = item.getItemMeta();
         assert m != null;
 
+        Casket casket = (Casket)treasureType;
+
         PersistentDataContainer dataContainer = m.getPersistentDataContainer();
-        dataContainer.set(ItemHandler.TreasureTypeId, PersistentDataType.STRING, casket.Id);
+        dataContainer.set(ItemHandler.TreasureTypeId, PersistentDataType.STRING, treasureType.Id);
         dataContainer.set(IndexKey, PersistentDataType.INTEGER, casket.Rewards.indexOf(Reward));
 
         m = setButtonId(m, getId());
@@ -46,6 +48,8 @@ public abstract class AdminTreasureRewardMenuButton extends AdminTreasureMenuBut
 
     protected Casket.TreasureReward getReward(){
         var index = ItemHandler.getTagInt(ClickedItem, IndexKey);
-        return getCasket().Rewards.get(index);
+        Casket casket = (Casket)getTreasureType();
+
+        return casket.Rewards.get(index);
     }
 }

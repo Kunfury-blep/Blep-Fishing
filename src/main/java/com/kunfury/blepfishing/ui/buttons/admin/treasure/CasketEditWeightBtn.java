@@ -4,8 +4,10 @@ import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.objects.treasure.Casket;
-import com.kunfury.blepfishing.ui.objects.buttons.AdminTreasureRewardMenuButton;
-import com.kunfury.blepfishing.ui.panels.admin.treasure.AdminTreasureEditRewardsSelectionPanel;
+import com.kunfury.blepfishing.objects.treasure.TreasureType;
+import com.kunfury.blepfishing.ui.objects.buttons.AdminTreasureMenuButton;
+import com.kunfury.blepfishing.ui.panels.admin.treasure.AdminTreasureEditPanel;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.conversations.*;
 import org.bukkit.entity.Player;
@@ -16,9 +18,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
-public class TreasureEditRewardDropChanceBtn extends AdminTreasureRewardMenuButton {
-    public TreasureEditRewardDropChanceBtn(Casket casket, Casket.TreasureReward reward) {
-        super(casket, reward);
+public class CasketEditWeightBtn extends AdminTreasureMenuButton {
+    public CasketEditWeightBtn(Casket casket) {
+        super(casket);
     }
 
     @Override
@@ -27,12 +29,11 @@ public class TreasureEditRewardDropChanceBtn extends AdminTreasureRewardMenuButt
         ItemMeta m = item.getItemMeta();
         assert m != null;
 
-        m.setDisplayName("Drop Chance");
+        m.setDisplayName(Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.Weight.name"));
         ArrayList<String> lore = new ArrayList<>();
-        lore.add(Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.Rewards.Drop Chance.current")
-                .replace("{amount}", String.valueOf(Reward.DropChance)));
+        lore.add(ChatColor.BLUE.toString() + treasureType.Weight);
         lore.add("");
-        lore.add(Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.Rewards.Announce.lore"));
+        lore.add(Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.Weight.lore"));
         m.setLore(lore);
         m = setButtonId(m, getId());
 
@@ -61,8 +62,9 @@ public class TreasureEditRewardDropChanceBtn extends AdminTreasureRewardMenuButt
         @NotNull
         @Override
         public String getPromptText(@NotNull ConversationContext context) {
-            return Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.Rewards.Drop Chance.prompt")
-                    .replace("{amount}", String.valueOf(getReward().DropChance));
+            TreasureType type = getTreasureType();
+            return Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.Weight.prompt")
+                    .replace("{amount}", String.valueOf(type.Weight));
         }
 
         @Override
@@ -74,11 +76,10 @@ public class TreasureEditRewardDropChanceBtn extends AdminTreasureRewardMenuButt
         @Override
         protected Prompt acceptValidatedInput(@NotNull ConversationContext conversationContext, @NotNull Number number) {
             Casket casket = (Casket) getTreasureType();
-            var reward = getReward();
-            reward.DropChance = number.doubleValue();
+            casket.Weight = number.intValue();
 
             ConfigHandler.instance.treasureConfig.Save();
-            new AdminTreasureEditRewardsSelectionPanel(casket, reward).Show(player);
+            new AdminTreasureEditPanel(casket).Show(player);
 
             return END_OF_CONVERSATION;
         }

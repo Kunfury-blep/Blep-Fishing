@@ -2,6 +2,7 @@ package com.kunfury.blepfishing.ui.objects.buttons;
 
 import com.kunfury.blepfishing.helpers.ItemHandler;
 import com.kunfury.blepfishing.objects.treasure.Casket;
+import com.kunfury.blepfishing.objects.treasure.TreasureType;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -11,9 +12,9 @@ import org.bukkit.persistence.PersistentDataType;
 
 public abstract class AdminTreasureMenuButton extends MenuButton {
 
-    protected Casket casket;
-    public AdminTreasureMenuButton(Casket casket){
-        this.casket = casket;
+    protected TreasureType treasureType;
+    public AdminTreasureMenuButton(TreasureType treasureType){
+        this.treasureType = treasureType;
     }
 
     @Override
@@ -23,7 +24,7 @@ public abstract class AdminTreasureMenuButton extends MenuButton {
         assert m != null;
 
         PersistentDataContainer dataContainer = m.getPersistentDataContainer();
-        dataContainer.set(ItemHandler.TreasureTypeId, PersistentDataType.STRING, casket.Id);
+        dataContainer.set(ItemHandler.TreasureTypeId, PersistentDataType.STRING, treasureType.Id);
 
         m = setButtonId(m, getId());
         item.setItemMeta(m);
@@ -35,8 +36,8 @@ public abstract class AdminTreasureMenuButton extends MenuButton {
         return "bf.admin";
     }
 
-    protected Casket getCasket(){
+    protected TreasureType getTreasureType(){
         String typeId = ItemHandler.getTagString(ClickedItem, ItemHandler.TreasureTypeId);
-        return Casket.FromId(typeId);
+        return TreasureType.FromId(typeId);
     }
 }
