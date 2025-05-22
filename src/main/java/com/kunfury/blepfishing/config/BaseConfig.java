@@ -35,6 +35,9 @@ public class BaseConfig {
         return config.getBoolean("Show Chat");
     }
     public boolean getActionBarScoreboard() { return config.getBoolean("Show Actionbar"); }
+    public boolean getShowFishingRodStats(){
+        return config.getBoolean("Show Fishing Rod Stats");
+    }
 
     public int getAllBlueRadius() {
         return config.getInt("All Blue.Radius");
@@ -56,10 +59,11 @@ public class BaseConfig {
         newConfig.set("Enable Fish Bags", getEnableFishBags());
         newConfig.set("Show Chat", getChatScoreboard());
         newConfig.set("Show Actionbar", getActionBarScoreboard());
+        newConfig.set("Show Fishing Rod Stats", getShowFishingRodStats());
 
         newConfig.set("All Blue.Radius", getAllBlueRadius());
         newConfig.set("All Blue.Area", getAllBlueArea().Id);
-        newConfig.set("All Blue.Radius", getAllBlueSizeBonus());
+        newConfig.set("All Blue.Size Bonus", getAllBlueSizeBonus());
 
 
         try {

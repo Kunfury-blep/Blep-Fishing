@@ -1,5 +1,6 @@
 package com.kunfury.blepfishing.objects.equipment;
 
+import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.database.Database;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.ItemHandler;
@@ -29,6 +30,9 @@ public class FishingRod {
     }
 
     public void UpdateRodItem(ItemStack rodItem){
+        if(!ConfigHandler.instance.baseConfig.getShowFishingRodStats())
+            return;
+
         ItemMeta m = rodItem.getItemMeta();
         assert m != null;
         m.setLore(GenerateLore());

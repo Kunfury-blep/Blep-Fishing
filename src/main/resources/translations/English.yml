@@ -221,6 +221,7 @@ UI:
         showChat: "&bShow Catch in Chat"
         showActionbar: "&bShow Catch in ActionBar"
         enableFishBags: "&bEnable Fish Bags"
+        showFishingRodStats: "&bShow Stats on Fishing Rod"
       Tournament:
         noTimes: "&cNo Start Times"
 
