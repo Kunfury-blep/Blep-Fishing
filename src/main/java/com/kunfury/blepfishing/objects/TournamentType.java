@@ -58,9 +58,9 @@ public class TournamentType {
     }
 
     //For creating new Tournaments in the GUI
-    public TournamentType(String id){
+    public TournamentType(String id, String name){
         Id = id;
-        Name = id;
+        Name = name;
         Duration = 1;
         FishTypeIds = new ArrayList<>();
         CashRewards = new HashMap<>();

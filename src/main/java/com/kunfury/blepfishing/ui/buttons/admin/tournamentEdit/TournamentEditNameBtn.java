@@ -28,7 +28,7 @@ public class TournamentEditNameBtn extends AdminTournamentMenuButton {
 
     @Override
     public ItemStack buildItemStack(Player player) {
-        ItemStack item = new ItemStack(Material.NAME_TAG);
+        ItemStack item = new ItemStack(Material.BOOK);
         ItemMeta m = item.getItemMeta();
         assert m != null;
 
@@ -56,13 +56,13 @@ public class TournamentEditNameBtn extends AdminTournamentMenuButton {
     private ConversationFactory getFactory(){
 
         return new ConversationFactory(BlepFishing.getPlugin())
-                .withFirstPrompt(new DurationPrompt())
+                .withFirstPrompt(new NamePrompt())
                 .withModality(true)
                 .withTimeout(60)
                 .thatExcludesNonPlayersWithMessage("This Conversation Factory is Player Only");
     }
 
-    private class DurationPrompt extends ValidatingPrompt {
+    private class NamePrompt extends StringPrompt {
 
         @NotNull
         @Override
@@ -70,27 +70,16 @@ public class TournamentEditNameBtn extends AdminTournamentMenuButton {
             return "What should the tournament name be? Current: " + getTournamentType().Name;
         }
 
-        @Override
-        protected boolean isInputValid(@NotNull ConversationContext conversationContext, @NotNull String s) {
-            if(getTournamentType().Name.equals(s)) return true;
-            return !TournamentType.IdExists(Formatting.GetIdFromNames(s));
-        }
-
         @Nullable
         @Override
-        protected Prompt acceptValidatedInput(@NotNull ConversationContext conversationContext, @NotNull String s) {
+        public Prompt acceptInput(@NotNull ConversationContext conversationContext, @Nullable String s) {
             TournamentType type = getTournamentType();
-            String oldId = type.Id;
             String oldName = type.Name;
 
             if(Objects.equals(oldName, s))
                 return END_OF_CONVERSATION; //If the name wasn't changed, no need to save
 
             type.Name = s;
-
-            type.Id = Formatting.GetIdFromNames(s);
-
-            TournamentType.UpdateId(oldId, type);
 
             ConfigHandler.instance.tourneyConfig.Save();
             new AdminTournamentEditPanel(type).Show(player);

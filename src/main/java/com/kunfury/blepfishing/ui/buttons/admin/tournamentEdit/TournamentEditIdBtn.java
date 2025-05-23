@@ -3,37 +3,45 @@ package com.kunfury.blepfishing.ui.buttons.admin.tournamentEdit;
 import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.helpers.Formatting;
-import com.kunfury.blepfishing.objects.FishType;
+import com.kunfury.blepfishing.helpers.ItemHandler;
 import com.kunfury.blepfishing.objects.TournamentType;
-import com.kunfury.blepfishing.ui.buttons.admin.fishEdit.AdminFishCreateButton;
-import com.kunfury.blepfishing.ui.objects.MenuButton;
-import com.kunfury.blepfishing.ui.panels.admin.fish.AdminFishEditPanel;
-import com.kunfury.blepfishing.ui.panels.admin.fish.AdminFishPanel;
+import com.kunfury.blepfishing.ui.objects.buttons.AdminTournamentMenuButton;
 import com.kunfury.blepfishing.ui.panels.admin.tournaments.AdminTournamentEditPanel;
 import com.kunfury.blepfishing.ui.panels.admin.tournaments.AdminTournamentPanel;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.conversations.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
-public class AdminTournamentCreateButton extends MenuButton {
+public class TournamentEditIdBtn extends AdminTournamentMenuButton {
+    public TournamentEditIdBtn(TournamentType tournamentType) {
+        super(tournamentType);
+    }
+
     @Override
     public ItemStack buildItemStack(Player player) {
-        Material mat = Material.TURTLE_SCUTE;
-
-        ItemStack item = new ItemStack(mat);
+        ItemStack item = new ItemStack(Material.NAME_TAG);
         ItemMeta m = item.getItemMeta();
         assert m != null;
 
-        m.setDisplayName("Create New Tournament");
+        m.setDisplayName("Tournament ID");
         ArrayList<String> lore = new ArrayList<>();
+        lore.add(ChatColor.BLUE + tournament.Id);
         m.setLore(lore);
-        m = setButtonId(m, getId());
+
+        PersistentDataContainer dataContainer = m.getPersistentDataContainer();
+        dataContainer.set(ItemHandler.TourneyTypeId, PersistentDataType.STRING, tournament.Id);
+
+
         item.setItemMeta(m);
 
         return item;
@@ -48,43 +56,46 @@ public class AdminTournamentCreateButton extends MenuButton {
     private ConversationFactory getFactory(){
 
         return new ConversationFactory(BlepFishing.getPlugin())
-                .withFirstPrompt(new NewTournamentPrompt())
+                .withFirstPrompt(new IdPrompt())
                 .withModality(true)
                 .withTimeout(60)
                 .thatExcludesNonPlayersWithMessage("This Conversation Factory is Player Only");
     }
 
-    private class NewTournamentPrompt extends StringPrompt {
+    private class IdPrompt extends ValidatingPrompt {
 
         @NotNull
         @Override
         public String getPromptText(@NotNull ConversationContext context) {
-            return Formatting.GetMessagePrefix() +  "What Should The New Tournament Be Named?";
+            return "What should the Tournament ID be? Current: " + getTournamentType().Id;
+        }
+
+        @Override
+        protected boolean isInputValid(@NotNull ConversationContext conversationContext, @NotNull String s) {
+            s = Formatting.FormatId(s);
+            if(getTournamentType().Id.equals(s)) return true;
+            return !TournamentType.IdExists(s);
         }
 
         @Nullable
         @Override
-        public Prompt acceptInput(@NotNull ConversationContext conversationContext, @Nullable String tournamentName) {
-            if(tournamentName == null){
+        protected Prompt acceptValidatedInput(@NotNull ConversationContext conversationContext, @NotNull String s) {
+            TournamentType type = getTournamentType();
+            String oldId = type.Id;
+            s = Formatting.FormatId(s);
+
+            if(Objects.equals(oldId, s)){
                 new AdminTournamentPanel().Show(player);
-                return END_OF_CONVERSATION;
+                return END_OF_CONVERSATION; //If the name wasn't changed, no need to save
             }
 
-            String initialId = Formatting.GetIdFromNames(tournamentName);
 
-            int i = 0;
-            String tournamentId = initialId;
-            while(TournamentType.IdExists(tournamentId)){
-                conversationContext.getForWhom().sendRawMessage(Formatting.GetMessagePrefix() + "Tournament with ID of " + tournamentId + " already exists. Changing to " + initialId + i);
-                tournamentId = initialId + i;
-                i++;
-            }
+            type.Id = s;
 
-            TournamentType tournamentType = new TournamentType(tournamentId, tournamentName);
-            TournamentType.AddNew(tournamentType);
+            TournamentType.UpdateId(oldId, type);
 
             ConfigHandler.instance.tourneyConfig.Save();
-            new AdminTournamentEditPanel(tournamentType).Show(player);
+            new AdminTournamentEditPanel(type).Show(player);
 
             return END_OF_CONVERSATION;
         }

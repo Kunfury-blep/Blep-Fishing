@@ -26,7 +26,7 @@ public class AdminAreaNameBtn extends AdminAreaMenuButton {
 
     @Override
     public ItemStack buildItemStack(Player player) {
-        ItemStack item = new ItemStack(Material.NAME_TAG);
+        ItemStack item = new ItemStack(Material.BOOK);
         ItemMeta m = item.getItemMeta();
         assert m != null;
 
@@ -55,25 +55,18 @@ public class AdminAreaNameBtn extends AdminAreaMenuButton {
                 .thatExcludesNonPlayersWithMessage("This Conversation Factory is Player Only");
     }
 
-    private class NamePrompt extends ValidatingPrompt {
+    private class NamePrompt extends StringPrompt {
 
         @NotNull
         @Override
         public String getPromptText(@NotNull ConversationContext context) {
-            return "What should the area name be? Current: " + getArea().Name;
-        }
-
-        @Override
-        protected boolean isInputValid(@NotNull ConversationContext conversationContext, @NotNull String s) {
-            if(getArea().Name.equals(s)) return true;
-            return !FishingArea.IdExists(Formatting.GetIdFromNames(s));
+            return "What should the Area Name be? Current: " + getArea().Name;
         }
 
         @Nullable
         @Override
-        protected Prompt acceptValidatedInput(@NotNull ConversationContext conversationContext, @NotNull String s) {
+        public Prompt acceptInput(@NotNull ConversationContext conversationContext, @Nullable String s) {
             FishingArea area = getArea();
-            String oldId = area.Id;
             String oldName = area.Name;
 
             if(Objects.equals(oldName, s)){
@@ -83,9 +76,6 @@ public class AdminAreaNameBtn extends AdminAreaMenuButton {
 
 
             area.Name = s;
-            area.Id = Formatting.GetIdFromNames(s);
-
-            FishingArea.UpdateId(oldId, area);
 
             ConfigHandler.instance.areaConfig.Save();
             new AdminAreasEditPanel(area).Show(player);

@@ -10,12 +10,13 @@ public class AdminFishEditPanel extends Panel {
 
     FishType fishType;
     public AdminFishEditPanel(FishType fishType){
-        super("Edit " + fishType.Name, 18);
+        super("Edit " + fishType.Name, 27);
         this.fishType = fishType;
     }
 
     @Override
     public void  BuildInventory(Player player) {
+        AddButton(new FishEditIdBtn(fishType), player);
         AddButton(new FishEditNameBtn(fishType), player);
         AddButton(new FishEditLoreBtn(fishType), player);
         AddButton(new FishEditAreaBtn(fishType), player);
@@ -27,6 +28,6 @@ public class AdminFishEditPanel extends Panel {
         AddButton(new FishEditHeightMaxBtn(fishType), player);
         AddButton(new FishEditRainingBtn(fishType), player);
 
-        inv.setItem(17, new AdminFishPanelButton(0).getBackButton(player));
+        AddFooter(new AdminFishPanelButton(0), null, null, player);
     }
 }

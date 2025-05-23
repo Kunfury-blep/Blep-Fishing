@@ -247,4 +247,8 @@ public class Formatting {
 		}
 		return numericPattern.matcher(arg).matches();
 	}
+
+	public static String FormatId(String id) {
+		return id.toLowerCase();
+	}
 }

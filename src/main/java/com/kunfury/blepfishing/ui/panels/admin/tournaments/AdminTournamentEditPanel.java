@@ -16,6 +16,7 @@ public class AdminTournamentEditPanel extends Panel {
 
     @Override
     public void BuildInventory(Player player) {
+        AddButton(new TournamentEditIdBtn(type), player);
         AddButton(new TournamentEditNameBtn(type), player);
         AddButton(new TournamentEditDurationBtn(type), player);
         AddButton(new TournamentEditFishTypesBtn(type), player);

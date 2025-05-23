@@ -4,6 +4,7 @@ import com.kunfury.blepfishing.objects.FishingArea;
 import com.kunfury.blepfishing.objects.Rarity;
 import com.kunfury.blepfishing.ui.buttons.admin.areas.*;
 import com.kunfury.blepfishing.ui.buttons.admin.rarities.AdminRaritiesPanelBtn;
+import com.kunfury.blepfishing.ui.buttons.admin.rarities.AdminRarityIdBtn;
 import com.kunfury.blepfishing.ui.objects.Panel;
 import org.bukkit.entity.Player;
 
@@ -18,6 +19,7 @@ public class AdminAreasEditPanel extends Panel {
     @Override
     public void  BuildInventory(Player player) {
 
+        AddButton(new AdminAreaIdBtn(area), player);
         AddButton(new AdminAreaNameBtn(area), player);
         AddButton(new AdminAreaBiomesBtn(area), player);
         AddButton(new AdminAreaCompassBtn(area), player);

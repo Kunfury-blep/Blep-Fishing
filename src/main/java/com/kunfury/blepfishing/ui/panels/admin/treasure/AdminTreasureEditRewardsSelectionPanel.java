@@ -1,7 +1,6 @@
 package com.kunfury.blepfishing.ui.panels.admin.treasure;
 
 import com.kunfury.blepfishing.objects.treasure.Casket;
-import com.kunfury.blepfishing.objects.treasure.TreasureType;
 import com.kunfury.blepfishing.ui.MenuHandler;
 import com.kunfury.blepfishing.ui.buttons.admin.treasure.*;
 import com.kunfury.blepfishing.ui.objects.Panel;
@@ -57,6 +56,6 @@ public class AdminTreasureEditRewardsSelectionPanel extends Panel {
 
 //        inv.setItem(InventorySize - 9, new TournamentEditRewardsCashBtn(type, placement).getItemStack(player));
         inv.setItem(InventorySize - 5, new TreasureEditRewardSaveBtn(casket, reward).getItemStack(player));
-        inv.setItem(InventorySize - 1, new TreasureEditRewardsBtn(casket).getBackButton(player));
+        inv.setItem(InventorySize - 1, new CasketEditRewardsBtn(casket).getBackButton(player));
     }
 }

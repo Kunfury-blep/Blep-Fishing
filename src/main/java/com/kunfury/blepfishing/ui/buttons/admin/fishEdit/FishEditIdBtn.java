@@ -1,43 +1,48 @@
-package com.kunfury.blepfishing.ui.buttons.admin.treasure;
+package com.kunfury.blepfishing.ui.buttons.admin.fishEdit;
 
 import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.helpers.Formatting;
-import com.kunfury.blepfishing.objects.treasure.Casket;
-import com.kunfury.blepfishing.objects.treasure.TreasureType;
-import com.kunfury.blepfishing.ui.objects.buttons.AdminTreasureMenuButton;
-import com.kunfury.blepfishing.ui.panels.admin.treasure.AdminTreasureEditPanel;
+import com.kunfury.blepfishing.helpers.ItemHandler;
+import com.kunfury.blepfishing.objects.FishType;
+import com.kunfury.blepfishing.ui.objects.buttons.AdminFishMenuButton;
+import com.kunfury.blepfishing.ui.panels.admin.fish.AdminFishEditPanel;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.conversations.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class TreasureEditNameBtn extends AdminTreasureMenuButton {
-    public TreasureEditNameBtn(Casket casket) {
-        super(casket);
+public class FishEditIdBtn extends AdminFishMenuButton {
+
+
+    public FishEditIdBtn(FishType fishType) {
+        super(fishType);
     }
 
     @Override
     public ItemStack buildItemStack(Player player) {
+
         ItemStack item = new ItemStack(Material.NAME_TAG);
         ItemMeta m = item.getItemMeta();
         assert m != null;
 
-        Casket casket = (Casket)treasureType;
-
-
-        m.setDisplayName(Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.Name.name"));
+        m.setDisplayName("Id");
         ArrayList<String> lore = new ArrayList<>();
-        lore.add(Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.Name.lore")
-                .replace("{name}", casket.Name));
+        lore.add(ChatColor.BLUE + String.valueOf(fishType.Id));
         m.setLore(lore);
         m = setButtonId(m, getId());
+
+        PersistentDataContainer dataContainer = m.getPersistentDataContainer();
+        dataContainer.set(ItemHandler.FishTypeId, PersistentDataType.STRING, fishType.Id);
 
 
         item.setItemMeta(m);
@@ -54,48 +59,45 @@ public class TreasureEditNameBtn extends AdminTreasureMenuButton {
     private ConversationFactory getFactory(){
 
         return new ConversationFactory(BlepFishing.getPlugin())
-                .withFirstPrompt(new DurationPrompt())
+                .withFirstPrompt(new IdPrompt())
                 .withModality(true)
                 .withTimeout(60)
                 .thatExcludesNonPlayersWithMessage("This Conversation Factory is Player Only");
     }
 
-    private class DurationPrompt extends ValidatingPrompt {
+    private class IdPrompt extends ValidatingPrompt {
 
         @NotNull
         @Override
         public String getPromptText(@NotNull ConversationContext context) {
-            Casket casket = (Casket) getTreasureType();
-            return Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.Name.prompt")
-                    .replace("{name}", casket.Name);
+            return "What should the fish ID be? Current: " + getFishType().Id;
         }
 
         @Override
         protected boolean isInputValid(@NotNull ConversationContext conversationContext, @NotNull String s) {
-            Casket casket = (Casket) getTreasureType();
-
-            if(casket.Name.equals(s)) return true;
-            return !TreasureType.IdExists(Formatting.GetIdFromNames(s));
+            s = Formatting.FormatId(s);
+            if(getFishType().Id.equals(s)) return true;
+            return !FishType.IdExists(s);
         }
 
         @Nullable
         @Override
         protected Prompt acceptValidatedInput(@NotNull ConversationContext conversationContext, @NotNull String s) {
-            Casket casket = (Casket) getTreasureType();
-            String oldId = casket.Id;
-            String oldName = casket.Name;
+            FishType type = getFishType();
+            String oldId = type.Id;
 
-            if(Objects.equals(oldName, s))
+            s = Formatting.FormatId(s);
+
+
+            if(Objects.equals(oldId, s))
                 return END_OF_CONVERSATION; //If the name wasn't changed, no need to save
 
-            casket.Name = s;
+            type.Id = s;
 
-            casket.Id = Formatting.GetIdFromNames(s);
+            FishType.UpdateId(oldId, type);
 
-            TreasureType.UpdateId(oldId, casket);
-
-            ConfigHandler.instance.treasureConfig.Save();
-            new AdminTreasureEditPanel(casket).Show(player);
+            ConfigHandler.instance.fishConfig.Save();
+            new AdminFishEditPanel(type).Show(player);
 
             return END_OF_CONVERSATION;
         }

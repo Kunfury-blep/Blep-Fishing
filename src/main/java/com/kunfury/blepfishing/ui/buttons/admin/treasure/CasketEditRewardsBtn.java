@@ -11,10 +11,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 
-public class TreasureEditRewardsBtn extends AdminTreasureMenuButton {
+public class CasketEditRewardsBtn extends AdminTreasureMenuButton {
 
 
-    public TreasureEditRewardsBtn(Casket casket) {
+    public CasketEditRewardsBtn(Casket casket) {
         super(casket);
     }
 

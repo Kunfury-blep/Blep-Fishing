@@ -1,11 +1,11 @@
-package com.kunfury.blepfishing.ui.buttons.admin.rarities;
+package com.kunfury.blepfishing.ui.buttons.admin.areas;
 
 import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.helpers.Formatting;
-import com.kunfury.blepfishing.objects.Rarity;
-import com.kunfury.blepfishing.ui.objects.buttons.AdminRarityMenuButton;
-import com.kunfury.blepfishing.ui.panels.admin.rarities.AdminRarityEditPanel;
+import com.kunfury.blepfishing.objects.FishingArea;
+import com.kunfury.blepfishing.ui.objects.buttons.AdminAreaMenuButton;
+import com.kunfury.blepfishing.ui.panels.admin.areas.AdminAreasEditPanel;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.conversations.*;
@@ -15,24 +15,25 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.text.Format;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class AdminRarityNameBtn extends AdminRarityMenuButton {
+public class AdminAreaIdBtn extends AdminAreaMenuButton {
 
-    public AdminRarityNameBtn(Rarity rarity) {
-        super(rarity);
+    public AdminAreaIdBtn(FishingArea area) {
+        super(area);
     }
 
     @Override
     public ItemStack buildItemStack(Player player) {
-        ItemStack item = new ItemStack(Material.BOOK);
+        ItemStack item = new ItemStack(Material.NAME_TAG);
         ItemMeta m = item.getItemMeta();
         assert m != null;
 
-        m.setDisplayName("Name");
+        m.setDisplayName(ChatColor.AQUA + "Area ID");
         ArrayList<String> lore = new ArrayList<>();
-        lore.add(ChatColor.BLUE + rarity.Name);
+        lore.add(ChatColor.BLUE + area.Id);
         m.setLore(lore);
 
         item.setItemMeta(m);
@@ -49,35 +50,46 @@ public class AdminRarityNameBtn extends AdminRarityMenuButton {
     private ConversationFactory getFactory(){
 
         return new ConversationFactory(BlepFishing.getPlugin())
-                .withFirstPrompt(new NamePrompt())
+                .withFirstPrompt(new IdPrompt())
                 .withModality(true)
                 .withTimeout(60)
                 .thatExcludesNonPlayersWithMessage("This Conversation Factory is Player Only");
     }
 
-    private class NamePrompt extends StringPrompt {
+    private class IdPrompt extends ValidatingPrompt {
 
         @NotNull
         @Override
         public String getPromptText(@NotNull ConversationContext context) {
-            return "What should the Rarity name be? Current: " + getRarity().Name;
+            return "What should the Area ID be? Current: " + getArea().Id;
+        }
+
+        @Override
+        protected boolean isInputValid(@NotNull ConversationContext conversationContext, @NotNull String s) {
+            s = Formatting.FormatId(s);
+
+            if(getArea().Id.equals(s)) return true;
+            return !FishingArea.IdExists(s);
         }
 
         @Nullable
         @Override
-        public Prompt acceptInput(@NotNull ConversationContext conversationContext, @Nullable String s) {
-            Rarity rarity = getRarity();
-            String oldName = rarity.Name;
+        protected Prompt acceptValidatedInput(@NotNull ConversationContext conversationContext, @NotNull String s) {
+            FishingArea area = getArea();
+            String oldId = area.Id;
+            s = Formatting.FormatId(s);
 
-            if(Objects.equals(oldName, s)){
-                new AdminRarityEditPanel(rarity).Show(player);
+            if(Objects.equals(oldId, s)){
+                new AdminAreasEditPanel(area).Show(player);
                 return END_OF_CONVERSATION; //If the name wasn't changed, no need to save
             }
 
-            rarity.Name = s;
+            area.Id = s;
 
-            ConfigHandler.instance.rarityConfig.Save();
-            new AdminRarityEditPanel(rarity).Show(player);
+            FishingArea.UpdateId(oldId, area);
+
+            ConfigHandler.instance.areaConfig.Save();
+            new AdminAreasEditPanel(area).Show(player);
 
             return END_OF_CONVERSATION;
         }

@@ -2,16 +2,11 @@ package com.kunfury.blepfishing.ui.panels.admin.treasure;
 
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.objects.treasure.Casket;
-import com.kunfury.blepfishing.objects.treasure.TreasureType;
 import com.kunfury.blepfishing.ui.buttons.admin.AdminPanelButton;
 import com.kunfury.blepfishing.ui.buttons.admin.treasure.AdminTreasureAllBluePanelBtn;
-import com.kunfury.blepfishing.ui.buttons.admin.treasure.AdminTreasureButton;
 import com.kunfury.blepfishing.ui.buttons.admin.treasure.AdminTreasureCasketsPanelBtn;
-import com.kunfury.blepfishing.ui.buttons.admin.treasure.AdminTreasureCreateButton;
 import com.kunfury.blepfishing.ui.objects.Panel;
 import org.bukkit.entity.Player;
-
-import java.util.Comparator;
 
 public class AdminTreasurePanel extends Panel {
     public AdminTreasurePanel() {

@@ -17,10 +17,11 @@ public class AdminTreasureEditPanel extends Panel {
 
     @Override
     public void BuildInventory(Player player) {
-        AddButton(new TreasureEditNameBtn(casket), player);
+        AddButton(new CasketEditIdBtn(casket), player);
+        AddButton(new CasketEditNameBtn(casket), player);
         AddButton(new CasketEditWeightBtn(casket), player);
         AddButton(new CasketEditAnnounceBtn(casket), player);
-        AddButton(new TreasureEditRewardsBtn(casket), player);
+        AddButton(new CasketEditRewardsBtn(casket), player);
 
         AddFooter(new AdminTreasureCasketsPanelBtn(), null, null, player);
     }

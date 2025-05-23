@@ -17,6 +17,7 @@ public class AdminRarityEditPanel extends Panel {
 
     @Override
     public void  BuildInventory(Player player) {
+        AddButton(new AdminRarityIdBtn(rarity), player);
         AddButton(new AdminRarityNameBtn(rarity), player);
         AddButton(new AdminRarityPrefixBtn(rarity), player);
         AddButton(new AdminRarityWeightBtn(rarity), player);

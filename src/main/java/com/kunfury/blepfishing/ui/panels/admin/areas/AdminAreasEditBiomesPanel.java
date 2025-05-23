@@ -13,8 +13,8 @@ import java.util.List;
 
 public class AdminAreasEditBiomesPanel extends PaginationPanel<Biome> {
 
-    private static final List<Biome> sortedBiomes = Arrays.stream(Biome.values())
-            .sorted(Comparator.comparing(Enum::name)).toList();
+    private static final List<Biome> sortedBiomes = Arrays.stream(Biome.values()).sorted(Comparator.comparing(biome -> biome.name())).toList();
+    //Arrays.stream().sorted(Comparator.comparing(Enum::name)).toList();
 
     FishingArea area;
     public AdminAreasEditBiomesPanel(FishingArea area, int page){

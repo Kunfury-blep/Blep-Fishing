@@ -220,7 +220,7 @@ UI:
             prompt: "What should the Item Drop Chance be? Current: {amount}"
         caskets: "&bEdit Caskets"
         allBlue: "&bEdit All Blue"
-        createNew: "&bCreate New Treasure"
+        createNew: "&bCreate New Treasure Casket"
       General:
         showScoreboard: "&bShow Catch in Scoreboard"
         showChat: "&bShow Catch in Chat"

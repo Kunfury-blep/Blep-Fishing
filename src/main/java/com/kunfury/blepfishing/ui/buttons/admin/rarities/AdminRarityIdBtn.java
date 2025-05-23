@@ -15,24 +15,25 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class AdminRarityNameBtn extends AdminRarityMenuButton {
+public class AdminRarityIdBtn extends AdminRarityMenuButton {
 
-    public AdminRarityNameBtn(Rarity rarity) {
+    public AdminRarityIdBtn(Rarity rarity) {
         super(rarity);
     }
 
     @Override
     public ItemStack buildItemStack(Player player) {
-        ItemStack item = new ItemStack(Material.BOOK);
+        ItemStack item = new ItemStack(Material.NAME_TAG);
         ItemMeta m = item.getItemMeta();
         assert m != null;
 
-        m.setDisplayName("Name");
+        m.setDisplayName("Rarity Id");
         ArrayList<String> lore = new ArrayList<>();
-        lore.add(ChatColor.BLUE + rarity.Name);
+        lore.add(ChatColor.BLUE + rarity.Id);
         m.setLore(lore);
 
         item.setItemMeta(m);
@@ -55,26 +56,36 @@ public class AdminRarityNameBtn extends AdminRarityMenuButton {
                 .thatExcludesNonPlayersWithMessage("This Conversation Factory is Player Only");
     }
 
-    private class NamePrompt extends StringPrompt {
+    private class NamePrompt extends ValidatingPrompt {
 
         @NotNull
         @Override
         public String getPromptText(@NotNull ConversationContext context) {
-            return "What should the Rarity name be? Current: " + getRarity().Name;
+            return "What should the Rarity ID be? Current: " + getRarity().Id;
+        }
+
+        @Override
+        protected boolean isInputValid(@NotNull ConversationContext conversationContext, @NotNull String s) {
+            s = Formatting.FormatId(s);
+            if(getRarity().Id.equals(s)) return true;
+            return !Rarity.IdExists(s);
         }
 
         @Nullable
         @Override
-        public Prompt acceptInput(@NotNull ConversationContext conversationContext, @Nullable String s) {
+        protected Prompt acceptValidatedInput(@NotNull ConversationContext conversationContext, @NotNull String s) {
             Rarity rarity = getRarity();
-            String oldName = rarity.Name;
+            String oldId = rarity.Id;
+            s = Formatting.FormatId(s);
 
-            if(Objects.equals(oldName, s)){
+            if(Objects.equals(oldId, s)){
                 new AdminRarityEditPanel(rarity).Show(player);
                 return END_OF_CONVERSATION; //If the name wasn't changed, no need to save
             }
 
-            rarity.Name = s;
+            rarity.Id = s;
+
+            Rarity.UpdateId(oldId, rarity);
 
             ConfigHandler.instance.rarityConfig.Save();
             new AdminRarityEditPanel(rarity).Show(player);
