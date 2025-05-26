@@ -157,14 +157,21 @@ public class Utilities {
     }
 
     public static void SellFish(Player player) {
-        ItemStack fishItem = player.getInventory().getItemInMainHand();
-        FishObject fish = FishObject.GetFromItem(fishItem);
+        ItemStack sellItem = player.getInventory().getItemInMainHand();
+
+        FishBag fishBag = FishBag.GetBag(sellItem);
+        if(fishBag != null){
+            SellFishBag(player, fishBag);
+            return;
+        }
+
+        FishObject fish = FishObject.GetFromItem(sellItem);
 
         if(fish == null){
             Utilities.SendPlayerMessage(player, Formatting.GetLanguageString("System.noFish"));
             return;
         }
-        fishItem.setAmount(0);
+        sellItem.setAmount(0);
 
         EconomyResponse r = BlepFishing.getEconomy().depositPlayer(player, fish.Value);
         if(!r.transactionSuccess())

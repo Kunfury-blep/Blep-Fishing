@@ -108,7 +108,7 @@ Economy:
   soldFish: "&bSold &f{fish}&b for &f$&2{value}&f."
   soldAllFish: "&bSold &f{amount}&b fish for &f$&2{value}&f."
   sellBagHint: "Sneak Right-Click to sell all fish in bag."
-  sellBagConfirm: "Sell all fish in bag? Sneak Right-Click again to confirm."
+  sellBagConfirm: "Sell All Fish in Bag? Repeat Action to Confirm."
 
 
 UI:
