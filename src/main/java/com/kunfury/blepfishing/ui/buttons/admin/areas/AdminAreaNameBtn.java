@@ -41,18 +41,8 @@ public class AdminAreaNameBtn extends AdminAreaMenuButton {
     }
 
     protected void click_left() {
-        Conversation convo = getFactory().buildConversation(player);
         player.closeInventory();
-        convo.begin();
-    }
-
-    private ConversationFactory getFactory(){
-
-        return new ConversationFactory(BlepFishing.getPlugin())
-                .withFirstPrompt(new NamePrompt())
-                .withModality(true)
-                .withTimeout(60)
-                .thatExcludesNonPlayersWithMessage("This Conversation Factory is Player Only");
+        getConversation(player, new NamePrompt()).begin();
     }
 
     private class NamePrompt extends StringPrompt {
@@ -60,7 +50,7 @@ public class AdminAreaNameBtn extends AdminAreaMenuButton {
         @NotNull
         @Override
         public String getPromptText(@NotNull ConversationContext context) {
-            return "What should the Area Name be? Current: " + getArea().Name;
+            return Formatting.GetMessagePrefix() + "What should the Area Name be? Current: " + getArea().Name;
         }
 
         @Nullable

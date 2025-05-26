@@ -20,4 +20,8 @@ public abstract class SubCommand {
 
     public abstract List<String> getAliases();
 
+    public boolean showTabComplete(){
+        return true;
+    }
+
 }

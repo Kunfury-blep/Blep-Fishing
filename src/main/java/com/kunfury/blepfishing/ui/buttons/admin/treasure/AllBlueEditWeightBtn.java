@@ -3,12 +3,10 @@ package com.kunfury.blepfishing.ui.buttons.admin.treasure;
 import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.helpers.Formatting;
-import com.kunfury.blepfishing.objects.treasure.Casket;
 import com.kunfury.blepfishing.objects.treasure.CompassPiece;
 import com.kunfury.blepfishing.objects.treasure.TreasureType;
 import com.kunfury.blepfishing.ui.objects.buttons.AdminTreasureMenuButton;
 import com.kunfury.blepfishing.ui.panels.admin.treasure.AdminTreasureAllBluePanel;
-import com.kunfury.blepfishing.ui.panels.admin.treasure.AdminTreasureEditPanel;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.conversations.*;
@@ -45,27 +43,17 @@ public class AllBlueEditWeightBtn extends AdminTreasureMenuButton {
     }
 
     protected void click_left() {
-        Conversation convo = getFactory().buildConversation(player);
         player.closeInventory();
-        convo.begin();
+        getConversation(player, new WeightPrompt()).begin();
     }
 
-    private ConversationFactory getFactory(){
-
-        return new ConversationFactory(BlepFishing.getPlugin())
-                .withFirstPrompt(new DurationPrompt())
-                .withModality(true)
-                .withTimeout(60)
-                .thatExcludesNonPlayersWithMessage("This Conversation Factory is Player Only");
-    }
-
-    private class DurationPrompt extends NumericPrompt {
+    private class WeightPrompt extends NumericPrompt {
 
         @NotNull
         @Override
         public String getPromptText(@NotNull ConversationContext context) {
             TreasureType type = getTreasureType();
-            return Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.Weight.prompt")
+            return Formatting.GetFormattedMessage("UI.Admin.Buttons.Treasure.Weight.prompt")
                     .replace("{amount}", String.valueOf(type.Weight));
         }
 

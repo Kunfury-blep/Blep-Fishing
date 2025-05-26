@@ -44,26 +44,16 @@ public class AdminRarityPrefixBtn extends AdminRarityMenuButton {
     }
 
     protected void click_left() {
-        Conversation convo = getFactory().buildConversation(player);
         player.closeInventory();
-        convo.begin();
+        getConversation(player, new PrefixPrompt()).begin();
     }
 
-    private ConversationFactory getFactory(){
-
-        return new ConversationFactory(BlepFishing.getPlugin())
-                .withFirstPrompt(new NamePrompt())
-                .withModality(true)
-                .withTimeout(60)
-                .thatExcludesNonPlayersWithMessage("This Conversation Factory is Player Only");
-    }
-
-    private class NamePrompt extends ValidatingPrompt {
+    private class PrefixPrompt extends ValidatingPrompt {
 
         @NotNull
         @Override
         public String getPromptText(@NotNull ConversationContext context) {
-            return "What should the Rarity prefix be? Current: " + getRarity().Prefix;
+            return Formatting.GetMessagePrefix() + "What should the Rarity prefix be? Current: " + getRarity().Prefix;
         }
 
         @Override

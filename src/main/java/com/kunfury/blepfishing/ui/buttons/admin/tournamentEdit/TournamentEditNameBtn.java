@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.checkerframework.checker.units.qual.N;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -48,18 +49,8 @@ public class TournamentEditNameBtn extends AdminTournamentMenuButton {
     }
 
     protected void click_left() {
-        Conversation convo = getFactory().buildConversation(player);
         player.closeInventory();
-        convo.begin();
-    }
-
-    private ConversationFactory getFactory(){
-
-        return new ConversationFactory(BlepFishing.getPlugin())
-                .withFirstPrompt(new NamePrompt())
-                .withModality(true)
-                .withTimeout(60)
-                .thatExcludesNonPlayersWithMessage("This Conversation Factory is Player Only");
+        getConversation(player, new NamePrompt()).begin();
     }
 
     private class NamePrompt extends StringPrompt {
@@ -67,7 +58,7 @@ public class TournamentEditNameBtn extends AdminTournamentMenuButton {
         @NotNull
         @Override
         public String getPromptText(@NotNull ConversationContext context) {
-            return "What should the tournament name be? Current: " + getTournamentType().Name;
+            return Formatting.GetMessagePrefix() + "What should the tournament name be? Current: " + getTournamentType().Name;
         }
 
         @Nullable

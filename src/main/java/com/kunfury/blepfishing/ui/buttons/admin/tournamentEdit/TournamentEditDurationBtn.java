@@ -47,18 +47,8 @@ public class TournamentEditDurationBtn extends AdminTournamentMenuButton {
     }
 
     protected void click_left() {
-        Conversation convo = getFactory().buildConversation(player);
         player.closeInventory();
-        convo.begin();
-    }
-
-    private ConversationFactory getFactory(){
-
-        return new ConversationFactory(BlepFishing.getPlugin())
-                .withFirstPrompt(new DurationPrompt())
-                .withModality(true)
-                .withTimeout(60)
-                .thatExcludesNonPlayersWithMessage("This Conversation Factory is Player Only");
+        getConversation(player, new DurationPrompt()).begin();
     }
 
     private class DurationPrompt extends NumericPrompt {
@@ -67,7 +57,7 @@ public class TournamentEditDurationBtn extends AdminTournamentMenuButton {
         @Override
         public String getPromptText(@NotNull ConversationContext context) {
             TournamentType type = getTournamentType();
-            return "How long should the " + type.Name + " tournament last, in hours? Current: " + Formatting.asTime(type.Duration, ChatColor.BLUE);
+            return Formatting.GetMessagePrefix() + "How long should the " + type.Name + " tournament last, in hours? Current: " + Formatting.asTime(type.Duration, ChatColor.BLUE);
         }
 
         @Override

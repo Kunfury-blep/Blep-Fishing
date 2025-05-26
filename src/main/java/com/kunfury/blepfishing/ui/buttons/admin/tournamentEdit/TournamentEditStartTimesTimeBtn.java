@@ -2,6 +2,7 @@ package com.kunfury.blepfishing.ui.buttons.admin.tournamentEdit;
 
 import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.config.ConfigHandler;
+import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.ItemHandler;
 import com.kunfury.blepfishing.objects.TournamentType;
 import com.kunfury.blepfishing.ui.objects.MenuButton;
@@ -83,9 +84,8 @@ public class TournamentEditStartTimesTimeBtn extends MenuButton {
 
     @Override
     protected void click_left() {
-        Conversation convo = getFactory().buildConversation(player);
         player.closeInventory();
-        convo.begin();
+        getConversation(player, new TimePrompt()).begin();
     }
 
     @Override
@@ -108,15 +108,6 @@ public class TournamentEditStartTimesTimeBtn extends MenuButton {
 
         ConfigHandler.instance.tourneyConfig.Save();
         new AdminTournamentEditStartTimesPanel(tournamentType, day).Show(player);
-    }
-
-    private ConversationFactory getFactory(){
-
-        return new ConversationFactory(BlepFishing.getPlugin())
-                .withFirstPrompt(new TimePrompt())
-                .withModality(true)
-                .withTimeout(60)
-                .thatExcludesNonPlayersWithMessage("This Conversation Factory is Player Only");
     }
 
     private class TimePrompt extends ValidatingPrompt {
@@ -144,7 +135,7 @@ public class TournamentEditStartTimesTimeBtn extends MenuButton {
 
             prompt.append(ChatColor.WHITE + "\nFormat: " + ChatColor.RED + "##" + ChatColor.WHITE + ":" + ChatColor.RED + "##");
 
-            return prompt.toString();
+            return Formatting.GetMessagePrefix() +  prompt;
         }
 
 

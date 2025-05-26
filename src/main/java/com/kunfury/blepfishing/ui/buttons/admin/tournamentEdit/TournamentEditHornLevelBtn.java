@@ -2,6 +2,7 @@ package com.kunfury.blepfishing.ui.buttons.admin.tournamentEdit;
 
 import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.config.ConfigHandler;
+import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.helpers.ItemHandler;
 import com.kunfury.blepfishing.objects.TournamentType;
 import com.kunfury.blepfishing.ui.objects.buttons.AdminTournamentMenuButton;
@@ -53,18 +54,8 @@ public class TournamentEditHornLevelBtn extends AdminTournamentMenuButton {
     }
 
     protected void click_left() {
-        Conversation convo = getFactory().buildConversation(player);
         player.closeInventory();
-        convo.begin();
-    }
-
-    private ConversationFactory getFactory(){
-
-        return new ConversationFactory(BlepFishing.getPlugin())
-                .withFirstPrompt(new HornLevelPrompt())
-                .withModality(true)
-                .withTimeout(60)
-                .thatExcludesNonPlayersWithMessage("This Conversation Factory is Player Only");
+        getConversation(player, new HornLevelPrompt()).begin();
     }
 
     private class HornLevelPrompt extends NumericPrompt {
@@ -73,7 +64,7 @@ public class TournamentEditHornLevelBtn extends AdminTournamentMenuButton {
         @Override
         public String getPromptText(@NotNull ConversationContext context) {
             TournamentType type = getTournamentType();
-            return ChatColor.AQUA + "What level [" + ChatColor.WHITE + "1-5" + ChatColor.AQUA + "] profession does a Fisherman Villager need to be to sell a horn for " + type.Name
+            return Formatting.GetMessagePrefix() +  "What level " + ChatColor.AQUA + "[" + ChatColor.WHITE + "1-5" + ChatColor.AQUA + "]" + ChatColor.WHITE + " profession does a Fisherman Villager need to be to sell a horn for " + type.Name
                     + "\nCurrent: " + ChatColor.WHITE + type.HornLevel;
         }
 

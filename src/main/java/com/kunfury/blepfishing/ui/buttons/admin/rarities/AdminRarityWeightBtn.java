@@ -44,18 +44,8 @@ public class AdminRarityWeightBtn extends AdminRarityMenuButton {
     }
 
     protected void click_left() {
-        Conversation convo = getFactory().buildConversation(player);
         player.closeInventory();
-        convo.begin();
-    }
-
-    private ConversationFactory getFactory(){
-
-        return new ConversationFactory(BlepFishing.getPlugin())
-                .withFirstPrompt(new WeightPrompt())
-                .withModality(true)
-                .withTimeout(60)
-                .thatExcludesNonPlayersWithMessage("This Conversation Factory is Player Only");
+        getConversation(player, new WeightPrompt()).begin();
     }
 
     private class WeightPrompt extends NumericPrompt {
@@ -63,7 +53,7 @@ public class AdminRarityWeightBtn extends AdminRarityMenuButton {
         @NotNull
         @Override
         public String getPromptText(@NotNull ConversationContext context) {
-            return "What should the Rarity weight be? Current: " + getRarity().Weight;
+            return Formatting.GetMessagePrefix() + "What should the Rarity weight be? Current: " + getRarity().Weight;
         }
 
         @Override

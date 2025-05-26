@@ -50,18 +50,8 @@ public class FishEditNameBtn extends AdminFishMenuButton {
     }
 
     protected void click_left() {
-        Conversation convo = getFactory().buildConversation(player);
         player.closeInventory();
-        convo.begin();
-    }
-
-    private ConversationFactory getFactory(){
-
-        return new ConversationFactory(BlepFishing.getPlugin())
-                .withFirstPrompt(new NamePrompt())
-                .withModality(true)
-                .withTimeout(60)
-                .thatExcludesNonPlayersWithMessage("This Conversation Factory is Player Only");
+        getConversation(player, new NamePrompt()).begin();
     }
 
     private class NamePrompt extends StringPrompt {
@@ -69,7 +59,7 @@ public class FishEditNameBtn extends AdminFishMenuButton {
         @NotNull
         @Override
         public String getPromptText(@NotNull ConversationContext context) {
-            return "What should the fish name be? Current: " + getFishType().Name;
+            return Formatting.GetMessagePrefix() + "What should the fish name be? Current: " + getFishType().Name;
         }
 
         @Nullable

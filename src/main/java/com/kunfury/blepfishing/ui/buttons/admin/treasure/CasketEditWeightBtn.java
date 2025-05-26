@@ -43,27 +43,17 @@ public class CasketEditWeightBtn extends AdminTreasureMenuButton {
     }
 
     protected void click_left() {
-        Conversation convo = getFactory().buildConversation(player);
         player.closeInventory();
-        convo.begin();
+        getConversation(player, new WeightPrompt()).begin();
     }
 
-    private ConversationFactory getFactory(){
-
-        return new ConversationFactory(BlepFishing.getPlugin())
-                .withFirstPrompt(new DurationPrompt())
-                .withModality(true)
-                .withTimeout(60)
-                .thatExcludesNonPlayersWithMessage("This Conversation Factory is Player Only");
-    }
-
-    private class DurationPrompt extends NumericPrompt {
+    private class WeightPrompt extends NumericPrompt {
 
         @NotNull
         @Override
         public String getPromptText(@NotNull ConversationContext context) {
             TreasureType type = getTreasureType();
-            return Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.Weight.prompt")
+            return Formatting.GetFormattedMessage("UI.Admin.Buttons.Treasure.Weight.prompt")
                     .replace("{amount}", String.valueOf(type.Weight));
         }
 

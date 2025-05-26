@@ -15,7 +15,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -42,26 +41,16 @@ public class AdminRarityIdBtn extends AdminRarityMenuButton {
     }
 
     protected void click_left() {
-        Conversation convo = getFactory().buildConversation(player);
         player.closeInventory();
-        convo.begin();
+        getConversation(player, new IdPrompt()).begin();
     }
 
-    private ConversationFactory getFactory(){
-
-        return new ConversationFactory(BlepFishing.getPlugin())
-                .withFirstPrompt(new NamePrompt())
-                .withModality(true)
-                .withTimeout(60)
-                .thatExcludesNonPlayersWithMessage("This Conversation Factory is Player Only");
-    }
-
-    private class NamePrompt extends ValidatingPrompt {
+    private class IdPrompt extends ValidatingPrompt {
 
         @NotNull
         @Override
         public String getPromptText(@NotNull ConversationContext context) {
-            return "What should the Rarity ID be? Current: " + getRarity().Id;
+            return Formatting.GetMessagePrefix() + "What should the Rarity ID be? Current: " + getRarity().Id;
         }
 
         @Override

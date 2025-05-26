@@ -28,7 +28,8 @@ public class CommandManager implements TabExecutor {
                 new SellAllSubCommand(),
                 new SellForSubCommand(),
                 new SpawnSubCommand(),
-                new ToggleBossBarSubCommand()
+                new ToggleBossBarSubCommand(),
+                new CancelConversationSubCommand()
         );
     }
 
@@ -54,7 +55,8 @@ public class CommandManager implements TabExecutor {
 
         if(args.length == 1){
             for(SubCommand subCommand : subCommands)
-                if(CheckPermissions(sender, subCommand.getPermissions())
+                if(subCommand.showTabComplete()
+                    && CheckPermissions(sender, subCommand.getPermissions())
                     && subCommand.getName().toUpperCase().contains((args[0].toUpperCase()))){
                     optionList.add(subCommand.getName());
                 }

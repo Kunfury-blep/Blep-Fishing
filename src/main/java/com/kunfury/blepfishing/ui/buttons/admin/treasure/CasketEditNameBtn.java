@@ -44,18 +44,8 @@ public class CasketEditNameBtn extends AdminTreasureMenuButton {
     }
 
     protected void click_left() {
-        Conversation convo = getFactory().buildConversation(player);
         player.closeInventory();
-        convo.begin();
-    }
-
-    private ConversationFactory getFactory(){
-
-        return new ConversationFactory(BlepFishing.getPlugin())
-                .withFirstPrompt(new NamePrompt())
-                .withModality(true)
-                .withTimeout(60)
-                .thatExcludesNonPlayersWithMessage("This Conversation Factory is Player Only");
+        getConversation(player, new NamePrompt()).begin();
     }
 
     private class NamePrompt extends StringPrompt {
@@ -64,7 +54,7 @@ public class CasketEditNameBtn extends AdminTreasureMenuButton {
         @Override
         public String getPromptText(@NotNull ConversationContext context) {
             Casket casket = (Casket) getTreasureType();
-            return Formatting.GetLanguageString("UI.Admin.Buttons.Treasure.Name.prompt")
+            return Formatting.GetFormattedMessage("UI.Admin.Buttons.Treasure.Name.prompt")
                     .replace("{name}", casket.Name);
         }
 

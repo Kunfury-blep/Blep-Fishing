@@ -2,6 +2,7 @@ package com.kunfury.blepfishing.ui.buttons.admin.tournamentEdit;
 
 import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.config.ConfigHandler;
+import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.objects.TournamentType;
 import com.kunfury.blepfishing.ui.objects.buttons.AdminTournamentRewardsMenuButton;
 import com.kunfury.blepfishing.ui.panels.admin.tournaments.AdminTournamentEditRewardsPlacementPanel;
@@ -42,18 +43,8 @@ public class TournamentEditRewardsCashBtn extends AdminTournamentRewardsMenuButt
     }
 
     protected void click_left() {
-        Conversation convo = getFactory().buildConversation(player);
         player.closeInventory();
-        convo.begin();
-    }
-
-    private ConversationFactory getFactory(){
-
-        return new ConversationFactory(BlepFishing.getPlugin())
-                .withFirstPrompt(new CashPrompt())
-                .withModality(true)
-                .withTimeout(60)
-                .thatExcludesNonPlayersWithMessage("This Conversation Factory is Player Only");
+        getConversation(player, new CashPrompt()).begin();
     }
 
     private class CashPrompt extends NumericPrompt {
@@ -63,7 +54,7 @@ public class TournamentEditRewardsCashBtn extends AdminTournamentRewardsMenuButt
         public String getPromptText(@NotNull ConversationContext context) {
             TournamentType type = getTournamentType();
             int placement = getPlacement();
-            return "What should the reward for #" + placement + " in the tournament be? Current: " + type.CashRewards.get(placement);
+            return Formatting.GetMessagePrefix() + "What should the reward for #" + placement + " in the tournament be? Current: " + type.CashRewards.get(placement);
         }
 
         @Override

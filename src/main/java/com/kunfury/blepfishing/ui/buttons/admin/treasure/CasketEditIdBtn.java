@@ -5,6 +5,7 @@ import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.objects.treasure.Casket;
 import com.kunfury.blepfishing.objects.treasure.TreasureType;
+import com.kunfury.blepfishing.ui.buttons.admin.areas.AdminAreaIdBtn;
 import com.kunfury.blepfishing.ui.objects.buttons.AdminTreasureMenuButton;
 import com.kunfury.blepfishing.ui.panels.admin.tournaments.AdminTournamentPanel;
 import com.kunfury.blepfishing.ui.panels.admin.treasure.AdminTreasureCasketsPanel;
@@ -47,18 +48,8 @@ public class CasketEditIdBtn extends AdminTreasureMenuButton {
     }
 
     protected void click_left() {
-        Conversation convo = getFactory().buildConversation(player);
         player.closeInventory();
-        convo.begin();
-    }
-
-    private ConversationFactory getFactory(){
-
-        return new ConversationFactory(BlepFishing.getPlugin())
-                .withFirstPrompt(new IdPrompt())
-                .withModality(true)
-                .withTimeout(60)
-                .thatExcludesNonPlayersWithMessage("This Conversation Factory is Player Only");
+        getConversation(player, new IdPrompt()).begin();
     }
 
     private class IdPrompt extends ValidatingPrompt {
@@ -67,7 +58,7 @@ public class CasketEditIdBtn extends AdminTreasureMenuButton {
         @Override
         public String getPromptText(@NotNull ConversationContext context) {
             Casket casket = (Casket) getTreasureType();
-            return "What should the Casket ID be? Current: " + casket.Id;
+            return Formatting.GetMessagePrefix() +  "What should the Casket ID be? Current: " + casket.Id;
         }
 
         @Override

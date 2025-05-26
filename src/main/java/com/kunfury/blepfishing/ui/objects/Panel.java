@@ -12,7 +12,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public abstract class Panel {
 
@@ -43,6 +45,9 @@ public abstract class Panel {
             }
         }
         player.openInventory(inv);
+
+        Panels.put(player.getUniqueId(), this);
+
 
         if(Refresh){
             new BukkitRunnable() {
@@ -106,4 +111,15 @@ public abstract class Panel {
     }
 
     public Inventory GetInventory(){ return inv; }
+
+    public static HashMap<UUID, Panel> Panels = new HashMap<>();
+    public static void OpenLast(Player player){
+        var playerId = player.getUniqueId();
+        if(!Panels.containsKey(playerId))
+            return;
+
+        var panel = Panels.get(playerId);
+        panel.slot = 0;
+        panel.Show(player);
+    }
 }

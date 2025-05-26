@@ -40,19 +40,8 @@ public class AdminTournamentCreateButton extends MenuButton {
     }
 
     protected void click_left() {
-        Conversation convo = getFactory().buildConversation(player);
         player.closeInventory();
-        convo.begin();
-    }
-
-    private ConversationFactory getFactory(){
-
-        return new ConversationFactory(BlepFishing.getPlugin())
-                .withFirstPrompt(new NewTournamentPrompt())
-                .withModality(true)
-                .withTimeout(60)
-                .thatExcludesNonPlayersWithMessage("This Conversation Factory is Player Only");
-    }
+        getConversation(player, new NewTournamentPrompt()).begin();    }
 
     private class NewTournamentPrompt extends StringPrompt {
 

@@ -2,6 +2,7 @@ package com.kunfury.blepfishing.ui.buttons.admin.fishEdit;
 
 import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.config.ConfigHandler;
+import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.ui.objects.buttons.AdminFishMenuButton;
 import com.kunfury.blepfishing.ui.panels.admin.fish.AdminFishEditPanel;
 import com.kunfury.blepfishing.helpers.ItemHandler;
@@ -50,21 +51,12 @@ public class FishEditHeightMaxBtn extends AdminFishMenuButton {
     }
 
     protected void click_left() {
-        Conversation convo = getFactory().buildConversation(player);
         player.closeInventory();
-        convo.begin();
+        getConversation(player, new HeightPrompt()).begin();
+
     }
 
-    private ConversationFactory getFactory(){
-
-        return new ConversationFactory(BlepFishing.getPlugin())
-                .withFirstPrompt(new DurationPrompt())
-                .withModality(true)
-                .withTimeout(60)
-                .thatExcludesNonPlayersWithMessage("This Conversation Factory is Player Only");
-    }
-
-    private class DurationPrompt extends NumericPrompt {
+    private class HeightPrompt extends NumericPrompt {
 
         @NotNull
         @Override
@@ -74,7 +66,7 @@ public class FishEditHeightMaxBtn extends AdminFishMenuButton {
             if(heightMax == 1000)
                 heightMax = 0;
 
-            return "What should the maximum height of a " + type.Name + " be? Current: " + heightMax + " | 0 to ignore.";
+            return Formatting.GetMessagePrefix() + "What should the maximum height of a " + type.Name + " be? Current: " + heightMax + " | 0 to ignore.";
         }
 
         @Override

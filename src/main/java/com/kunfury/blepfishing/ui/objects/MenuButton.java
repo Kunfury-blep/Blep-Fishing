@@ -7,9 +7,16 @@ import com.kunfury.blepfishing.helpers.ItemHandler;
 import com.kunfury.blepfishing.objects.FishType;
 import com.kunfury.blepfishing.objects.TournamentType;
 import com.kunfury.blepfishing.ui.MenuHandler;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.conversations.Conversation;
+import org.bukkit.conversations.ConversationFactory;
+import org.bukkit.conversations.Prompt;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -19,7 +26,9 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public abstract class MenuButton {
 
@@ -168,5 +177,45 @@ public abstract class MenuButton {
             }
         }
         return null;
+    }
+
+    private static final HashMap<UUID, Conversation> Conversations = new HashMap<>();
+
+    public static void CancelConversation(Player player){
+        var playerId = player.getUniqueId();
+
+
+        if(!Conversations.containsKey(playerId)){
+            player.sendMessage(Formatting.GetMessagePrefix() + "No Valid Conversation Found");
+            return;
+        }
+
+
+        var convo = Conversations.get(playerId);
+        Conversations.remove(playerId);
+        convo.abandon();
+//        player.sendMessage( Formatting.GetMessagePrefix() + "Active Conversation Cancelled");
+        Panel.OpenLast(player);
+    }
+
+    private ConversationFactory getFactory(Prompt prompt){
+        return new ConversationFactory(BlepFishing.getPlugin())
+            .withFirstPrompt(prompt)
+            .withModality(true)
+            .withTimeout(60)
+            .withEscapeSequence("cancel")
+            .thatExcludesNonPlayersWithMessage("This Conversation Factory is Player Only");
+    }
+
+    protected Conversation getConversation(Player player, Prompt prompt){
+        TextComponent message = new TextComponent(Formatting.GetMessagePrefix() +  ChatColor.RED + "[CANCEL]");
+        message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/bf CancelConversation"));
+        message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Click to Cancel Conversation")));
+
+        player.spigot().sendMessage(message);
+
+        Conversation convo = getFactory(prompt).buildConversation(player);
+        Conversations.put(player.getUniqueId(), convo);
+        return convo;
     }
 }

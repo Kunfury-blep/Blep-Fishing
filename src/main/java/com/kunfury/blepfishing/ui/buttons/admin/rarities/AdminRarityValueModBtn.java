@@ -46,18 +46,8 @@ public class AdminRarityValueModBtn extends AdminRarityMenuButton {
     }
 
     protected void click_left() {
-        Conversation convo = getFactory().buildConversation(player);
         player.closeInventory();
-        convo.begin();
-    }
-
-    private ConversationFactory getFactory(){
-
-        return new ConversationFactory(BlepFishing.getPlugin())
-                .withFirstPrompt(new ValueModPrompt())
-                .withModality(true)
-                .withTimeout(60)
-                .thatExcludesNonPlayersWithMessage("This Conversation Factory is Player Only");
+        getConversation(player, new ValueModPrompt()).begin();
     }
 
     private class ValueModPrompt extends NumericPrompt {
@@ -65,7 +55,7 @@ public class AdminRarityValueModBtn extends AdminRarityMenuButton {
         @NotNull
         @Override
         public String getPromptText(@NotNull ConversationContext context) {
-            return "What should the Value Mod be? Current: " + Formatting.DoubleFormat(getRarity().ValueMod);
+            return Formatting.GetMessagePrefix() + "What should the Value Mod be? Current: " + Formatting.DoubleFormat(getRarity().ValueMod);
         }
 
         @Override

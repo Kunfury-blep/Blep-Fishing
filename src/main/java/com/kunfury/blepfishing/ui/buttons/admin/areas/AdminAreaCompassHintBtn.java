@@ -4,6 +4,7 @@ import com.kunfury.blepfishing.BlepFishing;
 import com.kunfury.blepfishing.config.ConfigHandler;
 import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.objects.FishingArea;
+import com.kunfury.blepfishing.ui.buttons.admin.treasure.CasketEditIdBtn;
 import com.kunfury.blepfishing.ui.objects.buttons.AdminAreaMenuButton;
 import com.kunfury.blepfishing.ui.panels.admin.areas.AdminAreasEditPanel;
 import org.bukkit.ChatColor;
@@ -41,26 +42,16 @@ public class AdminAreaCompassHintBtn extends AdminAreaMenuButton {
     }
 
     protected void click_left() {
-        Conversation convo = getFactory().buildConversation(player);
         player.closeInventory();
-        convo.begin();
+        getConversation(player, new HintPrompt()).begin();
     }
 
-    private ConversationFactory getFactory(){
-
-        return new ConversationFactory(BlepFishing.getPlugin())
-                .withFirstPrompt(new NamePrompt())
-                .withModality(true)
-                .withTimeout(60)
-                .thatExcludesNonPlayersWithMessage("This Conversation Factory is Player Only");
-    }
-
-    private class NamePrompt extends StringPrompt {
+    private class HintPrompt extends StringPrompt {
 
         @NotNull
         @Override
         public String getPromptText(@NotNull ConversationContext context) {
-            return "What should the compass hint be? Current: " + getArea().CompassHint;
+            return Formatting.GetMessagePrefix() + "What should the compass hint be? Current: " + getArea().CompassHint;
         }
 
         @Nullable

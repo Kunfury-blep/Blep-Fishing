@@ -6,6 +6,8 @@ import com.kunfury.blepfishing.helpers.Formatting;
 import com.kunfury.blepfishing.objects.FishingArea;
 import com.kunfury.blepfishing.ui.objects.buttons.AdminAreaMenuButton;
 import com.kunfury.blepfishing.ui.panels.admin.areas.AdminAreasEditPanel;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.conversations.*;
@@ -42,18 +44,8 @@ public class AdminAreaIdBtn extends AdminAreaMenuButton {
     }
 
     protected void click_left() {
-        Conversation convo = getFactory().buildConversation(player);
         player.closeInventory();
-        convo.begin();
-    }
-
-    private ConversationFactory getFactory(){
-
-        return new ConversationFactory(BlepFishing.getPlugin())
-                .withFirstPrompt(new IdPrompt())
-                .withModality(true)
-                .withTimeout(60)
-                .thatExcludesNonPlayersWithMessage("This Conversation Factory is Player Only");
+        getConversation(player, new IdPrompt()).begin();
     }
 
     private class IdPrompt extends ValidatingPrompt {
@@ -61,7 +53,7 @@ public class AdminAreaIdBtn extends AdminAreaMenuButton {
         @NotNull
         @Override
         public String getPromptText(@NotNull ConversationContext context) {
-            return "What should the Area ID be? Current: " + getArea().Id;
+            return Formatting.GetMessagePrefix() + "What should the Area ID be? Current: " + getArea().Id;
         }
 
         @Override
