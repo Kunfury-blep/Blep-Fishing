@@ -96,6 +96,7 @@ public class FishingListener implements Listener {
         Integer rodId = GetRodId(player);
 
         FishObject caughtFish = fishType.GenerateFish(rarity, e.getPlayer().getUniqueId(), rodId, allBlue);
+        UpdateHeldRodStats(player, rodId);
 
         FishBag fishBag = FishBag.GetBag(player);
         if(fishBag != null){
@@ -218,6 +219,11 @@ public class FishingListener implements Listener {
         if(ItemHandler.hasTag(rodItem, ItemHandler.FishRodId)){
             int rodId = ItemHandler.getTagInt(rodItem, ItemHandler.FishRodId);
             fishingRod = Database.Rods.Get(rodId);
+            if(fishingRod == null){
+                Bukkit.getLogger().warning(Formatting.GetMessagePrefix() + "Found orphaned fishing rod tag for " + player.getName()
+                        + " (rodId=" + rodId + "). Reinitializing rod metadata.");
+                fishingRod = FishingRod.InitialSetup(rodItem, player);
+            }
         }else
             fishingRod = FishingRod.InitialSetup(rodItem, player);
 
@@ -228,5 +234,29 @@ public class FishingListener implements Listener {
         }
         fishingRod.UpdateRodItem(rodItem);
         return fishingRod.Id;
+    }
+
+    private void UpdateHeldRodStats(Player player, Integer rodId){
+        if(rodId == null)
+            return;
+
+        FishingRod fishingRod = Database.Rods.Get(rodId);
+        if(fishingRod == null)
+            return;
+
+        PlayerInventory pInv = player.getInventory();
+        ItemStack mainHand = pInv.getItemInMainHand();
+        ItemStack offHand = pInv.getItemInOffHand();
+
+        if(mainHand.getType() == Material.FISHING_ROD && ItemHandler.hasTag(mainHand, ItemHandler.FishRodId)
+                && ItemHandler.getTagInt(mainHand, ItemHandler.FishRodId) == rodId){
+            fishingRod.UpdateRodItem(mainHand);
+            return;
+        }
+
+        if(offHand.getType() == Material.FISHING_ROD && ItemHandler.hasTag(offHand, ItemHandler.FishRodId)
+                && ItemHandler.getTagInt(offHand, ItemHandler.FishRodId) == rodId){
+            fishingRod.UpdateRodItem(offHand);
+        }
     }
 }
