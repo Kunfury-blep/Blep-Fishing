@@ -83,6 +83,7 @@ public class Rarity {
 
     public static void Clear() {
         Rarities.clear();
+        RarityTotalWeight = 0;
     }
 
     public static void UpdateId(String oldId, Rarity rarity){

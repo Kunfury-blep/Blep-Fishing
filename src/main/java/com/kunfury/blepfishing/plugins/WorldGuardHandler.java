@@ -21,6 +21,7 @@ import com.sk89q.worldguard.protection.regions.RegionQuery;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.checkerframework.checker.units.qual.A;
 
@@ -173,15 +174,25 @@ public class WorldGuardHandler {
         return endgame.get();
     }
 
-    public static boolean canFish(Location loc){
+    public static boolean canFish(Player player, Location loc){
+        if (player == null || loc == null) return true;
+
         World world = loc.getWorld();
         if(world == null) return true;
+        if (!(BF_FISHING instanceof StateFlag)) return true;
 
-        com.sk89q.worldedit.util.Location wgLoc = new com.sk89q.worldedit.util.Location(BukkitAdapter.adapt(world), BukkitAdapter.asBlockVector(loc).toVector3());
+        com.sk89q.worldedit.util.Location wgLoc = new com.sk89q.worldedit.util.Location(
+                BukkitAdapter.adapt(world),
+                BukkitAdapter.asBlockVector(loc).toVector3());
 
         RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
         RegionQuery query = container.createQuery();
 
-        return query.testState(wgLoc, null, (StateFlag) BF_FISHING);
+        try {
+            return query.testState(wgLoc, WorldGuardPlugin.inst().wrapPlayer(player), (StateFlag) BF_FISHING);
+        } catch (Throwable t) {
+            // Soft-fail so fishing never crashes if WG internals or flags are temporarily unavailable.
+            return true;
+        }
     }
 }

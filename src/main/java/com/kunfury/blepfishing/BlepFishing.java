@@ -13,7 +13,6 @@ import com.kunfury.blepfishing.listeners.*;
 import com.kunfury.blepfishing.plugins.Metrics;
 import com.kunfury.blepfishing.plugins.PluginHandler;
 import com.kunfury.blepfishing.plugins.WorldGuardHandler;
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
@@ -43,9 +42,11 @@ public final class BlepFishing extends JavaPlugin {
     @Override
     public void onLoad() {
         Plugin worldGuardPlugin = Bukkit.getPluginManager().getPlugin("WorldGuard");
-
-        if((worldGuardPlugin instanceof WorldGuardPlugin))
+        Plugin worldEditPlugin = Bukkit.getPluginManager().getPlugin("WorldEdit");
+        if (worldGuardPlugin != null && worldGuardPlugin.isEnabled()
+                && worldEditPlugin != null && worldEditPlugin.isEnabled()) {
             new WorldGuardHandler().Load();
+        }
     }
 
     @Override

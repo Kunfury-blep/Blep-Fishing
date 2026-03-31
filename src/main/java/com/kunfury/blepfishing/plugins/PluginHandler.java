@@ -1,7 +1,6 @@
 package com.kunfury.blepfishing.plugins;
 
 import com.kunfury.blepfishing.BlepFishing;
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
@@ -34,8 +33,9 @@ public class PluginHandler {
     }
 
     public static boolean HasWorldGuard(){
-        Plugin plugin = Bukkit.getPluginManager().getPlugin("WorldGuard");
-
-        return plugin instanceof WorldGuardPlugin;
+        Plugin worldGuard = Bukkit.getPluginManager().getPlugin("WorldGuard");
+        Plugin worldEdit = Bukkit.getPluginManager().getPlugin("WorldEdit");
+        return worldGuard != null && worldGuard.isEnabled()
+                && worldEdit != null && worldEdit.isEnabled();
     }
 }

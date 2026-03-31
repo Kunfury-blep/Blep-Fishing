@@ -46,14 +46,15 @@ public class RodTable extends DbTable<FishingRod> {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if(!resultSet.next()){
-                Bukkit.getLogger().warning("Tried to get invalid Tournament with ID: " + id);
+                Bukkit.getLogger().warning("Tried to get invalid FishingRod with ID: " + id);
                 return null;
             }
 
             PreparedStatement caughtStatement = connection.prepareStatement("""
-                    SELECT COUNT(*) AS haul FROM fish JOIN fishingRods
-                    ON (fish.rodId = fishingRods.Id)
+                    SELECT COUNT(*) AS haul FROM fish
+                    WHERE rodId = ?
                     """);
+            caughtStatement.setInt(1, id);
 
             ResultSet rs = caughtStatement.executeQuery();
             rs.next();
